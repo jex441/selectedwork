@@ -6,14 +6,18 @@ export default function Invoices() {
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
       <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Image Collection</h1>
+        <h1 className="text-lg font-semibold md:text-2xl">2023</h1>
         <Button className="ml-auto" size="sm">
           Upload Image
         </Button>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <div className="group relative overflow-hidden rounded-lg">
-          <Link href="#" className="absolute inset-0 z-10" prefetch={false}>
+          <Link
+            href="/dashboard/collections/piece"
+            className="absolute inset-0 z-10"
+            prefetch={false}
+          >
             <span className="sr-only">View Image</span>
           </Link>
           <img
@@ -41,7 +45,11 @@ export default function Invoices() {
           </div>
         </div>
         <div className="group relative overflow-hidden rounded-lg">
-          <Link href="#" className="absolute inset-0 z-10" prefetch={false}>
+          <Link
+            href="/dashboard/collections/piece"
+            className="absolute inset-0 z-10"
+            prefetch={false}
+          >
             <span className="sr-only">View Image</span>
           </Link>
           <img
@@ -67,7 +75,11 @@ export default function Invoices() {
           </div>
         </div>
         <div className="group relative overflow-hidden rounded-lg">
-          <Link href="#" className="absolute inset-0 z-10" prefetch={false}>
+          <Link
+            href="/dashboard/collections/piece"
+            className="absolute inset-0 z-10"
+            prefetch={false}
+          >
             <span className="sr-only">View Image</span>
           </Link>
           <img
@@ -93,7 +105,11 @@ export default function Invoices() {
           </div>
         </div>
         <div className="group relative overflow-hidden rounded-lg">
-          <Link href="#" className="absolute inset-0 z-10" prefetch={false}>
+          <Link
+            href="/dashboard/collections/piece"
+            className="absolute inset-0 z-10"
+            prefetch={false}
+          >
             <span className="sr-only">View Image</span>
           </Link>
           <img
@@ -119,7 +135,11 @@ export default function Invoices() {
           </div>
         </div>
         <div className="group relative overflow-hidden rounded-lg">
-          <Link href="#" className="absolute inset-0 z-10" prefetch={false}>
+          <Link
+            href="/dashboard/collections/piece"
+            className="absolute inset-0 z-10"
+            prefetch={false}
+          >
             <span className="sr-only">View Image</span>
           </Link>
           <img
@@ -147,7 +167,11 @@ export default function Invoices() {
           </div>
         </div>
         <div className="group relative overflow-hidden rounded-lg">
-          <Link href="#" className="absolute inset-0 z-10" prefetch={false}>
+          <Link
+            href="/dashboard/collections/piece"
+            className="absolute inset-0 z-10"
+            prefetch={false}
+          >
             <span className="sr-only">View Image</span>
           </Link>
           <img
@@ -175,7 +199,11 @@ export default function Invoices() {
           </div>
         </div>
         <div className="group relative overflow-hidden rounded-lg">
-          <Link href="#" className="absolute inset-0 z-10" prefetch={false}>
+          <Link
+            href="/dashboard/collections/piece"
+            className="absolute inset-0 z-10"
+            prefetch={false}
+          >
             <span className="sr-only">View Image</span>
           </Link>
           <img
@@ -203,7 +231,11 @@ export default function Invoices() {
           </div>
         </div>
         <div className="group relative overflow-hidden rounded-lg">
-          <Link href="#" className="absolute inset-0 z-10" prefetch={false}>
+          <Link
+            href="/dashboard/collections/piece"
+            className="absolute inset-0 z-10"
+            prefetch={false}
+          >
             <span className="sr-only">View Image</span>
           </Link>
           <img

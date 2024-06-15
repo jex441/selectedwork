@@ -29,12 +29,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               prefetch={false}
             >
               <GalleryThumbnailsIcon className="h-6 w-6" />
-              <span>Image Gallery</span>
+              <span>Selected Work</span>
             </Link>
-            <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
-              <BellIcon className="h-4 w-4" />
-              <span className="sr-only">Toggle notifications</span>
-            </Button>
           </div>
           <div className="flex-1 overflow-auto py-2">
             <nav className="grid items-start px-4 text-sm font-medium">
@@ -52,7 +48,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 prefetch={false}
               >
                 <ImageIcon className="h-4 w-4" />
-                Gallery
+                Selected Work
               </Link>
               <Link
                 href="#"
@@ -60,7 +56,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 prefetch={false}
               >
                 <FilePenIcon className="h-4 w-4" />
-                Edit Profile
+                About
               </Link>
               <Link
                 href="#"
@@ -69,14 +65,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               >
                 <FileIcon className="h-4 w-4" />
                 CV
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                prefetch={false}
-              >
-                <SettingsIcon className="h-4 w-4" />
-                Account Settings
               </Link>
             </nav>
           </div>
