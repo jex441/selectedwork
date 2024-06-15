@@ -1,8 +1,21 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu"
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,7 +23,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="hidden border-r bg-gray-100/40 dark:bg-gray-800/40 lg:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-[60px] items-center border-b px-6">
-            <Link href="#" className="flex items-center gap-2 font-semibold" prefetch={false}>
+            <Link
+              href="#"
+              className="flex items-center gap-2 font-semibold"
+              prefetch={false}
+            >
               <GalleryThumbnailsIcon className="h-6 w-6" />
               <span>Image Gallery</span>
             </Link>
@@ -67,7 +84,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Card>
               <CardHeader className="pb-4">
                 <CardTitle>Upgrade to Pro</CardTitle>
-                <CardDescription>Unlock all features and get unlimited access to our support team</CardDescription>
+                <CardDescription>
+                  Unlock all features and get unlimited access to our support
+                  team
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <Button size="sm" className="w-full">
@@ -91,7 +111,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Input
                   type="search"
                   placeholder="Search images..."
-                  className="w-full bg-white shadow-none appearance-none pl-8 md:w-2/3 lg:w-1/3 dark:bg-gray-950"
+                  className="w-full appearance-none bg-white pl-8 shadow-none dark:bg-gray-950 md:w-2/3 lg:w-1/3"
                 />
               </div>
             </form>
@@ -101,9 +121,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="rounded-full border border-gray-200 w-8 h-8 dark:border-gray-800"
+                className="h-8 w-8 rounded-full border border-gray-200 dark:border-gray-800"
               >
-                <img src="/placeholder.svg" width="32" height="32" className="rounded-full" alt="Avatar" />
+                <img
+                  src="/placeholder.svg"
+                  width="32"
+                  height="32"
+                  className="rounded-full"
+                  alt="Avatar"
+                />
                 <span className="sr-only">Toggle user menu</span>
               </Button>
             </DropdownMenuTrigger>
@@ -117,10 +143,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-       {children}
+        {children}
       </div>
     </div>
-  )
+  );
 }
 
 function BellIcon(props) {
@@ -140,9 +166,8 @@ function BellIcon(props) {
       <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
       <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
     </svg>
-  )
+  );
 }
-
 
 function FileIcon(props) {
   return (
@@ -161,9 +186,8 @@ function FileIcon(props) {
       <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
       <path d="M14 2v4a2 2 0 0 0 2 2h4" />
     </svg>
-  )
+  );
 }
-
 
 function FilePenIcon(props) {
   return (
@@ -183,9 +207,8 @@ function FilePenIcon(props) {
       <path d="M14 2v4a2 2 0 0 0 2 2h4" />
       <path d="M10.4 12.6a2 2 0 1 1 3 3L8 21l-4 1 1-4Z" />
     </svg>
-  )
+  );
 }
-
 
 function GalleryThumbnailsIcon(props) {
   return (
@@ -207,9 +230,8 @@ function GalleryThumbnailsIcon(props) {
       <path d="M14 21h1" />
       <path d="M19 21h1" />
     </svg>
-  )
+  );
 }
-
 
 function HomeIcon(props) {
   return (
@@ -228,9 +250,8 @@ function HomeIcon(props) {
       <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
       <polyline points="9 22 9 12 15 12 15 22" />
     </svg>
-  )
+  );
 }
-
 
 function ImageIcon(props) {
   return (
@@ -250,9 +271,8 @@ function ImageIcon(props) {
       <circle cx="9" cy="9" r="2" />
       <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
     </svg>
-  )
+  );
 }
-
 
 function SearchIcon(props) {
   return (
@@ -271,9 +291,8 @@ function SearchIcon(props) {
       <circle cx="11" cy="11" r="8" />
       <path d="m21 21-4.3-4.3" />
     </svg>
-  )
+  );
 }
-
 
 function SettingsIcon(props) {
   return (
@@ -292,7 +311,5 @@ function SettingsIcon(props) {
       <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
       <circle cx="12" cy="12" r="3" />
     </svg>
-  )
-}
-
+  );
 }
