@@ -95,14 +95,18 @@ export default function Component() {
                 <Checkbox id="sold" />
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-4 gap-4">
+              <div className="grid gap-1.5">
+                <Label htmlFor="height">Height</Label>
+                <Input id="height" type="number" placeholder="height" />
+              </div>
               <div className="grid gap-1.5">
                 <Label htmlFor="width">Width</Label>
                 <Input id="width" type="number" placeholder="width" />
               </div>
               <div className="grid gap-1.5">
-                <Label htmlFor="height">Height</Label>
-                <Input id="height" type="number" placeholder="height" />
+                <Label htmlFor="depth">Depth</Label>
+                <Input id="depth" type="number" placeholder="depth" />
               </div>
               <div className="grid gap-1.5">
                 <Label htmlFor="unit">Unit</Label>
@@ -112,22 +116,14 @@ export default function Component() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="inches">Inches</SelectItem>
+                    <SelectItem value="meters">Feet</SelectItem>
                     <SelectItem value="centimeters">Centimeters</SelectItem>
                     <SelectItem value="meters">Meters</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-1.5">
-                <Label htmlFor="size">Size</Label>
-                <Input id="size" placeholder="size" />
-              </div>
-              <div className="grid gap-1.5">
-                <Label htmlFor="visible">Visible</Label>
-                <Checkbox id="visible" />
-              </div>
-            </div>
+            <div className="grid grid-cols-2 gap-4"></div>
             <div className="grid gap-1.5">
               <Label htmlFor="description">Description</Label>
               <Textarea id="description" placeholder="description" />
@@ -135,6 +131,10 @@ export default function Component() {
             <div className="grid gap-1.5">
               <Label htmlFor="location">Location</Label>
               <Input id="location" placeholder="location" />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="visible">Visible</Label>
+              <Checkbox id="visible" />
             </div>
           </form>
         </div>
