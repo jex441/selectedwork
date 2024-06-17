@@ -3,7 +3,14 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
-import { InputProps } from '@/components/ui/input'; // Add this import statement
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectTrigger,
+  SelectItem,
+  SelectValue,
+  SelectContent,
+} from '@/components/ui/select';
 
 export default function Component() {
   const [image, setImage] = useState({
@@ -32,7 +39,7 @@ export default function Component() {
   };
   return (
     <div className="mx-auto grid h-full max-w-6xl items-start gap-6 px-4 py-6 md:grid-cols-2 lg:gap-12">
-      <div className="grid gap-4">
+      <div className="grid gap-2">
         <img
           src="https://generated.vusercontent.net/placeholder.svg"
           alt="Product Image"
@@ -40,88 +47,96 @@ export default function Component() {
           height={600}
           className="aspect-square w-full overflow-hidden rounded-lg border border-gray-200 object-cover dark:border-gray-800"
         />
+        <h2 className="text-lg font-semibold">Thumbnails</h2>
+        <div className="grid grid-cols-5 gap-1">
+          {image.thumbnails.map((thumbnail, index) => (
+            <img
+              key={index}
+              src="https://generated.vusercontent.net/placeholder.svg"
+              alt={`Thumbnail ${index + 1}`}
+              width={50}
+              height={50}
+              className="rounded-md"
+            />
+          ))}
+        </div>
       </div>
-      <div className="grid gap-6">
-        <div className="mx-auto grid max-w-2xl gap-6 px-4 py-8">
-          <div className="grid gap-4">
-            <Input
-              label="Title"
-              value={image.title}
-              onChange={(e) => handleInputChange('title', e.target.value)}
-            />
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <Input
-                label="Year"
-                type="number"
-                value={image.year}
-                onChange={(e) =>
-                  handleInputChange('year', Number(e.target.value))
-                }
-              />
-              <Input
-                label="Medium"
-                value={image.medium}
-                onChange={(e) => handleInputChange('medium', e.target.value)}
-              />
+      <div className="grid gap-6">
+        <div className="mx-auto grid max-w-2xl gap-6 px-2 py-8">
+          <form className="grid gap-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-1.5">
+                <Label htmlFor="title">Title</Label>
+                <Input id="title" placeholder="title" />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="year">Year</Label>
+                <Input id="year" type="number" placeholder="year" />
+              </div>
             </div>
-            <Textarea
-              label="Description"
-              value={image.description}
-              onChange={(e) => handleInputChange('description', e.target.value)}
-            />
-            <div className="grid gap-4 md:grid-cols-2">
-              <Checkbox
-                label="Sold"
-                checked={image.isSold}
-                onCheckedChange={(e) =>
-                  handleInputChange('isSold', e.target.checked)
-                }
-              />
-              <Checkbox
-                label="Visible"
-                checked={image.isVisible}
-                onCheckedChange={(e) =>
-                  handleInputChange('isVisible', e.target.checked)
-                }
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-1.5">
+                <Label htmlFor="medium">Medium</Label>
+                <Input id="medium" placeholder="medium" />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="price">Price</Label>
+                <Input id="price" type="number" placeholder="price" />
+              </div>
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              <Input
-                label="Width"
-                type="number"
-                value={image.width}
-                onChange={(e) =>
-                  handleInputChange('width', Number(e.target.value))
-                }
-                suffix="in"
-              />
-              <Input
-                label="Height"
-                type="number"
-                value={image.height}
-                onChange={(e) =>
-                  handleInputChange('height', Number(e.target.value))
-                }
-                suffix="in"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-1.5">
+                <Label htmlFor="price">Price</Label>
+                <Input id="price" type="number" placeholder="price" />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="sold">Mark as Sold</Label>
+                <Checkbox id="sold" />
+              </div>
             </div>
-          </div>
-          <div className="grid gap-4">
-            <h2 className="text-lg font-semibold">Thumbnails</h2>
-            <div className="grid grid-cols-5 gap-2">
-              {image.thumbnails.map((thumbnail, index) => (
-                <img
-                  key={index}
-                  src="https://generated.vusercontent.net/placeholder.svg"
-                  alt={`Thumbnail ${index + 1}`}
-                  width={50}
-                  height={50}
-                  className="rounded-md"
-                />
-              ))}
+            <div className="grid grid-cols-3 gap-4">
+              <div className="grid gap-1.5">
+                <Label htmlFor="width">Width</Label>
+                <Input id="width" type="number" placeholder="width" />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="height">Height</Label>
+                <Input id="height" type="number" placeholder="height" />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="unit">Unit</Label>
+                <Select id="unit">
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select unit" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="inches">Inches</SelectItem>
+                    <SelectItem value="centimeters">Centimeters</SelectItem>
+                    <SelectItem value="meters">Meters</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-          </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-1.5">
+                <Label htmlFor="size">Size</Label>
+                <Input id="size" placeholder="size" />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="visible">Visible</Label>
+                <Checkbox id="visible" />
+              </div>
+            </div>
+            <div className="grid gap-1.5">
+              <Label htmlFor="description">Description</Label>
+              <Textarea id="description" placeholder="description" />
+            </div>
+            <div className="grid gap-1.5">
+              <Label htmlFor="location">Location</Label>
+              <Input id="location" placeholder="location" />
+            </div>
+          </form>
         </div>
       </div>
     </div>

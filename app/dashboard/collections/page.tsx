@@ -32,14 +32,14 @@ export default function Invoices() {
               Sunset Landscape
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Landscape, Nature
+              Oil on Canvas
             </p>
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                1.2 MB
+                2023
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                1920x1080
+                19 x 23 "
               </div>
             </div>
           </div>
@@ -62,14 +62,14 @@ export default function Invoices() {
           <div className="bg-white p-4 dark:bg-gray-950">
             <h3 className="text-lg font-semibold md:text-xl">Autumn Leaves</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Nature, Foliage
+              Oil on Canvas
             </p>
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                2.5 MB
+                2023
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                2048x1536
+                29x16"
               </div>
             </div>
           </div>
@@ -92,14 +92,14 @@ export default function Invoices() {
           <div className="bg-white p-4 dark:bg-gray-950">
             <h3 className="text-lg font-semibold md:text-xl">City Skyline</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Architecture, Urban
+              Oil on Canvas
             </p>
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                3.1 MB
+                2023
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                2560x1440
+                23x14"
               </div>
             </div>
           </div>
@@ -122,14 +122,14 @@ export default function Invoices() {
           <div className="bg-white p-4 dark:bg-gray-950">
             <h3 className="text-lg font-semibold md:text-xl">Serene Lake</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Landscape, Water
+              Oil on Canvas
             </p>
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                1.8 MB
+                2023
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                2048x1365
+                20x15"
               </div>
             </div>
           </div>
@@ -154,14 +154,14 @@ export default function Invoices() {
               Vibrant Flowers
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Nature, Floral
+              Oil on Canvas
             </p>
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                2.2 MB
+                2023
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                2048x1365
+                20x13"
               </div>
             </div>
           </div>
@@ -186,14 +186,14 @@ export default function Invoices() {
               Misty Mountains
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Landscape, Nature
+              Oil on Canvas
             </p>
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                2.8 MB
+                2023
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                2560x1440
+                25x14"
               </div>
             </div>
           </div>
@@ -218,14 +218,14 @@ export default function Invoices() {
               Starry Night Sky
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Astrophotography, Nature
+              Oil on Canvas
             </p>
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                3.5 MB
+                2023
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                3840x2160
+                38x21"
               </div>
             </div>
           </div>
@@ -250,14 +250,14 @@ export default function Invoices() {
               Colorful Cityscape
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Architecture, Urban
+              Oil on Canvas
             </p>
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                2.9 MB
+                2023
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                2560x1440
+                25x10"
               </div>
             </div>
           </div>
