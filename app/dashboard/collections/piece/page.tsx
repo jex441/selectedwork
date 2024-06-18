@@ -54,7 +54,7 @@ export default function Component() {
     }));
   };
   return (
-    <div className="mx-auto grid h-full max-w-6xl items-start gap-6 py-6 md:grid-cols-2 lg:gap-12">
+    <div className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-start gap-6 py-6 md:grid-cols-2">
       <div className="grid gap-2">
         <img
           src="https://generated.vusercontent.net/placeholder.svg"
@@ -63,8 +63,7 @@ export default function Component() {
           height={600}
           className="aspect-square w-full overflow-hidden border border-gray-200 object-cover dark:border-gray-800"
         />
-        <h2 className="my-2 font-semibold">Thumbnails</h2>
-        <div className="grid grid-cols-4 gap-4 sm:grid-cols-6 md:grid-cols-8">
+        <div className="my-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="group relative">
@@ -73,7 +72,7 @@ export default function Component() {
                   alt="Thumbnail"
                   width={150}
                   height={150}
-                  className="aspect-square rounded-md object-cover"
+                  className="aspect-square object-cover"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
               </div>
@@ -92,7 +91,7 @@ export default function Component() {
                   alt="Thumbnail"
                   width={150}
                   height={150}
-                  className="aspect-square rounded-md object-cover"
+                  className="aspect-square object-cover"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
               </div>
@@ -111,7 +110,7 @@ export default function Component() {
                   alt="Thumbnail"
                   width={150}
                   height={150}
-                  className="aspect-square rounded-md object-cover"
+                  className="aspect-square object-cover"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
               </div>
@@ -130,7 +129,7 @@ export default function Component() {
                   alt="Thumbnail"
                   width={150}
                   height={150}
-                  className="aspect-square rounded-md object-cover"
+                  className="aspect-square object-cover"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
               </div>
@@ -149,7 +148,7 @@ export default function Component() {
                   alt="Thumbnail"
                   width={150}
                   height={150}
-                  className="aspect-square rounded-md object-cover"
+                  className="aspect-square object-cover"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
               </div>
@@ -168,7 +167,7 @@ export default function Component() {
                   alt="Thumbnail"
                   width={150}
                   height={150}
-                  className="aspect-square rounded-md object-cover"
+                  className="aspect-square object-cover"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
               </div>
@@ -187,7 +186,7 @@ export default function Component() {
                   alt="Thumbnail"
                   width={150}
                   height={150}
-                  className="aspect-square rounded-md object-cover"
+                  className="aspect-square object-cover"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
               </div>
@@ -206,7 +205,7 @@ export default function Component() {
                   alt="Thumbnail"
                   width={150}
                   height={150}
-                  className="aspect-square rounded-md object-cover"
+                  className="aspect-square  object-cover"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
               </div>
@@ -223,11 +222,11 @@ export default function Component() {
       <div className="mx-auto grid w-full gap-6 px-2 py-8">
         <form className="grid gap-4">
           <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-1.5">
+            <div className="grid gap-2.5">
               <Label htmlFor="title">Title</Label>
               <Input id="title" placeholder="Title" value={image.title} />
             </div>
-            <div className="grid w-20 gap-1.5">
+            <div className="grid w-20 gap-2.5">
               <Label htmlFor="year">Year</Label>
               <Input
                 id="year"
@@ -237,15 +236,15 @@ export default function Component() {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-1.5">
+          <div className="grid grid-cols-2">
+            <div className="grid gap-2.5">
               <Label htmlFor="medium">Medium</Label>
               <Input id="medium" placeholder="Medium" value={image.medium} />
             </div>
           </div>
 
-          <div className="grid w-1/2 grid-cols-2 gap-4">
-            <div className="grid w-24 gap-1.5">
+          <div className="grid grid-cols-4 gap-4">
+            <div className="grid w-24 gap-2.5">
               <Label htmlFor="height">Height</Label>
               <Input
                 id="height"
@@ -254,7 +253,7 @@ export default function Component() {
                 value={image.dimensions.height}
               />
             </div>
-            <div className="grid w-24 gap-1.5">
+            <div className="grid w-24 gap-2.5">
               <Label htmlFor="width">Width</Label>
               <Input
                 id="width"
@@ -263,7 +262,7 @@ export default function Component() {
                 value={image.dimensions.width}
               />
             </div>
-            <div className="grid w-24 gap-1.5">
+            <div className="grid w-24 gap-2.5">
               <Label htmlFor="depth">Depth</Label>
               <Input
                 id="depth"
@@ -272,7 +271,7 @@ export default function Component() {
                 value={image.dimensions.depth}
               />
             </div>
-            <div className="grid w-24 gap-1.5">
+            <div className="grid w-24 gap-2.5">
               <Label htmlFor="unit">Unit</Label>
               <Select id="unit" value={image.dimensions.unit}>
                 <SelectTrigger>
@@ -287,8 +286,8 @@ export default function Component() {
               </Select>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4"></div>
-          <div className="grid gap-1.5">
+          <div className="grid grid-cols-2 gap-2"></div>
+          <div className="grid gap-2.5">
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
@@ -296,7 +295,7 @@ export default function Component() {
               value={image.description}
             />
           </div>
-          <div className="grid gap-1.5">
+          <div className="grid gap-2.5">
             <Label htmlFor="location">Location</Label>
             <Input
               id="location"
@@ -305,7 +304,7 @@ export default function Component() {
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-1.5">
+            <div className="grid gap-2.5">
               <Label htmlFor="price">Price</Label>
               <Input
                 id="price"
@@ -314,7 +313,7 @@ export default function Component() {
                 value={image.price.amount}
               />
             </div>
-            <div className="grid gap-1.5">
+            <div className="grid gap-2.5">
               <Label htmlFor="sold">Mark as Sold</Label>
               <Checkbox id="sold" checked={image.isSold} />
             </div>
@@ -323,6 +322,7 @@ export default function Component() {
           <div className="my-4 flex gap-2">
             <Button>Save Changes</Button>
             <Button variant="outline">Discard Changes</Button>
+            <Button variant="outline">Delete Work</Button>
           </div>
         </form>
       </div>
