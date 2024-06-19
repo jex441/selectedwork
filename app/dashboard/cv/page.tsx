@@ -11,6 +11,7 @@ export default function Component() {
     {
       jobTitle: 'Software Engineer',
       company: 'Acme Inc.',
+      location: 'San Francisco, CA',
       startDate: '2020-01-01',
       endDate: '2022-12-31',
       bulletPoints: [
@@ -22,6 +23,7 @@ export default function Component() {
     {
       jobTitle: 'Intern',
       company: 'Globex Corporation',
+      location: 'San Francisco, CA',
       startDate: '2019-06-01',
       endDate: '2019-08-31',
       bulletPoints: [
@@ -39,6 +41,7 @@ export default function Component() {
       {
         jobTitle: '',
         company: '',
+        location: '',
         startDate: '',
         endDate: '',
         bulletPoints: [],
@@ -135,8 +138,8 @@ export default function Component() {
           </li>
         </ul>
       </div>
-      <div className="grid flex-1 grid-cols-12 gap-6 p-6">
-        <div className="col-span-12 rounded-lg bg-gray-100 p-4">
+      <div className="grid flex-1 grid-cols-12 gap-6 bg-gray-100 p-6">
+        <div className="col-span-12">
           {selectedSection === 'work-experience' && (
             <div>
               <div className="mb-4 flex items-center justify-between">
@@ -164,7 +167,6 @@ export default function Component() {
                           }
                           className="font-italic"
                         />
-                        <span>at</span>
                         <Input
                           value={experience.company}
                           onChange={(e) =>
@@ -175,8 +177,18 @@ export default function Component() {
                             )
                           }
                         />
+                        <Input
+                          value={experience.company}
+                          onChange={(e) =>
+                            handleUpdateWorkExperience(
+                              index,
+                              'location',
+                              e.target.value,
+                            )
+                          }
+                        />
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1">
                         <Input
                           value={experience.startDate}
                           onChange={(e) =>
@@ -189,7 +201,6 @@ export default function Component() {
                           type="date"
                           className="w-32"
                         />
-                        <span>-</span>
                         <Input
                           value={experience.endDate}
                           onChange={(e) =>
