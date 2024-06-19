@@ -154,66 +154,67 @@ export default function Component() {
                     key={index}
                     className="rounded-lg bg-background p-4 shadow"
                   >
-                    <div className="mb-2 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Input
-                          value={experience.jobTitle}
-                          onChange={(e) =>
-                            handleUpdateWorkExperience(
-                              index,
-                              'jobTitle',
-                              e.target.value,
-                            )
-                          }
-                          className="font-italic"
-                        />
-                        <Input
-                          value={experience.company}
-                          onChange={(e) =>
-                            handleUpdateWorkExperience(
-                              index,
-                              'company',
-                              e.target.value,
-                            )
-                          }
-                        />
-                        <Input
-                          value={experience.company}
-                          onChange={(e) =>
-                            handleUpdateWorkExperience(
-                              index,
-                              'location',
-                              e.target.value,
-                            )
-                          }
-                        />
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Input
-                          value={experience.startDate}
-                          onChange={(e) =>
-                            handleUpdateWorkExperience(
-                              index,
-                              'startDate',
-                              e.target.value,
-                            )
-                          }
-                          type="date"
-                          className="w-32"
-                        />
-                        <Input
-                          value={experience.endDate}
-                          onChange={(e) =>
-                            handleUpdateWorkExperience(
-                              index,
-                              'endDate',
-                              e.target.value,
-                            )
-                          }
-                          type="date"
-                          className="w-32"
-                        />
-                      </div>
+                    <div className="mb-2 flex items-center gap-2">
+                      <Input
+                        value={experience.jobTitle}
+                        onChange={(e) =>
+                          handleUpdateWorkExperience(
+                            index,
+                            'jobTitle',
+                            e.target.value,
+                          )
+                        }
+                        className="w-1/4"
+                        placeholder="Title"
+                      />
+                      <Input
+                        value={experience.company}
+                        onChange={(e) =>
+                          handleUpdateWorkExperience(
+                            index,
+                            'company',
+                            e.target.value,
+                          )
+                        }
+                        className="w-1/4"
+                        placeholder="Organization"
+                      />
+                      <Input
+                        value={experience.company}
+                        onChange={(e) =>
+                          handleUpdateWorkExperience(
+                            index,
+                            'location',
+                            e.target.value,
+                          )
+                        }
+                        className="w-1/4"
+                      />
+                      <Input
+                        value={experience.startDate}
+                        onChange={(e) =>
+                          handleUpdateWorkExperience(
+                            index,
+                            'startDate',
+                            e.target.value,
+                          )
+                        }
+                        type="date"
+                        className="w-1/4"
+                        placeholder="Location"
+                      />
+                      <Input
+                        value={experience.endDate}
+                        onChange={(e) =>
+                          handleUpdateWorkExperience(
+                            index,
+                            'endDate',
+                            e.target.value,
+                          )
+                        }
+                        type="date"
+                        className="w-1/4"
+                      />
                     </div>
                     <div className="space-y-2">
                       {experience.bulletPoints.map(
