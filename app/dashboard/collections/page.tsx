@@ -1,17 +1,29 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-
+import { Switch } from '@/components/ui/switch';
 export default function Invoices() {
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-      <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">2023</h1>
-        <span>Page Settings</span>
-        <Button className="ml-auto" size="sm">
-          Upload Image
-        </Button>
-      </div>
+      <header className="flex h-16 w-full items-center justify-between border-b bg-background px-4 md:px-6">
+        <div className="flex items-center gap-4">
+          <Link href="#" className="text-lg font-semibold" prefetch={false}>
+            Collection Title
+          </Link>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium">Visible</span>
+            <Switch id="visibility-toggle" />
+          </div>
+          <Link href="#" className="text-sm font-medium" prefetch={false}>
+            Page Settings
+          </Link>
+          <Button className="ml-auto" size="sm">
+            Upload Image
+          </Button>
+        </div>
+      </header>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <div className="group relative overflow-hidden rounded-lg">
           <Link
