@@ -138,7 +138,7 @@ export default function Component() {
           </li>
         </ul>
       </div>
-      <div className="grid flex-1 grid-cols-12 gap-6 bg-gray-100 p-6">
+      <div className="grid flex-1 grid-cols-12 gap-6 bg-gray-100/40 p-6">
         <div className="col-span-12">
           {selectedSection === 'work-experience' && (
             <div>
@@ -152,7 +152,7 @@ export default function Component() {
                 {workExperience.map((experience, index) => (
                   <div
                     key={index}
-                    className="rounded-lg bg-background p-4 shadow"
+                    className="rounded-lg bg-background p-4 pb-0 shadow"
                   >
                     <div className="mb-2 flex items-center gap-2">
                       <Input
@@ -253,7 +253,7 @@ export default function Component() {
                         Add Bullet Point
                       </Button>
                     </div>
-                    <div className="mt-2 flex justify-end">
+                    <div className="m-1 flex justify-end">
                       <Button
                         variant="ghost"
                         size="icon"
