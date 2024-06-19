@@ -10,15 +10,21 @@ export default function Invoices() {
           <Link href="#" className="text-lg font-semibold" prefetch={false}>
             Collection Title
           </Link>
+          <Link
+            href="/dashboard/collections/settings"
+            className="text-sm font-medium"
+            prefetch={false}
+          >
+            Settings
+          </Link>
         </div>
+
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium">Visible</span>
             <Switch id="visibility-toggle" />
           </div>
-          <Link href="#" className="text-sm font-medium" prefetch={false}>
-            Page Settings
-          </Link>
+
           <Button className="ml-auto" size="sm">
             Upload Image
           </Button>
