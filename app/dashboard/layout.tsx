@@ -33,40 +33,75 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Link>
           </div>
           <div className="flex-1 overflow-auto py-2">
-            <nav className="grid items-start px-4 text-sm font-medium">
-              <Link
-                href="/dashboard"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                prefetch={false}
-              >
-                <HomeIcon className="h-4 w-4" />
-                Home
-              </Link>
-              <Link
-                href="/dashboard/collections"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                prefetch={false}
-              >
-                <ImageIcon className="h-4 w-4" />
-                Selected Work
-              </Link>
-              <Link
-                href="/dashboard/about"
-                className="flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-gray-900 transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50"
-                prefetch={false}
-              >
-                <FilePenIcon className="h-4 w-4" />
-                About
-              </Link>
-              <Link
-                href="/dashboard/cv"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                prefetch={false}
-              >
-                <FileIcon className="h-4 w-4" />
-                CV
-              </Link>
-            </nav>
+            <div className="flex h-full w-64 flex-col bg-background p-4">
+              <div className="flex flex-col space-y-4">
+                <nav className="flex flex-col space-y-2">
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
+                    prefetch={false}
+                  >
+                    <HomeIcon className="h-5 w-5" />
+                    Home
+                  </Link>
+                  <Link
+                    href="/dashboard/collections"
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
+                    prefetch={false}
+                  >
+                    <ImageIcon className="h-5 w-5" />
+                    Selected Work
+                  </Link>
+                  <Link
+                    href="/dashboard/about"
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
+                    prefetch={false}
+                  >
+                    <FilePenIcon className="h-5 w-5" />
+                    About
+                  </Link>
+                  <Link
+                    href="/dashboard/cv"
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
+                    prefetch={false}
+                  >
+                    <FileIcon className="h-5 w-5" />
+                    CV
+                  </Link>
+                </nav>
+                <div className="flex flex-col space-y-2">
+                  <h3 className="text-sm font-medium text-muted-foreground">
+                    Hidden
+                  </h3>
+                  <nav className="flex flex-col space-y-2">
+                    <Link
+                      href="#"
+                      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
+                      prefetch={false}
+                    >
+                      <FileIcon className="h-5 w-5" />
+                      Hidden Page 1
+                    </Link>
+                    <Link
+                      href="#"
+                      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
+                      prefetch={false}
+                    >
+                      <FileIcon className="h-5 w-5" />
+                      Hidden Page 2
+                    </Link>
+                  </nav>
+                </div>
+                <Link
+                  href="#"
+                  className="flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  prefetch={false}
+                >
+                  <PlusIcon className="h-5 w-5" />
+                  Add New Page
+                </Link>
+              </div>
+            </div>
           </div>
           <div className="mt-auto p-4">
             <Card>
@@ -139,26 +174,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-function BellIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-    </svg>
-  );
-}
-
 function FileIcon(props) {
   return (
     <svg
@@ -178,7 +193,25 @@ function FileIcon(props) {
     </svg>
   );
 }
-
+function PlusIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
+    </svg>
+  );
+}
 function FilePenIcon(props) {
   return (
     <svg
@@ -260,26 +293,6 @@ function ImageIcon(props) {
       <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
       <circle cx="9" cy="9" r="2" />
       <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-    </svg>
-  );
-}
-
-function SearchIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.3-4.3" />
     </svg>
   );
 }

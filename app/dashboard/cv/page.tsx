@@ -3,6 +3,16 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectItem,
+  SelectTrigger,
+  SelectContent,
+  SelectGroup,
+  SelectLabel,
+  SelectSeparator,
+  SelectValue,
+} from '@/components/ui/select';
 import ImageUpload from 'next/image';
 
 export default function Component() {
@@ -93,57 +103,36 @@ export default function Component() {
   const handleDiscardChanges = () => {};
   return (
     <div className="flex h-full flex-row ">
-      <div className="bg-background p-4 shadow-md">
-        <h2 className="mb-4 text-lg font-bold">Categories</h2>
-        <ul className="space-y-2">
-          <li
-            className={`cursor-pointer ${
-              selectedSection === 'work_experience'
-                ? 'font-bold text-primary'
-                : 'text-muted-foreground'
-            }`}
-            onClick={() => setSelectedSection('work_experience')}
-          >
-            Work Experience
-          </li>
-          <li
-            className={`cursor-pointer ${
-              selectedSection === 'education'
-                ? 'font-bold text-primary'
-                : 'text-muted-foreground'
-            }`}
-            onClick={() => setSelectedSection('education')}
-          >
-            Education
-          </li>
-          <li
-            className={`cursor-pointer ${
-              selectedSection === 'skills'
-                ? 'font-bold text-primary'
-                : 'text-muted-foreground'
-            }`}
-            onClick={() => setSelectedSection('skills')}
-          >
-            Skills
-          </li>
-          <li
-            className={`cursor-pointer ${
-              selectedSection === 'certifications'
-                ? 'font-bold text-primary'
-                : 'text-muted-foreground'
-            }`}
-            onClick={() => setSelectedSection('certifications')}
-          >
-            Certifications
-          </li>
-        </ul>
-      </div>
       <div className="grid flex-1 grid-cols-12 gap-6 bg-gray-100/40 p-6">
         <div className="col-span-12">
           {selectedSection === 'work-experience' && (
             <div>
               <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-bold">Work Experience</h2>
+                <Select>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>CV Categories</SelectLabel>
+                      <SelectItem value="education">Education</SelectItem>
+                      <SelectItem value="work-experience">
+                        Work Experience
+                      </SelectItem>
+                      <SelectItem value="skills">Skills</SelectItem>
+                      <SelectItem value="certifications">
+                        Certifications
+                      </SelectItem>
+                      <SelectSeparator />
+                      <SelectItem value="add-new">
+                        <div className="flex items-center justify-between">
+                          <span>Add New</span>
+                          <PlusIcon className="h-4 w-4" />
+                        </div>
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
                 <Button onClick={handleAddWorkExperience}>
                   Add Work Experience
                 </Button>
@@ -292,6 +281,26 @@ function Trash2Icon(props) {
       <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
       <line x1="10" x2="10" y1="11" y2="17" />
       <line x1="14" x2="14" y1="11" y2="17" />
+    </svg>
+  );
+}
+
+function PlusIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
     </svg>
   );
 }
