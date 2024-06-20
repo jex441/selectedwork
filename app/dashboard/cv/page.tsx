@@ -261,8 +261,11 @@ export default function Component() {
     </div>
   );
 }
+interface Props {
+  className?: string;
+}
 
-function Trash2Icon(props) {
+function Trash2Icon(props: Props) {
   return (
     <svg
       {...props}
@@ -285,7 +288,7 @@ function Trash2Icon(props) {
   );
 }
 
-function PlusIcon(props) {
+function PlusIcon(props: Props) {
   return (
     <svg
       {...props}

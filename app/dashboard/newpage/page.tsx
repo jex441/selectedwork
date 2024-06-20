@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 export default function Component() {
   return (
@@ -15,7 +16,7 @@ export default function Component() {
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
         <div className="overflow-hidden rounded-lg border border-gray-200 shadow-sm">
           <div className="aspect-w-16 aspect-h-9">
-            <img
+            <Image
               src="https://generated.vusercontent.net/placeholder.svg"
               alt="Template Preview 1"
               width={640}
@@ -41,7 +42,7 @@ export default function Component() {
         </div>
         <div className="overflow-hidden rounded-lg border border-gray-200 shadow-sm">
           <div className="aspect-w-16 aspect-h-9">
-            <img
+            <Image
               src="https://generated.vusercontent.net/placeholder.svg"
               alt="Template Preview 2"
               width={640}
@@ -65,7 +66,7 @@ export default function Component() {
         </div>
         <div className="overflow-hidden rounded-lg border border-gray-200 shadow-sm">
           <div className="aspect-w-16 aspect-h-9">
-            <img
+            <Image
               src="https://generated.vusercontent.net/placeholder.svg"
               alt="Template Preview 3"
               width={640}
@@ -91,7 +92,7 @@ export default function Component() {
         </div>
         <div className="overflow-hidden rounded-lg border border-gray-200 shadow-sm">
           <div className="aspect-w-16 aspect-h-9">
-            <img
+            <Image
               src="https://generated.vusercontent.net/placeholder.svg"
               alt="Template Preview 4"
               width={640}
@@ -117,7 +118,7 @@ export default function Component() {
         </div>
         <div className="overflow-hidden rounded-lg border border-gray-200 shadow-sm">
           <div className="aspect-w-16 aspect-h-9">
-            <img
+            <Image
               src="https://generated.vusercontent.net/placeholder.svg"
               alt="Template Preview 5"
               width={640}
@@ -143,7 +144,7 @@ export default function Component() {
         </div>
         <div className="overflow-hidden rounded-lg border border-gray-200 shadow-sm">
           <div className="aspect-w-16 aspect-h-9">
-            <img
+            <Image
               src="https://generated.vusercontent.net/placeholder.svg"
               alt="Template Preview 6"
               width={640}

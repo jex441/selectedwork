@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
 import Preview from '../../../components/preview';
+import Image from 'next/image';
 export default function Component() {
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8">
@@ -89,7 +90,7 @@ export default function Component() {
             <Label>Template Selection</Label>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
               <div className="overflow-hidden rounded-md border">
-                <img
+                <Image
                   src="https://generated.vusercontent.net/placeholder.svg"
                   width={200}
                   height={150}
@@ -107,7 +108,7 @@ export default function Component() {
                 </div>
               </div>
               <div className="overflow-hidden rounded-md border">
-                <img
+                <Image
                   src="https://generated.vusercontent.net/placeholder.svg"
                   width={200}
                   height={150}
@@ -125,7 +126,7 @@ export default function Component() {
                 </div>
               </div>
               <div className="overflow-hidden rounded-md border">
-                <img
+                <Image
                   src="https://generated.vusercontent.net/placeholder.svg"
                   width={200}
                   height={150}
@@ -165,8 +166,11 @@ export default function Component() {
     </div>
   );
 }
+interface Props {
+  className?: string;
+}
 
-function ArrowLeftIcon(props) {
+function ArrowLeftIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -185,8 +189,11 @@ function ArrowLeftIcon(props) {
     </svg>
   );
 }
+interface Props {
+  className?: string;
+}
 
-function LinkIcon(props) {
+function LinkIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -206,7 +213,7 @@ function LinkIcon(props) {
   );
 }
 
-function UploadIcon(props) {
+function UploadIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -227,7 +234,7 @@ function UploadIcon(props) {
   );
 }
 
-function XIcon(props) {
+function XIcon(props: Props) {
   return (
     <svg
       {...props}

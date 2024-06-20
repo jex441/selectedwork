@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import Image from 'next/image';
 
 export default function Component() {
   return (
@@ -97,7 +98,7 @@ export default function Component() {
             <Label>Template Selection</Label>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
               <div className="overflow-hidden rounded-md border">
-                <img
+                <Image
                   src="https://generated.vusercontent.net/placeholder.svg"
                   width={200}
                   height={150}
@@ -115,7 +116,7 @@ export default function Component() {
                 </div>
               </div>
               <div className="overflow-hidden rounded-md border">
-                <img
+                <Image
                   src="https://generated.vusercontent.net/placeholder.svg"
                   width={200}
                   height={150}
@@ -133,7 +134,7 @@ export default function Component() {
                 </div>
               </div>
               <div className="overflow-hidden rounded-md border">
-                <img
+                <Image
                   src="https://generated.vusercontent.net/placeholder.svg"
                   width={200}
                   height={150}
@@ -173,8 +174,10 @@ export default function Component() {
     </div>
   );
 }
-
-function ArrowLeftIcon(props) {
+interface Props {
+  className?: string;
+}
+function ArrowLeftIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -193,8 +196,10 @@ function ArrowLeftIcon(props) {
     </svg>
   );
 }
-
-function LinkIcon(props) {
+interface Props {
+  className?: string;
+}
+function LinkIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -213,8 +218,10 @@ function LinkIcon(props) {
     </svg>
   );
 }
-
-function UploadIcon(props) {
+interface Props {
+  className?: string;
+}
+function UploadIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -234,8 +241,10 @@ function UploadIcon(props) {
     </svg>
   );
 }
-
-function XIcon(props) {
+interface Props {
+  className?: string;
+}
+function XIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -254,7 +263,7 @@ function XIcon(props) {
     </svg>
   );
 }
-function EyeIcon(props) {
+function EyeIcon(props: Props) {
   return (
     <svg
       {...props}

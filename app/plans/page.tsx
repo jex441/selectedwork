@@ -110,8 +110,11 @@ export default function Component() {
     </section>
   );
 }
+interface Props {
+  className?: string;
+}
 
-function CheckIcon(props) {
+function CheckIcon(props: Props) {
   return (
     <svg
       {...props}

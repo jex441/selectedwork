@@ -76,8 +76,11 @@ export default function Component() {
     </div>
   );
 }
+interface Props {
+  className?: string;
+}
 
-function PaletteIcon(props) {
+function PaletteIcon(props: Props) {
   return (
     <svg
       {...props}

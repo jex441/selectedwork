@@ -68,7 +68,7 @@ export default function Component() {
           <div className="grid grid-cols-2 gap-6">
             <div className="grid gap-2">
               <Label htmlFor="collection">Collection</Label>
-              <Select id="collection">
+              <Select>
                 <SelectTrigger>
                   <SelectValue placeholder="Select collection" />
                 </SelectTrigger>
@@ -93,8 +93,11 @@ export default function Component() {
     </Card>
   );
 }
+interface Props {
+  className?: string;
+}
 
-function PlusIcon(props) {
+function PlusIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -113,8 +116,11 @@ function PlusIcon(props) {
     </svg>
   );
 }
+interface Props {
+  className?: string;
+}
 
-function UploadIcon(props) {
+function UploadIcon(props: Props) {
   return (
     <svg
       {...props}

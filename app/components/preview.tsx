@@ -1,6 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 
+interface Props {
+  className?: string;
+}
+
 export default function preview() {
   return (
     <Link
@@ -14,7 +18,7 @@ export default function preview() {
     </Link>
   );
 }
-function EyeIcon(props) {
+function EyeIcon(props: Props) {
   return (
     <svg
       {...props}

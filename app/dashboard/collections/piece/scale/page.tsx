@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 export default function Component() {
   return (
@@ -19,7 +20,7 @@ export default function Component() {
         </div>
       </header>
       <div className="flex h-full w-full items-center justify-center">
-        <img
+        <Image
           src="https://generated.vusercontent.net/placeholder.svg"
           alt="Product Image"
           width={500}
@@ -30,8 +31,11 @@ export default function Component() {
     </div>
   );
 }
+interface Props {
+  className?: string;
+}
 
-function ArrowLeftIcon(props) {
+function ArrowLeftIcon(props: Props) {
   return (
     <svg
       {...props}

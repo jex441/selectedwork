@@ -187,8 +187,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+interface Props {
+  className?: string;
+}
 
-function FileIcon(props) {
+function FileIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -207,7 +210,7 @@ function FileIcon(props) {
     </svg>
   );
 }
-function PlusIcon(props) {
+function PlusIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -226,7 +229,7 @@ function PlusIcon(props) {
     </svg>
   );
 }
-function FilePenIcon(props) {
+function FilePenIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -247,7 +250,7 @@ function FilePenIcon(props) {
   );
 }
 
-function GalleryThumbnailsIcon(props) {
+function GalleryThumbnailsIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -270,7 +273,7 @@ function GalleryThumbnailsIcon(props) {
   );
 }
 
-function HomeIcon(props) {
+function HomeIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -290,7 +293,7 @@ function HomeIcon(props) {
   );
 }
 
-function ImageIcon(props) {
+function ImageIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -311,7 +314,7 @@ function ImageIcon(props) {
   );
 }
 
-function SettingsIcon(props) {
+function SettingsIcon(props: Props) {
   return (
     <svg
       {...props}
@@ -331,7 +334,7 @@ function SettingsIcon(props) {
   );
 }
 
-function CheckIcon(props) {
+function CheckIcon(props: Props) {
   return (
     <svg
       {...props}
