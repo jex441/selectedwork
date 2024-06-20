@@ -33,7 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Link>
           </div>
           <div className="flex-1 overflow-auto py-2">
-            <div className="flex h-full w-64 flex-col bg-background p-4">
+            <div className="flex h-full w-64 flex-col  p-4">
               <div className="flex flex-col space-y-4">
                 <nav className="flex flex-col space-y-2">
                   <Link

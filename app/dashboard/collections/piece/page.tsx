@@ -68,13 +68,15 @@ export default function Component() {
           </Link>
           <h1 className="text-2xl font-bold">Back</h1>
         </div>
-        <img
-          src="https://generated.vusercontent.net/placeholder.svg"
-          alt="Product Image"
-          width={600}
-          height={600}
-          className="aspect-square w-full overflow-hidden border border-gray-200 object-cover dark:border-gray-800"
-        />
+        <Link href="/dashboard/collections/piece/scale">
+          <img
+            src="https://generated.vusercontent.net/placeholder.svg"
+            alt="Product Image"
+            width={600}
+            height={600}
+            className="aspect-square w-full overflow-hidden border border-gray-200 object-cover dark:border-gray-800"
+          />
+        </Link>
         <div className="my-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
