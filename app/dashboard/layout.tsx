@@ -68,8 +68,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <FileIcon className="h-5 w-5" />
                     CV
                   </Link>
+                  <Link
+                    href="/dashboard/contact"
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
+                    prefetch={false}
+                  >
+                    <FileIcon className="h-5 w-5" />
+                    Contact
+                  </Link>
                 </nav>
-                <div className="flex flex-col space-y-2">
+                {/* <div className="flex flex-col space-y-2">
                   <h3 className="text-sm font-medium text-muted-foreground">
                     Hidden
                   </h3>
@@ -91,7 +99,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       Hidden Page 2
                     </Link>
                   </nav>
-                </div>
+                </div> 
                 <Link
                   href="/dashboard/newpage"
                   className="flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
@@ -99,7 +107,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 >
                   <PlusIcon className="h-5 w-5" />
                   Add New Page
-                </Link>
+                </Link>*/}
               </div>
             </div>
           </div>
@@ -159,7 +167,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <Link href="/dashboard/account">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              </Link>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
