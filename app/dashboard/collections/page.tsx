@@ -24,10 +24,11 @@ export default function Invoices() {
             <span className="text-sm font-medium">Visible</span>
             <Switch id="visibility-toggle" />
           </div>
-
-          <Button className="ml-auto" size="sm">
-            Upload Image
-          </Button>
+          <Link href="/dashboard/collections/new">
+            <Button className="ml-auto" size="sm">
+              Upload Image
+            </Button>
+          </Link>
         </div>
       </header>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
