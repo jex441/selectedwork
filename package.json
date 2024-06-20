@@ -9,6 +9,7 @@
     "seed": "node -r dotenv/config ./scripts/seed.js"
   },
   "dependencies": {
+    "@clerk/nextjs": "^5.1.6",
     "@heroicons/react": "^2.0.18",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.0.4",
