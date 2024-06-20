@@ -1,16 +1,10 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/eJVwsxttTEg
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ResizableImage } from '@/components/ui/resizable';
 
 export default function Component() {
   return (
     <div className="flex flex-col">
-      <header className="flex items-center justify-between border-b bg-background px-4 py-3">
+      <header className="flex items-center justify-between bg-background px-4 py-3">
         <Link
           href="/dashboard/collections/piece"
           className="text-primary hover:text-primary-foreground"

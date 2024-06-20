@@ -19,6 +19,16 @@ export default function Component() {
           <h1 className="text-2xl font-bold">Back</h1>
         </div>
         <div className="flex items-center space-x-4">
+          <Link
+            href="#"
+            target="_blank"
+            className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+            prefetch={false}
+          >
+            <EyeIcon className="mr-2 h-4 w-4" />
+            Preview
+          </Link>
+
           <Button
             variant="outline"
             className="text-muted-foreground hover:bg-muted hover:text-muted-foreground"
@@ -33,19 +43,19 @@ export default function Component() {
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <div className="space-y-6">
           <div>
-            <Label htmlFor="page-title">Collection Title</Label>
-            <Input id="page-title" placeholder="Enter Collection title" />
+            <Label htmlFor="page-title">Heading</Label>
+            <Input id="page-title" placeholder="Enter heading" />
           </div>
           <div>
-            <Label htmlFor="page-description">Collection Description</Label>
+            <Label htmlFor="page-description">Text</Label>
             <Textarea
               id="page-description"
-              placeholder="Enter Collection description"
+              placeholder="About you"
               className="min-h-[100px]"
             />
           </div>
           <div>
-            <Label>Collection Links</Label>
+            <Label>Links</Label>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
@@ -73,7 +83,7 @@ export default function Component() {
         </div>
         <div className="space-y-6">
           <div>
-            <Label>Header Image</Label>
+            <Label>Image</Label>
             <div className="flex items-center justify-center rounded-md border-2 border-dashed border-muted p-8">
               <div className="space-y-2 text-center">
                 <UploadIcon className="h-8 w-8 text-muted-foreground" />
@@ -241,6 +251,25 @@ function XIcon(props) {
     >
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
+    </svg>
+  );
+}
+function EyeIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+      <circle cx="12" cy="12" r="3" />
     </svg>
   );
 }

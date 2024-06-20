@@ -56,161 +56,18 @@ export default function Component() {
     }));
   };
   return (
-    <div className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-start gap-6 py-6 md:grid-cols-2">
-      <div className="grid gap-2">
-        <div className="flex items-center space-x-4">
-          <Link
-            href="/dashboard/collections"
-            className="text-muted-foreground hover:text-primary"
-            prefetch={false}
-          >
-            <ArrowLeftIcon className="h-5 w-5" />
-          </Link>
-          <h1 className="text-2xl font-bold">Back</h1>
-        </div>
+    <div className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2">
+      <div className="flex flex-col items-center">
         <Link href="/dashboard/collections/piece/scale">
           <img
             src="https://generated.vusercontent.net/placeholder.svg"
             alt="Product Image"
-            width={600}
-            height={600}
-            className="aspect-square w-full overflow-hidden border border-gray-200 object-cover dark:border-gray-800"
+            width={500}
+            height={300}
+            className="border border-gray-200 dark:border-gray-800"
           />
         </Link>
-        <div className="my-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="group relative">
-                <img
-                  src="https://generated.vusercontent.net/placeholder.svg?height=50&width=50"
-                  alt="Thumbnail"
-                  width={150}
-                  height={150}
-                  className="aspect-square object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>Make Main Image</DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
-              <DropdownMenuItem>Hide</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="group relative">
-                <img
-                  src="https://generated.vusercontent.net/placeholder.svg?height=50&width=50"
-                  alt="Thumbnail"
-                  width={150}
-                  height={150}
-                  className="aspect-square object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>Make Main Image</DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
-              <DropdownMenuItem>Hide</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="group relative">
-                <img
-                  src="https://generated.vusercontent.net/placeholder.svg?height=50&width=50"
-                  alt="Thumbnail"
-                  width={150}
-                  height={150}
-                  className="aspect-square object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>Make Main Image</DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
-              <DropdownMenuItem>Hide</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="group relative">
-                <img
-                  src="https://generated.vusercontent.net/placeholder.svg?height=50&width=50"
-                  alt="Thumbnail"
-                  width={150}
-                  height={150}
-                  className="aspect-square object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>Make Main Image</DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
-              <DropdownMenuItem>Hide</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="group relative">
-                <img
-                  src="https://generated.vusercontent.net/placeholder.svg?height=50&width=50"
-                  alt="Thumbnail"
-                  width={150}
-                  height={150}
-                  className="aspect-square object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>Make Main Image</DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
-              <DropdownMenuItem>Hide</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="group relative">
-                <img
-                  src="https://generated.vusercontent.net/placeholder.svg?height=50&width=50"
-                  alt="Thumbnail"
-                  width={150}
-                  height={150}
-                  className="aspect-square object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>Make Main Image</DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
-              <DropdownMenuItem>Hide</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="group relative">
-                <img
-                  src="https://generated.vusercontent.net/placeholder.svg?height=50&width=50"
-                  alt="Thumbnail"
-                  width={150}
-                  height={150}
-                  className="aspect-square object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>Make Main Image</DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
-              <DropdownMenuItem>Hide</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <div className="m-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="group relative">
@@ -233,8 +90,8 @@ export default function Component() {
         </div>
       </div>
 
-      <div className="mx-auto grid w-full gap-6 px-2 py-8">
-        <form className="grid gap-4">
+      <div className="mx-auto grid w-5/6 gap-2 px-2 py-8">
+        <form className="grid gap-2">
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2.5">
               <Label htmlFor="title">Title</Label>

@@ -4,6 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
+import Preview from '../../../components/preview';
 export default function Component() {
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8">
@@ -19,6 +20,7 @@ export default function Component() {
           <h1 className="text-2xl font-bold">Back</h1>
         </div>
         <div className="flex items-center space-x-4">
+          <Preview />
           <Button
             variant="outline"
             className="text-muted-foreground hover:bg-muted hover:text-muted-foreground"
