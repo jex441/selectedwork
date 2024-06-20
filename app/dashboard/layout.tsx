@@ -7,7 +7,9 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card';
+
 import { Input } from '@/components/ui/input';
+
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -16,7 +18,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-import { Separator } from '@/components/ui/separator';
+
+import { UserButton } from '@clerk/nextjs';
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="grid min-h-screen w-full grid-cols-[280px_1fr]">
@@ -149,7 +152,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               Active
             </div>
           </div>
-          <DropdownMenu>
+          <UserButton />
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
@@ -176,7 +180,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <DropdownMenuSeparator />
               <DropdownMenuItem>Logout</DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </header>
         {children}
       </div>
