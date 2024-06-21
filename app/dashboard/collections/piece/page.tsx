@@ -5,6 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
+import placeholder from '../../../assets/placeholder.png';
 
 import {
   Select,
@@ -43,11 +44,11 @@ export default function Component() {
     isVisible: true,
     location: 'The Whitney Museum of American Art',
     thumbnails: [
-      'https://generated.vusercontent.net/placeholder.svg?height=50&width=50',
-      'https://generated.vusercontent.net/placeholder.svg?height=50&width=50',
-      'https://generated.vusercontent.net/placeholder.svg?height=50&width=50',
-      'https://generated.vusercontent.net/placeholder.svg?height=50&width=50',
-      'https://generated.vusercontent.net/placeholder.svg?height=50&width=50',
+      placeholder,
+      placeholder,
+      placeholder,
+      placeholder,
+      placeholder,
     ],
   });
 
@@ -56,7 +57,7 @@ export default function Component() {
       <div className="flex flex-col items-center">
         <Link href="/dashboard/collections/piece/scale">
           <Image
-            src="https://generated.vusercontent.net/placeholder.svg"
+            src={placeholder}
             alt="Product Image"
             width={500}
             height={300}
@@ -68,7 +69,7 @@ export default function Component() {
             <DropdownMenuTrigger asChild>
               <div className="group relative">
                 <Image
-                  src="https://generated.vusercontent.net/placeholder.svg?height=50&width=50"
+                  src={placeholder}
                   alt="Thumbnail"
                   width={150}
                   height={150}
