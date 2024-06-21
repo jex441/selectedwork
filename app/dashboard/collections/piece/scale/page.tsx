@@ -2,6 +2,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
+import { ArrowLeftIcon } from '@/app/assets/svgs';
+import placeholder from '@/app/assets/placeholder.png';
+
 export default function Component() {
   return (
     <div className="flex flex-col">
@@ -21,7 +24,7 @@ export default function Component() {
       </header>
       <div className="flex h-full w-full items-center justify-center">
         <Image
-          src="https://generated.vusercontent.net/placeholder.svg"
+          src={placeholder}
           alt="Product Image"
           width={500}
           height={300}
@@ -29,28 +32,5 @@ export default function Component() {
         />
       </div>
     </div>
-  );
-}
-interface Props {
-  className?: string;
-}
-
-function ArrowLeftIcon(props: Props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m12 19-7-7 7-7" />
-      <path d="M19 12H5" />
-    </svg>
   );
 }

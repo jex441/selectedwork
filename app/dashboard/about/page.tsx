@@ -163,22 +163,6 @@ export default function Component() {
           </div>
         </div>
       </div>
-      <div className="mt-8 flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <Button
-            variant="outline"
-            className="text-muted-foreground hover:bg-muted hover:text-muted-foreground"
-          >
-            Delete Collection
-          </Button>
-          <Button
-            variant="outline"
-            className="text-muted-foreground hover:bg-muted hover:text-muted-foreground"
-          >
-            Archive Collection
-          </Button>
-        </div>
-      </div>
     </div>
   );
 }
