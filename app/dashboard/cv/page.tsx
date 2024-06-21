@@ -43,8 +43,7 @@ export default function Component() {
       ],
     },
   ]);
-  const [headerImage, setHeaderImage] = useState(null);
-  const [selectedTemplate, setSelectedTemplate] = useState('template-1');
+  const [headerImage, setHeaderImage] = useState<String>('');
   const handleAddWorkExperience = () => {
     setWorkExperience([
       ...workExperience,
@@ -58,22 +57,34 @@ export default function Component() {
       },
     ]);
   };
-  const handleDeleteWorkExperience = (index) => {
+  const handleDeleteWorkExperience = (index: number) => {
     const updatedWorkExperience = [...workExperience];
     updatedWorkExperience.splice(index, 1);
     setWorkExperience(updatedWorkExperience);
   };
-  const handleUpdateWorkExperience = (index, field, value) => {
-    const updatedWorkExperience = [...workExperience];
-    updatedWorkExperience[index][field] = value;
+  const handleUpdateWorkExperience = (
+    index: number,
+    field: string,
+    value: string,
+  ) => {
+    const updatedWorkExperience = workExperience.map((exp, idx) => {
+      if (idx === index) {
+        return { ...exp, [field]: value };
+      } else {
+        return exp;
+      }
+    });
     setWorkExperience(updatedWorkExperience);
   };
-  const handleAddBulletPoint = (index) => {
+  const handleAddBulletPoint = (index: number) => {
     const updatedWorkExperience = [...workExperience];
     updatedWorkExperience[index].bulletPoints.push('');
     setWorkExperience(updatedWorkExperience);
   };
-  const handleDeleteBulletPoint = (workExperienceIndex, bulletPointIndex) => {
+  const handleDeleteBulletPoint = (
+    workExperienceIndex: number,
+    bulletPointIndex: number,
+  ) => {
     const updatedWorkExperience = [...workExperience];
     updatedWorkExperience[workExperienceIndex].bulletPoints.splice(
       bulletPointIndex,
@@ -82,20 +93,17 @@ export default function Component() {
     setWorkExperience(updatedWorkExperience);
   };
   const handleUpdateBulletPoint = (
-    workExperienceIndex,
-    bulletPointIndex,
-    value,
+    workExperienceIndex: number,
+    bulletPointIndex: number,
+    value: string,
   ) => {
     const updatedWorkExperience = [...workExperience];
     updatedWorkExperience[workExperienceIndex].bulletPoints[bulletPointIndex] =
       value;
     setWorkExperience(updatedWorkExperience);
   };
-  const handleUploadHeaderImage = (file) => {
+  const handleUploadHeaderImage = (file: string) => {
     setHeaderImage(file);
-  };
-  const handleSelectTemplate = (template) => {
-    setSelectedTemplate(template);
   };
   const handleDeletePage = () => {};
   const handleArchivePage = () => {};
