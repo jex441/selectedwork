@@ -10,7 +10,7 @@ export const users = pgTable('users_table', {
   occupation: text('occupation').notNull(),
 });
 
-export const pagesTable = pgTable('pages_table', {
+export const pages = pgTable('pages_table', {
   id: serial('id').primaryKey(),
   template: text('template').notNull(),
   title: text('title').notNull(),
@@ -23,9 +23,9 @@ export const pagesTable = pgTable('pages_table', {
     .$onUpdate(() => new Date()),
 });
 
-export const sectionTable = pgTable('section_table', {  
+export const section = pgTable('sections_table', {  
   id: serial('id').primaryKey(),
-  pageId: integer('page_id').notNull().references(() => pagesTable.id, { onDelete: 'cascade' }),
+  pageId: integer('page_id').notNull().references(() => pages.id, { onDelete: 'cascade' }),
   type: text('type'),
   order: integer('order'),
   userId: integer('user_id')
@@ -37,11 +37,11 @@ export const sectionTable = pgTable('section_table', {
     .$onUpdate(() => new Date()),
 });
 
-export const sectionAttribute = pgTable('user_content_table', {
+export const sectionAttribute = pgTable('section_attributes_table', {
   id: serial('id').primaryKey(),
   tag: text('tag'),
   value: text('value'),
-  sectionId: integer('section_id').notNull().references(() => sectionTable.id, { onDelete: 'cascade' }),
+  sectionId: integer('section_id').notNull().references(() => section.id, { onDelete: 'cascade' }),
   userId: integer('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
@@ -51,7 +51,7 @@ export const sectionAttribute = pgTable('user_content_table', {
     .$onUpdate(() => new Date()),
 });
 
-export const worksTable = pgTable('works_table', {
+export const item = pgTable('items_table', {
   id: serial('id').primaryKey(),
   title: text('title'),
   medium: text('medium'),
@@ -66,7 +66,7 @@ export const worksTable = pgTable('works_table', {
   sold: text('sold'),
   edition: text('edition'),
   location: text('location'),
-  img: integer('media_table_id').references(() => mediaTable.id, { onDelete: 'cascade' }),
+  img: integer('media_table_id').references(() => media.id, { onDelete: 'cascade' }),
   displayHeight: text('displayHeight').notNull(),
   displayWidth: text('displayWidth').notNull(),
   userId: integer('user_id')
@@ -78,7 +78,7 @@ export const worksTable = pgTable('works_table', {
     .$onUpdate(() => new Date()),
 });
 
-export const mediaTable = pgTable('media_table', {
+export const media = pgTable('media_table', {
   id: serial('id').primaryKey(),
   title: text('title'),
   url: text('url'),
@@ -94,5 +94,5 @@ export type GetUsers = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type SelectUser = typeof users.$inferSelect;
 
-export type InsertPost = typeof worksTable.$inferInsert;
-export type SelectPost = typeof worksTable.$inferSelect;
+export type InsertSectionAttribute = typeof sectionAttribute.$inferInsert;
+export type SelectPage = typeof pages.$inferSelect;
