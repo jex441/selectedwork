@@ -8,6 +8,10 @@ export const users = pgTable('users_table', {
   email: text('email').notNull().unique(),
   plan: text('plan').notNull(),
   occupation: text('occupation').notNull(),
+  domain: text('domain').notNull(),
+  flagged: text('flagged').notNull(),
+  student: text('student').notNull(),
+  url: text('url').notNull(),
 });
 
 export const pages = pgTable('pages_table', {
