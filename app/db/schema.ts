@@ -66,7 +66,6 @@ export const item = pgTable('items_table', {
   sold: text('sold'),
   edition: text('edition'),
   location: text('location'),
-  img: integer('media_table_id').references(() => media.id, { onDelete: 'cascade' }),
   displayHeight: text('displayHeight').notNull(),
   displayWidth: text('displayWidth').notNull(),
   userId: integer('user_id')
@@ -80,9 +79,10 @@ export const item = pgTable('items_table', {
 
 export const media = pgTable('media_table', {
   id: serial('id').primaryKey(),
+  itemId: integer('item_id').notNull().references(() => item.id, { onDelete: 'cascade' }),
   title: text('title'),
-  url: text('url'),
   type: text('type'),
+  url: text('url'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
     .notNull()

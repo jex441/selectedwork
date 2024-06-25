@@ -29,6 +29,13 @@
       "when": 1719335537210,
       "tag": "0003_flat_firebrand",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1719347202040,
+      "tag": "0004_careless_bloodstrike",
+      "breakpoints": true
     }
   ]
 }
