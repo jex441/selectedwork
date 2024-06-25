@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { db } from './db';
-import { users } from './db/schema';
 
 export default async function Component() {
   const result = await db.query.users.findFirst();
