@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1719274255011,
+      "tag": "0000_powerful_living_tribunal",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1719328945194,
+      "tag": "0001_chilly_joshua_kane",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1719335402165,
+      "tag": "0002_supreme_caretaker",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1719335537210,
+      "tag": "0003_flat_firebrand",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1719347202040,
+      "tag": "0004_careless_bloodstrike",
+      "breakpoints": true
+    }
+  ]
+}
