@@ -1,6 +1,6 @@
 import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
 
-export const usersTable = pgTable('users_table', {
+export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   firstName: text('name').notNull(),
   lastName: text('name').notNull(),
@@ -10,7 +10,7 @@ export const usersTable = pgTable('users_table', {
   occupation: text('occupation').notNull(),
 });
 
-export const pagesTable = pgTable('posts_table', {
+export const pagesTable = pgTable('pages_table', {
   id: serial('id').primaryKey(),
   template: text('template').notNull(),
   title: text('title').notNull(),
@@ -19,14 +19,14 @@ export const pagesTable = pgTable('posts_table', {
   content: text('content').notNull(),
   userId: integer('user_id')
     .notNull()
-    .references(() => usersTable.id, { onDelete: 'cascade' }),
+    .references(() => users.id, { onDelete: 'cascade' }),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
     .notNull()
     .$onUpdate(() => new Date()),
 });
 
-export const worksTable = pgTable('posts_table', {
+export const worksTable = pgTable('works_table', {
     id: serial('id').primaryKey(),
     title: text('title'),
     medium: text('medium'),
@@ -46,15 +46,17 @@ export const worksTable = pgTable('posts_table', {
     displayWidth: text('displayWidth').notNull(),
     userId: integer('user_id')
       .notNull()
-      .references(() => usersTable.id, { onDelete: 'cascade' }),
+      .references(() => users.id, { onDelete: 'cascade' }),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at')
       .notNull()
       .$onUpdate(() => new Date()),
   });
 
-export type InsertUser = typeof usersTable.$inferInsert;
-export type SelectUser = typeof usersTable.$inferSelect;
+export type GetUsers = typeof users.$inferSelect;
+
+export type InsertUser = typeof users.$inferInsert;
+export type SelectUser = typeof users.$inferSelect;
 
 export type InsertPost = typeof worksTable.$inferInsert;
 export type SelectPost = typeof worksTable.$inferSelect;
