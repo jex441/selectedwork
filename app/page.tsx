@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { db } from './db';
+import { users } from './db/schema';
 
 export default async function Component() {
   const result = await db.query.users.findFirst();
 
-  console.log('data:', result);
   return (
     <div className="flex min-h-[100dvh] flex-col">
       <header className="flex h-14 items-center justify-between px-4 lg:px-6">
