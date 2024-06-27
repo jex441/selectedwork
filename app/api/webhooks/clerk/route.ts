@@ -1,9 +1,11 @@
 'use server';
+
 import { Webhook } from "svix";
+const SmeeClient = require('smee-client')
+
 import { db } from "../../../db"
 import { users } from "../../../db/schema";
-
-const SmeeClient = require('smee-client')
+import { Event } from "./types"
 
 const smee = new SmeeClient({
   source: 'https://smee.io/72aEQqXl2xc78nBQ',
@@ -23,62 +25,7 @@ export async function POST(req: Request) {
   const body = await req.text();
   const sivx = new Webhook(webhookSecret);
 
-  // Flexible type for unknown structures
-type UnknownRecord = Record<string, any>;
-
-interface EmailAddress {
-  // Example properties
-  id: string;
-  email_address: string;
-  verified: boolean;
-}
-
-interface ExternalAccount {
-  // Example properties
-  id: string;
-  provider: string;
-  accountId: string;
-}
-
-interface Metadata {
-  [key: string]: any;
-}
-
-interface User {
-  birthday: string;
-  created_at: number;
-  email_addresses: EmailAddress[];
-  external_accounts: ExternalAccount[];
-  external_id: string;
-  first_name: string;
-  gender: string;
-  id: string;
-  image_url: string;
-  last_name: string;
-  last_sign_in_at: number;
-  object: string;
-  password_enabled: boolean;
-  phone_numbers: string[];
-  primary_email_address_id: string;
-  primary_phone_number_id: string | null;
-  primary_web3_wallet_id: string | null;
-  private_metadata: Metadata;
-  profile_image_url: string;
-  public_metadata: Metadata;
-  two_factor_enabled: boolean;
-  unsafe_metadata: UnknownRecord; // Flexible type for unknown structure
-  updated_at: number;
-  username: string | null;
-  web3_wallets: string[];
-}
-
-interface Event {
-  data: User;
-  object: string;
-  type: string;
-}
-
-let msg;
+  let msg;
 
   try {
     msg = sivx.verify(body, {
