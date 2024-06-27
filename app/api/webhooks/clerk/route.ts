@@ -1,10 +1,9 @@
-import { Inter } from "next/font/google";
+'use server';
 import { Webhook } from "svix";
 import { db } from "../../../db"
-import{ users } from "../../../db/schema";
+import { users } from "../../../db/schema";
 
 const SmeeClient = require('smee-client')
-
 
 const smee = new SmeeClient({
   source: 'https://smee.io/72aEQqXl2xc78nBQ',
@@ -30,7 +29,7 @@ type UnknownRecord = Record<string, any>;
 interface EmailAddress {
   // Example properties
   id: string;
-  email: string;
+  email_address: string;
   verified: boolean;
 }
 
@@ -94,11 +93,13 @@ let msg;
   console.log(msg);
 
   if(msg.type === "user.created") { 
+
  await db.insert(users).values({
   username: msg.data.first_name + msg.data.last_name,
-  email: msg.data.email_addresses[0].email,
+  email: msg.data.email_addresses[0].email_address,
   firstName: msg.data.first_name,
   lastName: msg.data.last_name,
+  plan: "free",
   flagged: false,
   student: false,
  })

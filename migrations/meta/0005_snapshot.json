@@ -1,6 +1,6 @@
 {
-  "id": "88df3ce3-2b00-4785-840c-8ba73a1b295a",
-  "prevId": "c2654a5a-c2ec-49d6-9201-039480b42092",
+  "id": "d526b3aa-ff49-4597-89e8-3222606e1d61",
+  "prevId": "88df3ce3-2b00-4785-840c-8ba73a1b295a",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -475,37 +475,44 @@
           "name": "occupation",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "domain": {
           "name": "domain",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "flagged": {
           "name": "flagged",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "student": {
           "name": "student",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "url": {
           "name": "url",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
+        "users_table_username_unique": {
+          "name": "users_table_username_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "username"
+          ]
+        },
         "users_table_email_unique": {
           "name": "users_table_email_unique",
           "nullsNotDistinct": false,
@@ -517,7 +524,9 @@
     }
   },
   "enums": {},
-  "schemas": {},
+  "schemas": {
+    "my_schema": "my_schema"
+  },
   "_meta": {
     "columns": {},
     "schemas": {},
