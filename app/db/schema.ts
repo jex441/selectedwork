@@ -1,10 +1,8 @@
-import { integer, pgTable, pgSchema, serial, text, timestamp } from 'drizzle-orm/pg-core';
-
-export const mySchema = pgSchema("my_schema");
+import { boolean, integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users_table', {
   id: serial('id').primaryKey(),
-  authId: text('authId').notNull(),
+  authId: text('authId'),
   firstName: text('firstName').notNull(),
   lastName: text('lastName').notNull(),
   username: text('username').notNull().unique(),
@@ -12,10 +10,12 @@ export const users = pgTable('users_table', {
   plan: text('plan').notNull(),
   occupation: text('occupation'),
   domain: text('domain'),
-  flagged: text('flagged'),
-  student: text('student'),
+  flagged: boolean('flagged'),
+  student: boolean('student'),
   url: text('url'),
 });
+
+export type NewUser = typeof users.$inferInsert;
 
 export const pages = pgTable('pages_table', {
   id: serial('id').primaryKey(),
