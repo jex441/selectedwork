@@ -30,12 +30,6 @@ import {
 } from '../../assets/svgs';
 
 export default function Component() {
-  const user = async () => {
-    return await currentUser();
-  };
-  const res = user();
-  console.log(res);
-
   type Data = { [key: string]: string };
 
   const [data, setData] = useState<Data>({
