@@ -2,6 +2,7 @@
 
 import { Webhook } from "svix";
 const SmeeClient = require('smee-client')
+import { eq } from "drizzle-orm";
 
 import { db } from "../../../db"
 import { users } from "../../../db/schema";
@@ -40,18 +41,28 @@ export async function POST(req: Request) {
   console.log(msg);
 
   if(msg.type === "user.created") { 
-
- await db.insert(users).values({
-  username: msg.data.first_name + msg.data.last_name,
-  email: msg.data.email_addresses[0].email_address,
-  firstName: msg.data.first_name,
-  lastName: msg.data.last_name,
-  plan: "free",
-  flagged: false,
-  student: false,
- })
-
+    await db.insert(users).values({
+    authId: msg.data.id,
+    username: msg.data.first_name + msg.data.last_name,
+    email: msg.data.email_addresses[0].email_address,
+    firstName: msg.data.first_name,
+    lastName: msg.data.last_name,
+    plan: "free",
+    flagged: false,
+    student: false,
+  })
   }
+
+  if(msg.type === "user.deleted") { 
+    await db.delete(users).where(eq(users.authId, msg.data.id))
+  }
+
+
+  if(msg.type === "user.updated") { 
+    await db.update(users).set({email: msg.data.email_addresses[0].email_address}).where(eq(users.authId, msg.data.id))
+  }
+
+
   return new Response("OK", { status: 200 });
 
 }

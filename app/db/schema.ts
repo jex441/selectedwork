@@ -4,6 +4,7 @@ export const mySchema = pgSchema("my_schema");
 
 export const users = pgTable('users_table', {
   id: serial('id').primaryKey(),
+  authId: text('authId').notNull(),
   firstName: text('firstName').notNull(),
   lastName: text('lastName').notNull(),
   username: text('username').notNull().unique(),
