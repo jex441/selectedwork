@@ -1,9 +1,25 @@
+'use client';
+
+import React, { useState, MouseEvent } from 'react';
+import Event from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
+import { eq, and } from 'drizzle-orm';
+import { currentUser } from '@clerk/nextjs/server';
+
+import { db } from '../../db';
+import {
+  InsertSectionAttribute,
+  sectionAttribute,
+  GetPage,
+  pages,
+  section,
+  users,
+} from '../../db/schema';
 
 import {
   ArrowLeftIcon,
@@ -14,6 +30,58 @@ import {
 } from '../../assets/svgs';
 
 export default function Component() {
+  const user = async () => {
+    return await currentUser();
+  };
+  const res = user();
+  console.log(res);
+
+  type Data = { [key: string]: string };
+
+  const [data, setData] = useState<Data>({
+    heading: '',
+    text: '',
+    link: '',
+    image: '',
+    template: '1',
+  });
+
+  // const getUserData = async () => {
+  //   const res = await db.select().from(users).where(eq(users.authId, user.id));
+  // };
+
+  // const getPageData = async () => {
+  //   const res = await db
+  //     .select()
+  //     .from(pages)
+  //     .where(and(eq(pages.title, 'About'), eq(pages.userId, 1)))
+  //     .leftJoin(section);
+  // };
+
+  const changeHandler = (e: React.FormEvent<HTMLInputElement>): void => {
+    setData({ ...data, heading: e.currentTarget.value });
+  };
+
+  // const insertSectionAttribute = async (
+  //   newData: InsertSectionAttribute[],
+  //   id: number,
+  // ) => {
+  //   await db.insert(sectionAttribute).values(newData).onConflictDoUpdate({
+  //     target: sectionAttribute.id,
+  //     set: {},
+  //   });
+  // };
+
+  // const submitHandler = async () => {
+  //   let newData = [];
+
+  //   for (let key in data) {
+  //     newData.push({ tag: key, value: data[key] });
+  //   }
+
+  //   insertSectionAttribute(newData, 1);
+  // };
+
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8">
       <div className="mb-6 flex items-center justify-between">
@@ -53,7 +121,12 @@ export default function Component() {
         <div className="space-y-6">
           <div>
             <Label htmlFor="page-title">Heading</Label>
-            <Input id="page-title" placeholder="Enter heading" />
+            <Input
+              id="page-title"
+              placeholder="Enter heading"
+              value={data.heading}
+              onChange={(e) => changeHandler(e)}
+            />
           </div>
           <div>
             <Label htmlFor="page-description">Text</Label>

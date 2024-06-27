@@ -47,9 +47,6 @@ export const sectionAttribute = pgTable('section_attributes_table', {
   tag: text('tag'),
   value: text('value'),
   sectionId: integer('section_id').notNull().references(() => section.id, { onDelete: 'cascade' }),
-  userId: integer('user_id')
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
     .notNull()
@@ -103,6 +100,6 @@ export type InsertSection = typeof section.$inferInsert;
 export type InsertSectionAttribute = typeof sectionAttribute.$inferInsert;
 
 export type InsertUser = typeof users.$inferInsert;
-export type SelectUser = typeof users.$inferSelect;
+export type GetUser = typeof users.$inferSelect;
 
-export type SelectPage = typeof pages.$inferSelect;
+export type GetPage = typeof pages.$inferSelect;
