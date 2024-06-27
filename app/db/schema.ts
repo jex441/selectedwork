@@ -10,8 +10,6 @@ export const users = pgTable('users_table', {
   plan: text('plan').notNull(),
   occupation: text('occupation'),
   domain: text('domain'),
-  flagged: boolean('flagged'),
-  student: boolean('student'),
   url: text('url'),
 });
 
@@ -33,9 +31,6 @@ export const section = pgTable('sections_table', {
   pageId: integer('page_id').notNull().references(() => pages.id, { onDelete: 'cascade' }),
   type: text('type'),
   order: integer('order'),
-  userId: integer('user_id')
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
     .notNull()

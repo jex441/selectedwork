@@ -7,6 +7,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../../../db"
 import { users, NewUser, pages, InsertPage} from "../../../db/schema";
 import { Event } from "./types"
+import {insertSections} from "../../../lib/data"
 
 const smee = new SmeeClient({
   source: process.env.WEBHOOK_PROXY_URL!,
@@ -54,10 +55,19 @@ export async function POST(req: Request) {
       ]
 
       const insertPages = async (defaultPages: InsertPage[]) => {
-        await db.insert(pages).values(defaultPages)
+        return await db.insert(pages).values(defaultPages).returning({id: pages.id, title: pages.title})
       }
 
-      await insertPages(defaultPages)
+     const newPages = await insertPages(defaultPages)
+
+      let defaultSections = [
+        {pageId: newPages[0].id, type: "image", order: 0}, 
+        {pageId: newPages[0].id, type: "text", order: 1}, 
+        {pageId: newPages[1].id, type: "image", order: 0}, 
+        {pageId: newPages[1].id, type: "text", order: 1}, 
+      ]
+
+      await insertSections(defaultSections)
     }
 
     const newUser: NewUser = {
@@ -73,7 +83,7 @@ export async function POST(req: Request) {
 
     await insertUser(newUser);
   }
-
+  
   if(msg.type === "user.deleted") { 
     await db.delete(users).where(eq(users.authId, msg.data.id))
   }

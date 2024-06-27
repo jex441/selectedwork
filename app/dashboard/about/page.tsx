@@ -1,25 +1,14 @@
 'use client';
 
-import React, { useState, MouseEvent } from 'react';
-import Event from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
-import { eq, and } from 'drizzle-orm';
-import { currentUser } from '@clerk/nextjs/server';
 
-import { db } from '../../db';
-import {
-  InsertSectionAttribute,
-  sectionAttribute,
-  GetPage,
-  pages,
-  section,
-  users,
-} from '../../db/schema';
+import { insertSectionAttributes, getPageData } from '../../lib/data';
 
 import {
   ArrowLeftIcon,
@@ -30,6 +19,14 @@ import {
 } from '../../assets/svgs';
 
 export default function Component() {
+  const userId = 13;
+
+  const handle = async () => {
+    const res = await getPageData('About', userId);
+    console.log(res);
+  };
+
+  handle();
   type Data = { [key: string]: string };
 
   const [data, setData] = useState<Data>({
@@ -40,41 +37,19 @@ export default function Component() {
     template: '1',
   });
 
-  // const getUserData = async () => {
-  //   const res = await db.select().from(users).where(eq(users.authId, user.id));
-  // };
-
-  // const getPageData = async () => {
-  //   const res = await db
-  //     .select()
-  //     .from(pages)
-  //     .where(and(eq(pages.title, 'About'), eq(pages.userId, 1)))
-  //     .leftJoin(section);
-  // };
-
   const changeHandler = (e: React.FormEvent<HTMLInputElement>): void => {
     setData({ ...data, heading: e.currentTarget.value });
   };
 
-  // const insertSectionAttribute = async (
-  //   newData: InsertSectionAttribute[],
-  //   id: number,
-  // ) => {
-  //   await db.insert(sectionAttribute).values(newData).onConflictDoUpdate({
-  //     target: sectionAttribute.id,
-  //     set: {},
-  //   });
-  // };
+  const submitHandler = async () => {
+    let newData = [];
 
-  // const submitHandler = async () => {
-  //   let newData = [];
+    for (let key in data) {
+      newData.push({ tag: key, value: data[key], pageId: 2, sectionId: 3 });
+    }
 
-  //   for (let key in data) {
-  //     newData.push({ tag: key, value: data[key] });
-  //   }
-
-  //   insertSectionAttribute(newData, 1);
-  // };
+    await insertSectionAttributes(newData);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8">
