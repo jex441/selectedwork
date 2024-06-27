@@ -9,8 +9,8 @@ import { users } from "../../../db/schema";
 import { Event } from "./types"
 
 const smee = new SmeeClient({
-  source: 'https://smee.io/72aEQqXl2xc78nBQ',
-  target: 'http://localhost:3000/api/webhooks/clerk',
+  source: process.env.WEBHOOK_PROXY_URL!,
+  target: process.env.BASE_URL! + 'api/webhooks/clerk',
   logger: console
 })
 
@@ -38,8 +38,6 @@ export async function POST(req: Request) {
     return new Response("Bad Request", { status: 400 });
   }
 
-  console.log(msg);
-
   if(msg.type === "user.created") { 
     await db.insert(users).values({
     authId: msg.data.id,
@@ -57,13 +55,10 @@ export async function POST(req: Request) {
     await db.delete(users).where(eq(users.authId, msg.data.id))
   }
 
-
   if(msg.type === "user.updated") { 
     await db.update(users).set({email: msg.data.email_addresses[0].email_address}).where(eq(users.authId, msg.data.id))
   }
 
-
   return new Response("OK", { status: 200 });
-
 }
 events.close()
