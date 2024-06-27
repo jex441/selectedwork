@@ -15,8 +15,6 @@ export const users = pgTable('users_table', {
   url: text('url'),
 });
 
-export type NewUser = typeof users.$inferInsert;
-
 export const pages = pgTable('pages_table', {
   id: serial('id').primaryKey(),
   template: text('template').notNull(),
@@ -96,10 +94,15 @@ export const media = pgTable('media_table', {
     .$onUpdate(() => new Date()),
 });
 
+export type NewUser = typeof users.$inferInsert;
+
 export type GetUsers = typeof users.$inferSelect;
+
+export type InsertPage = typeof pages.$inferInsert;
+export type InsertSection = typeof section.$inferInsert;
+export type InsertSectionAttribute = typeof sectionAttribute.$inferInsert;
 
 export type InsertUser = typeof users.$inferInsert;
 export type SelectUser = typeof users.$inferSelect;
 
-export type InsertSectionAttribute = typeof sectionAttribute.$inferInsert;
 export type SelectPage = typeof pages.$inferSelect;

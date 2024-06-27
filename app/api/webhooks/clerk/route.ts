@@ -5,7 +5,7 @@ const SmeeClient = require('smee-client')
 import { eq } from "drizzle-orm";
 
 import { db } from "../../../db"
-import { users, NewUser } from "../../../db/schema";
+import { users, NewUser, pages, InsertPage} from "../../../db/schema";
 import { Event } from "./types"
 
 const smee = new SmeeClient({
@@ -41,7 +41,23 @@ export async function POST(req: Request) {
   if(msg.type === "user.created") { 
     
     const insertUser = async (user: NewUser) => {
-      return await db.insert(users).values(user)
+      let userId: number;
+      let res = await db.insert(users).values(user).returning({id: users.id})
+      userId = res[0].id;
+
+      let defaultPages = [
+        {template: "a1", title: "About", userId: userId}, 
+        {template: "c1", title: "Contact", userId: userId},
+        {template: "h1", title: "Home", userId: userId},
+        {template: "g1", title: "Selected Work", userId: userId}, 
+        {template: "r1", title: "CV", userId: userId}, 
+      ]
+
+      const insertPages = async (defaultPages: InsertPage[]) => {
+        await db.insert(pages).values(defaultPages)
+      }
+
+      await insertPages(defaultPages)
     }
 
     const newUser: NewUser = {
@@ -56,7 +72,6 @@ export async function POST(req: Request) {
     };
 
     await insertUser(newUser);
-    
   }
 
   if(msg.type === "user.deleted") { 
