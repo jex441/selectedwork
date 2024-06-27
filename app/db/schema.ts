@@ -1,18 +1,21 @@
-import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { boolean, integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users_table', {
   id: serial('id').primaryKey(),
+  authId: text('authId'),
   firstName: text('firstName').notNull(),
   lastName: text('lastName').notNull(),
-  username: text('username').notNull(),
+  username: text('username').notNull().unique(),
   email: text('email').notNull().unique(),
   plan: text('plan').notNull(),
-  occupation: text('occupation').notNull(),
-  domain: text('domain').notNull(),
-  flagged: text('flagged').notNull(),
-  student: text('student').notNull(),
-  url: text('url').notNull(),
+  occupation: text('occupation'),
+  domain: text('domain'),
+  flagged: boolean('flagged'),
+  student: boolean('student'),
+  url: text('url'),
 });
+
+export type NewUser = typeof users.$inferInsert;
 
 export const pages = pgTable('pages_table', {
   id: serial('id').primaryKey(),

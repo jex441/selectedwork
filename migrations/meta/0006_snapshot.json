@@ -1,6 +1,6 @@
 {
-  "id": "d526b3aa-ff49-4597-89e8-3222606e1d61",
-  "prevId": "88df3ce3-2b00-4785-840c-8ba73a1b295a",
+  "id": "ebf214b6-bf7c-4bf4-9a8d-8db235e49933",
+  "prevId": "d526b3aa-ff49-4597-89e8-3222606e1d61",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -439,6 +439,12 @@
           "name": "id",
           "type": "serial",
           "primaryKey": true,
+          "notNull": true
+        },
+        "authId": {
+          "name": "authId",
+          "type": "text",
+          "primaryKey": false,
           "notNull": true
         },
         "firstName": {

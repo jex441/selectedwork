@@ -36,6 +36,20 @@
       "when": 1719347202040,
       "tag": "0004_careless_bloodstrike",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1719491900074,
+      "tag": "0005_messy_sunfire",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1719494544810,
+      "tag": "0006_tiny_shiver_man",
+      "breakpoints": true
     }
   ]
 }
