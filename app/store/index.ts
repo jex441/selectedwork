@@ -19,9 +19,8 @@ export const useStore = create<IState>()((set) => ({
                 domain: "",
                 url: "",
 			},
-			setUserData: (data: IUser) => set((state: IState) => {
-    		let newState = { ...state, user: data };
-    		return newState;
-			})
+			setUserData: (data: IUser) => set((state) => ({
+				user: { ...state.user, ...data },
+			  })),
 		}));
 

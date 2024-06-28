@@ -13,10 +13,11 @@ export default function home({userData}: Props) {
     const { user, setUserData } = useStore();
 
     useEffect(() => {
-        user.id === null && userData !== null && setUserData(userData);
-    }, [userData])
+        if (user.id === null && userData !== null) {
+            setUserData(userData);
+          }
+    }, [userData, user.id])
     
-   console.log('>', user)
    
   return (
     <div className="flex min-h-[100dvh] flex-col">

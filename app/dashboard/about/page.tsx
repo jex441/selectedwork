@@ -31,7 +31,6 @@ import {
 
 export default function Component() {
   const { user, setUserData } = useStore();
-  console.log('user about', user);
   type Data = { [key: string]: string };
 
   const [data, setData] = useState<IPage>({
