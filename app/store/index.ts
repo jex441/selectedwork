@@ -1,23 +1,24 @@
 import { create } from "zustand";
+import { combine } from 'zustand/middleware'
 import {IUser} from "../interfaces/IUser";
 
-interface IStore {
-user: IUser;
-setUserData: (data: IUser) => void;
-}
-export const useStore = create<IStore>((set) =>({
-			user: {
-				id: null,
-                authId: "",
-                firstName: "",
-                lastName: "",
-                occupation: "",
-				username: "",
-				email: "",
-				plan: "",
-                domain: "",
-                url: "",
-			},
-			setUserData: (data: IUser) => set({ user: data }),
-		}));
+
+export const useStore = create(combine({
+	user: {
+	id: null,
+	authId: "",
+	firstName: "",
+	lastName: "",
+	occupation: "",
+	username: "",
+	email: "",
+	plan: "",
+	domain: "",
+	url: "",
+}}, (set) => ({
+			setUserData: (data: IUser) => set((state) => ({ user: state.user, ...data }))
+		}
+	)
+)
+)
 

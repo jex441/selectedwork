@@ -31,7 +31,7 @@ import {
 
 export default function Component() {
   const { user, setUserData } = useStore();
-
+  console.log('user about', user);
   type Data = { [key: string]: string };
 
   const [data, setData] = useState<IPage>({
@@ -42,23 +42,23 @@ export default function Component() {
     sections: [],
   });
 
-  const getPageDataHandler = async () => {
-    const res = await getPageData('About', user.id);
-  };
+  // const getPageDataHandler = async () => {
+  //   const res = await getPageData('About', user.id);
+  // };
 
   const changeHandler = (e: React.FormEvent<HTMLInputElement>): void => {
     setData({ ...data, [e.currentTarget.id]: e.currentTarget.value });
   };
 
-  const submitHandler = async () => {
-    let newData = [];
+  // const submitHandler = async () => {
+  //   let newData = [];
 
-    for (let key in data) {
-      newData.push({ tag: key, value: data[key], pageId: 2, sectionId: 3 });
-    }
+  //   for (let key in data) {
+  //     newData.push({ tag: key, value: data[key], pageId: 2, sectionId: 3 });
+  //   }
 
-    await insertSectionAttributes(newData);
-  };
+  //   await insertSectionAttributes(newData);
+  // };
 
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8">
