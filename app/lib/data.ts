@@ -19,8 +19,26 @@ export const user = async () => {
   return await currentUser();
 };
 
-export const getUserData = async (authId: string) => {
-  return await db.select().from(users).where(eq(users.authId, authId));
+export const getUserData = async () => {
+  const auth = await currentUser();
+  if (auth !== null) {
+    const res = await db.select().from(users).where(eq(users.authId, auth.id));
+    if (res.length > 0) {
+      return {
+        id: res[0].id,
+        authId: res[0].authId,
+        email: res[0].email,
+        firstName: res[0].firstName,
+        lastName: res[0].lastName,
+        username: res[0].username || '',
+        plan: res[0].plan,
+        occupation: res[0].occupation || null,
+        domain: res[0].domain || null,
+        url: res[0].url || null,
+      };
+    }
+  }
+  return null;
 };
 
 export const insertUser = async (
@@ -39,8 +57,6 @@ export const insertUser = async (
     firstName: firstName,
     lastName: lastName,
     plan: 'free',
-    flagged: false,
-    student: false,
   };
 
   let res = await db.insert(users).values(newUser).returning({ id: users.id });
@@ -63,11 +79,14 @@ export const insertUser = async (
 };
 
 export const getPageData = async (title: string, userId: number) => {
-  return await db
+  const data = await db
     .select()
     .from(pages)
     .where(and(eq(pages.title, title), eq(pages.userId, userId)))
-    .leftJoin(section, eq(pages.id, section.pageId));
+    .leftJoin(section, eq(pages.id, section.pageId))
+    .leftJoin(sectionAttribute, eq(section.id, sectionAttribute.sectionId));
+  console.log('data', data);
+  return data;
 };
 
 export const getPagesData = async (userId: number) => {

@@ -77,8 +77,6 @@ export async function POST(req: Request) {
       firstName: msg.data.first_name,
       lastName: msg.data.last_name,
       plan: "free",
-      flagged: false,
-      student: false,
     };
 
     await insertUser(newUser);

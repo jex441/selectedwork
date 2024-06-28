@@ -8,7 +8,11 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
 
-import { insertSectionAttributes, getPageData } from '../../lib/data';
+import {
+  insertSectionAttributes,
+  getPageData,
+  getUserData,
+} from '../../lib/data';
 
 import {
   ArrowLeftIcon,
@@ -19,13 +23,34 @@ import {
 } from '../../assets/svgs';
 
 export default function Component() {
-  const userId = 13;
+  let userId: number;
+
+  type User = {
+    id: number;
+    authId: string | null;
+    firstName: string;
+    lastName: string;
+    username: string;
+    email: string;
+    plan: string;
+    occupation: string | null;
+    domain: string | null;
+    url: string | null;
+  };
+
+  const getUserId = async () => {
+    const res: User | null = await getUserData();
+    if (res !== null) {
+      userId = res.id;
+    } else {
+      console.error('Failed to retrieve user data.');
+    }
+  };
 
   const handle = async () => {
     const res = await getPageData('About', userId);
-    console.log(res);
+    console.log('page data', res);
   };
-
   handle();
   type Data = { [key: string]: string };
 
