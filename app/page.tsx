@@ -1,8 +1,19 @@
 import Link from 'next/link';
-import { db } from './db';
+
+import { useStore } from './store';
+import { getUserData } from './lib/data';
 
 export default async function Component() {
-  const result = await db.query.users.findFirst();
+  const { user, setUserData } = useStore();
+
+  const currentUser = async () => {
+    const result = await getUserData();
+    setUserData(result);
+  };
+
+  if (!user.id) {
+    currentUser();
+  }
 
   return (
     <div className="flex min-h-[100dvh] flex-col">

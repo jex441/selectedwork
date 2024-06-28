@@ -85,7 +85,6 @@ export const getPageData = async (title: string, userId: number) => {
     .where(and(eq(pages.title, title), eq(pages.userId, userId)))
     .leftJoin(section, eq(pages.id, section.pageId))
     .leftJoin(sectionAttribute, eq(section.id, sectionAttribute.sectionId));
-  console.log('data', data);
   return data;
 };
 

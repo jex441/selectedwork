@@ -8,6 +8,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
 
+import { useStore } from '../../store';
+
+import { IUser } from '../../interfaces/IUser';
+import { IPage } from '../../interfaces/IPage';
+import { ISection } from '../../interfaces/ISection';
+import { ISectionAttribute } from '../../interfaces/ISectionAttribute';
+
 import {
   insertSectionAttributes,
   getPageData,
@@ -23,47 +30,24 @@ import {
 } from '../../assets/svgs';
 
 export default function Component() {
-  let userId: number;
+  const { user, setUserData } = useStore();
 
-  type User = {
-    id: number;
-    authId: string | null;
-    firstName: string;
-    lastName: string;
-    username: string;
-    email: string;
-    plan: string;
-    occupation: string | null;
-    domain: string | null;
-    url: string | null;
-  };
-
-  const getUserId = async () => {
-    const res: User | null = await getUserData();
-    if (res !== null) {
-      userId = res.id;
-    } else {
-      console.error('Failed to retrieve user data.');
-    }
-  };
-
-  const handle = async () => {
-    const res = await getPageData('About', userId);
-    console.log('page data', res);
-  };
-  handle();
   type Data = { [key: string]: string };
 
-  const [data, setData] = useState<Data>({
-    heading: '',
-    text: '',
-    link: '',
-    image: '',
-    template: '1',
+  const [data, setData] = useState<IPage>({
+    id: null,
+    userId: null,
+    template: null,
+    title: null,
+    sections: [],
   });
 
+  const getPageDataHandler = async () => {
+    const res = await getPageData('About', user.id);
+  };
+
   const changeHandler = (e: React.FormEvent<HTMLInputElement>): void => {
-    setData({ ...data, heading: e.currentTarget.value });
+    setData({ ...data, [e.currentTarget.id]: e.currentTarget.value });
   };
 
   const submitHandler = async () => {
