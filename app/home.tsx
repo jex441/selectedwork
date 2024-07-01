@@ -11,6 +11,7 @@ type Props = {
   
 export default function home({userData}: Props) {
     const { user, setUserData } = useStore();
+    console.log(user);
 
     useEffect(() => {
         if (user.id === null && userData !== null) {

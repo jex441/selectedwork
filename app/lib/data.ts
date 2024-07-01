@@ -14,6 +14,8 @@ import {
   InsertPage,
   InsertSection,
 } from '../db/schema';
+import { IPage } from '../interfaces/IPage';
+import { IUser } from '../interfaces/IUser';
 
 export const user = async () => {
   return await currentUser();
@@ -22,21 +24,26 @@ export const user = async () => {
 export const getUserData = async () => {
   const auth = await currentUser();
   if (auth !== null) {
-    const res = await db.select().from(users).where(eq(users.authId, auth.id));
-    if (res.length > 0) {
-      return {
-        id: res[0].id,
-        authId: res[0].authId,
-        email: res[0].email,
-        firstName: res[0].firstName,
-        lastName: res[0].lastName,
-        username: res[0].username || '',
-        plan: res[0].plan,
-        occupation: res[0].occupation || null,
-        domain: res[0].domain || null,
-        url: res[0].url || null,
-      };
-    }
+    const rows = await db
+      .select()
+      .from(users)
+      .where(eq(users.authId, auth.id))
+      .leftJoin(pages, eq(users.id, pages.userId));
+
+    const result = rows.reduce((acc, row) => {
+      const user = row.users_table;
+      const page = row.pages_table;
+
+      if (!acc.id) {
+        acc = { ...user, pages: [] };
+      }
+      if (page !== null) {
+        acc.pages !== null && acc.pages.push({ ...page, sections: [] });
+      }
+      return acc;
+    }, {} as IUser);
+
+    return result;
   }
   return null;
 };

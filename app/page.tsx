@@ -1,4 +1,4 @@
-import { getUserData } from './lib/data';
+import { getUserData, user } from './lib/data';
 import { IUser } from './interfaces/IUser';
 
 import Home from './home';
@@ -15,8 +15,8 @@ export default async function Component() {
     plan: '',
     domain: '',
     url: '',
+    pages: [],
   };
-
   let res = await getUserData();
   if (res !== null) userData = res;
 

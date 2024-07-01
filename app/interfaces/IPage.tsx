@@ -5,6 +5,6 @@ export interface IPage {
     userId: number | null;
     template: string | null;
     title: string | null;
-    sections: ISection[];
+    sections: ISection[] | null;
   }
   
