@@ -37,60 +37,21 @@ export const getUserData = async () => {
       .where(eq(users.authId, auth.id))
       .leftJoin(pages, eq(users.id, pages.userId));
 
-    interface Data {
-      users_table: IUser | null;
-      pages_table: IPage | null;
-    }
+    const result = rows.reduce((acc, row) => {
+      const user = row.users_table;
+      const page = row.pages_table;
 
-    function transformData(data: Data[]) {
-      const userObj: IUser | null = data[0].users_table && {
-        id: data[0].users_table.id,
-        authId: data[0].users_table.authId,
-        firstName: data[0].users_table.firstName,
-        lastName: data[0].users_table.lastName,
-        username: data[0].users_table.username,
-        email: data[0].users_table.email,
-        plan: data[0].users_table.plan,
-        occupation: data[0].users_table.occupation,
-        domain: data[0].users_table.domain,
-        url: data[0].users_table.url,
-        pages: [],
-      };
-
-      const pagesMap = new Map();
-
-      interface Record {
-        users_table: IUser | null;
-        pages_table: IPage | null;
-        sections_table: ISection | null;
-        section_attributes_table: ISectionAttribute | null;
+      if (!acc.id) {
+        acc = { ...user, pages: [] };
       }
-
-      data.forEach((record: Record) => {
-        const page = record.pages_table;
-
-        if (page !== null) {
-          if (!pagesMap.has(page.id)) {
-            pagesMap.set(page.id, {
-              id: page.id,
-              template: page.template,
-              title: page.title,
-              userId: page.userId,
-            });
-          }
-        }
-      });
-
-      if (userObj !== null) {
-        userObj.pages = Array.from(pagesMap.values());
+      if (page) {
+        acc.pages.push(page);
       }
-
-      return userObj;
-    }
-
-    const result = transformData(rows);
+      return acc;
+    }, {});
     return result;
   }
+
   return null;
 };
 

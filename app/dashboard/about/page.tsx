@@ -24,8 +24,7 @@ import {
 } from '../../assets/svgs';
 
 export default async function Component() {
-  await getPageData('About');
-
+  const data = await getPageData('About');
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8">
       <div className="mb-6 flex items-center justify-between">
