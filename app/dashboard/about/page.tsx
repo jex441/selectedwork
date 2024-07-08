@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -15,11 +13,7 @@ import { IPage } from '../../interfaces/IPage';
 import { ISection } from '../../interfaces/ISection';
 import { ISectionAttribute } from '../../interfaces/ISectionAttribute';
 
-import {
-  insertSectionAttributes,
-  getPageData,
-  getUserData,
-} from '../../lib/data';
+import { getPageData } from '../../lib/data';
 
 import {
   ArrowLeftIcon,
@@ -29,35 +23,8 @@ import {
   XIcon,
 } from '../../assets/svgs';
 
-export default function Component() {
-  const { user, setUserData } = useStore();
-  type Data = { [key: string]: string };
-
-  const [data, setData] = useState<IPage>({
-    id: null,
-    userId: null,
-    template: null,
-    title: null,
-    sections: [],
-  });
-
-  // const getPageDataHandler = async () => {
-  //   const res = await getPageData('About', user.id);
-  // };
-
-  const changeHandler = (e: React.FormEvent<HTMLInputElement>): void => {
-    setData({ ...data, [e.currentTarget.id]: e.currentTarget.value });
-  };
-
-  // const submitHandler = async () => {
-  //   let newData = [];
-
-  //   for (let key in data) {
-  //     newData.push({ tag: key, value: data[key], pageId: 2, sectionId: 3 });
-  //   }
-
-  //   await insertSectionAttributes(newData);
-  // };
+export default async function Component() {
+  await getPageData('About');
 
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8">
@@ -98,12 +65,7 @@ export default function Component() {
         <div className="space-y-6">
           <div>
             <Label htmlFor="page-title">Heading</Label>
-            <Input
-              id="page-title"
-              placeholder="Enter heading"
-              value={data.heading}
-              onChange={(e) => changeHandler(e)}
-            />
+            <Input id="page-title" placeholder="Enter heading" />
           </div>
           <div>
             <Label htmlFor="page-description">Text</Label>
