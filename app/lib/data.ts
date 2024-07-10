@@ -29,15 +29,12 @@ export const user = async () => {
   return data[0];
 };
 
-export async function updateAbout(attributeData: {
-  ['about-text']: string[];
-  ['about-heading']: string[];
-  ['about-image']: string[];
-}) {
+export async function updateAbout(id: number, formData: FormData) {
+  console.log(formData);
   // await db.insert(sectionAttributes).set(attributeData).where(eq(sectionAttributes.id, attributeData.id))
   //.onConflictDoUpdate({ target: <id>, set: {value: val}})
 
-  return data;
+  return { success: true };
 }
 
 export const getUserData = async () => {

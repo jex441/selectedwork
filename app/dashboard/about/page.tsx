@@ -25,16 +25,23 @@ import {
 
 export default async function Component() {
   const data: IPage = await getPageData('About');
-  console.log('data received', data.sections[0].attributes);
 
-  let values = { sectionId: data.sections[0].id, attributes: [] };
+  let values: {
+    sectionId: number | null;
+    'about-heading': string;
+    'about-text': string;
+    'about-image': string;
+  } = {
+    sectionId: data.sections !== null && data.sections[0].id,
+  };
 
-  data.sections[0].attributes.forEach((attribute) => {
-    const obj = { [attribute.tag]: attribute.value };
-    values.attributes.push(obj);
-  });
+  data.sections !== null &&
+    data.sections[0] !== null &&
+    data.sections[0].attributes !== null &&
+    data.sections[0].attributes.forEach((attribute) => {
+      values[attribute.tag] = attribute.value;
+    });
 
-  console.log('values', values);
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8">
       <div className="flex items-center space-x-4">

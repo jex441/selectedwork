@@ -21,14 +21,14 @@ import {updateAbout} from '@/app/lib/data';
 
 export default function AboutForm ({ 
     values
- }: 
-   {aboutHeading: string[], aboutText: string[], aboutImage: string[]}
+ } : 
+   {sectionId: number, 'about-heading': string, 'about-text': string, 'about-image': string}
 ) {
-    const initialState = {id: 1, aboutHeading: values['about-heading'], aboutText: values['about-text'], aboutImage: values['about-image']};
-    const [state, formAction] = useFormState(updateAbout, initialState);
-    
+    const initialState = {sectionId: values['sectionId'], 'about-heading': values['about-heading'], 'about-text': values['about-text'], 'about-image': values['about-image']};
+    const updateAboutWithId = updateAbout.bind(null, initialState.sectionId);
+
 return (
-<form action={formAction}>
+<form action={updateAboutWithId}>
 <div className="mb-6 flex items-center justify-between">
   <div className="flex w-full items-center justify-end space-x-4">
     <Link
@@ -56,15 +56,16 @@ return (
   <div className="space-y-6">
     <div>
       <Label htmlFor="page-title">Heading</Label>
-      <Input id="about-heading" name="about-heading" placeholder="Enter heading" defaultValue={values['about-heading'[1]]} />
+      <Input id="about-heading" name="about-heading" placeholder="Enter heading" defaultValue={values['about-heading']} />
     </div>
     <div>
       <Label htmlFor="page-description">Text</Label>
       <Textarea
-        id="page-description"
+        id="about-text"
+        name="about-text"
         placeholder="About you"
         className="min-h-[100px]"
-        defaultValue={values['about-text'[1]]}
+        defaultValue={values['about-text']}
       />
     </div>
     <div>
