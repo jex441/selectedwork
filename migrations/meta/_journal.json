@@ -85,6 +85,13 @@
       "when": 1720465417594,
       "tag": "0011_thick_forge",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1720636235581,
+      "tag": "0012_fuzzy_ben_parker",
+      "breakpoints": true
     }
   ]
 }

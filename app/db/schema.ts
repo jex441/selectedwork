@@ -15,6 +15,7 @@ export const users = pgTable('users_table', {
 
 export const pages = pgTable('pages_table', {
   id: serial('id').primaryKey(),
+  slug: text('slug').notNull(),
   template: text('template').notNull(),
   title: text('title').notNull(),
   userId: integer('user_id')

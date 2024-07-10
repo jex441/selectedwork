@@ -1,0 +1,1 @@
+ALTER TABLE "pages_table" ADD COLUMN "slug" text NOT NULL;

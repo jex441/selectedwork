@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../../../db"
 import { users, NewUser, pages, InsertPage} from "../../../db/schema";
 import { Event } from "./types"
-import {insertSections} from "../../../lib/data"
+import {insertSections, insertSectionAttributes} from "../../../lib/data"
 
 const smee = new SmeeClient({
   source: process.env.WEBHOOK_PROXY_URL!,
@@ -40,18 +40,18 @@ export async function POST(req: Request) {
   }
 
   if(msg.type === "user.created") { 
-    
+    console.log('CREATED')
     const insertUser = async (user: NewUser) => {
       let userId: number;
       let res = await db.insert(users).values(user).returning({id: users.id})
       userId = res[0].id;
 
       let defaultPages = [
-        {template: "a1", title: "About", userId: userId}, 
-        {template: "c1", title: "Contact", userId: userId},
-        {template: "h1", title: "Home", userId: userId},
-        {template: "g1", title: "Selected Work", userId: userId}, 
-        {template: "r1", title: "CV", userId: userId}, 
+        {template: "a1", slug: "about", title: "About", userId: userId}, 
+        {template: "c1", slug: "contact", title: "Contact", userId: userId},
+        {template: "h1", slug: "home", title: "Home", userId: userId},
+        {template: "g1", slug: "work", title: "Selected Work", userId: userId}, 
+        {template: "r1", slug: "cv", title: "CV", userId: userId}, 
       ]
 
       const insertPages = async (defaultPages: InsertPage[]) => {
@@ -59,16 +59,23 @@ export async function POST(req: Request) {
       }
 
      const newPages = await insertPages(defaultPages)
-
+console.log(newPages)
       let defaultSections = [
-        {pageId: newPages[0].id, type: "image", order: 0}, 
-        {pageId: newPages[0].id, type: "text", order: 1}, 
-        {pageId: newPages[1].id, type: "image", order: 0}, 
-        {pageId: newPages[1].id, type: "text", order: 1}, 
+        {pageId: newPages[0].id, type: "content", order: 0}, 
+      ]
+console.log(defaultSections)
+     const newSections = await insertSections(defaultSections)
+
+      let defaultSectionAttributes = [
+        {sectionId: newSections[0].id, tag: "about-image", value: "", order: 0}, 
+        {sectionId: newSections[0].id, tag: "about-text", value: "", order: 1}, 
+        {sectionId: newSections[0].id, tag: "about-heading", value: "", order: 2}, 
       ]
 
-      await insertSections(defaultSections)
+    const newSectionAttributes = await insertSectionAttributes(defaultSectionAttributes);
+console.log(newSectionAttributes)
     }
+
 
     const newUser: NewUser = {
       authId: msg.data.id,

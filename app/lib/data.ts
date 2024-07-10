@@ -1,3 +1,5 @@
+'use server';
+
 import { currentUser, auth } from '@clerk/nextjs/server';
 import { eq, and } from 'drizzle-orm';
 
@@ -26,6 +28,17 @@ export const user = async () => {
     (await db.select().from(users).where(eq(users.authId, currentUser.userId)));
   return data[0];
 };
+
+export async function updateAbout(attributeData: {
+  ['about-text']: string[];
+  ['about-heading']: string[];
+  ['about-image']: string[];
+}) {
+  // await db.insert(sectionAttributes).set(attributeData).where(eq(sectionAttributes.id, attributeData.id))
+  //.onConflictDoUpdate({ target: <id>, set: {value: val}})
+
+  return data;
+}
 
 export const getUserData = async () => {
   const auth = await currentUser();
@@ -78,11 +91,11 @@ export const insertUser = async (
   userId = res[0].id;
 
   let defaultPages = [
-    { template: 'a1', title: 'About', userId: userId },
-    { template: 'c1', title: 'Contact', userId: userId },
-    { template: 'h1', title: 'Home', userId: userId },
-    { template: 'g1', title: 'Selected Work', userId: userId },
-    { template: 'r1', title: 'CV', userId: userId },
+    { template: 'a1', slug: 'about', title: 'About', userId: userId },
+    { template: 'c1', slug: 'contact', title: 'Contact', userId: userId },
+    { template: 'h1', slug: 'home', title: 'Home', userId: userId },
+    { template: 'g1', slug: 'work', title: 'Selected Work', userId: userId },
+    { template: 'r1', slug: 'cv', title: 'CV', userId: userId },
   ];
 
   const insertPages = async (defaultPages: InsertPage[]) => {
@@ -110,17 +123,18 @@ export const getPageData = async (title: string) => {
       acc = { ...page, sections: [] };
     }
     if (section) {
-      acc.sections.push(section);
+      if (!acc.sections[0]) {
+        acc.sections[0] = { ...section };
+      }
     }
     if (sectionAttribute) {
-      acc.sections.forEach((section) => {
-        if (section.id === sectionAttribute.sectionId) {
-          section.attributes = sectionAttribute;
-        }
-      });
+      if (!acc.sections[0].attributes) {
+        acc.sections[0].attributes = [];
+      }
+      acc.sections[0].attributes?.push(sectionAttribute);
     }
     return acc;
-  }, {});
+  }, {} as IPage);
 
   return result;
 };
@@ -130,11 +144,14 @@ export const getPagesData = async (userId: number) => {
 };
 
 export const insertSections = async (newData: InsertSection[]) => {
-  await db.insert(section).values(newData);
+  return await db.insert(section).values(newData).returning({ id: section.id });
 };
 
 export const insertSectionAttributes = async (
   newData: InsertSectionAttribute[],
 ) => {
-  await db.insert(sectionAttribute).values(newData);
+  return await db
+    .insert(sectionAttribute)
+    .values(newData)
+    .returning({ id: sectionAttribute.id });
 };
