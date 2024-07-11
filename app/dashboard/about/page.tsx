@@ -26,21 +26,21 @@ import {
 export default async function Component() {
   const data: IPage = await getPageData('About');
 
-  let values: {
-    sectionId: number | null;
-    'about-heading': string;
-    'about-text': string;
-    'about-image': string;
-  } = {
-    sectionId: data.sections !== null && data.sections[0].id,
-  };
+  // let values: {
+  //   sectionId: number | null;
+  //   'about-heading': string;
+  //   'about-text': string;
+  //   'about-image': string;
+  // } = {
+  //   sectionId: data.sections !== null && data.sections[0].id,
+  // };
 
-  data.sections !== null &&
-    data.sections[0] !== null &&
-    data.sections[0].attributes !== null &&
-    data.sections[0].attributes.forEach((attribute) => {
-      values[attribute.tag] = attribute.value;
-    });
+  // data.sections !== null &&
+  //   data.sections[0] !== null &&
+  //   data.sections[0].attributes !== null &&
+  //   data.sections[0].attributes.forEach((attribute) => {
+  //     values[attribute.tag] = attribute.value;
+  //   });
 
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 lg:px-8">
@@ -54,7 +54,7 @@ export default async function Component() {
         </Link>
         <h1 className="text-2xl font-bold">Back</h1>
       </div>
-      <AboutForm values={values} />
+      {/* <AboutForm values={values} /> */}
     </div>
   );
 }

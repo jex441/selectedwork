@@ -20,6 +20,7 @@ import { IPage } from '../interfaces/IPage';
 import { IUser } from '../interfaces/IUser';
 import { ISection } from '../interfaces/ISection';
 import { ISectionAttribute } from '../interfaces/ISectionAttribute';
+import { IAboutPage } from '../interfaces/IAboutPage';
 
 const FormSchema = z.object({
   sectionId: z.number(),
@@ -143,27 +144,39 @@ export const getPageData = async (title: string) => {
     .leftJoin(section, eq(pages.id, section.pageId))
     .leftJoin(sectionAttribute, eq(section.id, sectionAttribute.sectionId));
 
-  const result = rows.reduce((acc, row) => {
-    const page = row.pages_table;
-    const section = row.sections_table;
-    const sectionAttribute = row.section_attributes_table;
+  const result = rows.reduce((page, row) => {
+    const pageRow = row.pages_table;
+    const sectionRow = row.sections_table;
+    const sectionAttributeRow = row.section_attributes_table;
 
-    if (!acc.id) {
-      acc = { ...page, sections: [] };
+    if (!page.id && pageRow) {
+      page = { ...pageRow, sections: [] };
     }
-    if (section) {
-      if (!acc.sections[0]) {
-        acc.sections[0] = { ...section };
+    if (sectionRow) {
+      if (!page.sectionRow) {
+        page.sections = [];
+      }
+      page.sections.find((section) => section.id === sectionRow.id) ||
+        page.sections.push({
+          ...sectionRow,
+          'about-heading': '',
+          'about-text': '',
+          'about-image': '',
+        });
+    }
+    if (sectionAttributeRow) {
+      let section = page.sections?.find(
+        (section) => section.id === sectionAttributeRow.sectionId,
+      );
+      const tag = sectionAttributeRow.tag;
+      if (section && tag !== null) {
+        section[tag] = sectionAttributeRow.value;
       }
     }
-    if (sectionAttribute) {
-      if (!acc.sections[0].attributes) {
-        acc.sections[0].attributes = [];
-      }
-      acc.sections[0].attributes?.push(sectionAttribute);
-    }
-    return acc;
-  }, {} as IPage);
+    return page;
+  }, {} as IAboutPage);
+
+  console.log('new res', result);
 
   return result;
 };

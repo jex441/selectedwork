@@ -26,7 +26,7 @@ export default function AboutForm ({
 ) {
     const initialState = {sectionId: values['sectionId'], 'about-heading': values['about-heading'], 'about-text': values['about-text'], 'about-image': values['about-image']};
     const updateAboutWithId = updateAbout.bind(null, initialState.sectionId);
-
+console.log(values)
 return (
 <form action={updateAboutWithId}>
 <div className="mb-6 flex items-center justify-between">
