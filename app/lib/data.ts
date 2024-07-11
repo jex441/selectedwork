@@ -2,7 +2,7 @@
 
 import { currentUser, auth } from '@clerk/nextjs/server';
 import { eq, and } from 'drizzle-orm';
-
+import { z } from 'zod';
 import { db } from '../db';
 
 import {
@@ -21,6 +21,15 @@ import { IUser } from '../interfaces/IUser';
 import { ISection } from '../interfaces/ISection';
 import { ISectionAttribute } from '../interfaces/ISectionAttribute';
 
+const FormSchema = z.object({
+  sectionId: z.number(),
+  'about-text': z.string({ invalid_type_error: 'Please select a customer.' }),
+  'about-heading': z.string({
+    invalid_type_error: 'Please select a customer.',
+  }),
+  'about-image': z.string({ invalid_type_error: 'Please select a customer.' }),
+});
+
 export const user = async () => {
   const currentUser = (await auth()) || null;
   const data =
@@ -29,10 +38,33 @@ export const user = async () => {
   return data[0];
 };
 
-export async function updateAbout(id: number, formData: FormData) {
-  console.log(formData);
-  // await db.insert(sectionAttributes).set(attributeData).where(eq(sectionAttributes.id, attributeData.id))
-  //.onConflictDoUpdate({ target: <id>, set: {value: val}})
+const UpdateAbout = FormSchema.omit({ sectionId: true });
+export async function updateAbout(sectionId: number, formData: FormData) {
+  const vals = UpdateAbout.parse({
+    'about-text': formData.get('about-text'),
+    'about-heading': formData.get('about-heading'),
+    'about-image': formData.get('about-image'),
+  });
+  const sectionAttributes = await db
+    .select()
+    .from(sectionAttribute)
+    .where(eq(sectionAttribute.sectionId, sectionId));
+
+  sectionAttributes.forEach(async (attribute) => {
+    const value = vals[attribute.tag];
+    await db
+      .insert(sectionAttribute)
+      .values({
+        id: attribute.id,
+        sectionId: sectionId,
+        tag: attribute.tag,
+        value: value,
+      })
+      .onConflictDoUpdate({
+        target: sectionAttribute.id,
+        set: { value: value },
+      });
+  });
 
   return { success: true };
 }

@@ -67,6 +67,12 @@ return (
         className="min-h-[100px]"
         defaultValue={values['about-text']}
       />
+         <Textarea
+        id="about-image"
+        name="about-image"
+        className="hidden"
+        defaultValue={values['about-image']}
+      />
     </div>
     <div>
       <Label>Links</Label>
