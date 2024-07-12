@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -15,10 +16,12 @@ import {
 import {updateAbout} from '@/app/lib/data';
 import LinkInput from './linkinput';  
 import AboutTemplates from './abouttemplates';
+import Image from 'next/image';
 
 export default function AboutForm ({data}: {data: IAboutPage}) {
     const initialState = data
     const updateAboutWithId = updateAbout.bind(null, initialState.id);
+    const [imgSrc, setImgSrc] = useState(data.imgSrc);
 return (
 <form action={updateAboutWithId}>
 <div className="mb-6 flex items-center justify-between">
@@ -69,23 +72,25 @@ return (
     </div>
   </div>
   <div className="space-y-6">
-    <div className="space-y-4">
+    <div className="space-y-4 flex justify-start flex-col">
       <Label>Image</Label>
+      <div className="flex justify-center items-center my-4">
+      <Image src={imgSrc ?? ""} width={350} height={250} alt="Image" />
+      <Input name="imgSrc" type="hidden" value={imgSrc ?? ""} />
+      </div>
       <UploadButton
+      className="self-start"
         endpoint="imageUploader"
         onClientUploadComplete={(res) => {
-          // Do something with the response
-          console.log("Files: ", res);
-          alert("Upload Completed");
+          setImgSrc(res[0].url)
         }}
         onUploadError={(error: Error) => {
-          // Do something with the error.
           alert(`ERROR! ${error.message}`);
         }}
       />
       <div className="space-y-2">
-      <Label htmlFor="image-caption">Image Caption</Label>
-      <Input type="text" defaultValue={data.imgCaption ?? ""} name="imgCaption" />
+      <Label htmlFor="image-caption">Caption</Label>
+      <Input type="text" placeholder='The artist in her studio, 2024.' defaultValue={data.imgCaption ?? ""} name="imgCaption" />
       </div>
     </div>
 
