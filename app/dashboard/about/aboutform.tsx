@@ -18,6 +18,7 @@ import {
 } from '../../assets/svgs';
 import { useFormState } from 'react-dom';
 import {updateAbout} from '@/app/lib/data';
+import LinkInput from './linkinput';  
 
 export default function AboutForm ({data}: {data: IAboutPage}) {
     const initialState = data
@@ -67,21 +68,9 @@ return (
     <div>
       <Label>Links</Label>
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <LinkIcon className="h-8 w-8 text-muted-foreground" />
-            <Input placeholder="Enter Link Text" defaultValue={data.linkText1 ?? ""} name="linkText1" />
-            <Input placeholder="Enter Link URL" defaultValue={data.linkSrc1 ?? ""} name="linkSrc1" />
-          </div>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <LinkIcon className="h-8 w-8 text-muted-foreground" />
-            <Input placeholder="Enter Link Text" defaultValue={data.linkText2 ?? ""} name="linkText2" />
-            <Input placeholder="Enter Link URL" defaultValue={data.linkSrc2 ?? ""} name="linkSrc2" />
-          </div>
-        </div>
-      </div>
+       <LinkInput linkSrc={data.linkSrc1 ?? ""} linkText={data.linkText1 ?? ""} textName={"linkText1"} urlName={"linkSrc1"} />
+       <LinkInput linkSrc={data.linkSrc2 ?? ""} linkText={data.linkText2 ?? ""} textName={"linkText2"} urlName={"linkSrc2"} />
+       </div>
     </div>
   </div>
   <div className="space-y-6">
