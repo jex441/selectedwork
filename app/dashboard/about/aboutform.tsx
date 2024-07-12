@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { UploadButton } from "../../lib/uploadthing";
 
 import { IAboutPage } from '../../interfaces/IAboutPage';
 import {
@@ -70,14 +71,18 @@ return (
   <div className="space-y-6">
     <div className="space-y-4">
       <Label>Image</Label>
-      <div className="flex items-center justify-center rounded-md border-2 border-dashed border-muted p-8">
-        <div className="space-y-2 text-center">
-          <UploadIcon className="h-8 w-8 text-muted-foreground" />
-          <p className="text-muted-foreground">
-            Drag and drop or click to upload an image
-          </p>
-        </div>
-      </div>
+      <UploadButton
+        endpoint="imageUploader"
+        onClientUploadComplete={(res) => {
+          // Do something with the response
+          console.log("Files: ", res);
+          alert("Upload Completed");
+        }}
+        onUploadError={(error: Error) => {
+          // Do something with the error.
+          alert(`ERROR! ${error.message}`);
+        }}
+      />
       <div className="space-y-2">
       <Label htmlFor="image-caption">Image Caption</Label>
       <Input type="text" defaultValue={data.imgCaption ?? ""} name="imgCaption" />
@@ -87,7 +92,7 @@ return (
     {/* <div className="space-y-2">
       <AboutTemplates />
     </div> */}
-    
+
   </div>
 </div>
 </form>)}
