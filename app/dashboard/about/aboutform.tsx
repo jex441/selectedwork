@@ -1,34 +1,28 @@
 'use client';
 
-import React, { useState } from 'react';
-import Link from 'next/link';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import Image from 'next/image';
 
 import { IAboutPage } from '../../interfaces/IAboutPage';
-
 import {
   EyeIcon,
-  LinkIcon,
   UploadIcon,
-  XIcon,
 } from '../../assets/svgs';
-import { useFormState } from 'react-dom';
 import {updateAbout} from '@/app/lib/data';
 import LinkInput from './linkinput';  
+import AboutTemplates from './abouttemplates';
 
 export default function AboutForm ({data}: {data: IAboutPage}) {
     const initialState = data
     const updateAboutWithId = updateAbout.bind(null, initialState.id);
-console.log('init',initialState)
 return (
 <form action={updateAboutWithId}>
 <div className="mb-6 flex items-center justify-between">
   <div className="flex w-full items-center justify-end space-x-4">
-    <Link
+    {/* <Link
       href="#"
       target="_blank"
       className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
@@ -36,7 +30,7 @@ return (
     >
       <EyeIcon className="mr-2 h-4 w-4" />
       Preview
-    </Link>
+    </Link> */}
 
     <Button
       variant="outline"
@@ -58,7 +52,7 @@ return (
     <div>
       <Label htmlFor="page-description">Text</Label>
       <Textarea
-        id="777"
+        id="text"
         name="text"
         placeholder="About you"
         className="min-h-[100px]"
@@ -89,64 +83,9 @@ return (
       <Input type="text" defaultValue={data.imgCaption ?? ""} name="imgCaption" />
       </div>
     </div>
+
     <div className="space-y-2">
-      <Label>Template Selection</Label>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-        <div className="overflow-hidden rounded-md border">
-          <Image
-            src="https://generated.vusercontent.net/placeholder.svg"
-            width={200}
-            height={150}
-            alt="Template 1"
-            className="h-auto w-full"
-          />
-          <div className="bg-muted p-4">
-            <h3 className="text-lg font-bold">Template 1</h3>
-            <p className="text-sm text-muted-foreground">
-              A simple one-column layout
-            </p>
-            <Button variant="outline" className="mt-4 w-full">
-              Select
-            </Button>
-          </div>
-        </div>
-        <div className="overflow-hidden rounded-md border">
-          <Image
-            src="https://generated.vusercontent.net/placeholder.svg"
-            width={200}
-            height={150}
-            alt="Template 2"
-            className="h-auto w-full"
-          />
-          <div className="bg-muted p-4">
-            <h3 className="text-lg font-bold">Template 2</h3>
-            <p className="text-sm text-muted-foreground">
-              A two-column layout with sidebar
-            </p>
-            <Button variant="outline" className="mt-4 w-full">
-              Select
-            </Button>
-          </div>
-        </div>
-        <div className="overflow-hidden rounded-md border">
-          <Image
-            src="https://generated.vusercontent.net/placeholder.svg"
-            width={200}
-            height={150}
-            alt="Template 3"
-            className="h-auto w-full"
-          />
-          <div className="bg-muted p-4">
-            <h3 className="text-lg font-bold">Template 3</h3>
-            <p className="text-sm text-muted-foreground">
-              A three-column grid layout
-            </p>
-            <Button variant="outline" className="mt-4 w-full">
-              Select
-            </Button>
-          </div>
-        </div>
-      </div>
+      <AboutTemplates />
     </div>
   </div>
 </div>
