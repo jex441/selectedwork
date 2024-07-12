@@ -30,13 +30,31 @@ const FormSchema = z.object({
   heading: z.string().nullish(),
   subheading: z.string().nullish(),
   text: z.string().nullish(),
-  linkSrc1: z.string().url().nullish(),
+  linkSrc1: z
+    .string({ invalid_type_error: 'Please use a valid url.' })
+    .url()
+    .nullish(),
   linkText1: z.string().nullish(),
   linkSrc2: z.string().url().nullish(),
   linkText2: z.string().nullish(),
   imgSrc: z.string().url().nullish(),
   imgCaption: z.string().nullish(),
 });
+
+export type State = {
+  errors?: {
+    template?: string[];
+    heading?: string[];
+    subheading?: string[];
+    text?: string[];
+    linkText1?: string[];
+    linkSrc1?: string[];
+    linkText2?: string[];
+    linkSrc2?: string[];
+    imgSrc?: string[];
+  };
+  message?: string | null;
+};
 
 export const user = async () => {
   const currentUser = (await auth()) || null;
@@ -50,8 +68,12 @@ const UpdateAbout = FormSchema.omit({
   id: true,
 });
 
-export async function updateAbout(pageId: number, formData: FormData) {
-  const vals = UpdateAbout.parse({
+export async function updateAbout(
+  id: number,
+  prevState: {},
+  formData: FormData,
+) {
+  const validatedFields = UpdateAbout.safeParse({
     template: formData.get('template') || '',
     text: formData.get('text') || null,
     heading: formData.get('heading') || null,
@@ -64,21 +86,41 @@ export async function updateAbout(pageId: number, formData: FormData) {
     imgCaption: formData.get('imgCaption') || '',
   });
 
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Invoice.',
+    };
+  }
+
+  const {
+    template,
+    text,
+    heading,
+    subheading,
+    linkSrc1,
+    linkText1,
+    linkSrc2,
+    linkText2,
+    imgSrc,
+    imgCaption,
+  } = validatedFields.data;
+
   const update = await db
     .update(about)
     .set({
-      template: vals.template,
-      text: vals.text,
-      heading: vals.heading,
-      subheading: vals.subheading,
-      linkSrc1: vals.linkSrc1,
-      linkText1: vals.linkText1,
-      linkSrc2: vals.linkSrc2,
-      linkText2: vals.linkText2,
-      imgSrc: vals.imgSrc,
-      imgCaption: vals.imgCaption,
+      template: template,
+      text: text,
+      heading: heading,
+      subheading: subheading,
+      linkSrc1: linkSrc1,
+      linkText1: linkText1,
+      linkSrc2: linkSrc2,
+      linkText2: linkText2,
+      imgSrc: imgSrc,
+      imgCaption: imgCaption,
     })
-    .where(eq(about.id, pageId))
+    .where(eq(about.id, id))
     .returning({ id: about.id });
 
   return { success: true };

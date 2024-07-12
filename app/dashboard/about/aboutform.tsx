@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { UploadButton } from "../../lib/uploadthing";
-
+import { useFormState } from 'react-dom';
 import { IAboutPage } from '../../interfaces/IAboutPage';
 import {
   EyeIcon,
@@ -17,13 +17,16 @@ import {updateAbout} from '@/app/lib/data';
 import LinkInput from './linkinput';  
 import AboutTemplates from './abouttemplates';
 import Image from 'next/image';
+import { State } from '@/app/lib/data';
 
 export default function AboutForm ({data}: {data: IAboutPage}) {
-    const initialState = data
-    const updateAboutWithId = updateAbout.bind(null, initialState.id);
+    const initialState: State = {message: null, errors: {}}
+    const updateAboutWithId = updateAbout.bind(null, data.id)
+    const [state, formAction] = useFormState(updateAboutWithId, initialState);
     const [imgSrc, setImgSrc] = useState(data.imgSrc);
+console.log('statey', state)
 return (
-<form action={updateAboutWithId}>
+<form action={formAction}>
 <div className="mb-6 flex items-center justify-between">
   <div className="flex w-full items-center justify-end space-x-4">
     {/* <Link
@@ -67,7 +70,19 @@ return (
       <Label>Links</Label>
       <div className="space-y-4">
        <LinkInput linkSrc={data.linkSrc1 ?? ""} linkText={data.linkText1 ?? ""} textName={"linkText1"} urlName={"linkSrc1"} />
+       {state.errors?.linkSrc1 &&
+              state.errors.linkSrc1.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
        <LinkInput linkSrc={data.linkSrc2 ?? ""} linkText={data.linkText2 ?? ""} textName={"linkText2"} urlName={"linkSrc2"} />
+       {state.errors?.linkSrc2 &&
+              state.errors.linkSrc2.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
        </div>
     </div>
   </div>
