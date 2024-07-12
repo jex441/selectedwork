@@ -25,7 +25,7 @@ export interface IAboutPage {
     slug: string | null;
     heading: string | null;
     subheading: string | null;
-    text: IAboutText;
+    text: string | null;    
     linkSrc1: string | null;
     linkText1: string | null;
     linkSrc2: string | null;

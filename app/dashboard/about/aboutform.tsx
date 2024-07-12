@@ -52,7 +52,7 @@ return (
   <div className="space-y-6">
     <div>
       <Label htmlFor="page-title">Heading</Label>
-      <Input id="heading" name="heading" placeholder="Enter heading" defaultValue={data.heading} />
+      <Input id="heading" name="heading" placeholder="Enter heading" defaultValue={data.heading ?? ""} />
     </div>
     <div>
       <Label htmlFor="page-description">Text</Label>
@@ -61,7 +61,7 @@ return (
         name="text"
         placeholder="About you"
         className="min-h-[100px]"
-        defaultValue={data.text}
+        defaultValue={data.text ?? ""}
       />
     </div>
     <div>
@@ -69,30 +69,23 @@ return (
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <LinkIcon className="h-5 w-5 text-muted-foreground" />
-            <Input placeholder="Enter link URL" />
+            <LinkIcon className="h-8 w-8 text-muted-foreground" />
+            <Input placeholder="Enter Link Text" defaultValue={data.linkText1 ?? ""} name="linkText1" />
+            <Input placeholder="Enter Link URL" defaultValue={data.linkSrc1 ?? ""} name="linkSrc1" />
           </div>
-          <Button variant="ghost" size="icon">
-            <XIcon className="h-5 w-5" />
-          </Button>
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <LinkIcon className="h-5 w-5 text-muted-foreground" />
-            <Input placeholder="Enter link URL" />
+            <LinkIcon className="h-8 w-8 text-muted-foreground" />
+            <Input placeholder="Enter Link Text" defaultValue={data.linkText2 ?? ""} name="linkText2" />
+            <Input placeholder="Enter Link URL" defaultValue={data.linkSrc2 ?? ""} name="linkSrc2" />
           </div>
-          <Button variant="ghost" size="icon">
-            <XIcon className="h-5 w-5" />
-          </Button>
         </div>
-        <Button variant="outline" className="w-full">
-          Add Link
-        </Button>
       </div>
     </div>
   </div>
   <div className="space-y-6">
-    <div>
+    <div className="space-y-4">
       <Label>Image</Label>
       <div className="flex items-center justify-center rounded-md border-2 border-dashed border-muted p-8">
         <div className="space-y-2 text-center">
@@ -102,8 +95,12 @@ return (
           </p>
         </div>
       </div>
+      <div className="space-y-2">
+      <Label htmlFor="image-caption">Image Caption</Label>
+      <Input type="text" defaultValue={data.imgCaption ?? ""} name="imgCaption" />
+      </div>
     </div>
-    <div>
+    <div className="space-y-2">
       <Label>Template Selection</Label>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
         <div className="overflow-hidden rounded-md border">
