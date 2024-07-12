@@ -1,6 +1,6 @@
 export interface ISectionAttribute {
     id: number;
-    tag: string;
+    name: string;
     value: string | null;
     sectionId: number;
   }

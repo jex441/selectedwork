@@ -1,13 +1,14 @@
 'use server';
 
 import { currentUser, auth } from '@clerk/nextjs/server';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, inArray } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db';
 
 import {
   users,
   pages,
+  about,
   section,
   sectionAttribute,
   InsertUser,
@@ -21,14 +22,20 @@ import { IUser } from '../interfaces/IUser';
 import { ISection } from '../interfaces/ISection';
 import { ISectionAttribute } from '../interfaces/ISectionAttribute';
 import { IAboutPage } from '../interfaces/IAboutPage';
+import { link } from 'fs';
 
 const FormSchema = z.object({
-  sectionId: z.number(),
-  'about-text': z.string({ invalid_type_error: 'Please select a customer.' }),
-  'about-heading': z.string({
-    invalid_type_error: 'Please select a customer.',
-  }),
-  'about-image': z.string({ invalid_type_error: 'Please select a customer.' }),
+  id: z.number(),
+  template: z.string(),
+  heading: z.string(),
+  subheading: z.string(),
+  text: z.string(),
+  linkSrc1: z.string(),
+  linkText1: z.string(),
+  linkSrc2: z.string(),
+  linkText2: z.string(),
+  imgSrc: z.string(),
+  imgCaption: z.string(),
 });
 
 export const user = async () => {
@@ -39,34 +46,41 @@ export const user = async () => {
   return data[0];
 };
 
-const UpdateAbout = FormSchema.omit({ sectionId: true });
-export async function updateAbout(sectionId: number, formData: FormData) {
+const UpdateAbout = FormSchema.omit({
+  id: true,
+});
+
+export async function updateAbout(pageId: number, formData: FormData) {
   const vals = UpdateAbout.parse({
-    'about-text': formData.get('about-text'),
-    'about-heading': formData.get('about-heading'),
-    'about-image': formData.get('about-image'),
+    template: formData.get('template') || '',
+    text: formData.get('text') || '',
+    heading: formData.get('heading') || '',
+    subheading: formData.get('subheading') || '',
+    linkSrc1: formData.get('linkSrc1') || '',
+    linkText1: formData.get('linkText1') || '',
+    linkSrc2: formData.get('linkSrc2') || '',
+    linkText2: formData.get('linkText2') || '',
+    imgSrc: formData.get('imgSrc') || '',
+    imgCaption: formData.get('imgCaption') || '',
   });
-  const sectionAttributes = await db
-    .select()
-    .from(sectionAttribute)
-    .where(eq(sectionAttribute.sectionId, sectionId));
-
-  sectionAttributes.forEach(async (attribute) => {
-    const value = vals[attribute.tag];
-    await db
-      .insert(sectionAttribute)
-      .values({
-        id: attribute.id,
-        sectionId: sectionId,
-        tag: attribute.tag,
-        value: value,
-      })
-      .onConflictDoUpdate({
-        target: sectionAttribute.id,
-        set: { value: value },
-      });
-  });
-
+  console.log(pageId);
+  const update = await db
+    .update(about)
+    .set({
+      template: vals.template,
+      text: vals.text,
+      heading: vals.heading,
+      subheading: vals.subheading,
+      linkSrc1: vals.linkSrc1,
+      linkText1: vals.linkText1,
+      linkSrc2: vals.linkSrc2,
+      linkText2: vals.linkText2,
+      imgSrc: vals.imgSrc,
+      imgCaption: vals.imgCaption,
+    })
+    .where(eq(about.id, pageId))
+    .returning({ id: about.id });
+  console.log('up date', update);
   return { success: true };
 }
 
@@ -137,48 +151,15 @@ export const insertUser = async (
 
 export const getPageData = async (title: string) => {
   const userData = await user();
+
   const rows = await db
     .select()
-    .from(pages)
-    .where(and(eq(pages.title, title), eq(pages.userId, userData?.id)))
-    .leftJoin(section, eq(pages.id, section.pageId))
-    .leftJoin(sectionAttribute, eq(section.id, sectionAttribute.sectionId));
+    .from(about)
+    .where(and(eq(about.title, title), eq(about.userId, userData?.id)));
 
-  const result = rows.reduce((page, row) => {
-    const pageRow = row.pages_table;
-    const sectionRow = row.sections_table;
-    const sectionAttributeRow = row.section_attributes_table;
+  console.log('rows', rows[0]);
 
-    if (!page.id && pageRow) {
-      page = { ...pageRow, sections: [] };
-    }
-    if (sectionRow) {
-      if (!page.sectionRow) {
-        page.sections = [];
-      }
-      page.sections.find((section) => section.id === sectionRow.id) ||
-        page.sections.push({
-          ...sectionRow,
-          'about-heading': '',
-          'about-text': '',
-          'about-image': '',
-        });
-    }
-    if (sectionAttributeRow) {
-      let section = page.sections?.find(
-        (section) => section.id === sectionAttributeRow.sectionId,
-      );
-      const tag = sectionAttributeRow.tag;
-      if (section && tag !== null) {
-        section[tag] = sectionAttributeRow.value;
-      }
-    }
-    return page;
-  }, {} as IAboutPage);
-
-  console.log('new res', result);
-
-  return result;
+  return rows[0];
 };
 
 export const getPagesData = async (userId: number) => {

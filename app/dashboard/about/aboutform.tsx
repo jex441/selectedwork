@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
 
-import { IPage } from '../../interfaces/IPage';
+import { IAboutPage } from '../../interfaces/IAboutPage';
 
 import {
   EyeIcon,
@@ -19,14 +19,10 @@ import {
 import { useFormState } from 'react-dom';
 import {updateAbout} from '@/app/lib/data';
 
-export default function AboutForm ({ 
-    values
- } : 
-   {sectionId: number, 'about-heading': string, 'about-text': string, 'about-image': string}
-) {
-    const initialState = {sectionId: values['sectionId'], 'about-heading': values['about-heading'], 'about-text': values['about-text'], 'about-image': values['about-image']};
-    const updateAboutWithId = updateAbout.bind(null, initialState.sectionId);
-console.log(values)
+export default function AboutForm ({data}: {data: IAboutPage}) {
+    const initialState = data
+    const updateAboutWithId = updateAbout.bind(null, initialState.id);
+console.log('init',initialState)
 return (
 <form action={updateAboutWithId}>
 <div className="mb-6 flex items-center justify-between">
@@ -56,22 +52,16 @@ return (
   <div className="space-y-6">
     <div>
       <Label htmlFor="page-title">Heading</Label>
-      <Input id="about-heading" name="about-heading" placeholder="Enter heading" defaultValue={values['about-heading']} />
+      <Input id="heading" name="heading" placeholder="Enter heading" defaultValue={data.heading} />
     </div>
     <div>
       <Label htmlFor="page-description">Text</Label>
       <Textarea
-        id="about-text"
-        name="about-text"
+        id="777"
+        name="text"
         placeholder="About you"
         className="min-h-[100px]"
-        defaultValue={values['about-text']}
-      />
-         <Textarea
-        id="about-image"
-        name="about-image"
-        className="hidden"
-        defaultValue={values['about-image']}
+        defaultValue={data.text}
       />
     </div>
     <div>

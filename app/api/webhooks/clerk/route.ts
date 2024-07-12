@@ -5,7 +5,7 @@ const SmeeClient = require('smee-client')
 import { eq } from "drizzle-orm";
 
 import { db } from "../../../db"
-import { users, NewUser, pages, InsertPage} from "../../../db/schema";
+import { users, NewUser, pages, InsertPage, about} from "../../../db/schema";
 import { Event } from "./types"
 import {insertSections, insertSectionAttributes} from "../../../lib/data"
 
@@ -54,26 +54,33 @@ export async function POST(req: Request) {
         {template: "r1", slug: "cv", title: "CV", userId: userId}, 
       ]
 
-      const insertPages = async (defaultPages: InsertPage[]) => {
-        return await db.insert(pages).values(defaultPages).returning({id: pages.id, title: pages.title})
-      }
+      const insertAboutPage = async () => {
+        return await db.insert(about).values(defaultPages[0]).returning({id: pages.id, title: pages.title})
+      } 
 
-     const newPages = await insertPages(defaultPages)
-console.log(newPages)
-      let defaultSections = [
-        {pageId: newPages[0].id, type: "content", order: 0}, 
-      ]
-console.log(defaultSections)
-     const newSections = await insertSections(defaultSections)
+      const aboutPage = await insertAboutPage()
 
-      let defaultSectionAttributes = [
-        {sectionId: newSections[0].id, tag: "about-image", value: "", order: 0}, 
-        {sectionId: newSections[0].id, tag: "about-text", value: "", order: 1}, 
-        {sectionId: newSections[0].id, tag: "about-heading", value: "", order: 2}, 
-      ]
+      console.log('aboutPage', aboutPage)
 
-    const newSectionAttributes = await insertSectionAttributes(defaultSectionAttributes);
-console.log(newSectionAttributes)
+      // const insertPages = async (defaultPages: InsertPage[]) => {
+      //   return await db.insert(pages).values(defaultPages).returning({id: pages.id, title: pages.title})
+      // }
+
+    //  const newPages = await insertPages(defaultPages)
+
+      // let defaultSections = [
+      //   {pageId: newPages[0].id, name: "text", order: 0}, 
+      //   {pageId: newPages[0].id, name: "image", order: 1}, 
+      // ]
+    //  const newSections = await insertSections(defaultSections)
+    //   let defaultSectionAttributes = [
+    //     {sectionId: newSections[0].id, name: "about-text", value: "", order: 1}, 
+    //     {sectionId: newSections[0].id, name: "about-heading", value: "", order: 2},
+    //     {sectionId: newSections[1].id, name: "src", value: "", order: 0}, 
+    //     {sectionId: newSections[1].id, name: "caption", value: "", order: 0}, 
+    //   ]
+
+    // const newSectionAttributes = await insertSectionAttributes(defaultSectionAttributes);
     }
 
 
