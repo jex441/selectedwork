@@ -84,9 +84,10 @@ return (
       </div>
     </div>
 
-    <div className="space-y-2">
+    {/* <div className="space-y-2">
       <AboutTemplates />
-    </div>
+    </div> */}
+    
   </div>
 </div>
 </form>)}
