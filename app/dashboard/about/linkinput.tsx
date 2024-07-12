@@ -11,7 +11,7 @@ export default function LinkInput({linkText, linkSrc, textName, urlName} : {link
           <div className="flex items-center space-x-4">
             <LinkIcon className="h-8 w-8 text-muted-foreground" />
             <Input placeholder="Enter Link Text" defaultValue={linkText ?? ""} name={textName} />
-            <Input placeholder="Enter Link URL" defaultValue={linkSrc ?? ""} name={urlName} />
+            <Input placeholder="https://example.com" defaultValue={linkSrc ?? ""} name={urlName} />
           </div>
         </div>
   )

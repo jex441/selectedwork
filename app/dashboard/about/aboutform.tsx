@@ -62,27 +62,31 @@ return (
         id="text"
         name="text"
         placeholder="About you"
-        className="min-h-[100px]"
+        className="min-h-[320px]"
         defaultValue={data.text ?? ""}
       />
     </div>
     <div>
       <Label>Links</Label>
-      <div className="space-y-4">
+      <div className="flex flex-col">
        <LinkInput linkSrc={data.linkSrc1 ?? ""} linkText={data.linkText1 ?? ""} textName={"linkText1"} urlName={"linkSrc1"} />
+       <div className="h-5 w-1/2 self-end my-2 block">
        {state.errors?.linkSrc1 &&
               state.errors.linkSrc1.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
+                <p className="text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
+              </div>
        <LinkInput linkSrc={data.linkSrc2 ?? ""} linkText={data.linkText2 ?? ""} textName={"linkText2"} urlName={"linkSrc2"} />
+       <div className="h-5 w-1/2 self-end my-2 block">
        {state.errors?.linkSrc2 &&
               state.errors.linkSrc2.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
+                <p className="text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
+              </div>
        </div>
     </div>
   </div>
