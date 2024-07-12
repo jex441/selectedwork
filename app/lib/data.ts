@@ -27,15 +27,15 @@ import { link } from 'fs';
 const FormSchema = z.object({
   id: z.number(),
   template: z.string(),
-  heading: z.string(),
-  subheading: z.string(),
-  text: z.string(),
-  linkSrc1: z.string(),
-  linkText1: z.string(),
-  linkSrc2: z.string(),
-  linkText2: z.string(),
-  imgSrc: z.string(),
-  imgCaption: z.string(),
+  heading: z.string().nullish(),
+  subheading: z.string().nullish(),
+  text: z.string().nullish(),
+  linkSrc1: z.string().url().nullish(),
+  linkText1: z.string().nullish(),
+  linkSrc2: z.string().url().nullish(),
+  linkText2: z.string().nullish(),
+  imgSrc: z.string().url().nullish(),
+  imgCaption: z.string().nullish(),
 });
 
 export const user = async () => {
@@ -53,17 +53,17 @@ const UpdateAbout = FormSchema.omit({
 export async function updateAbout(pageId: number, formData: FormData) {
   const vals = UpdateAbout.parse({
     template: formData.get('template') || '',
-    text: formData.get('text') || '',
-    heading: formData.get('heading') || '',
-    subheading: formData.get('subheading') || '',
-    linkSrc1: formData.get('linkSrc1') || '',
+    text: formData.get('text') || null,
+    heading: formData.get('heading') || null,
+    subheading: formData.get('subheading') || null,
+    linkSrc1: formData.get('linkSrc1') || null,
     linkText1: formData.get('linkText1') || '',
     linkSrc2: formData.get('linkSrc2') || '',
     linkText2: formData.get('linkText2') || '',
     imgSrc: formData.get('imgSrc') || '',
     imgCaption: formData.get('imgCaption') || '',
   });
-  console.log(pageId);
+
   const update = await db
     .update(about)
     .set({
@@ -80,7 +80,7 @@ export async function updateAbout(pageId: number, formData: FormData) {
     })
     .where(eq(about.id, pageId))
     .returning({ id: about.id });
-  console.log('up date', update);
+
   return { success: true };
 }
 
@@ -156,8 +156,6 @@ export const getPageData = async (title: string) => {
     .select()
     .from(about)
     .where(and(eq(about.title, title), eq(about.userId, userData?.id)));
-
-  console.log('rows', rows[0]);
 
   return rows[0];
 };
