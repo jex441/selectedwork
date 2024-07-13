@@ -27,18 +27,36 @@ import { link } from 'fs';
 const FormSchema = z.object({
   id: z.number(),
   template: z.string(),
-  heading: z.string().nullish(),
-  subheading: z.string().nullish(),
-  text: z.string().nullish(),
+  heading: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+  subheading: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+  text: z
+    .string()
+    .max(1_000_000, { message: 'Must be fewer than 1000000 characters.' })
+    .nullish(),
   linkSrc1: z
     .string({ invalid_type_error: 'Please use a valid url.' })
     .url()
     .nullish(),
-  linkText1: z.string().nullish(),
+  linkText1: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
   linkSrc2: z.string().url().nullish(),
-  linkText2: z.string().nullish(),
+  linkText2: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
   imgSrc: z.string().url().nullish(),
-  imgCaption: z.string().nullish(),
+  imgCaption: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
 });
 
 export type State = {

@@ -67,11 +67,25 @@ return (
 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
   <div className="space-y-6">
     <div>
-      <Label htmlFor="heading">Heading</Label>
+      <Label htmlFor="heading">Heading
+      {state.errors?.heading &&
+              state.errors.heading.map((error: string) => (
+                <p className="mx-4 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+      </Label>
       <Input id="heading" name="heading" placeholder="Enter heading" defaultValue={data.heading ?? ""} />
     </div>
     <div>
-      <Label htmlFor="subheading">Subhead</Label>
+      <Label htmlFor="subheading">Subhead
+      {state.errors?.subheading &&
+              state.errors.subheading.map((error: string) => (
+                <span className="mx-4 text-sm text-red-500" key={error}>
+                  {error}
+                </span>
+              ))}
+      </Label>
       <Input id="subheading" name="subheading" placeholder="Subheading" defaultValue={data.subheading ?? ""} />
     </div>
     <div>
@@ -111,8 +125,8 @@ return (
   <div className="space-y-6">
     <div className="space-y-4 flex justify-start flex-col">
       <Label>Image</Label>
-      <div className="flex justify-center items-center my-4">
-      <Image src={imgSrc ?? ""} width={350} height={250} alt="Image" />
+      <div className="flex justify-center items-center my-4 w-[500px] h-[300px] relative">
+      <Image src={imgSrc ?? ""} objectFit={"contain"} fill={true} alt="Image" />
       <Input name="imgSrc" type="hidden" value={imgSrc ?? ""} />
       </div>
       <UploadButton
