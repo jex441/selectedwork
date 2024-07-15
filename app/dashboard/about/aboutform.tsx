@@ -99,7 +99,7 @@ return (
     <div>
       <Label>Links</Label>
       <div className="flex flex-col">
-       <LinkInput error={state.errors?.linkSrc1 || false} linkSrc={data.linkSrc1 ?? ""} linkText={data.linkText1 ?? ""} textName={"linkText1"} urlName={"linkSrc1"} />
+       <LinkInput error={state.errors?.linkSrc1 || [""]} linkSrc={data.linkSrc1 ?? ""} linkText={data.linkText1 ?? ""} textName={"linkText1"} urlName={"linkSrc1"} />
        <div className="h-5 w-1/2 self-end my-2 block">
        {state.errors?.linkSrc1 &&
               state.errors.linkSrc1.map((error: string) => (
@@ -108,7 +108,7 @@ return (
                 </p>
               ))}
               </div>
-       <LinkInput error={state.errors?.linkSrc2 || false} linkSrc={data.linkSrc2 ?? ""} linkText={data.linkText2 ?? ""} textName={"linkText2"} urlName={"linkSrc2"} />
+       <LinkInput error={state.errors?.linkSrc2 || [""]} linkSrc={data.linkSrc2 ?? ""} linkText={data.linkText2 ?? ""} textName={"linkText2"} urlName={"linkSrc2"} />
        <div className="h-5 w-1/2 self-end my-2 block">
        {state.errors?.linkSrc2 &&
               state.errors.linkSrc2.map((error: string) => (
