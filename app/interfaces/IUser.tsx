@@ -2,7 +2,7 @@ import { IPage } from './IPage';
 
 export interface IUser {
     id: number | null;
-    authId: string | null;
+    authId: string;
     firstName: string | null;
     lastName: string | null;
     username: string | null;
@@ -11,5 +11,4 @@ export interface IUser {
     occupation: string | null;
     domain: string | null;
     url: string | null;
-    pages: IPage[] | null;
   }

@@ -75,11 +75,16 @@ export type State = {
 };
 
 export const user = async () => {
-  const currentUser = (await auth()) || null;
+  const currentUser = auth();
+
   const data =
     currentUser !== null &&
+    currentUser.userId !== null &&
     (await db.select().from(users).where(eq(users.authId, currentUser.userId)));
-  return data[0];
+
+  if (data) {
+    return data[0];
+  }
 };
 
 const UpdateAbout = FormSchema.omit({
