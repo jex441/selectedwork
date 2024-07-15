@@ -5,8 +5,9 @@ const SmeeClient = require('smee-client')
 import { eq } from "drizzle-orm";
 
 import { db } from "../../../db"
-import { users, NewUser } from "../../../db/schema";
+import { users, NewUser, pages, InsertPage, about} from "../../../db/schema";
 import { Event } from "./types"
+import {insertSections, insertSectionAttributes} from "../../../lib/data"
 
 const smee = new SmeeClient({
   source: process.env.WEBHOOK_PROXY_URL!,
@@ -39,10 +40,49 @@ export async function POST(req: Request) {
   }
 
   if(msg.type === "user.created") { 
-    
+    console.log('CREATED')
     const insertUser = async (user: NewUser) => {
-      return await db.insert(users).values(user)
+      let userId: number;
+      let res = await db.insert(users).values(user).returning({id: users.id})
+      userId = res[0].id;
+
+      let defaultPages = [
+        {template: "a1", slug: "about", title: "About", userId: userId}, 
+        {template: "c1", slug: "contact", title: "Contact", userId: userId},
+        {template: "h1", slug: "home", title: "Home", userId: userId},
+        {template: "g1", slug: "work", title: "Selected Work", userId: userId}, 
+        {template: "r1", slug: "cv", title: "CV", userId: userId}, 
+      ]
+
+      const insertAboutPage = async () => {
+        return await db.insert(about).values(defaultPages[0]).returning({id: pages.id, title: pages.title})
+      } 
+
+      const aboutPage = await insertAboutPage()
+
+      console.log('aboutPage', aboutPage)
+
+      // const insertPages = async (defaultPages: InsertPage[]) => {
+      //   return await db.insert(pages).values(defaultPages).returning({id: pages.id, title: pages.title})
+      // }
+
+    //  const newPages = await insertPages(defaultPages)
+
+      // let defaultSections = [
+      //   {pageId: newPages[0].id, name: "text", order: 0}, 
+      //   {pageId: newPages[0].id, name: "image", order: 1}, 
+      // ]
+    //  const newSections = await insertSections(defaultSections)
+    //   let defaultSectionAttributes = [
+    //     {sectionId: newSections[0].id, name: "about-text", value: "", order: 1}, 
+    //     {sectionId: newSections[0].id, name: "about-heading", value: "", order: 2},
+    //     {sectionId: newSections[1].id, name: "src", value: "", order: 0}, 
+    //     {sectionId: newSections[1].id, name: "caption", value: "", order: 0}, 
+    //   ]
+
+    // const newSectionAttributes = await insertSectionAttributes(defaultSectionAttributes);
     }
+
 
     const newUser: NewUser = {
       authId: msg.data.id,
@@ -51,14 +91,11 @@ export async function POST(req: Request) {
       firstName: msg.data.first_name,
       lastName: msg.data.last_name,
       plan: "free",
-      flagged: false,
-      student: false,
     };
 
     await insertUser(newUser);
-    
   }
-
+  
   if(msg.type === "user.deleted") { 
     await db.delete(users).where(eq(users.authId, msg.data.id))
   }

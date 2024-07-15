@@ -1,8 +1,9 @@
 import { boolean, integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { title } from 'process';
 
 export const users = pgTable('users_table', {
   id: serial('id').primaryKey(),
-  authId: text('authId'),
+  authId: text('authId').notNull(),
   firstName: text('firstName').notNull(),
   lastName: text('lastName').notNull(),
   username: text('username').notNull().unique(),
@@ -10,17 +11,39 @@ export const users = pgTable('users_table', {
   plan: text('plan').notNull(),
   occupation: text('occupation'),
   domain: text('domain'),
-  flagged: boolean('flagged'),
-  student: boolean('student'),
   url: text('url'),
 });
 
-export type NewUser = typeof users.$inferInsert;
-
 export const pages = pgTable('pages_table', {
   id: serial('id').primaryKey(),
+  slug: text('slug').notNull(),
   template: text('template').notNull(),
   title: text('title').notNull(),
+  userId: integer('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
+export const about = pgTable('about_table', {
+  id: serial('id').primaryKey(),
+  title: text('title').notNull(),
+  slug: text('slug').notNull(),
+  template: text('template').notNull(),
+  heading: text('heading'),
+  subheading: text('subheading'),
+  text: text('text'),
+  linkSrc1: text('linkSrc1'),
+  linkText1: text('linkText1'),
+  linkSrc2: text('linkSrc2'),
+  linkText2: text('linkText2'),
+  linkSrc3: text('linkSrc3'),
+  linkText3: text('linkText3'),
+  imgSrc: text('imgSrc'),
+  imgCaption: text('imgCaption'),
   userId: integer('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
@@ -33,11 +56,8 @@ export const pages = pgTable('pages_table', {
 export const section = pgTable('sections_table', {  
   id: serial('id').primaryKey(),
   pageId: integer('page_id').notNull().references(() => pages.id, { onDelete: 'cascade' }),
-  type: text('type'),
+  name: text('name'),
   order: integer('order'),
-  userId: integer('user_id')
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
     .notNull()
@@ -46,12 +66,9 @@ export const section = pgTable('sections_table', {
 
 export const sectionAttribute = pgTable('section_attributes_table', {
   id: serial('id').primaryKey(),
-  tag: text('tag'),
+  name: text('name'),
   value: text('value'),
   sectionId: integer('section_id').notNull().references(() => section.id, { onDelete: 'cascade' }),
-  userId: integer('user_id')
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
     .notNull()
@@ -96,10 +113,15 @@ export const media = pgTable('media_table', {
     .$onUpdate(() => new Date()),
 });
 
+export type NewUser = typeof users.$inferInsert;
+
 export type GetUsers = typeof users.$inferSelect;
 
-export type InsertUser = typeof users.$inferInsert;
-export type SelectUser = typeof users.$inferSelect;
-
+export type InsertPage = typeof pages.$inferInsert;
+export type InsertSection = typeof section.$inferInsert;
 export type InsertSectionAttribute = typeof sectionAttribute.$inferInsert;
-export type SelectPage = typeof pages.$inferSelect;
+
+export type InsertUser = typeof users.$inferInsert;
+export type GetUser = typeof users.$inferSelect;
+
+export type GetPage = typeof pages.$inferSelect;

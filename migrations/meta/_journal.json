@@ -50,6 +50,62 @@
       "when": 1719494544810,
       "tag": "0006_tiny_shiver_man",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1719532442251,
+      "tag": "0007_curly_havok",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1719954483635,
+      "tag": "0008_lonely_tattoo",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1719954654380,
+      "tag": "0009_funny_taskmaster",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1720464727775,
+      "tag": "0010_cold_thundra",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1720465417594,
+      "tag": "0011_thick_forge",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1720636235581,
+      "tag": "0012_fuzzy_ben_parker",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1720724741941,
+      "tag": "0013_white_morbius",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1720783077822,
+      "tag": "0014_hot_wither",
+      "breakpoints": true
     }
   ]
 }
