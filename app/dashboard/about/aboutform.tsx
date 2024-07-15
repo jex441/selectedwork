@@ -56,7 +56,7 @@ return (
     >
       Discard Changes
     </Button> */}
-    <div className="mx-5">Do not forget to save your changes before leaving this page.</div>
+    <div className="mx-5 text-gray-500 italic">Do not forget to save your changes before leaving this page.</div>
     <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90">
       Save Changes
     </Button>
