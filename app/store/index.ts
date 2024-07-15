@@ -18,6 +18,7 @@ export const useStore = create<IState>()((set) => ({
 				plan: "",
                 domain: "",
                 url: "",
+				pages: []
 			},
 			setUserData: (data: IUser) => set((state) => ({
 				user: { ...state.user, ...data },

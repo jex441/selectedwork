@@ -159,21 +159,18 @@ export const getUserData = async () => {
       .where(eq(users.authId, auth.id))
       .leftJoin(pages, eq(users.id, pages.userId));
 
-    const result = rows.reduce<{ id: number | null; pages: IPage[] }>(
-      (acc, row) => {
-        const user = row.users_table;
-        const page = row.pages_table;
+    const result = rows.reduce<IUser>((acc, row) => {
+      const user = row.users_table;
+      const page = row.pages_table;
 
-        if (!acc.id && user.id) {
-          acc = { ...user, pages: [] };
-        }
-        if (page) {
-          acc.pages.push(page);
-        }
-        return acc;
-      },
-      { id: null, pages: [] },
-    );
+      if (!acc.id && user.id) {
+        acc = { ...user, pages: [] };
+      }
+      if (page) {
+        acc.pages.push(page);
+      }
+      return acc;
+    }, {} as IUser);
     return result;
   }
 

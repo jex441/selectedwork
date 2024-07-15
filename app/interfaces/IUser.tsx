@@ -11,4 +11,5 @@ export interface IUser {
     occupation: string | null;
     domain: string | null;
     url: string | null;
+    pages: IPage[];
   }
