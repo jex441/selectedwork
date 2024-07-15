@@ -11,10 +11,6 @@ import { useFormState } from 'react-dom';
 import { IAboutPage } from '../../interfaces/IAboutPage';
 import Link from 'next/link';
 
-import {
-  EyeIcon,
-  UploadIcon,
-} from '../../assets/svgs';
 import {updateAbout} from '@/app/lib/data';
 import LinkInput from './linkinput';  
 import AboutTemplates from './abouttemplates';
@@ -26,9 +22,10 @@ import {
 export default function AboutForm ({data}: {data: IAboutPage}) {
     const initialState: State = {message: null, errors: {}}
     const updateAboutWithId = updateAbout.bind(null, data.id)
-    const [state, formAction] = useFormState(updateAboutWithId, initialState);
+    const [state, formAction] = useFormState(updateAboutWithId, data);
     const [imgSrc, setImgSrc] = useState(data.imgSrc);
-
+    const [unsavedChanges, setUnsavedChanges] = useState(false);  
+    console.log(formAction)
 return (
 <form action={formAction}>
 <div className="mb-6 flex items-center justify-between">
@@ -53,12 +50,13 @@ return (
       Preview
     </Link> */}
 
-    <Button
+    {/* <Button
       variant="outline"
       className="text-muted-foreground hover:bg-muted hover:text-muted-foreground"
     >
       Discard Changes
-    </Button>
+    </Button> */}
+    <div className="mx-5">Do not forget to save your changes before leaving this page.</div>
     <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90">
       Save Changes
     </Button>
