@@ -22,7 +22,7 @@ import {
 export default function AboutForm ({data}: {data: IAboutPage}) {
     const initialState: State = {message: null, errors: {}}
     const updateAboutWithId = updateAbout.bind(null, data.id)
-    const [state, formAction] = useFormState(updateAboutWithId, data);
+    const [state, formAction] = useFormState(updateAboutWithId, initialState);
     const [imgSrc, setImgSrc] = useState(data.imgSrc);
     const [unsavedChanges, setUnsavedChanges] = useState(false);  
     console.log(formAction)
