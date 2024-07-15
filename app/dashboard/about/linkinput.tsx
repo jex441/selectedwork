@@ -5,7 +5,7 @@ import {
     LinkIcon,
   } from '../../assets/svgs';
 
-export default function LinkInput({linkText, linkSrc, textName, urlName, error} : {linkText: string, linkSrc: string, textName: string, urlName: string, error: string[]}) {
+export default function LinkInput({linkText, linkSrc, textName, urlName, error} : {linkText: string, linkSrc: string, textName: string, urlName: string, error: string[] | string}) {
   return (
     <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
