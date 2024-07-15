@@ -220,12 +220,15 @@ export const insertUser = async (
 export const getPageData = async (title: string) => {
   const userData = await user();
 
-  const rows = await db
-    .select()
-    .from(about)
-    .where(and(eq(about.title, title), eq(about.userId, userData?.id)));
+  const rows =
+    userData &&
+    userData.id !== null &&
+    (await db
+      .select()
+      .from(about)
+      .where(and(eq(about.title, title), eq(about.userId, userData?.id))));
 
-  return rows[0];
+  if (rows) return rows[0];
 };
 
 export const getPagesData = async (userId: number) => {
