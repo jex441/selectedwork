@@ -53,6 +53,37 @@ export const about = pgTable('about_table', {
     .$onUpdate(() => new Date()),
 });
 
+export const contact = pgTable('contact_table', {
+  id: serial('id').primaryKey(),
+  title: text('title').notNull(),
+  slug: text('slug').notNull(),
+  template: text('template').notNull(),
+  heading: text('heading'),
+  subheading: text('subheading'),
+  text: text('text'),
+  linkSrc1: text('linkSrc1'),
+  linkText1: text('linkText1'),
+  linkSrc2: text('linkSrc2'),
+  linkText2: text('linkText2'),
+  instagram: text('instagram'),
+  tiktok: text('tiktok'),
+  facebook: text('facebook'),
+  twitter: text('twitter'),
+  linkedin: text('linkedin'),
+  email: text('email'),
+  phone: text('phone'),
+  address: text('address'),
+  imgSrc: text('imgSrc'),
+  imgCaption: text('imgCaption'),
+  userId: integer('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
 export const section = pgTable('sections_table', {  
   id: serial('id').primaryKey(),
   pageId: integer('page_id').notNull().references(() => pages.id, { onDelete: 'cascade' }),

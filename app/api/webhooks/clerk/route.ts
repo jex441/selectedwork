@@ -5,7 +5,7 @@ const SmeeClient = require('smee-client')
 import { eq } from "drizzle-orm";
 
 import { db } from "../../../db"
-import { users, NewUser, pages, InsertPage, about} from "../../../db/schema";
+import { users, NewUser, pages, InsertPage, about, contact} from "../../../db/schema";
 import { Event } from "./types"
 import {insertSections, insertSectionAttributes} from "../../../lib/data"
 
@@ -57,10 +57,12 @@ export async function POST(req: Request) {
       const insertAboutPage = async () => {
         return await db.insert(about).values(defaultPages[0]).returning({id: pages.id, title: pages.title})
       } 
+      const insertContactPage = async () => {
+        return await db.insert(contact).values(defaultPages[1]).returning({id: pages.id, title: pages.title})
+      } 
 
       const aboutPage = await insertAboutPage()
-
-      console.log('aboutPage', aboutPage)
+      const contactPage = await insertContactPage()
 
       // const insertPages = async (defaultPages: InsertPage[]) => {
       //   return await db.insert(pages).values(defaultPages).returning({id: pages.id, title: pages.title})
