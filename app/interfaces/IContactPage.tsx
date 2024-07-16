@@ -11,8 +11,6 @@ export interface IContactPage {
     linkText1: string | null;
     linkSrc2: string | null;
     linkText2: string | null;
-    linkSrc3: string | null;
-    linkText3: string | null;
     imgSrc: string | null;
     imgCaption: string | null;
     instagram: string | null;

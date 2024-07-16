@@ -7,7 +7,6 @@ import { eq } from "drizzle-orm";
 import { db } from "../../../db"
 import { users, NewUser, pages, InsertPage, about, contact} from "../../../db/schema";
 import { Event } from "./types"
-import {insertSections, insertSectionAttributes} from "../../../lib/data"
 
 const smee = new SmeeClient({
   source: process.env.WEBHOOK_PROXY_URL!,
@@ -64,25 +63,6 @@ export async function POST(req: Request) {
       const aboutPage = await insertAboutPage()
       const contactPage = await insertContactPage()
 
-      // const insertPages = async (defaultPages: InsertPage[]) => {
-      //   return await db.insert(pages).values(defaultPages).returning({id: pages.id, title: pages.title})
-      // }
-
-    //  const newPages = await insertPages(defaultPages)
-
-      // let defaultSections = [
-      //   {pageId: newPages[0].id, name: "text", order: 0}, 
-      //   {pageId: newPages[0].id, name: "image", order: 1}, 
-      // ]
-    //  const newSections = await insertSections(defaultSections)
-    //   let defaultSectionAttributes = [
-    //     {sectionId: newSections[0].id, name: "about-text", value: "", order: 1}, 
-    //     {sectionId: newSections[0].id, name: "about-heading", value: "", order: 2},
-    //     {sectionId: newSections[1].id, name: "src", value: "", order: 0}, 
-    //     {sectionId: newSections[1].id, name: "caption", value: "", order: 0}, 
-    //   ]
-
-    // const newSectionAttributes = await insertSectionAttributes(defaultSectionAttributes);
     }
 
 
