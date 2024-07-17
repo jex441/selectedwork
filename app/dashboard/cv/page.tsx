@@ -20,7 +20,7 @@ export default async function Component() {
   const data = await getCVPageData('CV');
   return (
     <div className="flex h-full flex-row ">
-      <CvForm data={data} />
+      {data && <CvForm data={data} />}
     </div>
   );
 }

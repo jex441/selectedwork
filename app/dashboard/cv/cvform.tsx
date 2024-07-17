@@ -18,15 +18,16 @@ import { getCVPageData, saveCVSections } from '../../lib/data';
 import {ICVPage} from "../../interfaces/ICVPage";
 
 export default  function Component({data}: {data: ICVPage}) {
-  const [selectedSection, setSelectedSection] = useState('work-experience');
-  const [workExperience, setWorkExperience] = useState<{unsaved: boolean, id: number | null, category: string, title: string, organization: string, location: string, startDate: string, endDate: string, bulletPoints: string[]}[]>([]);
- console.log('data', data)
+  const [selectedSection, setSelectedSection] = useState('education');
+console.log('daaaaaa', data)
+  const [workExperience, setWorkExperience] = useState<{unsaved: boolean, id: number | null, category: string, categoryId: string, title: string, organization: string, location: string, startDate: string, endDate: string, bulletPoints: string[]}[]>(data[selectedSection]);
   const handleAddWorkExperience = () => {
     setWorkExperience([
       ...workExperience,
       {
         unsaved: true,
         id: null,
+        categoryId: selectedSection,
         category: '',
         title: '',
         organization: '',
@@ -37,7 +38,6 @@ export default  function Component({data}: {data: ICVPage}) {
       },
     ]);
   };
-
   const handleDeleteWorkExperience = (index: number) => {
     const updatedWorkExperience = [...workExperience];
     updatedWorkExperience.splice(index, 1);
@@ -90,15 +90,12 @@ export default  function Component({data}: {data: ICVPage}) {
 
   const handleSaveSection = async () => {
     const data = workExperience.filter((experience) => experience.unsaved);
-    console.log('data', data)  
     await saveCVSections(data);
   };
-
   return (
     <div className="flex h-full flex-row ">
       <div className="grid flex-1 grid-cols-12 gap-6 bg-gray-100/40 p-6">
         <div className="col-span-12">
-          {selectedSection === 'work-experience' && (
             <div>
               <div className="mb-4 flex items-center justify-between">
                 <Select>
@@ -252,7 +249,6 @@ export default  function Component({data}: {data: ICVPage}) {
                 ))}
               </div>
             </div>
-          )}
         </div>
       </div>
     </div>

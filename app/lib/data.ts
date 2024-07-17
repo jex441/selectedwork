@@ -395,7 +395,6 @@ export const getContactPageData = async (title: string) => {
 
 export const getCVPageData = async (title: string) => {
   const userData = await user();
-  console.log(title, userData?.id);
   const rows =
     userData &&
     userData.id !== null &&
@@ -403,32 +402,47 @@ export const getCVPageData = async (title: string) => {
       .select()
       .from(cv)
       .where(and(eq(cv.title, title), eq(cv.userId, userData?.id)))
-      .leftJoin(cvSection, eq(cvSection.id, cv.id)));
-
+      .leftJoin(cvSection, eq(cvSection.cvId, cv.id)));
+  console.log('rows::', rows);
   const result =
     rows &&
     rows.reduce<ICVPage>((acc, row) => {
       const cv = row.cv_table;
       const section = row.cv_section_table;
-
+      console.log('section::', section);
       if (!acc.id && cv.id) {
-        acc = { ...cv, sections: [] };
+        acc = {
+          ...cv,
+          education: [],
+          groupExhibitions: [],
+          soloExhibitions: [],
+          awards: [],
+          residencies: [],
+          press: [],
+          teaching: [],
+        };
       }
       if (section) {
-        acc.sections
-          .find((s) => s.category === section.category)
-          ?.items.push(section) ||
-          acc.sections.push({ category: section.category, items: [section] });
+        let category = section.categoryId;
+        let sectionData = { ...section, bulletPoints: [] };
+        section.bulletPoint1 &&
+          sectionData.bulletPoints.push(section.bulletPoint1);
+        section.bulletPoint2 &&
+          sectionData.bulletPoints.push(section.bulletPoint2);
+        section.bulletPoint3 &&
+          sectionData.bulletPoints.push(section.bulletPoint3);
+        category && acc[category].push(sectionData);
       }
       return acc;
     }, {} as ICVPage);
-  console.log(result);
+  console.log('REESULT', result);
   if (rows) return result;
 };
 
 export const saveCVSections = async (
   sections: {
     unsaved: boolean;
+    categoryId: string;
     id: number | null;
     category: string;
     title: string;
@@ -449,7 +463,6 @@ export const saveCVSections = async (
       await db
         .update(cvSection)
         .set({
-          category: section.category,
           title: section.title,
           organization: section.organization,
           location: section.location,
@@ -463,6 +476,7 @@ export const saveCVSections = async (
     } else {
       userCV &&
         (await db.insert(cvSection).values({
+          categoryId: section.categoryId,
           category: section.category,
           title: section.title,
           organization: section.organization,

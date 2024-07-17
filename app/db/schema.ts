@@ -104,6 +104,7 @@ export const cv = pgTable('cv_table', {
 
 export const cvSection = pgTable('cv_section_table', {
   id: serial('id').primaryKey(),
+  categoryId: text('categoryId').notNull(),
   category: text('category').notNull(),
   title: text('title'),
   organization: text('organization'), 
