@@ -84,6 +84,41 @@ export const contact = pgTable('contact_table', {
     .$onUpdate(() => new Date()),
 });
 
+export const cv = pgTable('cv_table', {
+  id: serial('id').primaryKey(),
+  title: text('title').notNull(),
+  slug: text('slug').notNull(),
+  template: text('template').notNull(),
+  heading: text('heading'),
+  subheading: text('subheading'),
+  imgSrc: text('imgSrc'),
+  imgCaption: text('imgCaption'),
+  userId: integer('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
+export const cvSection = pgTable('cv_section_table', {
+  id: serial('id').primaryKey(),
+  categoryId: text('categoryId').notNull(),
+  category: text('category').notNull(),
+  title: text('title'),
+  organization: text('organization'), 
+  location: text('location'),
+  startDate: text('startDate'),
+  endDate: text('endDate'),
+  bulletPoint1: text('bulletPoint1'),
+  bulletPoint2: text('bulletPoint2'),
+  bulletPoint3: text('bulletPoint3'),
+  order: integer('order'),
+  cvId: integer('cv_id').notNull().references(() => cv.id, { onDelete: 'cascade'
+  }),
+})
+
 export const section = pgTable('sections_table', {  
   id: serial('id').primaryKey(),
   pageId: integer('page_id').notNull().references(() => pages.id, { onDelete: 'cascade' }),

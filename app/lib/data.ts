@@ -10,6 +10,8 @@ import {
   pages,
   about,
   contact,
+  cv,
+  cvSection,
   section,
   sectionAttribute,
   InsertUser,
@@ -24,6 +26,8 @@ import { ISection } from '../interfaces/ISection';
 import { ISectionAttribute } from '../interfaces/ISectionAttribute';
 import { IAboutPage } from '../interfaces/IAboutPage';
 import { link } from 'fs';
+import { ICVPage } from '../interfaces/ICVPage';
+import { revalidatePath } from 'next/cache';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -390,6 +394,118 @@ export const getContactPageData = async (title: string) => {
   if (rows) return rows[0];
 };
 
+export const getCVPageData = async (title: string) => {
+  const userData = await user();
+  const rows =
+    userData &&
+    userData.id !== null &&
+    (await db
+      .select()
+      .from(cv)
+      .where(and(eq(cv.title, title), eq(cv.userId, userData?.id)))
+      .leftJoin(cvSection, eq(cvSection.cvId, cv.id)));
+  console.log('rows::', rows);
+  const result =
+    rows &&
+    rows.reduce<ICVPage>((acc, row) => {
+      const cv = row.cv_table;
+      const section = row.cv_section_table;
+      console.log('section::', section);
+      if (!acc.id && cv.id) {
+        acc = {
+          ...cv,
+          education: [],
+          groupExhibitions: [],
+          soloExhibitions: [],
+          awards: [],
+          residencies: [],
+          press: [],
+          teaching: [],
+        };
+      }
+      if (section) {
+        let category = section.categoryId;
+        let sectionData = { ...section, unsaved: false, bulletPoints: [] };
+        section.bulletPoint1 &&
+          sectionData.bulletPoints.push(section.bulletPoint1 as never);
+        section.bulletPoint2 &&
+          sectionData.bulletPoints.push(section.bulletPoint2 as never);
+        section.bulletPoint3 &&
+          sectionData.bulletPoints.push(section.bulletPoint3 as never);
+        category && acc[category].push(sectionData);
+      }
+      return acc;
+    }, {} as ICVPage);
+  console.log('REESULT', result);
+  if (rows) return result;
+};
+
+export const deleteCVSection = async (id: number) => {
+  return await db.delete(cvSection).where(eq(cvSection.id, id));
+};
+
+export const deleteCVSectionBulletPoint = async (
+  id: number,
+  bulletPointIndex: number,
+) => {
+  const bulletPointKey = `bulletPoint${bulletPointIndex + 1}`;
+  return await db
+    .update(cvSection)
+    .set({ [bulletPointKey]: null })
+    .where(eq(cvSection.id, id));
+};
+export const saveCVSections = async (
+  sections: {
+    unsaved: boolean;
+    categoryId: string;
+    id: number | null;
+    category: string;
+    title: string;
+    organization: string;
+    location: string;
+    startDate: string;
+    endDate: string;
+    bulletPoints: string[];
+  }[],
+) => {
+  const userData = await user();
+  const userCV =
+    userData && (await db.select().from(cv).where(eq(cv.userId, userData?.id)));
+
+  sections.map(async (section) => {
+    if (section.id !== null) {
+      await db
+        .update(cvSection)
+        .set({
+          title: section.title,
+          organization: section.organization,
+          location: section.location,
+          startDate: section.startDate,
+          endDate: section.endDate,
+          bulletPoint1: section.bulletPoints[0],
+          bulletPoint2: section.bulletPoints[1],
+          bulletPoint3: section.bulletPoints[2],
+        })
+        .where(eq(cvSection.id, section.id));
+    } else {
+      userCV &&
+        (await db.insert(cvSection).values({
+          categoryId: section.categoryId,
+          category: section.category,
+          title: section.title,
+          organization: section.organization,
+          location: section.location,
+          startDate: section.startDate,
+          endDate: section.endDate,
+          bulletPoint1: section.bulletPoints[0],
+          bulletPoint2: section.bulletPoints[1],
+          bulletPoint3: section.bulletPoints[2],
+          cvId: userCV[0].id,
+        }));
+    }
+  });
+  revalidatePath('/dashboard/cv');
+};
 export const getPagesData = async (userId: number) => {
   return await db.select().from(pages).where(eq(pages.userId, userId));
 };
