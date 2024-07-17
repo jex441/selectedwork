@@ -106,7 +106,7 @@ export default  function Component({data}: {data: ICVPage}) {
 
 
   return (
-    <div className="flex h-full flex-row ">
+    <div className="flex h-full flex-row w-full">
       <div className="grid flex-1 grid-cols-12 gap-6 bg-gray-100/40 p-6">
         <div className="col-span-12">
             <div>

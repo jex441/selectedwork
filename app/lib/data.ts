@@ -27,6 +27,7 @@ import { ISectionAttribute } from '../interfaces/ISectionAttribute';
 import { IAboutPage } from '../interfaces/IAboutPage';
 import { link } from 'fs';
 import { ICVPage } from '../interfaces/ICVPage';
+import { revalidatePath } from 'next/cache';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -426,11 +427,11 @@ export const getCVPageData = async (title: string) => {
         let category = section.categoryId;
         let sectionData = { ...section, unsaved: false, bulletPoints: [] };
         section.bulletPoint1 &&
-          sectionData.bulletPoints.push(section.bulletPoint1);
+          sectionData.bulletPoints.push(section.bulletPoint1 as never);
         section.bulletPoint2 &&
-          sectionData.bulletPoints.push(section.bulletPoint2);
+          sectionData.bulletPoints.push(section.bulletPoint2 as never);
         section.bulletPoint3 &&
-          sectionData.bulletPoints.push(section.bulletPoint3);
+          sectionData.bulletPoints.push(section.bulletPoint3 as never);
         category && acc[category].push(sectionData);
       }
       return acc;
@@ -453,7 +454,6 @@ export const deleteCVSectionBulletPoint = async (
     .set({ [bulletPointKey]: null })
     .where(eq(cvSection.id, id));
 };
-
 export const saveCVSections = async (
   sections: {
     unsaved: boolean;
@@ -469,7 +469,6 @@ export const saveCVSections = async (
   }[],
 ) => {
   const userData = await user();
-  console.log('cv sections:LLL', sections, userData?.id);
   const userCV =
     userData && (await db.select().from(cv).where(eq(cv.userId, userData?.id)));
 
@@ -505,6 +504,7 @@ export const saveCVSections = async (
         }));
     }
   });
+  revalidatePath('/dashboard/cv');
 };
 export const getPagesData = async (userId: number) => {
   return await db.select().from(pages).where(eq(pages.userId, userId));
