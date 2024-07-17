@@ -125,7 +125,7 @@ return (
     <div className="space-y-4 flex justify-start flex-col">
       <Label>Image</Label>
       <div className="flex justify-center items-center my-4 w-[500px] h-[300px] relative">
-      <Image src={imgSrc ?? ""} objectFit={"contain"} fill={true} alt="Image" />
+      {imgSrc ? <Image src={imgSrc ?? ""} objectFit={"contain"} fill={true} alt="Image" /> : <div className="block bg-gray-100 h-full w-full flex items-center justify-center text-gray-300 border-1 rounded-md"> No image</div> }
       <Input name="imgSrc" type="hidden" value={imgSrc ?? ""} />
       </div>
       <UploadButton

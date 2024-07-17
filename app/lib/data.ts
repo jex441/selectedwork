@@ -111,9 +111,9 @@ export async function updateAbout(
     subheading: formData.get('subheading') || null,
     linkSrc1: formData.get('linkSrc1') || null,
     linkText1: formData.get('linkText1') || '',
-    linkSrc2: formData.get('linkSrc2') || '',
+    linkSrc2: formData.get('linkSrc2') || null,
     linkText2: formData.get('linkText2') || '',
-    imgSrc: formData.get('imgSrc') || '',
+    imgSrc: formData.get('imgSrc') || null,
     imgCaption: formData.get('imgCaption') || '',
   });
 
@@ -404,13 +404,11 @@ export const getCVPageData = async (title: string) => {
       .from(cv)
       .where(and(eq(cv.title, title), eq(cv.userId, userData?.id)))
       .leftJoin(cvSection, eq(cvSection.cvId, cv.id)));
-  console.log('rows::', rows);
   const result =
     rows &&
     rows.reduce<ICVPage>((acc, row) => {
       const cv = row.cv_table;
       const section = row.cv_section_table;
-      console.log('section::', section);
       if (!acc.id && cv.id) {
         acc = {
           ...cv,
@@ -436,7 +434,6 @@ export const getCVPageData = async (title: string) => {
       }
       return acc;
     }, {} as ICVPage);
-  console.log('REESULT', result);
   if (rows) return result;
 };
 
