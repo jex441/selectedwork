@@ -14,12 +14,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Trash2Icon, PlusIcon } from '../../assets/svgs';
-import { getCVPageData, saveCVSections } from '../../lib/data';
+import { getCVPageData, saveCVSections, deleteCVSection , deleteCVSectionBulletPoint} from '../../lib/data';
 import {ICVPage} from "../../interfaces/ICVPage";
 
 export default  function Component({data}: {data: ICVPage}) {
   const [selectedSection, setSelectedSection] = useState('education');
-console.log('daaaaaa', data)
   const [workExperience, setWorkExperience] = useState<{unsaved: boolean, id: number | null, category: string, categoryId: string, title: string, organization: string, location: string, startDate: string, endDate: string, bulletPoints: string[]}[]>(data[selectedSection]);
   const handleAddWorkExperience = () => {
     setWorkExperience([
@@ -38,10 +37,12 @@ console.log('daaaaaa', data)
       },
     ]);
   };
-  const handleDeleteWorkExperience = (index: number) => {
-    const updatedWorkExperience = [...workExperience];
-    updatedWorkExperience.splice(index, 1);
+  const handleDeleteWorkExperience = async (id: number | null) => {
+    const updatedWorkExperience = workExperience.filter((exp) => exp.id !== id);
     setWorkExperience(updatedWorkExperience);
+    if(id) {
+      await deleteCVSection(id);
+    }
   };
 
   const handleUpdateWorkExperience = (
@@ -51,7 +52,7 @@ console.log('daaaaaa', data)
   ) => {
     const updatedWorkExperience = workExperience.map((exp, idx) => {
       if (idx === index) {
-        return { ...exp, [field]: value };
+        return { ...exp, [field]: value, unsaved: true};
       } else {
         return exp;
       }
@@ -66,15 +67,16 @@ console.log('daaaaaa', data)
   };
 
   const handleDeleteBulletPoint = (
-    workExperienceIndex: number,
+    index: number,
     bulletPointIndex: number,
+    workExperienceId: number | null,
   ) => {
-    const updatedWorkExperience = [...workExperience];
-    updatedWorkExperience[workExperienceIndex].bulletPoints.splice(
-      bulletPointIndex,
-      1,
-    );
-    setWorkExperience(updatedWorkExperience);
+      const updatedWorkExperience = [...workExperience];
+      updatedWorkExperience[index].bulletPoints.splice(bulletPointIndex, 1);
+      setWorkExperience(updatedWorkExperience);
+    if(workExperienceId) {
+      deleteCVSectionBulletPoint(workExperienceId, bulletPointIndex);
+    }
   };
   
   const handleUpdateBulletPoint = (
@@ -84,14 +86,18 @@ console.log('daaaaaa', data)
   ) => {
     const updatedWorkExperience = [...workExperience];
     updatedWorkExperience[workExperienceIndex].bulletPoints[bulletPointIndex] =
-      value;
+      value
+      updatedWorkExperience[workExperienceIndex].unsaved = true;
     setWorkExperience(updatedWorkExperience);
   };
 
   const handleSaveSection = async () => {
-    const data = workExperience.filter((experience) => experience.unsaved);
+    const data = workExperience.filter((experience) => experience.unsaved === true);
+    console.log(workExperience)
     await saveCVSections(data);
   };
+
+
   return (
     <div className="flex h-full flex-row ">
       <div className="grid flex-1 grid-cols-12 gap-6 bg-gray-100/40 p-6">
@@ -221,7 +227,7 @@ console.log('daaaaaa', data)
                               variant="ghost"
                               size="icon"
                               onClick={() =>
-                                handleDeleteBulletPoint(index, bulletPointIndex)
+                                handleDeleteBulletPoint(index, bulletPointIndex, experience.id,)
                               }
                             >
                               <Trash2Icon className="h-4 w-4" />
@@ -240,7 +246,7 @@ console.log('daaaaaa', data)
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => handleDeleteWorkExperience(index)}
+                        onClick={() => handleDeleteWorkExperience(experience.id)}
                       >
                         <Trash2Icon className="h-4 w-4" />
                       </Button>

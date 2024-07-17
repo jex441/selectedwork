@@ -424,7 +424,7 @@ export const getCVPageData = async (title: string) => {
       }
       if (section) {
         let category = section.categoryId;
-        let sectionData = { ...section, bulletPoints: [] };
+        let sectionData = { ...section, unsaved: false, bulletPoints: [] };
         section.bulletPoint1 &&
           sectionData.bulletPoints.push(section.bulletPoint1);
         section.bulletPoint2 &&
@@ -437,6 +437,21 @@ export const getCVPageData = async (title: string) => {
     }, {} as ICVPage);
   console.log('REESULT', result);
   if (rows) return result;
+};
+
+export const deleteCVSection = async (id: number) => {
+  return await db.delete(cvSection).where(eq(cvSection.id, id));
+};
+
+export const deleteCVSectionBulletPoint = async (
+  id: number,
+  bulletPointIndex: number,
+) => {
+  const bulletPointKey = `bulletPoint${bulletPointIndex + 1}`;
+  return await db
+    .update(cvSection)
+    .set({ [bulletPointKey]: null })
+    .where(eq(cvSection.id, id));
 };
 
 export const saveCVSections = async (
@@ -454,7 +469,7 @@ export const saveCVSections = async (
   }[],
 ) => {
   const userData = await user();
-  console.log('cv sections:', sections, userData?.id);
+  console.log('cv sections:LLL', sections, userData?.id);
   const userCV =
     userData && (await db.select().from(cv).where(eq(cv.userId, userData?.id)));
 
