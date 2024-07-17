@@ -395,6 +395,7 @@ export const getContactPageData = async (title: string) => {
 
 export const getCVPageData = async (title: string) => {
   const userData = await user();
+  console.log(title, userData?.id);
   const rows =
     userData &&
     userData.id !== null &&
@@ -404,43 +405,77 @@ export const getCVPageData = async (title: string) => {
       .where(and(eq(cv.title, title), eq(cv.userId, userData?.id)))
       .leftJoin(cvSection, eq(cvSection.id, cv.id)));
 
-  // const result =
-  //   rows &&
-  //   rows.reduce<ICVPage>((acc, row) => {
-  //     const cv = row.cv_table;
-  //     const section = row.cv_section_table;
+  const result =
+    rows &&
+    rows.reduce<ICVPage>((acc, row) => {
+      const cv = row.cv_table;
+      const section = row.cv_section_table;
 
-  //     if (!acc.id && cv.id) {
-  //       acc = { ...cv, sections: [] };
-  //     }
-  //     if (section) {
-  //       acc.sections
-  //         .find((s) => s.category === section.category)
-  //         ?.items.push(section) ||
-  //         acc.sections.push({ category: section.category, items: [section] });
-  //     }
-  //     return acc;
-  //   }, {} as ICVPage);
-
-  if (rows) return rows[0];
+      if (!acc.id && cv.id) {
+        acc = { ...cv, sections: [] };
+      }
+      if (section) {
+        acc.sections
+          .find((s) => s.category === section.category)
+          ?.items.push(section) ||
+          acc.sections.push({ category: section.category, items: [section] });
+      }
+      return acc;
+    }, {} as ICVPage);
+  console.log(result);
+  if (rows) return result;
 };
 
-const saveCVSection = async (section: ICVPage) => {
-  const newSection = {
-    category: section.category,
-    title: section.title,
-    organization: section.organization,
-    location: section.location,
-    startDate: section.startDate,
-    endDate: section.endDate,
-    bulletPoint1: section.bulletPoint1,
-    bulletPoint2: section.bulletPoint2,
-    bulletPoint3: section.bulletPoint3,
-    order: section.order,
-    cvId: section.cvId,
-  };
+export const saveCVSections = async (
+  sections: {
+    unsaved: boolean;
+    id: number | null;
+    category: string;
+    title: string;
+    organization: string;
+    location: string;
+    startDate: string;
+    endDate: string;
+    bulletPoints: string[];
+  }[],
+) => {
+  const userData = await user();
+  console.log('cv sections:', sections, userData?.id);
+  const userCV =
+    userData && (await db.select().from(cv).where(eq(cv.userId, userData?.id)));
 
-  await db.insert(cvSection).values(newSection);
+  sections.map(async (section) => {
+    if (section.id !== null) {
+      await db
+        .update(cvSection)
+        .set({
+          category: section.category,
+          title: section.title,
+          organization: section.organization,
+          location: section.location,
+          startDate: section.startDate,
+          endDate: section.endDate,
+          bulletPoint1: section.bulletPoints[0],
+          bulletPoint2: section.bulletPoints[1],
+          bulletPoint3: section.bulletPoints[2],
+        })
+        .where(eq(cvSection.id, section.id));
+    } else {
+      userCV &&
+        (await db.insert(cvSection).values({
+          category: section.category,
+          title: section.title,
+          organization: section.organization,
+          location: section.location,
+          startDate: section.startDate,
+          endDate: section.endDate,
+          bulletPoint1: section.bulletPoints[0],
+          bulletPoint2: section.bulletPoints[1],
+          bulletPoint3: section.bulletPoints[2],
+          cvId: userCV[0].id,
+        }));
+    }
+  });
 };
 export const getPagesData = async (userId: number) => {
   return await db.select().from(pages).where(eq(pages.userId, userId));

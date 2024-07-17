@@ -14,19 +14,17 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Trash2Icon, PlusIcon } from '../../assets/svgs';
-import { getCVPageData } from '@/app/lib/data';
+import { getCVPageData, saveCVSections } from '../../lib/data';
 import {ICVPage} from "../../interfaces/ICVPage";
 
 export default  function Component({data}: {data: ICVPage}) {
   const [selectedSection, setSelectedSection] = useState('work-experience');
-
-  const [workExperience, setWorkExperience] = useState<{index: number, unsaved: boolean, id: number | null, category: string, title: string, organization: string, location: string, startDate: string, endDate: string, bulletPoints: string[]}[]>([]);
-
+  const [workExperience, setWorkExperience] = useState<{unsaved: boolean, id: number | null, category: string, title: string, organization: string, location: string, startDate: string, endDate: string, bulletPoints: string[]}[]>([]);
+ console.log('data', data)
   const handleAddWorkExperience = () => {
     setWorkExperience([
       ...workExperience,
       {
-        index: workExperience.length,
         unsaved: true,
         id: null,
         category: '',
@@ -93,6 +91,7 @@ export default  function Component({data}: {data: ICVPage}) {
   const handleSaveSection = async () => {
     const data = workExperience.filter((experience) => experience.unsaved);
     console.log('data', data)  
+    await saveCVSections(data);
   };
 
   return (
@@ -167,7 +166,7 @@ export default  function Component({data}: {data: ICVPage}) {
                         placeholder="Organization"
                       />
                       <Input
-                        value={experience.organization}
+                        value={experience.location}
                         onChange={(e) =>
                           handleUpdateWorkExperience(
                             index,

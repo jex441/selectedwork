@@ -14,14 +14,13 @@ import {
 import { Trash2Icon, PlusIcon } from '../../assets/svgs';
 import { getCVPageData } from '@/app/lib/data';
 import { Contact } from 'lucide-react';
-import ContactForm from './contactform';
+import CvForm from './cvform';
 
 export default async function Component() {
   const data = await getCVPageData('CV');
-  console.log(data);
   return (
     <div className="flex h-full flex-row ">
-      <ContactForm data={data} />
+      <CvForm data={data} />
     </div>
   );
 }
