@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -16,10 +16,14 @@ import {
 import { Trash2Icon, PlusIcon } from '../../assets/svgs';
 import { getCVPageData, saveCVSections, deleteCVSection , deleteCVSectionBulletPoint} from '../../lib/data';
 import {ICVPage} from "../../interfaces/ICVPage";
+import { set } from 'zod';
 
 export default  function Component({data}: {data: ICVPage}) {
   const [selectedSection, setSelectedSection] = useState('education');
   const [workExperience, setWorkExperience] = useState<{unsaved: boolean, id: number | null, category: string, categoryId: string, title: string, organization: string, location: string, startDate: string, endDate: string, bulletPoints: string[]}[]>(data[selectedSection]);
+  useEffect(()=>{
+    setWorkExperience(data[selectedSection]);
+  }, [selectedSection])
   const handleAddWorkExperience = () => {
     setWorkExperience([
       ...workExperience,
@@ -37,8 +41,9 @@ export default  function Component({data}: {data: ICVPage}) {
       },
     ]);
   };
-  const handleDeleteWorkExperience = async (id: number | null) => {
-    const updatedWorkExperience = workExperience.filter((exp) => exp.id !== id);
+  const handleDeleteWorkExperience = async (index: number, id: number | null) => {
+    const updatedWorkExperience = [...workExperience]
+    updatedWorkExperience.splice(index, 1);
     setWorkExperience(updatedWorkExperience);
     if(id) {
       await deleteCVSection(id);
@@ -106,7 +111,7 @@ export default  function Component({data}: {data: ICVPage}) {
         <div className="col-span-12">
             <div>
               <div className="mb-4 flex items-center justify-between">
-                <Select>
+                <Select onValueChange={(val)=>setSelectedSection(val)}>
                   <SelectTrigger className="w-[200px]">
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
@@ -248,7 +253,7 @@ export default  function Component({data}: {data: ICVPage}) {
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => handleDeleteWorkExperience(experience.id)}
+                        onClick={() => handleDeleteWorkExperience(index, experience.id)}
                       >
                         <Trash2Icon className="h-4 w-4" />
                       </Button>
