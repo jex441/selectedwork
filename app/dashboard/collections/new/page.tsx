@@ -28,6 +28,17 @@ import Image from 'next/image';
 export default function Component() {
   const [imgSrc, setImgSrc] = useState<string[]>(['']);
 
+  const handleMakeMainImg = (index: number) => {
+    console.log('Make main image');
+    let updatedImgSrc = [...imgSrc];
+    const newMainImg = imgSrc[index];
+    updatedImgSrc.splice(index, 1).unshift(newMainImg);
+    setImgSrc(updatedImgSrc);
+  };
+  const handleDeleteImg = (index: number) => {
+    const updatedImgSrc = imgSrc.splice(index, 1);
+    setImgSrc(updatedImgSrc);
+  };
   return (
     <div className="mx-10 my-4 text-lg">
       Upload a new image
@@ -58,7 +69,7 @@ export default function Component() {
             </div>
           </div>
           <div className="m-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
-            {imgSrc.slice(1).map((img) => {
+            {imgSrc.slice(1).map((img, index) => {
               return (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -73,10 +84,12 @@ export default function Component() {
                       <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
                     </div>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>Make Main Image</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
-                  </DropdownMenuContent>
+                  <DropdownMenuItem onClick={() => handleMakeMainImg(index)}>
+                    Make Main Image
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleDeleteImg(index)}>
+                    Delete
+                  </DropdownMenuItem>
                 </DropdownMenu>
               );
             })}
