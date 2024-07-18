@@ -29,7 +29,7 @@ export default function Invoices({ params }: { params: { slug: string } }) {
             <span className="text-sm font-medium">Visible</span>
             <Switch id="visibility-toggle" />
           </div>
-          <Link href="/dashboard/collections/new">
+          <Link href={`/dashboard/collections/${params.slug}/new`}>
             <Button className="ml-auto" size="sm">
               Upload Image
             </Button>

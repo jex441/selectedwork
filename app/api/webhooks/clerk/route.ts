@@ -68,7 +68,8 @@ export async function POST(req: Request) {
       const aboutPage = await insertAboutPage()
       const contactPage = await insertContactPage()
       const cvPage =  await insertCVPage()
-      console.log(cvPage)
+      const collectionPage = await insertCollection()
+      console.log(collection)
     }
 
 
