@@ -1,9 +1,9 @@
 interface IMedia {
-    type: string;
-    main: boolean;
-    url: string;
+    type: string | null;
+    main: string | null;
+    url: string | null;
 }
-export interface Work  {
+export interface IWork  {
     title: string | null;
     year: string | null;
     medium: string | null;
@@ -15,8 +15,8 @@ export interface Work  {
     location: string | null;
     price: string | null;
     currency: string | null;
-    sold: boolean | null;
-    hidden: boolean;
+    sold: string | null;
+    hidden: string | null;
     displayHeight: string | null;
     displayWidth: string | null;
     media: IMedia[];

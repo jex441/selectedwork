@@ -23,6 +23,7 @@ import { IUser } from '../interfaces/IUser';
 import { IAboutPage } from '../interfaces/IAboutPage';
 import { ICVPage } from '../interfaces/ICVPage';
 import { revalidatePath } from 'next/cache';
+import { ICollection } from '../interfaces/ICollection';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -663,9 +664,45 @@ export const createWork = async (
   return validatedFields.data;
 };
 
-const getCollection = async (userId: number) => {
-  return await db.select().from(work).where(eq(work.userId, userId));
+export const getUserCollection = async (slug: string) => {
+  const user = await getUserData();
+
+  const rows =
+    user &&
+    user.id !== null &&
+    (await db
+      .select()
+      .from(collection)
+      .where(and(eq(collection.userId, user.id), eq(collection.slug, 'work')))
+      .leftJoin(work, eq(collection.id, work.collectionId))
+      .leftJoin(media, eq(work.id, media.workId)));
+
+  const result =
+    rows &&
+    rows.reduce<ICollection>((acc, row) => {
+      const collection = row.collection_table;
+      const work = row.work_table;
+      const media = row.media_table;
+
+      if (!acc.id && collection.id) {
+        acc = { ...collection, works: [] };
+      }
+      if (work) {
+        acc.works.push({ ...work, media: [] });
+      }
+      if (media) {
+        acc.works[acc.works.length - 1].media.push({
+          ...media,
+          main: media.main ? 'true' : 'false',
+        });
+      }
+
+      return acc;
+    }, {} as ICollection);
+
+  return result;
 };
+
 export const getPagesData = async (userId: number) => {
   return await db.select().from(pages).where(eq(pages.userId, userId));
 };

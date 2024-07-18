@@ -3,11 +3,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import Image from 'next/image';
+import {getUserCollection} from '../../../lib/data';
 
 import placeholder from '../../../assets/placeholder.png';
 
-export default function Invoices({ params }: { params: { slug: string } }) {
-  console.log(params.slug)
+export default async function Invoices({ params }: { params: { slug: string } }) {
+const data = await getUserCollection(params.slug)
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
       <header className="flex h-16 w-full items-center justify-between border-b bg-background px-4 md:px-6">
