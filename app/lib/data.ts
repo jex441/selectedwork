@@ -703,6 +703,16 @@ export const getUserCollection = async (slug: string) => {
   return result;
 };
 
+export const getUserCollections = async () => {
+  const user = await getUserData();
+  const rows =
+    user &&
+    user.id !== null &&
+    (await db.select().from(collection).where(eq(collection.userId, user.id)));
+
+  return rows;
+};
+
 export const getPagesData = async (userId: number) => {
   return await db.select().from(pages).where(eq(pages.userId, userId));
 };
