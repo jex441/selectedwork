@@ -12,21 +12,15 @@ import {
   contact,
   cv,
   cvSection,
-  section,
-  sectionAttribute,
-  InsertUser,
-  InsertSectionAttribute,
+  work,
   NewUser,
+  collection,
   InsertPage,
-  InsertSection,
+  InsertWork,
   media,
 } from '../db/schema';
-import { IPage } from '../interfaces/IPage';
 import { IUser } from '../interfaces/IUser';
-import { ISection } from '../interfaces/ISection';
-import { ISectionAttribute } from '../interfaces/ISectionAttribute';
 import { IAboutPage } from '../interfaces/IAboutPage';
-import { link } from 'fs';
 import { ICVPage } from '../interfaces/ICVPage';
 import { revalidatePath } from 'next/cache';
 
@@ -525,70 +519,60 @@ export type WorkState = {
 };
 
 const CreateWorkSchema = z.object({
+  userCollection: z.string(),
   title: z
     .string()
-    .max(100, { message: 'Must be fewer than 1000 characters.' })
+    .max(100, { message: 'Must be fewer than 100 characters.' })
     .nullish(),
   year: z
     .string()
-    .max(100, { message: 'Must be fewer than 4 characters.' })
+    .max(4, { message: 'Must be fewer than 4 characters.' })
     .nullish(),
   description: z
     .string()
-    .max(1_000_000, { message: 'Must be fewer than 1000000 characters.' })
+    .max(1_000_000, { message: 'Must be fewer than 1,000,000 characters.' })
     .nullish(),
   medium: z
-    .string({ invalid_type_error: 'Must be fewer than 100 characters.' })
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
     .nullish(),
   location: z
     .string()
-    .max(100, { message: 'Must be fewer than 50 characters.' })
+    .max(50, { message: 'Must be fewer than 50 characters.' })
     .nullish(),
-  sold: z.boolean({ invalid_type_error: '' }).nullish(),
+  sold: z.string().nullish(),
   height: z
     .string()
-    .max(100, { message: 'Must be fewer than 10 characters.' })
+    .max(10, { message: 'Must be fewer than 10 characters.' })
     .nullish(),
   width: z
     .string()
-    .max(100, { message: 'Must be fewer than 10 characters.' })
+    .max(10, { message: 'Must be fewer than 10 characters.' })
     .nullish(),
   depth: z
     .string()
-    .max(100, { message: 'Must be fewer than 10 characters.' })
+    .max(10, { message: 'Must be fewer than 10 characters.' })
     .nullish(),
   unit: z
     .string()
-    .max(100, { message: 'Must be fewer than 10 characters.' })
+    .max(10, { message: 'Must be fewer than 10 characters.' })
     .nullish(),
   price: z
     .string()
-    .max(100, { message: 'Must be fewer than 7 characters.' })
+    .max(7, { message: 'Must be fewer than 7 characters.' })
     .nullish(),
   currency: z
     .string()
-    .max(100, { message: 'Must be fewer than 3 characters.' })
+    .max(3, { message: 'Must be fewer than 3 characters.' })
     .nullish(),
-  imgSrc: z.array(z.string()),
+  mediaUrls: z.array(z.string()),
 });
 
-const NewWork = CreateWorkSchema.omit({
-  title: true,
-  medium: true,
-  year: true,
-  description: true,
-  height: true,
-  width: true,
-  depth: true,
-  unit: true,
-  price: true,
-  currency: true,
-  location: true,
-  sold: true,
-});
+export const createWork = async (prevState: State, formData: FormData) => {
+  const user = await getUserData();
 
-const createWork = (prevState: {}, formData: FormData) => {
-  const validatedFields = NewWork.safeParse({
+  const validatedFields = CreateWorkSchema.safeParse({
+    userCollection: formData.get('collection') || 'work',
     title: formData.get('title') || '',
     medium: formData.get('medium') || '',
     year: formData.get('year') || '',
@@ -600,28 +584,84 @@ const createWork = (prevState: {}, formData: FormData) => {
     price: formData.get('price') || '',
     currency: formData.get('currency') || '',
     location: formData.get('location') || '',
-    sold: formData.get('sold') === 'true' ? true : false,
-    imgSrc: formData.getAll('imgSrc'),
+    sold: formData.get('sold') || 'false',
+    mediaUrls: formData.getAll('mediaUrls'),
   });
-
   if (!validatedFields.success) {
+    console.log('error!', validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Create Work.',
     };
   }
+  const {
+    userCollection,
+    title,
+    medium,
+    year,
+    description,
+    height,
+    width,
+    depth,
+    unit,
+    price,
+    currency,
+    location,
+    sold,
+    mediaUrls,
+  } = validatedFields.data;
 
- const work = await db.insert(work).values(validatedFields.data);
-  //create media for each image in array, assign to work
-  await db.insert(media).values(validatedFields.data.imgSrc, workId: work.id);
+  const userCollectionData =
+    user &&
+    user.id !== null &&
+    (await db
+      .select()
+      .from(collection)
+      .where(
+        and(
+          eq(collection.slug, userCollection),
+          eq(collection.userId, user.id),
+        ),
+      ));
+
+  const newWork =
+    user &&
+    user.id !== null &&
+    (await db
+      .insert(work)
+      .values({
+        collectionId: userCollectionData[0].id,
+        userId: user.id,
+        title: title,
+        medium: medium,
+        year: year,
+        description: description,
+        height: height,
+        width: width,
+        depth: depth,
+        unit: unit,
+        price: price,
+        currency: currency,
+        location: location,
+        sold: sold,
+        hidden: 'false',
+      })
+      .returning({ id: work.id }));
+
+  newWork &&
+    newWork[0].id !== null &&
+    validatedFields.data.mediaUrls.map(async (cur: string) => {
+      await db
+        .insert(media)
+        .values({ url: cur, type: 'image', workId: newWork[0].id });
+    });
 
   return validatedFields.data;
 };
 
+const getCollection = async (userId: number) => {
+  return await db.select().from(work).where(eq(work.userId, userId));
+};
 export const getPagesData = async (userId: number) => {
   return await db.select().from(pages).where(eq(pages.userId, userId));
-};
-
-export const insertSections = async (newData: InsertSection[]) => {
-  return await db.insert(section).values(newData).returning({ id: section.id });
 };

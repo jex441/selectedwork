@@ -1,3 +1,8 @@
+interface IMedia {
+    type: string;
+    main: boolean;
+    url: string;
+}
 export interface Work  {
     title: string | null;
     year: string | null;
@@ -14,5 +19,5 @@ export interface Work  {
     hidden: boolean;
     displayHeight: string | null;
     displayWidth: string | null;
-    imgSrc: string[];
+    media: IMedia[];
 }

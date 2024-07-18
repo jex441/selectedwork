@@ -119,6 +119,29 @@ export const cvSection = pgTable('cv_section_table', {
   }),
 })
 
+export const collection = pgTable('collection_table', {
+  id: serial('id').primaryKey(),
+  title: text('title').notNull(),
+  slug: text('slug').notNull(),
+  template: text('template').notNull(),
+  heading: text('heading'),
+  subheading: text('subheading'),
+  description: text('description'),
+  linkSrc1: text('linkSrc1'),
+  linkText1: text('linkText1'),
+  linkSrc2: text('linkSrc2'),
+  linkText2: text('linkText2'),
+  imgSrc: text('imgSrc'),
+  imgCaption: text('imgCaption'),
+  userId: integer('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
 export const work = pgTable('work_table', {
   id: serial('id').primaryKey(),
   title: text('title'),
@@ -131,12 +154,12 @@ export const work = pgTable('work_table', {
   unit: text('unit'),
   price: text('price'),
   currency: text('currency'),
-  sold: boolean('sold').default(false),
-  edition: text('edition'),
+  sold: text('sold').default('false'),
   location: text('location'),
-  displayHeight: text('displayHeight').notNull(),
-  displayWidth: text('displayWidth').notNull(),
-  hidden: boolean('hidden').notNull(),
+  displayHeight: text('displayHeight'),
+  displayWidth: text('displayWidth'),
+  hidden: text('hidden').default('false'),
+  collectionId: integer('collection_id').notNull().references(() => collection.id, { onDelete: 'cascade' }),
   userId: integer('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
@@ -148,10 +171,10 @@ export const work = pgTable('work_table', {
 
 export const media = pgTable('media_table', {
   id: serial('id').primaryKey(),
-  itemId: integer('item_id').notNull().references(() => item.id, { onDelete: 'cascade' }),
-  mainImg: boolean('mainImg').default(false),
+  workId: integer('work_id').notNull().references(() => work.id, { onDelete: 'cascade' }),
+  main: boolean('mainImg').default(false),
   type: text('type'),
-  url: text('url'),
+  url: text('url').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
     .notNull()
@@ -163,8 +186,8 @@ export type NewUser = typeof users.$inferInsert;
 export type GetUsers = typeof users.$inferSelect;
 
 export type InsertPage = typeof pages.$inferInsert;
-export type InsertSection = typeof section.$inferInsert;
-export type InsertSectionAttribute = typeof sectionAttribute.$inferInsert;
+export type InsertWork = typeof work.$inferInsert;
+
 
 export type InsertUser = typeof users.$inferInsert;
 export type GetUser = typeof users.$inferSelect;

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { UploadButton, UploadDropzone } from '../../../lib/uploadthing';
+import { UploadButton, UploadDropzone } from '../../../../lib/uploadthing';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -25,23 +25,23 @@ import {
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { create } from 'domain';
-import { WorkState } from '@/app/lib/data';
+import { WorkState, createWork } from '@/app/lib/data';
 
-export default function Component() {
+export default function Component({ params }: { params: { slug: string } }) {
   const initialState: WorkState = { message: null, errors: {} };
 
-  const [imgSrc, setImgSrc] = useState<string[]>(['']);
+  const [media, setMedia] = useState<string[]>(['']);
 
-  const handleMakeMainImg = (index: number) => {
-    console.log('Make main image');
-    let updatedImgSrc = [...imgSrc];
-    const newMainImg = imgSrc[index];
-    updatedImgSrc.splice(index, 1).unshift(newMainImg);
-    setImgSrc(updatedImgSrc);
+  const handleMakeMainMedia = (index: number) => {
+    let updatedMedia = [...media];
+    const newMainMedia = media[index];
+    updatedMedia.splice(index, 1).unshift(newMainMedia);
+    setMedia(updatedMedia);
   };
-  const handleDeleteImg = (index: number) => {
-    const updatedImgSrc = imgSrc.splice(index, 1);
-    setImgSrc(updatedImgSrc);
+
+  const handleDeleteMedia = (index: number) => {
+    const updatedMedia = media.splice(index, 1);
+    setMedia(updatedMedia);
   };
 
   const [state, formAction] = useFormState(createWork, initialState);
@@ -50,15 +50,17 @@ export default function Component() {
     <div className="mx-10 my-4 text-lg">
       Upload a new image
       <form
-        formAction={formAction}
+
+        action={formAction}
         className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2"
       >
+        <Input name="userCollection" value={params.slug} className="hidden" />
         <div className="flex flex-col items-center">
           <div className="flex items-center justify-center">
             <div className="relative my-2 flex h-[350px] w-[500px] items-center justify-center">
-              {imgSrc[0] ? (
+              {media[0] ? (
                 <Image
-                  src={imgSrc[0]}
+                  src={media[0]}
                   objectFit={'contain'}
                   fill={true}
                   alt="Image"
@@ -68,8 +70,8 @@ export default function Component() {
                   className="h-full w-full"
                   endpoint="imageUploader"
                   onClientUploadComplete={(res) => {
-                    const updatedImgSrc = [res[0].url];
-                    setImgSrc(updatedImgSrc);
+                    const updatedMedia = [res[0].url];
+                    setMedia(updatedMedia);
                   }}
                   onUploadError={(error: Error) => {
                     alert(`ERROR! ${error.message}`);
@@ -79,13 +81,13 @@ export default function Component() {
             </div>
           </div>
           <div className="m-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
-            {imgSrc.slice(1).map((img, index) => {
+            {media.slice(1).map((media, index) => {
               return (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <div className="group relative">
                       <Image
-                        src={img}
+                        src={media}
                         alt="Thumbnail"
                         width={150}
                         height={150}
@@ -94,22 +96,29 @@ export default function Component() {
                       <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
                     </div>
                   </DropdownMenuTrigger>
-                  <DropdownMenuItem onClick={() => handleMakeMainImg(index)}>
-                    Make Main Image
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleDeleteImg(index)}>
-                    Delete
-                  </DropdownMenuItem>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem
+                      onClick={() => handleMakeMainMedia(index)}
+                    >
+                      Make Main Image
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleDeleteMedia(index)}>
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
                 </DropdownMenu>
               );
             })}
           </div>
+          {media.map((media) => (
+            <Input name="mediaUrls" value={media} className="hidden" />
+          ))}
           <UploadButton
             className="self-start"
             endpoint="imageUploader"
             onClientUploadComplete={(res) => {
-              const updatedImgSrc = [...imgSrc, res[0].url];
-              setImgSrc(updatedImgSrc);
+              const updatedMedia = [...media, res[0].url];
+              setMedia(updatedMedia);
             }}
             onUploadError={(error: Error) => {
               alert(`ERROR! ${error.message}`);
@@ -121,32 +130,32 @@ export default function Component() {
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2.5">
                 <Label htmlFor="title">Title</Label>
-                <Input id="title" placeholder="Title" />
+                <Input name="title" placeholder="Title" />
               </div>
               <div className="grid w-20 gap-2.5">
                 <Label htmlFor="year">Year</Label>
-                <Input id="year" type="number" placeholder="Year" />
+                <Input name="year" type="number" placeholder="Year" />
               </div>
             </div>
             <div className="grid grid-cols-2">
               <div className="grid gap-2.5">
                 <Label htmlFor="medium">Medium</Label>
-                <Input id="medium" placeholder="Medium" />
+                <Input name="medium" placeholder="Medium" />
               </div>
             </div>
 
             <div className="grid grid-cols-4 gap-6">
               <div className="grid w-24 gap-2.5">
                 <Label htmlFor="height">Height</Label>
-                <Input id="height" type="number" placeholder="height" />
+                <Input name="height" type="number" placeholder="height" />
               </div>
               <div className="grid w-24 gap-2.5">
                 <Label htmlFor="width">Width</Label>
-                <Input id="width" type="number" placeholder="width" />
+                <Input name="width" type="number" placeholder="width" />
               </div>
               <div className="grid w-24 gap-2.5">
                 <Label htmlFor="depth">Depth</Label>
-                <Input id="depth" type="number" placeholder="depth" />
+                <Input name="depth" type="number" placeholder="depth" />
               </div>
               <div className="grid w-24 gap-2.5">
                 <Label htmlFor="unit">Unit</Label>
@@ -178,7 +187,7 @@ export default function Component() {
             <div className="grid grid-cols-2 gap-4">
               {/* <div className="grid gap-2.5">
                 <Label htmlFor="price">Price</Label>
-                <Input id="price" type="number" placeholder="Price" />
+                <Input name="price" type="number" placeholder="Price" />
               </div> */}
               <div className="grid gap-2.5">
                 <Label htmlFor="sold">Mark as Sold</Label>
@@ -187,7 +196,7 @@ export default function Component() {
             </div>
 
             <div className="my-4 flex gap-2">
-              <Button>Add to collection</Button>
+              <Button type="submit">Add to collection</Button>
             </div>
           </div>
         </div>
