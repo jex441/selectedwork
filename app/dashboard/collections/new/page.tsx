@@ -34,7 +34,7 @@ export default function Component() {
       <form className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2">
         <div className="flex flex-col items-center">
           <div className="flex items-center justify-center">
-            <div className="relative my-2 flex h-[300px] w-[500px] items-center justify-center bg-red-100">
+            <div className="relative my-2 flex h-[350px] w-[500px] items-center justify-center">
               {imgSrc[0] ? (
                 <Image
                   src={imgSrc[0]}
@@ -44,6 +44,7 @@ export default function Component() {
                 />
               ) : (
                 <UploadDropzone
+                  className="h-full w-full"
                   endpoint="imageUploader"
                   onClientUploadComplete={(res) => {
                     const updatedImgSrc = [res[0].url];
@@ -128,7 +129,7 @@ export default function Component() {
                 <Label htmlFor="unit">Unit</Label>
                 <Select>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select unit" />
+                    <SelectValue placeholder="" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="inches">inches</SelectItem>
@@ -152,10 +153,10 @@ export default function Component() {
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2.5">
+              {/* <div className="grid gap-2.5">
                 <Label htmlFor="price">Price</Label>
                 <Input id="price" type="number" placeholder="Price" />
-              </div>
+              </div> */}
               <div className="grid gap-2.5">
                 <Label htmlFor="sold">Mark as Sold</Label>
                 <Checkbox id="sold" />
