@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { UploadButton } from '../../../lib/uploadthing';
+import { UploadButton, UploadDropzone } from '../../../lib/uploadthing';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -26,9 +26,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
 export default function Component() {
-  const [imgSrc, setImgSrc] = useState<string>('');
-
-  const [image, setImage] = useState<[]>([]);
+  const [imgSrc, setImgSrc] = useState<string[]>(['']);
 
   return (
     <div className="mx-10 my-4 text-lg">
@@ -37,46 +35,57 @@ export default function Component() {
         <div className="flex flex-col items-center">
           <div className="flex items-center justify-center">
             <div className="relative my-2 flex h-[300px] w-[500px] items-center justify-center bg-red-100">
-              {imgSrc ? (
+              {imgSrc[0] ? (
                 <Image
-                  src={imgSrc ?? ''}
+                  src={imgSrc[0]}
                   objectFit={'contain'}
                   fill={true}
                   alt="Image"
                 />
               ) : (
-                <div className="block flex h-full w-full items-center justify-center rounded-md bg-gray-100 text-gray-300">
-                  No image
-                </div>
+                <UploadDropzone
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    const updatedImgSrc = [res[0].url];
+                    setImgSrc(updatedImgSrc);
+                  }}
+                  onUploadError={(error: Error) => {
+                    alert(`ERROR! ${error.message}`);
+                  }}
+                />
               )}
             </div>
           </div>
           <div className="m-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div className="group relative">
-                  <Image
-                    src={placeholder}
-                    alt="Thumbnail"
-                    width={150}
-                    height={150}
-                    className="aspect-square  object-cover"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>Make Main Image</DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
-                <DropdownMenuItem>Hide</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {imgSrc.slice(1).map((img) => {
+              return (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <div className="group relative">
+                      <Image
+                        src={img}
+                        alt="Thumbnail"
+                        width={150}
+                        height={150}
+                        className="aspect-square  object-cover"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem>Make Main Image</DropdownMenuItem>
+                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              );
+            })}
           </div>
           <UploadButton
             className="self-start"
             endpoint="imageUploader"
             onClientUploadComplete={(res) => {
-              setImgSrc(res[0].url);
+              const updatedImgSrc = [...imgSrc, res[0].url];
+              setImgSrc(updatedImgSrc);
             }}
             onUploadError={(error: Error) => {
               alert(`ERROR! ${error.message}`);
