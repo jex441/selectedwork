@@ -19,6 +19,7 @@ import {
   NewUser,
   InsertPage,
   InsertSection,
+  media,
 } from '../db/schema';
 import { IPage } from '../interfaces/IPage';
 import { IUser } from '../interfaces/IUser';
@@ -503,6 +504,120 @@ export const saveCVSections = async (
   });
   revalidatePath('/dashboard/cv');
 };
+
+export type WorkState = {
+  errors?: {
+    title?: string;
+    medium?: string;
+    year?: string;
+    description?: string;
+    height?: string;
+    width?: string;
+    depth?: string;
+    unit?: string;
+    price?: string;
+    location?: string;
+    currency?: string;
+    sold?: boolean;
+    images?: string[];
+  };
+  message?: string | null;
+};
+
+const CreateWorkSchema = z.object({
+  title: z
+    .string()
+    .max(100, { message: 'Must be fewer than 1000 characters.' })
+    .nullish(),
+  year: z
+    .string()
+    .max(100, { message: 'Must be fewer than 4 characters.' })
+    .nullish(),
+  description: z
+    .string()
+    .max(1_000_000, { message: 'Must be fewer than 1000000 characters.' })
+    .nullish(),
+  medium: z
+    .string({ invalid_type_error: 'Must be fewer than 100 characters.' })
+    .nullish(),
+  location: z
+    .string()
+    .max(100, { message: 'Must be fewer than 50 characters.' })
+    .nullish(),
+  sold: z.boolean({ invalid_type_error: '' }).nullish(),
+  height: z
+    .string()
+    .max(100, { message: 'Must be fewer than 10 characters.' })
+    .nullish(),
+  width: z
+    .string()
+    .max(100, { message: 'Must be fewer than 10 characters.' })
+    .nullish(),
+  depth: z
+    .string()
+    .max(100, { message: 'Must be fewer than 10 characters.' })
+    .nullish(),
+  unit: z
+    .string()
+    .max(100, { message: 'Must be fewer than 10 characters.' })
+    .nullish(),
+  price: z
+    .string()
+    .max(100, { message: 'Must be fewer than 7 characters.' })
+    .nullish(),
+  currency: z
+    .string()
+    .max(100, { message: 'Must be fewer than 3 characters.' })
+    .nullish(),
+  imgSrc: z.array(z.string()),
+});
+
+const NewWork = CreateWorkSchema.omit({
+  title: true,
+  medium: true,
+  year: true,
+  description: true,
+  height: true,
+  width: true,
+  depth: true,
+  unit: true,
+  price: true,
+  currency: true,
+  location: true,
+  sold: true,
+});
+
+const createWork = (prevState: {}, formData: FormData) => {
+  const validatedFields = NewWork.safeParse({
+    title: formData.get('title') || '',
+    medium: formData.get('medium') || '',
+    year: formData.get('year') || '',
+    description: formData.get('description') || '',
+    height: formData.get('height') || '',
+    width: formData.get('width') || '',
+    depth: formData.get('depth') || '',
+    unit: formData.get('unit') || '',
+    price: formData.get('price') || '',
+    currency: formData.get('currency') || '',
+    location: formData.get('location') || '',
+    sold: formData.get('sold') === 'true' ? true : false,
+    imgSrc: formData.getAll('imgSrc'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Work.',
+    };
+  }
+
+ const work = await db.insert(work).values(validatedFields.data);
+  //create media for each image in array, assign to work
+  await db.insert(media).values(validatedFields.data.imgSrc, workId: work.id);
+
+  return validatedFields.data;
+};
+
 export const getPagesData = async (userId: number) => {
   return await db.select().from(pages).where(eq(pages.userId, userId));
 };

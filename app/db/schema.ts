@@ -119,29 +119,7 @@ export const cvSection = pgTable('cv_section_table', {
   }),
 })
 
-export const section = pgTable('sections_table', {  
-  id: serial('id').primaryKey(),
-  pageId: integer('page_id').notNull().references(() => pages.id, { onDelete: 'cascade' }),
-  name: text('name'),
-  order: integer('order'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
-    .notNull()
-    .$onUpdate(() => new Date()),
-});
-
-export const sectionAttribute = pgTable('section_attributes_table', {
-  id: serial('id').primaryKey(),
-  name: text('name'),
-  value: text('value'),
-  sectionId: integer('section_id').notNull().references(() => section.id, { onDelete: 'cascade' }),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
-    .notNull()
-    .$onUpdate(() => new Date()),
-});
-
-export const item = pgTable('items_table', {
+export const work = pgTable('work_table', {
   id: serial('id').primaryKey(),
   title: text('title'),
   medium: text('medium'),
@@ -153,11 +131,12 @@ export const item = pgTable('items_table', {
   unit: text('unit'),
   price: text('price'),
   currency: text('currency'),
-  sold: text('sold'),
+  sold: boolean('sold').default(false),
   edition: text('edition'),
   location: text('location'),
   displayHeight: text('displayHeight').notNull(),
   displayWidth: text('displayWidth').notNull(),
+  hidden: boolean('hidden').notNull(),
   userId: integer('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
@@ -170,7 +149,7 @@ export const item = pgTable('items_table', {
 export const media = pgTable('media_table', {
   id: serial('id').primaryKey(),
   itemId: integer('item_id').notNull().references(() => item.id, { onDelete: 'cascade' }),
-  title: text('title'),
+  mainImg: boolean('mainImg').default(false),
   type: text('type'),
   url: text('url'),
   createdAt: timestamp('created_at').notNull().defaultNow(),

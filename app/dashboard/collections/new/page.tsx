@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import placeholder from '../../../assets/placeholder.png';
+import { useFormState } from 'react-dom';
 
 import {
   Select,
@@ -24,8 +24,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { create } from 'domain';
+import { WorkState } from '@/app/lib/data';
 
 export default function Component() {
+  const initialState: WorkState = { message: null, errors: {} };
+
   const [imgSrc, setImgSrc] = useState<string[]>(['']);
 
   const handleMakeMainImg = (index: number) => {
@@ -39,10 +43,16 @@ export default function Component() {
     const updatedImgSrc = imgSrc.splice(index, 1);
     setImgSrc(updatedImgSrc);
   };
+
+  const [state, formAction] = useFormState(createWork, initialState);
+
   return (
     <div className="mx-10 my-4 text-lg">
       Upload a new image
-      <form className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2">
+      <form
+        formAction={formAction}
+        className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2"
+      >
         <div className="flex flex-col items-center">
           <div className="flex items-center justify-center">
             <div className="relative my-2 flex h-[350px] w-[500px] items-center justify-center">
