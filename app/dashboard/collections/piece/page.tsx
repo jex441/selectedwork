@@ -6,7 +6,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import placeholder from '../../../assets/placeholder.png';
-
 import {
   Select,
   SelectTrigger,
