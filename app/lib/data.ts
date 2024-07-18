@@ -568,7 +568,11 @@ const CreateWorkSchema = z.object({
   mediaUrls: z.array(z.string()),
 });
 
-export const createWork = async (prevState: State, formData: FormData) => {
+export const createWork = async (
+  slug: string,
+  prevState: {},
+  formData: FormData,
+) => {
   const user = await getUserData();
 
   const validatedFields = CreateWorkSchema.safeParse({

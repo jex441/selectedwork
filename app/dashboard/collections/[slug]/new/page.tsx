@@ -32,19 +32,8 @@ export default function Component({ params }: { params: { slug: string } }) {
 
   const [media, setMedia] = useState<string[]>(['']);
 
-  const handleMakeMainMedia = (index: number) => {
-    let updatedMedia = [...media];
-    const newMainMedia = media[index];
-    updatedMedia.splice(index, 1).unshift(newMainMedia);
-    setMedia(updatedMedia);
-  };
-
-  const handleDeleteMedia = (index: number) => {
-    const updatedMedia = media.splice(index, 1);
-    setMedia(updatedMedia);
-  };
-
-  const [state, formAction] = useFormState(createWork, initialState);
+  const createWorkWithSlug = createWork.bind(null, params.slug);
+  const [state, formAction] = useFormState(createWorkWithSlug, initialState);
 
   return (
     <div className="mx-10 my-4 text-lg">
