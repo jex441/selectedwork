@@ -435,6 +435,22 @@ export const getCVPageData = async (title: string) => {
   if (rows) return result;
 };
 
+export const createCollection = async () => {
+  const userData = await user();
+  const userCollection = await db
+    .insert(collection)
+    .values({
+      title: 'New Collection',
+      slug: 'new-collection',
+      hidden: 'true',
+      template: 'g1',
+      userId: userData?.id,
+    })
+    .returning({ id: collection.id });
+
+  revalidatePath('/dashboard/collections/');
+  return userCollection[0].id;
+};
 export const deleteCVSection = async (id: number) => {
   return await db.delete(cvSection).where(eq(cvSection.id, id));
 };
@@ -591,7 +607,6 @@ export const createWork = async (
     location: formData.get('location') || '',
     sold: formData.get('sold') || 'false',
   });
-  console.log(validatedFields);
   if (!validatedFields.success) {
     console.log('error!', validatedFields.error.flatten().fieldErrors);
     return {

@@ -21,7 +21,7 @@ export default async function Invoices({
             {collection.title}
           </Link>
           <Link
-            href="/dashboard/collections/settings"
+            href={`/dashboard/collections/${params.slug}/settings`}
             className="text-sm font-medium"
             prefetch={false}
           >

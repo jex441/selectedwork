@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
-import Preview from '../../../components/preview';
+import Preview from '../../../../components/preview';
 import Image from 'next/image';
 export default function Component() {
   return (
