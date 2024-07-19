@@ -590,6 +590,7 @@ export const createWork = async (
     location: formData.get('location') || '',
     sold: formData.get('sold') || 'false',
   });
+  console.log(validatedFields);
   if (!validatedFields.success) {
     console.log('error!', validatedFields.error.flatten().fieldErrors);
     return {

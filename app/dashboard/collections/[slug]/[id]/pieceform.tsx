@@ -63,11 +63,10 @@ export default function PieceForm({ work }: { work: IWork }) {
           {work?.media
             .filter((w) => w.main === 'false')
             .map((media, index) => (
-              <DropdownMenu>
+              <DropdownMenu key={media.url}>
                 <DropdownMenuTrigger asChild>
                   <div className="group relative">
                     <Image
-                      key={media.url}
                       src={media.url ?? ''}
                       alt="Thumbnail"
                       width={150}
@@ -108,7 +107,7 @@ export default function PieceForm({ work }: { work: IWork }) {
             <div className="grid gap-2.5">
               <Label htmlFor="title">Title</Label>
               <Input
-                id="title"
+                name="title"
                 placeholder="Title"
                 defaultValue={work.title ?? ''}
               />
@@ -116,7 +115,7 @@ export default function PieceForm({ work }: { work: IWork }) {
             <div className="grid w-20 gap-2.5">
               <Label htmlFor="year">Year</Label>
               <Input
-                id="year"
+                name="year"
                 type="number"
                 placeholder="Year"
                 defaultValue={work.year ?? ''}
@@ -127,7 +126,7 @@ export default function PieceForm({ work }: { work: IWork }) {
             <div className="grid gap-2.5">
               <Label htmlFor="medium">Medium</Label>
               <Input
-                id="medium"
+                name="medium"
                 placeholder="Medium"
                 defaultValue={work.medium ?? ''}
               />
@@ -138,7 +137,7 @@ export default function PieceForm({ work }: { work: IWork }) {
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="height">Height</Label>
               <Input
-                id="height"
+                name="height"
                 type="number"
                 placeholder="height"
                 defaultValue={work.height ?? ''}
@@ -147,7 +146,7 @@ export default function PieceForm({ work }: { work: IWork }) {
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="width">Width</Label>
               <Input
-                id="width"
+                name="width"
                 type="number"
                 placeholder="width"
                 defaultValue={work.width ?? ''}
@@ -156,7 +155,7 @@ export default function PieceForm({ work }: { work: IWork }) {
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="depth">Depth</Label>
               <Input
-                id="depth"
+                name="depth"
                 type="number"
                 placeholder="depth"
                 defaultValue={work.depth ?? ''}
@@ -169,10 +168,10 @@ export default function PieceForm({ work }: { work: IWork }) {
                   <SelectValue placeholder="Select unit" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="inches">Inches</SelectItem>
-                  <SelectItem value="meters">Feet</SelectItem>
-                  <SelectItem value="centimeters">Centimeters</SelectItem>
-                  <SelectItem value="meters">Meters</SelectItem>
+                  <SelectItem value="inches">inches</SelectItem>
+                  <SelectItem value="feet">feet</SelectItem>
+                  <SelectItem value="centimeters">cm</SelectItem>
+                  <SelectItem value="meters">meters</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -181,7 +180,7 @@ export default function PieceForm({ work }: { work: IWork }) {
           <div className="grid gap-2.5">
             <Label htmlFor="description">Description</Label>
             <Textarea
-              id="description"
+              name="description"
               placeholder="Description"
               defaultValue={work.description ?? ''}
             />
@@ -189,7 +188,7 @@ export default function PieceForm({ work }: { work: IWork }) {
           <div className="grid gap-2.5">
             <Label htmlFor="location">Location</Label>
             <Input
-              id="location"
+              name="location"
               placeholder="Artwork location or collection"
               defaultValue={work.location ?? ''}
             />
@@ -198,7 +197,7 @@ export default function PieceForm({ work }: { work: IWork }) {
             <div className="grid gap-2.5">
               <Label htmlFor="price">Price</Label>
               <Input
-                id="price"
+                name="price"
                 type="number"
                 placeholder="Price"
                 defaultValue={work.price ?? ''}
@@ -206,7 +205,7 @@ export default function PieceForm({ work }: { work: IWork }) {
             </div>
             <div className="grid gap-2.5">
               <Label htmlFor="sold">Mark as Sold</Label>
-              <Checkbox id="sold" />
+              <Checkbox name="sold" />
             </div>
           </div>
 
