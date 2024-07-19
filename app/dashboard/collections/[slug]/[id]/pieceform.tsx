@@ -30,7 +30,7 @@ export default function PieceForm({work}: {work: IWork}) {
       <div className="flex flex-col items-center">
         <Link href="/dashboard/collections/piece/scale">
           <Image
-            src={placeholder}
+            src={work?.media[0].url ?? placeholder}
             alt="Product Image"
             width={500}
             height={300}
@@ -38,11 +38,12 @@ export default function PieceForm({work}: {work: IWork}) {
           />
         </Link>
         <div className="m-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
-          <DropdownMenu>
+            {work?.media.slice(1).map((media, index) => (
+                <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="group relative">
                 <Image
-                  src={placeholder}
+                  src={media.url}
                   alt="Thumbnail"
                   width={150}
                   height={150}
@@ -57,6 +58,8 @@ export default function PieceForm({work}: {work: IWork}) {
               <DropdownMenuItem>Hide</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+            ))}
+          
         </div>
       </div>
 
