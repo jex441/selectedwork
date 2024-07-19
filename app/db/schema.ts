@@ -1,4 +1,11 @@
-import { boolean, integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  integer,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+} from 'drizzle-orm/pg-core';
 import { title } from 'process';
 
 export const users = pgTable('users_table', {
@@ -107,7 +114,7 @@ export const cvSection = pgTable('cv_section_table', {
   categoryId: text('categoryId').notNull(),
   category: text('category').notNull(),
   title: text('title'),
-  organization: text('organization'), 
+  organization: text('organization'),
   location: text('location'),
   startDate: text('startDate'),
   endDate: text('endDate'),
@@ -115,9 +122,10 @@ export const cvSection = pgTable('cv_section_table', {
   bulletPoint2: text('bulletPoint2'),
   bulletPoint3: text('bulletPoint3'),
   order: integer('order'),
-  cvId: integer('cv_id').notNull().references(() => cv.id, { onDelete: 'cascade'
-  }),
-})
+  cvId: integer('cv_id')
+    .notNull()
+    .references(() => cv.id, { onDelete: 'cascade' }),
+});
 
 export const collection = pgTable('collection_table', {
   id: serial('id').primaryKey(),
@@ -149,7 +157,7 @@ export const work = pgTable('work_table', {
   description: text('description'),
   year: text('year'),
   height: text('height'),
-  width:  text('width'),
+  width: text('width'),
   depth: text('depth'),
   unit: text('unit'),
   price: text('price'),
@@ -159,10 +167,9 @@ export const work = pgTable('work_table', {
   displayHeight: text('displayHeight'),
   displayWidth: text('displayWidth'),
   hidden: text('hidden').default('false'),
-  collectionId: integer('collection_id').notNull().references(() => collection.id, { onDelete: 'cascade' }),
-  userId: integer('user_id')
+  collectionId: integer('collection_id')
     .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
+    .references(() => collection.id, { onDelete: 'cascade' }),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
     .notNull()
@@ -171,7 +178,9 @@ export const work = pgTable('work_table', {
 
 export const media = pgTable('media_table', {
   id: serial('id').primaryKey(),
-  workId: integer('work_id').notNull().references(() => work.id, { onDelete: 'cascade' }),
+  workId: integer('work_id')
+    .notNull()
+    .references(() => work.id, { onDelete: 'cascade' }),
   main: text('main').default('false'),
   type: text('type'),
   url: text('url').notNull(),
@@ -187,7 +196,6 @@ export type GetUsers = typeof users.$inferSelect;
 
 export type InsertPage = typeof pages.$inferInsert;
 export type InsertWork = typeof work.$inferInsert;
-
 
 export type InsertUser = typeof users.$inferInsert;
 export type GetUser = typeof users.$inferSelect;

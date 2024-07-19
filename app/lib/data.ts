@@ -4,6 +4,7 @@ import { currentUser, auth } from '@clerk/nextjs/server';
 import { eq, and, inArray } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db';
+import { redirect } from 'next/navigation';
 
 import {
   users,
@@ -675,109 +676,6 @@ export const createWork = async (
   return validatedFields.data;
 };
 
-export const updateWork = async (
-  slug: string,
-  prevState: {},
-  formData: FormData,
-) => {
-  const user = await getUserData();
-
-  const validatedFields = CreateWorkSchema.safeParse({
-    userCollection: formData.get('collection') || 'work',
-    title: formData.get('title') || '',
-    medium: formData.get('medium') || '',
-    year: formData.get('year') || '',
-    description: formData.get('description') || '',
-    height: formData.get('height') || '',
-    width: formData.get('width') || '',
-    depth: formData.get('depth') || '',
-    unit: formData.get('unit') || '',
-    price: formData.get('price') || '',
-    currency: formData.get('currency') || '',
-    location: formData.get('location') || '',
-    sold: formData.get('sold') || 'false',
-    mediaUrls: formData.getAll('mediaUrls'),
-  });
-  if (!validatedFields.success) {
-    console.log('error!', validatedFields.error.flatten().fieldErrors);
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Work.',
-    };
-  }
-  const {
-    userCollection,
-    title,
-    medium,
-    year,
-    description,
-    height,
-    width,
-    depth,
-    unit,
-    price,
-    currency,
-    location,
-    sold,
-    mediaUrls,
-  } = validatedFields.data;
-
-  const userCollectionData =
-    user &&
-    user.id !== null &&
-    (await db
-      .select()
-      .from(collection)
-      .where(
-        and(
-          eq(collection.slug, userCollection),
-          eq(collection.userId, user.id),
-        ),
-      ));
-
-  const newWork =
-    user &&
-    user.id !== null &&
-    (await db
-      .update(work)
-      .set({
-        collectionId: userCollectionData[0].id,
-        title: title,
-        medium: medium,
-        year: year,
-        description: description,
-        height: height,
-        width: width,
-        depth: depth,
-        unit: unit,
-        price: price,
-        currency: currency,
-        location: location,
-        sold: sold,
-        hidden: 'false',
-      })
-      .returning({ id: work.id }));
-
-  // Running into same issue where we need to know more about the media
-  // media should be an array of objects with their types, urls, and id if they exist
-  // need to submit this from the form by means other than a hidden input
-
-  // newWork &&
-  //   newWork[0].id !== null &&
-  //   validatedFields.data.mediaUrls.map(async (cur: string, idx: number) => {
-  //     await db
-  //       .insert(media)
-  //       .values({
-  //         url: cur,
-  //         main: idx < 1 ? 'true' : 'false',
-  //         type: 'image',
-  //         workId: newWork[0].id,
-  //       })
-  //       .onConflictDoUpdate({ constraint: media.id });
-  //   });
-
-  return validatedFields.data;
-};
 export const createWorkWithMedia = async (
   slug: string,
   newMedia: { url: string; main: string; type: string },
@@ -836,6 +734,20 @@ export const addMedia = async (
 
   return newMediaEntry[0].id;
 };
+
+export const deleteWork = async (workId: number, collectionId: number) => {
+  const userCollection = await db
+    .select()
+    .from(collection)
+    .where(eq(collection.id, collectionId));
+
+  // not deleting work for some reason
+  await db.delete(media).where(eq(media.workId, workId));
+
+  revalidatePath(`/dashboard/collections/${userCollection[0].slug}`);
+  redirect(`/dashboard/collections/${userCollection[0].slug}`);
+};
+
 export const makeMainMedia = async (
   workId: number,
   mediaId: number,
@@ -907,7 +819,7 @@ export const getUserWork = async (id: number) => {
     (await db
       .select()
       .from(work)
-      .where(and(eq(work.userId, user.id), eq(work.id, id)))
+      .where(eq(work.id, id))
       .leftJoin(media, eq(work.id, media.workId)));
 
   const result =

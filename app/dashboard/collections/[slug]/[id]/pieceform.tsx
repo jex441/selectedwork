@@ -26,7 +26,7 @@ import Image from 'next/image';
 import { IWork, IMedia } from '@/app/interfaces/IWork';
 import { createWork } from '../../../../lib/data';
 import { useFormState } from 'react-dom';
-import { WorkState, addMedia, makeMainMedia } from '@/app/lib/data';
+import { WorkState, addMedia, makeMainMedia, deleteWork } from '@/app/lib/data';
 
 export default function PieceForm({ work }: { work: IWork }) {
   const initialState: WorkState = { message: null, errors: {} };
@@ -42,6 +42,10 @@ export default function PieceForm({ work }: { work: IWork }) {
       (await makeMainMedia(workId, mediaId, work.collectionId));
   };
 
+  const deleteWorkHandler = async (workId: number, collectionId: number) => {
+    work && (await deleteWork(workId, collectionId));
+  };
+
   const mainMedia = work.media.filter((m) => m.main === 'true');
 
   return (
@@ -52,7 +56,7 @@ export default function PieceForm({ work }: { work: IWork }) {
       <div className="flex flex-col items-center">
         <Link href="/dashboard/collections/piece/scale">
           <Image
-            src={mainMedia[0].url ?? placeholder}
+            src={mainMedia[0]?.url ?? placeholder}
             alt="Product Image"
             width={500}
             height={300}
@@ -209,10 +213,21 @@ export default function PieceForm({ work }: { work: IWork }) {
             </div>
           </div>
 
-          <div className="my-4 flex gap-2">
+          <div className="my-4 flex justify-between gap-2">
             <Button>Save Changes</Button>
-            <Button variant="outline">Discard Changes</Button>
-            <Button variant="outline">Delete Work</Button>
+            {/* <Button variant="outline">Discard Changes</Button> */}
+            <Button
+              variant="outline"
+              className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+              onClick={() => {
+                work &&
+                  work.id !== null &&
+                  work.collectionId !== null &&
+                  deleteWorkHandler(work.id, work.collectionId);
+              }}
+            >
+              Delete Work
+            </Button>
           </div>
         </div>
       </div>
