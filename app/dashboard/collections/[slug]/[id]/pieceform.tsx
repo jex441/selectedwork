@@ -24,7 +24,6 @@ import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
 
 export default function PieceForm({work}: {work: IWork}) {
-    console.log('work', work)
     // Need to configure media's relation to work - not uploading properly, rendering thumbnails in collection view
     // main img might need to be separate from media other than first in array
 

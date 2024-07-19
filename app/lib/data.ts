@@ -656,10 +656,13 @@ export const createWork = async (
 
   newWork &&
     newWork[0].id !== null &&
-    validatedFields.data.mediaUrls.map(async (cur: string) => {
-      await db
-        .insert(media)
-        .values({ url: cur, type: 'image', workId: newWork[0].id });
+    validatedFields.data.mediaUrls.map(async (cur: string, idx: number) => {
+      await db.insert(media).values({
+        url: cur,
+        main: idx < 1 ? 'true' : 'false',
+        type: 'image',
+        workId: newWork[0].id,
+      });
     });
 
   return validatedFields.data;
@@ -689,13 +692,11 @@ export const getUserCollection = async (slug: string) => {
         acc = { ...collection, works: [] };
       }
       if (work) {
-        acc.works.push({ ...work, media: [] });
+        const isNew = acc.works.find((w) => w.id === work.id);
+        !isNew && acc.works.push({ ...work, media: [] });
       }
       if (media) {
-        acc.works[acc.works.length - 1].media.push({
-          ...media,
-          main: media.main ? 'true' : 'false',
-        });
+        acc.works.find((w) => w.id === media.workId)?.media.push(media);
       }
 
       return acc;
