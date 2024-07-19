@@ -25,21 +25,30 @@ import {
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { create } from 'domain';
-import { WorkState, createWork } from '@/app/lib/data';
+import { WorkState, createWork, createWorkWithMedia } from '@/app/lib/data';
 
 export default function Component({ params }: { params: { slug: string } }) {
   const initialState: WorkState = { message: null, errors: {} };
+  const [workId, setWorkId] = useState<number | null>(null);
 
   const [media, setMedia] = useState<string[]>(['']);
 
-  const createWorkWithSlug = createWork.bind(null, params.slug);
-  const [state, formAction] = useFormState(createWorkWithSlug, initialState);
+  const createWorkWithId = workId && createWork.bind(null, workId);
+  const [state, formAction] = useFormState(createWorkWithId, initialState);
 
+  const createWorkWithMediaHandler = async (slug: string, url: string) => {
+    const newMedia = { url: url, type: 'image', main: 'true' };
+    const id = await createWorkWithMedia(slug, newMedia);
+    console.log('ID', id);
+    setWorkId(id);
+  };
+
+  // need to create media as array of objects with url and type
+  // need to add functionality to update work
   return (
     <div className="mx-10 my-4 text-lg">
       Upload a new image
       <form
-
         action={formAction}
         className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2"
       >
@@ -61,6 +70,7 @@ export default function Component({ params }: { params: { slug: string } }) {
                   onClientUploadComplete={(res) => {
                     const updatedMedia = [res[0].url];
                     setMedia(updatedMedia);
+                    createWorkWithMediaHandler(params.slug, res[0].url);
                   }}
                   onUploadError={(error: Error) => {
                     alert(`ERROR! ${error.message}`);

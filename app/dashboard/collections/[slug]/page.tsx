@@ -9,7 +9,6 @@ import placeholder from '../../../assets/placeholder.png';
 
 export default async function Invoices({ params }: { params: { slug: string } }) {
 const collection: ICollection = await getUserCollection(params.slug)
-console.log(collection.works[0].media)
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
       <header className="flex h-16 w-full items-center justify-between border-b bg-background px-4 md:px-6">

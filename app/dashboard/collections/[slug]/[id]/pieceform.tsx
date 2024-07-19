@@ -22,6 +22,7 @@ import {
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
+import {updateWork} from "../../../../lib/data";
 
 export default function PieceForm({work}: {work: IWork}) {
     // Need to configure media's relation to work - not uploading properly, rendering thumbnails in collection view

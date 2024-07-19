@@ -515,7 +515,6 @@ export type WorkState = {
     location?: string;
     currency?: string;
     sold?: boolean;
-    images?: string[];
   };
   message?: string | null;
 };
@@ -567,10 +566,116 @@ const CreateWorkSchema = z.object({
     .string()
     .max(3, { message: 'Must be fewer than 3 characters.' })
     .nullish(),
-  mediaUrls: z.array(z.string()),
 });
 
 export const createWork = async (
+  id: number,
+  prevState: {},
+  formData: FormData,
+) => {
+  const user = await getUserData();
+
+  const validatedFields = CreateWorkSchema.safeParse({
+    userCollection: formData.get('collection') || 'work',
+    title: formData.get('title') || '',
+    medium: formData.get('medium') || '',
+    year: formData.get('year') || '',
+    description: formData.get('description') || '',
+    height: formData.get('height') || '',
+    width: formData.get('width') || '',
+    depth: formData.get('depth') || '',
+    unit: formData.get('unit') || '',
+    price: formData.get('price') || '',
+    currency: formData.get('currency') || '',
+    location: formData.get('location') || '',
+    sold: formData.get('sold') || 'false',
+    mediaUrls: formData.getAll('mediaUrls'),
+  });
+  if (!validatedFields.success) {
+    console.log('error!', validatedFields.error.flatten().fieldErrors);
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Work.',
+    };
+  }
+  const {
+    userCollection,
+    title,
+    medium,
+    year,
+    description,
+    height,
+    width,
+    depth,
+    unit,
+    price,
+    currency,
+    location,
+    sold,
+  } = validatedFields.data;
+
+  const userCollectionData =
+    user &&
+    user.id !== null &&
+    (await db
+      .select()
+      .from(collection)
+      .where(
+        and(
+          eq(collection.slug, userCollection),
+          eq(collection.userId, user.id),
+        ),
+      ));
+
+  const newWork =
+    user &&
+    user.id !== null &&
+    (await db
+      .insert(work)
+      .values({
+        id: id,
+        collectionId: userCollectionData[0].id,
+        userId: user.id,
+        title: title,
+        medium: medium,
+        year: year,
+        description: description,
+        height: height,
+        width: width,
+        depth: depth,
+        unit: unit,
+        price: price,
+        currency: currency,
+        location: location,
+        sold: sold,
+        hidden: 'false',
+      })
+      .onConflictDoUpdate({
+        target: work.id,
+        set: {
+          collectionId: userCollectionData[0].id,
+          userId: user.id,
+          title: title,
+          medium: medium,
+          year: year,
+          description: description,
+          height: height,
+          width: width,
+          depth: depth,
+          unit: unit,
+          price: price,
+          currency: currency,
+          location: location,
+          sold: sold,
+          hidden: 'false',
+        },
+      })
+      .returning({ id: work.id }));
+
+  return validatedFields.data;
+};
+
+export const updateWork = async (
   slug: string,
   prevState: {},
   formData: FormData,
@@ -634,10 +739,9 @@ export const createWork = async (
     user &&
     user.id !== null &&
     (await db
-      .insert(work)
-      .values({
+      .update(work)
+      .set({
         collectionId: userCollectionData[0].id,
-        userId: user.id,
         title: title,
         medium: medium,
         year: year,
@@ -654,18 +758,66 @@ export const createWork = async (
       })
       .returning({ id: work.id }));
 
-  newWork &&
-    newWork[0].id !== null &&
-    validatedFields.data.mediaUrls.map(async (cur: string, idx: number) => {
-      await db.insert(media).values({
-        url: cur,
-        main: idx < 1 ? 'true' : 'false',
-        type: 'image',
-        workId: newWork[0].id,
-      });
-    });
+  // Running into same issue where we need to know more about the media
+  // media should be an array of objects with their types, urls, and id if they exist
+  // need to submit this from the form by means other than a hidden input
+
+  // newWork &&
+  //   newWork[0].id !== null &&
+  //   validatedFields.data.mediaUrls.map(async (cur: string, idx: number) => {
+  //     await db
+  //       .insert(media)
+  //       .values({
+  //         url: cur,
+  //         main: idx < 1 ? 'true' : 'false',
+  //         type: 'image',
+  //         workId: newWork[0].id,
+  //       })
+  //       .onConflictDoUpdate({ constraint: media.id });
+  //   });
 
   return validatedFields.data;
+};
+export const createWorkWithMedia = async (
+  slug: string,
+  newMedia: { url: string; main: string; type: string },
+) => {
+  const user = await getUserData();
+
+  const userCollectionData =
+    user &&
+    user.id !== null &&
+    (await db
+      .select()
+      .from(collection)
+      .where(and(eq(collection.slug, slug), eq(collection.userId, user.id))));
+
+  const newWorkEntry =
+    userCollectionData &&
+    userCollectionData[0].id !== null &&
+    user.id !== null &&
+    (await db
+      .insert(work)
+      .values({
+        collectionId: userCollectionData[0].id,
+        userId: user.id,
+      })
+      .returning({ id: work.id }));
+
+  const newMediaEntry =
+    newWorkEntry &&
+    newWorkEntry[0].id !== null &&
+    (await db
+      .insert(media)
+      .values({
+        workId: newWorkEntry[0].id,
+        url: newMedia.url,
+        main: newMedia.main,
+        type: newMedia.type,
+      })
+      .returning({ id: media.id }));
+
+  return newWorkEntry[0].id;
 };
 
 export const getUserCollection = async (slug: string) => {
