@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import Image from 'next/image';
 import {getUserCollection} from '../../../lib/data';
-import { ICollection } from '../../../../app/interfaces/ICollection';
+import { ICollection } from '../../../interfaces/ICollection';
 import placeholder from '../../../assets/placeholder.png';
 
 export default async function Invoices({ params }: { params: { slug: string } }) {

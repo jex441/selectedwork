@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
-import placeholder from '../../../assets/placeholder.png';
+import placeholder from '../../../../assets/placeholder.png';
 import {
   Select,
   SelectTrigger,
@@ -21,13 +21,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import {getUserWork} from "../../../../../lib/data";
+import { IWork } from '@/app/interfaces/IWork';
 
-export default async function Component({ params }: { params: { id: string } }) {
-  const [image, setImage] = useState();
-const data = await getUserWork(params.id)
+export default async function PieceForm({work}: {work: IWork}) {
   return (
-    <div className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2">
+    <form className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2">
       <div className="flex flex-col items-center">
         <Link href="/dashboard/collections/piece/scale">
           <Image
@@ -66,7 +64,7 @@ const data = await getUserWork(params.id)
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2.5">
               <Label htmlFor="title">Title</Label>
-              <Input id="title" placeholder="Title" value={image.title} />
+              <Input id="title" placeholder="Title" value={work.title ?? ""} />
             </div>
             <div className="grid w-20 gap-2.5">
               <Label htmlFor="year">Year</Label>
@@ -74,14 +72,14 @@ const data = await getUserWork(params.id)
                 id="year"
                 type="number"
                 placeholder="Year"
-                value={image.year}
+                value={work.year ?? ""}
               />
             </div>
           </div>
           <div className="grid grid-cols-2">
             <div className="grid gap-2.5">
               <Label htmlFor="medium">Medium</Label>
-              <Input id="medium" placeholder="Medium" value={image.medium} />
+              <Input id="medium" placeholder="Medium" value={work.medium ?? ""} />
             </div>
           </div>
 
@@ -92,7 +90,7 @@ const data = await getUserWork(params.id)
                 id="height"
                 type="number"
                 placeholder="height"
-                value={image.dimensions.height}
+                value={work.height ?? ""}
               />
             </div>
             <div className="grid w-24 gap-2.5">
@@ -101,7 +99,7 @@ const data = await getUserWork(params.id)
                 id="width"
                 type="number"
                 placeholder="width"
-                value={image.dimensions.width}
+                value={work.width ?? ""}
               />
             </div>
             <div className="grid w-24 gap-2.5">
@@ -110,12 +108,12 @@ const data = await getUserWork(params.id)
                 id="depth"
                 type="number"
                 placeholder="depth"
-                value={image.dimensions.depth}
+                value={work.depth ?? ""}
               />
             </div>
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="unit">Unit</Label>
-              <Select value={image.dimensions.unit}>
+              <Select value={work.unit ?? ""}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select unit" />
                 </SelectTrigger>
@@ -134,7 +132,7 @@ const data = await getUserWork(params.id)
             <Textarea
               id="description"
               placeholder="Description"
-              value={image.description}
+              value={work.description ?? ""}
             />
           </div>
           <div className="grid gap-2.5">
@@ -142,7 +140,7 @@ const data = await getUserWork(params.id)
             <Input
               id="location"
               placeholder="Artwork location or collection"
-              value={image.location}
+              value={work.location ?? ""}
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -152,12 +150,12 @@ const data = await getUserWork(params.id)
                 id="price"
                 type="number"
                 placeholder="Price"
-                value={image.price.amount}
+                value={work.price ?? ""}
               />
             </div>
             <div className="grid gap-2.5">
               <Label htmlFor="sold">Mark as Sold</Label>
-              <Checkbox id="sold" checked={image.isSold} />
+              <Checkbox id="sold"  />
             </div>
           </div>
 
@@ -168,6 +166,6 @@ const data = await getUserWork(params.id)
           </div>
         </form>
       </div>
-    </div>
+    </form>
   );
 }
