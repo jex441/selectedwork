@@ -742,7 +742,7 @@ export const deleteWork = async (workId: number, collectionId: number) => {
     .where(eq(collection.id, collectionId));
 
   // not deleting work for some reason
-  await db.delete(media).where(eq(media.workId, workId));
+  await db.delete(work).where(eq(work.id, workId));
 
   revalidatePath(`/dashboard/collections/${userCollection[0].slug}`);
   redirect(`/dashboard/collections/${userCollection[0].slug}`);
