@@ -25,7 +25,12 @@ import {
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { create } from 'domain';
-import { WorkState, createWork, createWorkWithMedia } from '@/app/lib/data';
+import {
+  WorkState,
+  createWork,
+  createWorkWithMedia,
+  addMedia,
+} from '@/app/lib/data';
 
 export default function Component({ params }: { params: { slug: string } }) {
   const initialState: WorkState = { message: null, errors: {} };
@@ -41,6 +46,11 @@ export default function Component({ params }: { params: { slug: string } }) {
     const id = await createWorkWithMedia(slug, newMedia);
     console.log('ID', id);
     setWorkId(id);
+  };
+
+  const addMediaHandler = async (id: number, url: string) => {
+    const newMedia = { url: url, type: 'image', main: 'false' };
+    await addMedia(id, newMedia);
   };
 
   // need to create media as array of objects with url and type
@@ -70,7 +80,11 @@ export default function Component({ params }: { params: { slug: string } }) {
                   onClientUploadComplete={(res) => {
                     const updatedMedia = [res[0].url];
                     setMedia(updatedMedia);
-                    createWorkWithMediaHandler(params.slug, res[0].url);
+                    if (!workId) {
+                      createWorkWithMediaHandler(params.slug, res[0].url);
+                    } else {
+                      addMediaHandler(workId, res[0].url);
+                    }
                   }}
                   onUploadError={(error: Error) => {
                     alert(`ERROR! ${error.message}`);
@@ -109,15 +123,17 @@ export default function Component({ params }: { params: { slug: string } }) {
               );
             })}
           </div>
-          {media.map((media) => (
-            <Input name="mediaUrls" value={media} className="hidden" />
-          ))}
           <UploadButton
             className="self-start"
             endpoint="imageUploader"
             onClientUploadComplete={(res) => {
               const updatedMedia = [...media, res[0].url];
               setMedia(updatedMedia);
+              if (!workId) {
+                createWorkWithMediaHandler(params.slug, res[0].url);
+              } else {
+                addMediaHandler(workId, res[0].url);
+              }
             }}
             onUploadError={(error: Error) => {
               alert(`ERROR! ${error.message}`);

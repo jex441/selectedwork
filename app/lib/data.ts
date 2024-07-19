@@ -589,7 +589,6 @@ export const createWork = async (
     currency: formData.get('currency') || '',
     location: formData.get('location') || '',
     sold: formData.get('sold') || 'false',
-    mediaUrls: formData.getAll('mediaUrls'),
   });
   if (!validatedFields.success) {
     console.log('error!', validatedFields.error.flatten().fieldErrors);
@@ -819,7 +818,22 @@ export const createWorkWithMedia = async (
 
   return newWorkEntry[0].id;
 };
+export const addMedia = async (
+  id: number,
+  newMedia: { url: string; type: string; main: string },
+) => {
+  const newMediaEntry = await db
+    .insert(media)
+    .values({
+      workId: id,
+      url: newMedia.url,
+      main: newMedia.main,
+      type: newMedia.type,
+    })
+    .returning({ id: media.id });
 
+  return newMediaEntry[0].id;
+};
 export const getUserCollection = async (slug: string) => {
   const user = await getUserData();
 
