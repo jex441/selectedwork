@@ -22,34 +22,8 @@ import {
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
-export default function Component() {
-  const [image, setImage] = useState({
-    title: 'Sunset Reflection',
-    year: 2019,
-    medium: 'Oil on Canvas',
-    description:
-      'A serene landscape depicting the sun setting over a calm lake.',
-    isSold: false,
-    price: {
-      currency: 'USD',
-      amount: 1500,
-    },
-    dimensions: {
-      unit: 'inches',
-      width: 24,
-      height: 18,
-      depth: 0,
-    },
-    isVisible: true,
-    location: 'The Whitney Museum of American Art',
-    thumbnails: [
-      placeholder,
-      placeholder,
-      placeholder,
-      placeholder,
-      placeholder,
-    ],
-  });
+export default function Component({ params }: { params: { id: string } }) {
+  const [image, setImage] = useState();
 
   return (
     <div className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2">
