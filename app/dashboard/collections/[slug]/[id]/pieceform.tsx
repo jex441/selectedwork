@@ -23,7 +23,8 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
 
-export default async function PieceForm({work}: {work: IWork}) {
+export default function PieceForm({work}: {work: IWork}) {
+    console.log('work', work)
   return (
     <form className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2">
       <div className="flex flex-col items-center">
@@ -60,11 +61,11 @@ export default async function PieceForm({work}: {work: IWork}) {
       </div>
 
       <div className="mx-auto grid w-5/6 gap-2 px-2 py-8">
-        <form className="grid gap-2">
+        <div className="grid gap-2">
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2.5">
               <Label htmlFor="title">Title</Label>
-              <Input id="title" placeholder="Title" value={work.title ?? ""} />
+              <Input id="title" placeholder="Title" defaultValue={work.title ?? ""} />
             </div>
             <div className="grid w-20 gap-2.5">
               <Label htmlFor="year">Year</Label>
@@ -72,14 +73,14 @@ export default async function PieceForm({work}: {work: IWork}) {
                 id="year"
                 type="number"
                 placeholder="Year"
-                value={work.year ?? ""}
+                defaultValue={work.year ?? ""}
               />
             </div>
           </div>
           <div className="grid grid-cols-2">
             <div className="grid gap-2.5">
               <Label htmlFor="medium">Medium</Label>
-              <Input id="medium" placeholder="Medium" value={work.medium ?? ""} />
+              <Input id="medium" placeholder="Medium" defaultValue={work.medium ?? ""} />
             </div>
           </div>
 
@@ -90,7 +91,7 @@ export default async function PieceForm({work}: {work: IWork}) {
                 id="height"
                 type="number"
                 placeholder="height"
-                value={work.height ?? ""}
+                defaultValue={work.height ?? ""}
               />
             </div>
             <div className="grid w-24 gap-2.5">
@@ -99,7 +100,7 @@ export default async function PieceForm({work}: {work: IWork}) {
                 id="width"
                 type="number"
                 placeholder="width"
-                value={work.width ?? ""}
+                defaultValue={work.width ?? ""}
               />
             </div>
             <div className="grid w-24 gap-2.5">
@@ -108,12 +109,12 @@ export default async function PieceForm({work}: {work: IWork}) {
                 id="depth"
                 type="number"
                 placeholder="depth"
-                value={work.depth ?? ""}
+                defaultValue={work.depth ?? ""}
               />
             </div>
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="unit">Unit</Label>
-              <Select value={work.unit ?? ""}>
+              <Select defaultValue={work.unit ?? ""}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select unit" />
                 </SelectTrigger>
@@ -132,7 +133,7 @@ export default async function PieceForm({work}: {work: IWork}) {
             <Textarea
               id="description"
               placeholder="Description"
-              value={work.description ?? ""}
+              defaultValue={work.description ?? ""}
             />
           </div>
           <div className="grid gap-2.5">
@@ -140,7 +141,7 @@ export default async function PieceForm({work}: {work: IWork}) {
             <Input
               id="location"
               placeholder="Artwork location or collection"
-              value={work.location ?? ""}
+              defaultValue={work.location ?? ""}
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -150,7 +151,7 @@ export default async function PieceForm({work}: {work: IWork}) {
                 id="price"
                 type="number"
                 placeholder="Price"
-                value={work.price ?? ""}
+                defaultValue={work.price ?? ""}
               />
             </div>
             <div className="grid gap-2.5">
@@ -164,7 +165,7 @@ export default async function PieceForm({work}: {work: IWork}) {
             <Button variant="outline">Discard Changes</Button>
             <Button variant="outline">Delete Work</Button>
           </div>
-        </form>
+        </div>
       </div>
     </form>
   );
