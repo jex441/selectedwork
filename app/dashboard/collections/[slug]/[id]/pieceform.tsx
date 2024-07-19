@@ -6,6 +6,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import placeholder from '../../../../assets/placeholder.png';
+import { UploadButton } from '../../../../lib/uploadthing';
+
 import {
   Select,
   SelectTrigger,
@@ -21,20 +23,36 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { IWork } from '@/app/interfaces/IWork';
-import {updateWork} from "../../../../lib/data";
+import { IWork, IMedia } from '@/app/interfaces/IWork';
+import { createWork } from '../../../../lib/data';
+import { useFormState } from 'react-dom';
+import { WorkState, addMedia, makeMainMedia } from '@/app/lib/data';
 
-export default function PieceForm({work}: {work: IWork}) {
-    // Need to configure media's relation to work - not uploading properly, rendering thumbnails in collection view
-    // main img might need to be separate from media other than first in array
+export default function PieceForm({ work }: { work: IWork }) {
+  const initialState: WorkState = { message: null, errors: {} };
+  const createWorkWithId = work.id && createWork.bind(null, work.id);
+  const [state, formAction] = useFormState(createWorkWithId, initialState);
 
-    // need to add functionality to update work
+  const addMediaHandler = async (id: number, url: string) => {
+    const newMedia = { url: url, type: 'image', main: 'false' };
+    await addMedia(id, newMedia);
+  };
+  const makeMainMediaHandler = async (workId: number, mediaId: number) => {
+    work.collectionId &&
+      (await makeMainMedia(workId, mediaId, work.collectionId));
+  };
+
+  const mainMedia = work.media.filter((m) => m.main === 'true');
+
   return (
-    <form className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2">
+    <form
+      action={formAction}
+      className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2"
+    >
       <div className="flex flex-col items-center">
         <Link href="/dashboard/collections/piece/scale">
           <Image
-            src={work?.media[0].url ?? placeholder}
+            src={mainMedia[0].url ?? placeholder}
             alt="Product Image"
             width={500}
             height={300}
@@ -42,29 +60,46 @@ export default function PieceForm({work}: {work: IWork}) {
           />
         </Link>
         <div className="m-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
-            {work?.media.slice(1).map((media, index) => (
-                <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="group relative">
-                <Image
-                  src={media.url}
-                  alt="Thumbnail"
-                  width={150}
-                  height={150}
-                  className="aspect-square  object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>Make Main Image</DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
-              <DropdownMenuItem>Hide</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {work?.media
+            .filter((w) => w.main === 'false')
+            .map((media, index) => (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="group relative">
+                    <Image
+                      key={media.url}
+                      src={media.url ?? ''}
+                      alt="Thumbnail"
+                      width={150}
+                      height={150}
+                      className="aspect-square  object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem
+                    onClick={() =>
+                      work.id && makeMainMediaHandler(work.id, media.id)
+                    }
+                  >
+                    Make Main Image
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ))}
-          
         </div>
+        <UploadButton
+          className="self-start"
+          endpoint="imageUploader"
+          onClientUploadComplete={(res) => {
+            work.id && addMediaHandler(work.id, res[0].url);
+          }}
+          onUploadError={(error: Error) => {
+            alert(`ERROR! ${error.message}`);
+          }}
+        />
       </div>
 
       <div className="mx-auto grid w-5/6 gap-2 px-2 py-8">
@@ -72,7 +107,11 @@ export default function PieceForm({work}: {work: IWork}) {
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2.5">
               <Label htmlFor="title">Title</Label>
-              <Input id="title" placeholder="Title" defaultValue={work.title ?? ""} />
+              <Input
+                id="title"
+                placeholder="Title"
+                defaultValue={work.title ?? ''}
+              />
             </div>
             <div className="grid w-20 gap-2.5">
               <Label htmlFor="year">Year</Label>
@@ -80,14 +119,18 @@ export default function PieceForm({work}: {work: IWork}) {
                 id="year"
                 type="number"
                 placeholder="Year"
-                defaultValue={work.year ?? ""}
+                defaultValue={work.year ?? ''}
               />
             </div>
           </div>
           <div className="grid grid-cols-2">
             <div className="grid gap-2.5">
               <Label htmlFor="medium">Medium</Label>
-              <Input id="medium" placeholder="Medium" defaultValue={work.medium ?? ""} />
+              <Input
+                id="medium"
+                placeholder="Medium"
+                defaultValue={work.medium ?? ''}
+              />
             </div>
           </div>
 
@@ -98,7 +141,7 @@ export default function PieceForm({work}: {work: IWork}) {
                 id="height"
                 type="number"
                 placeholder="height"
-                defaultValue={work.height ?? ""}
+                defaultValue={work.height ?? ''}
               />
             </div>
             <div className="grid w-24 gap-2.5">
@@ -107,7 +150,7 @@ export default function PieceForm({work}: {work: IWork}) {
                 id="width"
                 type="number"
                 placeholder="width"
-                defaultValue={work.width ?? ""}
+                defaultValue={work.width ?? ''}
               />
             </div>
             <div className="grid w-24 gap-2.5">
@@ -116,12 +159,12 @@ export default function PieceForm({work}: {work: IWork}) {
                 id="depth"
                 type="number"
                 placeholder="depth"
-                defaultValue={work.depth ?? ""}
+                defaultValue={work.depth ?? ''}
               />
             </div>
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="unit">Unit</Label>
-              <Select defaultValue={work.unit ?? ""}>
+              <Select defaultValue={work.unit ?? ''}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select unit" />
                 </SelectTrigger>
@@ -140,7 +183,7 @@ export default function PieceForm({work}: {work: IWork}) {
             <Textarea
               id="description"
               placeholder="Description"
-              defaultValue={work.description ?? ""}
+              defaultValue={work.description ?? ''}
             />
           </div>
           <div className="grid gap-2.5">
@@ -148,7 +191,7 @@ export default function PieceForm({work}: {work: IWork}) {
             <Input
               id="location"
               placeholder="Artwork location or collection"
-              defaultValue={work.location ?? ""}
+              defaultValue={work.location ?? ''}
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -158,12 +201,12 @@ export default function PieceForm({work}: {work: IWork}) {
                 id="price"
                 type="number"
                 placeholder="Price"
-                defaultValue={work.price ?? ""}
+                defaultValue={work.price ?? ''}
               />
             </div>
             <div className="grid gap-2.5">
               <Label htmlFor="sold">Mark as Sold</Label>
-              <Checkbox id="sold"  />
+              <Checkbox id="sold" />
             </div>
           </div>
 

@@ -44,7 +44,6 @@ export default function Component({ params }: { params: { slug: string } }) {
   const createWorkWithMediaHandler = async (slug: string, url: string) => {
     const newMedia = { url: url, type: 'image', main: 'true' };
     const id = await createWorkWithMedia(slug, newMedia);
-    console.log('ID', id);
     setWorkId(id);
   };
 

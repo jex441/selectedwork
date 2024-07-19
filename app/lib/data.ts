@@ -818,6 +818,7 @@ export const createWorkWithMedia = async (
 
   return newWorkEntry[0].id;
 };
+
 export const addMedia = async (
   id: number,
   newMedia: { url: string; type: string; main: string },
@@ -833,6 +834,22 @@ export const addMedia = async (
     .returning({ id: media.id });
 
   return newMediaEntry[0].id;
+};
+export const makeMainMedia = async (
+  workId: number,
+  mediaId: number,
+  collectionId: number,
+) => {
+  const userCollection = await db
+    .select()
+    .from(collection)
+    .where(eq(collection.id, collectionId));
+
+  await db.update(media).set({ main: 'false' }).where(eq(media.workId, workId));
+  await db.update(media).set({ main: 'true' }).where(eq(media.id, mediaId));
+  revalidatePath(
+    `/dashboard/collections/${userCollection[0].slug}/piece/${workId}`,
+  );
 };
 export const getUserCollection = async (slug: string) => {
   const user = await getUserData();
