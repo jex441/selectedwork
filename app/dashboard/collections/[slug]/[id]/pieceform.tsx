@@ -25,6 +25,10 @@ import { IWork } from '@/app/interfaces/IWork';
 
 export default function PieceForm({work}: {work: IWork}) {
     console.log('work', work)
+    // Need to configure media's relation to work - not uploading properly, rendering thumbnails in collection view
+    // main img might need to be separate from media other than first in array
+
+    // need to add functionality to update work
   return (
     <form className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2">
       <div className="flex flex-col items-center">
