@@ -437,22 +437,36 @@ export const getCVPageData = async (title: string) => {
 
 export const createCollection = async () => {
   const userData = await user();
-  const userCollection = await db
-    .insert(collection)
-    .values({
-      title: 'New Collection',
-      slug: 'new-collection',
-      hidden: 'true',
-      template: 'g1',
-      userId: userData?.id,
-    })
-    .returning({ id: collection.id });
+
+  const userCollections =
+    userData &&
+    (await db
+      .select()
+      .from(collection)
+      .where(eq(collection.userId, userData?.id)));
+
+  const userCollection =
+    userCollections &&
+    (await db
+      .insert(collection)
+      .values({
+        title: 'New Collection' + '-' + String(userCollections.length),
+        slug: 'new-collection' + '-' + String(userCollections.length),
+        hidden: 'true',
+        template: 'g1',
+        userId: userData?.id,
+      })
+      .returning({ id: collection.id }));
 
   revalidatePath('/dashboard/collections/');
   return userCollection[0].id;
 };
 export const deleteCVSection = async (id: number) => {
   return await db.delete(cvSection).where(eq(cvSection.id, id));
+};
+
+export const deleteCollection = async (id: number) => {
+  return await db.delete(collection).where(eq(collection.id, id));
 };
 
 export const deleteCVSectionBulletPoint = async (

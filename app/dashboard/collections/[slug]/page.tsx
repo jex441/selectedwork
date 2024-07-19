@@ -42,38 +42,41 @@ export default async function Invoices({
         </div>
       </header>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {collection.works.map((work) => (
-          <div className="group relative overflow-hidden rounded-lg">
-            <Link
-              href={`/dashboard/collections/${params.slug}/${work.id}`}
-              className="absolute inset-0 z-10"
-              prefetch={false}
-            >
-              <span className="sr-only">View Image</span>
-            </Link>
-            <Image
-              src={work.media[0]?.url ?? placeholder}
-              alt="Image 7"
-              width={400}
-              height={300}
-              className="h-60 w-full object-cover"
-            />
-            <div className="bg-white p-4 dark:bg-gray-950">
-              <h3 className="text-lg font-semibold md:text-xl">{work.title}</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {work.medium}
-              </p>
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-500 dark:text-gray-400">
-                  {work.year}
-                </div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">
-                  {work.height} {work.width} {work.unit}
+        {collection.works &&
+          collection.works.map((work) => (
+            <div className="group relative overflow-hidden rounded-lg">
+              <Link
+                href={`/dashboard/collections/${params.slug}/${work.id}`}
+                className="absolute inset-0 z-10"
+                prefetch={false}
+              >
+                <span className="sr-only">View Image</span>
+              </Link>
+              <Image
+                src={work.media[0]?.url ?? placeholder}
+                alt="Image 7"
+                width={400}
+                height={300}
+                className="h-60 w-full object-cover"
+              />
+              <div className="bg-white p-4 dark:bg-gray-950">
+                <h3 className="text-lg font-semibold md:text-xl">
+                  {work.title}
+                </h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {work.medium}
+                </p>
+                <div className="flex items-center justify-between">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    {work.year}
+                  </div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    {work.height} {work.width} {work.unit}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </main>
   );
