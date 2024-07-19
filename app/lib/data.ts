@@ -24,6 +24,7 @@ import { IAboutPage } from '../interfaces/IAboutPage';
 import { ICVPage } from '../interfaces/ICVPage';
 import { revalidatePath } from 'next/cache';
 import { ICollection } from '../interfaces/ICollection';
+import { IWork } from '../interfaces/IWork';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -711,6 +712,35 @@ export const getUserCollections = async () => {
     (await db.select().from(collection).where(eq(collection.userId, user.id)));
 
   return rows;
+};
+
+export const getUserWork = async (id: number) => {
+  const user = await getUserData();
+  const rows =
+    user &&
+    user.id !== null &&
+    (await db
+      .select()
+      .from(work)
+      .where(and(eq(work.userId, user.id), eq(work.id, id)))
+      .leftJoin(media, eq(work.id, media.workId)));
+
+  const result =
+    rows &&
+    rows.reduce<IWork>((acc, row) => {
+      const work = row.work_table;
+      const media = row.media_table;
+
+      if (!acc.id && work.id) {
+        acc = { ...work, media: [] };
+      }
+      if (media) {
+        acc.media.push(media);
+      }
+      return acc;
+    }, {} as IWork);
+
+  return result;
 };
 
 export const getPagesData = async (userId: number) => {

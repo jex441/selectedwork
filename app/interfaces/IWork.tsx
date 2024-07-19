@@ -4,6 +4,7 @@ interface IMedia {
     url: string | null;
 }
 export interface IWork  {
+    id: number | null;
     title: string | null;
     year: string | null;
     medium: string | null;

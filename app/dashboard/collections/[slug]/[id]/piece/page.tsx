@@ -21,10 +21,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import {getUserWork} from "../../../../../lib/data";
 
-export default function Component({ params }: { params: { id: string } }) {
+export default async function Component({ params }: { params: { id: string } }) {
   const [image, setImage] = useState();
-
+const data = await getUserWork(params.id)
   return (
     <div className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2">
       <div className="flex flex-col items-center">

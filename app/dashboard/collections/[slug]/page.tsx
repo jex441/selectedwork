@@ -42,7 +42,7 @@ console.log(collection)
           {collection.works.map((work) => (
                     <div className="group relative overflow-hidden rounded-lg">
             <Link
-            href={`/dashboard/collections/${params.slug}/work/${work.id}`}
+            href={`/dashboard/collections/${params.slug}/${work.id}`}
             className="absolute inset-0 z-10"
             prefetch={false}
           >

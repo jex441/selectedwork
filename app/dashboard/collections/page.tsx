@@ -9,7 +9,7 @@ import placeholder from '../../assets/placeholder.png';
 
 export default async function Invoices() {
   const data = await getUserCollections();
-  console.log(data);
+  console.log('data?', data);
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
       <header className="flex h-10 w-full items-center justify-between bg-background px-4 md:px-6">

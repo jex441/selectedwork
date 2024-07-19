@@ -172,7 +172,7 @@ export const work = pgTable('work_table', {
 export const media = pgTable('media_table', {
   id: serial('id').primaryKey(),
   workId: integer('work_id').notNull().references(() => work.id, { onDelete: 'cascade' }),
-  main: boolean('mainImg').default(false),
+  main: text('main').default('false'),
   type: text('type'),
   url: text('url').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
