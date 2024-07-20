@@ -450,16 +450,17 @@ export const createCollection = async () => {
     (await db
       .insert(collection)
       .values({
-        title: 'New Collection' + '-' + String(userCollections.length),
-        slug: 'new-collection' + '-' + String(userCollections.length),
-        hidden: 'true',
         template: 'g1',
+        slug: 'new-collection' + '-' + String(userCollections.length),
+        title: 'New Collection' + String(userCollections.length),
         userId: userData?.id,
       })
       .returning({ id: collection.id }));
 
   revalidatePath('/dashboard/collections/');
-  return userCollection[0].id;
+  if (userCollection) {
+    return userCollection[0].id;
+  }
 };
 export const deleteCVSection = async (id: number) => {
   return await db.delete(cvSection).where(eq(cvSection.id, id));
@@ -660,12 +661,12 @@ export const createWork = async (
   const newWork =
     user &&
     user.id !== null &&
+    userCollectionData &&
+    userCollectionData[0].id !== null &&
     (await db
-      .insert(work)
-      .values({
-        id: id,
+      .update(work)
+      .set({
         collectionId: userCollectionData[0].id,
-        userId: user.id,
         title: title,
         medium: medium,
         year: year,
@@ -680,27 +681,7 @@ export const createWork = async (
         sold: sold,
         hidden: 'false',
       })
-      .onConflictDoUpdate({
-        target: work.id,
-        set: {
-          collectionId: userCollectionData[0].id,
-          userId: user.id,
-          title: title,
-          medium: medium,
-          year: year,
-          description: description,
-          height: height,
-          width: width,
-          depth: depth,
-          unit: unit,
-          price: price,
-          currency: currency,
-          location: location,
-          sold: sold,
-          hidden: 'false',
-        },
-      })
-      .returning({ id: work.id }));
+      .where(eq(work.id, id)));
 
   return validatedFields.data;
 };
@@ -727,7 +708,6 @@ export const createWorkWithMedia = async (
       .insert(work)
       .values({
         collectionId: userCollectionData[0].id,
-        userId: user.id,
       })
       .returning({ id: work.id }));
 
@@ -744,7 +724,9 @@ export const createWorkWithMedia = async (
       })
       .returning({ id: media.id }));
 
-  return newWorkEntry[0].id;
+  if (newWorkEntry) {
+    return newWorkEntry[0].id;
+  }
 };
 
 export const addMedia = async (
@@ -802,7 +784,7 @@ export const getUserCollection = async (slug: string) => {
     (await db
       .select()
       .from(collection)
-      .where(and(eq(collection.userId, user.id), eq(collection.slug, 'work')))
+      .where(and(eq(collection.userId, user.id), eq(collection.slug, slug)))
       .leftJoin(work, eq(collection.id, work.collectionId))
       .leftJoin(media, eq(work.id, media.workId)));
 
