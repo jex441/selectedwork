@@ -111,6 +111,11 @@ export default function PieceForm({ work }: { work: IWork }) {
             <div className="grid gap-2.5">
               <Label htmlFor="title">Title</Label>
               <Input
+                name="userCollection"
+                value={'params.slug'}
+                className="hidden"
+              />
+              <Input
                 name="title"
                 placeholder="Title"
                 defaultValue={work.title ?? ''}

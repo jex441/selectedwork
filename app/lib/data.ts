@@ -468,7 +468,8 @@ export const deleteCVSection = async (id: number) => {
 };
 
 export const deleteCollection = async (id: number) => {
-  return await db.delete(collection).where(eq(collection.id, id));
+  await db.delete(collection).where(eq(collection.id, id));
+  redirect('/dashboard/collections');
 };
 
 export const deleteCVSectionBulletPoint = async (
@@ -746,6 +747,10 @@ export const addMedia = async (
 
   return newMediaEntry[0].id;
 };
+
+// Need to revalidate path to piece after adding new media
+// Need to enable editing of collection view
+// Need to toggle visibility of collection: visible, private, hidden
 
 export const deleteWork = async (workId: number, collectionId: number) => {
   const userCollection = await db
