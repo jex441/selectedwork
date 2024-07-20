@@ -26,7 +26,13 @@ import Image from 'next/image';
 import { IWork, IMedia } from '@/app/interfaces/IWork';
 import { createWork } from '../../../../lib/data';
 import { useFormState } from 'react-dom';
-import { WorkState, addMedia, makeMainMedia, deleteWork } from '@/app/lib/data';
+import {
+  WorkState,
+  addMedia,
+  makeMainMedia,
+  deleteWork,
+  deleteMedia,
+} from '@/app/lib/data';
 
 export default function PieceForm({
   work,
@@ -41,15 +47,18 @@ export default function PieceForm({
 
   const addMediaHandler = async (id: number, url: string) => {
     const newMedia = { url: url, type: 'image', main: 'false' };
-    await addMedia(id, newMedia);
+    await addMedia(id, newMedia, slug);
   };
   const makeMainMediaHandler = async (workId: number, mediaId: number) => {
-    work.collectionId &&
-      (await makeMainMedia(workId, mediaId, work.collectionId));
+    work.collectionId && (await makeMainMedia(workId, mediaId, slug));
   };
 
   const deleteWorkHandler = async (workId: number, collectionId: number) => {
     work && (await deleteWork(workId, collectionId));
+  };
+
+  const deleteMediaHandler = async (mediaId: number) => {
+    work && (await deleteMedia(mediaId));
   };
 
   const mainMedia = work.media.filter((m) => m.main === 'true');
@@ -97,7 +106,11 @@ export default function PieceForm({
                   >
                     Make Main Image
                   </DropdownMenuItem>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => deleteMediaHandler(media.id)}
+                  >
+                    Delete
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ))}

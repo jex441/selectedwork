@@ -646,7 +646,7 @@ export const createWork = async (
     location,
     sold,
   } = validatedFields.data;
-  console.log('user collection', userCollection);
+
   const userCollectionData =
     user &&
     user.id !== null &&
@@ -659,7 +659,7 @@ export const createWork = async (
           eq(collection.userId, user.id),
         ),
       ));
-  console.log('==>', userCollectionData);
+
   const newWork =
     user &&
     user.id !== null &&
@@ -684,7 +684,7 @@ export const createWork = async (
         hidden: 'false',
       })
       .where(eq(work.id, id)));
-  console.log('newWork', newWork);
+
   return validatedFields.data;
 };
 
@@ -734,6 +734,7 @@ export const createWorkWithMedia = async (
 export const addMedia = async (
   id: number,
   newMedia: { url: string; type: string; main: string },
+  slug: string,
 ) => {
   const newMediaEntry = await db
     .insert(media)
@@ -744,7 +745,7 @@ export const addMedia = async (
       type: newMedia.type,
     })
     .returning({ id: media.id });
-
+  revalidatePath(`/dashboard/collections/${slug}/piece/${id}`);
   return newMediaEntry[0].id;
 };
 
@@ -758,28 +759,26 @@ export const deleteWork = async (workId: number, collectionId: number) => {
     .from(collection)
     .where(eq(collection.id, collectionId));
 
-  // not deleting work for some reason
   await db.delete(work).where(eq(work.id, workId));
 
   revalidatePath(`/dashboard/collections/${userCollection[0].slug}`);
   redirect(`/dashboard/collections/${userCollection[0].slug}`);
 };
 
+export const deleteMedia = async (mediaId: number, slug: string) => {
+  await db.delete(media).where(eq(media.id, mediaId));
+
+  revalidatePath(`/dashboard/collections/${slug}`);
+};
+
 export const makeMainMedia = async (
   workId: number,
   mediaId: number,
-  collectionId: number,
+  slug: string,
 ) => {
-  const userCollection = await db
-    .select()
-    .from(collection)
-    .where(eq(collection.id, collectionId));
-
   await db.update(media).set({ main: 'false' }).where(eq(media.workId, workId));
   await db.update(media).set({ main: 'true' }).where(eq(media.id, mediaId));
-  revalidatePath(
-    `/dashboard/collections/${userCollection[0].slug}/piece/${workId}`,
-  );
+  revalidatePath(`/dashboard/collections/${slug}/piece/${workId}`);
 };
 export const getUserCollection = async (slug: string) => {
   const user = await getUserData();
