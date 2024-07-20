@@ -39,7 +39,7 @@ export default async function Invoices() {
                     {collection.title}
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    added on 09-21-2021
+                    {collection.works.length} items
                   </p>
                 </div>
               </div>
