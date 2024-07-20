@@ -451,13 +451,14 @@ export const createCollection = async () => {
       .insert(collection)
       .values({
         template: 'g1',
-        slug: 'new-collection' + '-' + String(userCollections.length),
-        title: 'New Collection' + String(userCollections.length),
+        slug: 'new-collection' + '-' + String(userCollections.length + 1),
+        title: 'New Collection' + ' ' + String(userCollections.length + 1),
         userId: userData?.id,
       })
       .returning({ id: collection.id }));
 
   revalidatePath('/dashboard/collections/');
+
   if (userCollection) {
     return userCollection[0].id;
   }
@@ -608,7 +609,7 @@ export const createWork = async (
   const user = await getUserData();
 
   const validatedFields = CreateWorkSchema.safeParse({
-    userCollection: formData.get('collection') || 'work',
+    userCollection: formData.get('userCollection'),
     title: formData.get('title') || '',
     medium: formData.get('medium') || '',
     year: formData.get('year') || '',
