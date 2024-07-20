@@ -26,6 +26,7 @@ import { ICVPage } from '../interfaces/ICVPage';
 import { revalidatePath } from 'next/cache';
 import { ICollection } from '../interfaces/ICollection';
 import { IWork } from '../interfaces/IWork';
+import { get } from 'http';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -822,9 +823,51 @@ export const getUserCollections = async () => {
   const rows =
     user &&
     user.id !== null &&
-    (await db.select().from(collection).where(eq(collection.userId, user.id)));
+    (await db
+      .select()
+      .from(collection)
+      .where(eq(collection.userId, user.id))
+      .leftJoin(work, eq(work.collectionId, collection.id))
+      .leftJoin(media, eq(media.workId, work.id)));
 
-  return rows;
+  const result =
+    rows &&
+    rows.reduce<ICollection[]>((acc, row) => {
+      const collection = row.collection_table;
+      const work = row.work_table;
+      const media = row.media_table;
+
+      if (collection) {
+        // Find or create the collection
+        let collectionEntry = acc.find((col) => col.id === collection.id);
+        if (!collectionEntry) {
+          collectionEntry = { ...collection, works: [] };
+          acc.push(collectionEntry);
+        }
+
+        if (work) {
+          // Ensure the work is added to the correct collection
+          let workEntry = collectionEntry.works.find((w) => w.id === work.id);
+          if (!workEntry) {
+            workEntry = { ...work, media: [] };
+            collectionEntry.works.push(workEntry);
+          }
+
+          if (media) {
+            // Ensure the media is added to the correct work in the correct collection
+            const workToUpdate = collectionEntry.works.find(
+              (w) => w.id === media.workId,
+            );
+            if (workToUpdate) {
+              workToUpdate.media.push(media);
+            }
+          }
+        }
+      }
+
+      return acc;
+    }, [] as ICollection[]);
+  return result;
 };
 
 export const getUserWork = async (id: number) => {
