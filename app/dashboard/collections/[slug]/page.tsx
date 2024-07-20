@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { getUserCollection } from '../../../lib/data';
 import { ICollection } from '../../../interfaces/ICollection';
 import placeholder from '../../../assets/placeholder.png';
-
+import Visibility from './visibility';
 export default async function Invoices({
   params,
 }: {
@@ -34,8 +34,7 @@ export default async function Invoices({
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium">Visible</span>
-            <Switch id="visibility-toggle" />
+            <Visibility />
           </div>
           <Link href={`/dashboard/collections/${params.slug}/new`}>
             <Button className="ml-auto" size="sm">
