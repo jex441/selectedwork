@@ -646,7 +646,7 @@ export const createWork = async (
     location,
     sold,
   } = validatedFields.data;
-
+  console.log('user collection', userCollection);
   const userCollectionData =
     user &&
     user.id !== null &&
@@ -659,7 +659,7 @@ export const createWork = async (
           eq(collection.userId, user.id),
         ),
       ));
-
+  console.log('==>', userCollectionData);
   const newWork =
     user &&
     user.id !== null &&
@@ -684,7 +684,7 @@ export const createWork = async (
         hidden: 'false',
       })
       .where(eq(work.id, id)));
-
+  console.log('newWork', newWork);
   return validatedFields.data;
 };
 

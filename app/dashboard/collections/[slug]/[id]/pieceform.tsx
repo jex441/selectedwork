@@ -28,7 +28,13 @@ import { createWork } from '../../../../lib/data';
 import { useFormState } from 'react-dom';
 import { WorkState, addMedia, makeMainMedia, deleteWork } from '@/app/lib/data';
 
-export default function PieceForm({ work }: { work: IWork }) {
+export default function PieceForm({
+  work,
+  slug,
+}: {
+  work: IWork;
+  slug: string;
+}) {
   const initialState: WorkState = { message: null, errors: {} };
   const createWorkWithId = work.id && createWork.bind(null, work.id);
   const [state, formAction] = useFormState(createWorkWithId, initialState);
@@ -47,6 +53,9 @@ export default function PieceForm({ work }: { work: IWork }) {
   };
 
   const mainMedia = work.media.filter((m) => m.main === 'true');
+
+  // UPDATE WORK NOT WORKING
+  // update collection not working
 
   return (
     <form
@@ -112,7 +121,7 @@ export default function PieceForm({ work }: { work: IWork }) {
               <Label htmlFor="title">Title</Label>
               <Input
                 name="userCollection"
-                value={'params.slug'}
+                defaultValue={slug}
                 className="hidden"
               />
               <Input
