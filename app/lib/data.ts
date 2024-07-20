@@ -869,7 +869,122 @@ export const getUserCollections = async () => {
     }, [] as ICollection[]);
   return result;
 };
+export type CollectionState = {
+  errors?: {
+    template?: string[];
+    title?: string[];
+    heading?: string[];
+    subheading?: string[];
+    description?: string[];
+    linkText1?: string[];
+    linkSrc1?: string[];
+    linkText2?: string[];
+    linkSrc2?: string[];
+    imgSrc?: string[];
+  };
+  message?: string | null;
+};
+const CollectionFormSchema = z.object({
+  id: z.number(),
+  template: z.string(),
+  title: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+  subheading: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+  description: z
+    .string()
+    .max(1_000_000, { message: 'Must be fewer than 1000000 characters.' })
+    .nullish(),
+  linkSrc1: z
+    .string({ invalid_type_error: 'Please use a valid url.' })
+    .url()
+    .nullish(),
+  linkText1: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+  linkSrc2: z
+    .string({ invalid_type_error: 'Please use a valid url.' })
+    .url()
+    .nullish(),
+  linkText2: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+  imgSrc: z.string().url().nullish(),
+  imgCaption: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+});
+const UpdateCollection = CollectionFormSchema.omit({
+  id: true,
+});
 
+export const updateCollection = async (
+  id: number,
+  prevState: {},
+  formData: FormData,
+) => {
+  const user = await getUserData();
+
+  const validatedFields = UpdateCollection.safeParse({
+    template: formData.get('template') || '',
+    title: formData.get('title') || '',
+    subheading: formData.get('subheading') || null,
+    description: formData.get('description') || null,
+    linkSrc1: formData.get('linkSrc1') || null,
+    linkText1: formData.get('linkText1') || '',
+    linkSrc2: formData.get('linkSrc2') || null,
+    linkText2: formData.get('linkText2') || '',
+    imgSrc: formData.get('imgSrc') || null,
+    imgCaption: formData.get('imgCaption') || '',
+  });
+
+  if (!validatedFields.success) {
+    console.log('error!', validatedFields.error.flatten().fieldErrors);
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Invoice.',
+    };
+  }
+
+  const {
+    template,
+    description,
+    title,
+    subheading,
+    linkSrc1,
+    linkText1,
+    linkSrc2,
+    linkText2,
+    imgSrc,
+    imgCaption,
+  } = validatedFields.data;
+
+  const update = await db
+    .update(collection)
+    .set({
+      template: template,
+      description: description,
+      title: title || '',
+      subheading: subheading,
+      linkSrc1: linkSrc1,
+      linkText1: linkText1,
+      linkSrc2: linkSrc2,
+      linkText2: linkText2,
+      imgSrc: imgSrc,
+      imgCaption: imgCaption,
+    })
+    .where(eq(collection.id, id))
+    .returning({ id: collection.id });
+
+  return { success: true };
+};
 export const getUserWork = async (id: number) => {
   const user = await getUserData();
   const rows =
