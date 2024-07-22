@@ -141,6 +141,7 @@ export const collection = pgTable('collection_table', {
   linkText2: text('linkText2'),
   imgSrc: text('imgSrc'),
   imgCaption: text('imgCaption'),
+  visibility: text('visibility').default('private'),
   userId: integer('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),

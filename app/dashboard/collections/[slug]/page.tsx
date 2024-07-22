@@ -7,6 +7,7 @@ import { getUserCollection } from '../../../lib/data';
 import { ICollection } from '../../../interfaces/ICollection';
 import placeholder from '../../../assets/placeholder.png';
 import Visibility from './visibility';
+
 export default async function Invoices({
   params,
 }: {
@@ -34,7 +35,7 @@ export default async function Invoices({
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <Visibility />
+            <Visibility collection={collection} />
           </div>
           <Link href={`/dashboard/collections/${params.slug}/new`}>
             <Button className="ml-auto" size="sm">

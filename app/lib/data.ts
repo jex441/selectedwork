@@ -27,6 +27,7 @@ import { revalidatePath } from 'next/cache';
 import { ICollection } from '../interfaces/ICollection';
 import { IWork } from '../interfaces/IWork';
 import { get } from 'http';
+import Visibility from '../dashboard/collections/[slug]/visibility';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -911,6 +912,7 @@ const CollectionFormSchema = z.object({
     .string({ invalid_type_error: 'Please use a valid url.' })
     .url()
     .nullish(),
+  visibility: z.string(),
   linkText2: z
     .string()
     .max(100, { message: 'Must be fewer than 100 characters.' })
@@ -942,6 +944,7 @@ export const updateCollection = async (
     linkSrc2: formData.get('linkSrc2') || null,
     linkText2: formData.get('linkText2') || '',
     imgSrc: formData.get('imgSrc') || null,
+    visibility: formData.get('visibility') || 'private',
     imgCaption: formData.get('imgCaption') || '',
   });
 
@@ -964,6 +967,7 @@ export const updateCollection = async (
     linkText2,
     imgSrc,
     imgCaption,
+    visibility,
   } = validatedFields.data;
 
   const update = await db
@@ -973,6 +977,7 @@ export const updateCollection = async (
       description: description,
       title: title || '',
       subheading: subheading,
+      visibility: visibility,
       linkSrc1: linkSrc1,
       linkText1: linkText1,
       linkSrc2: linkSrc2,
@@ -985,6 +990,27 @@ export const updateCollection = async (
 
   return { success: true };
 };
+
+export const updateCollectionVisibility = async (
+  collectionId: number,
+  visibility: string,
+) => {
+  const userCollection = await db
+    .select()
+    .from(collection)
+    .where(eq(collection.id, collectionId));
+
+  const collectionData = userCollection[0];
+
+  await db
+    .update(collection)
+    .set({ visibility: visibility })
+    .where(eq(collection.id, collectionId));
+
+  collectionData &&
+    revalidatePath(`/dashboard/collections/${collectionData.slug}`);
+};
+
 export const getUserWork = async (id: number) => {
   const user = await getUserData();
   const rows =

@@ -65,6 +65,7 @@ export default function PieceForm({
 
   // UPDATE WORK NOT WORKING
   // update collection not working
+  // sold check box
 
   return (
     <form

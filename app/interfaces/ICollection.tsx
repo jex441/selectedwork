@@ -14,6 +14,7 @@ export interface ICollection {
   subheading: string | null;
   imgSrc: string | null;
   imgCaption: string | null;
+  visibility: string | null;
   userId: number | null;
   works: IWork[];
   createdAt: Date;
