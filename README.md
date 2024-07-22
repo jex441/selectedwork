@@ -9,5 +9,6 @@ I am making an app for non technical people to quickly generate a website and ha
 - Multiple images for one piece, especially useful for sculptors
 - Analytics dashboard for user's sites
 - Custom domains
+- Billing portal
 
-It uses Next.js and UploadThing with Clerk for authentication. It is in a state of rapid development.
+It uses Next.js, Vercel for hosting, UploadThing for file uploads, and Clerk for authentication. It is in a state of rapid development.
