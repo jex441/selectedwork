@@ -97,6 +97,28 @@ export default function settingsform({
             />
           </div>
           <div>
+            <Label htmlFor="slug">
+              Url Path
+              {state.errors?.slug &&
+                state.errors.slug.map((error: string) => (
+                  <span className="mx-4 text-sm text-red-500" key={error}>
+                    {error}
+                  </span>
+                ))}
+            </Label>
+            <Input
+              id="slug"
+              name="slug"
+              placeholder="url slug"
+              defaultValue={collection.slug ?? ''}
+            />
+            <span className="my-1 text-sm text-gray-500">
+              https://yourwebsite.com/
+            </span>
+
+            <span className="my-1 text-sm">{collection.slug}</span>
+          </div>
+          <div>
             <Label htmlFor="subheading">
               Subhead
               {state.errors?.subheading &&
@@ -113,6 +135,7 @@ export default function settingsform({
               defaultValue={collection.subheading ?? ''}
             />
           </div>
+
           <div>
             <Label htmlFor="page-description">Description</Label>
             <Textarea
@@ -210,12 +233,12 @@ export default function settingsform({
           >
             Delete Collection
           </Button>
-          <Button
+          {/* <Button
             variant="outline"
             className="text-muted-foreground hover:bg-muted hover:text-muted-foreground"
           >
             Archive Collection
-          </Button>
+          </Button> */}
         </div>
       </div>
     </form>

@@ -624,7 +624,7 @@ export const createWork = async (
     price: formData.get('price') || '',
     currency: formData.get('currency') || '',
     location: formData.get('location') || '',
-    sold: formData.get('sold') || 'false',
+    sold: formData.get('sold') === 'on' ? 'true' : 'false',
   });
   if (!validatedFields.success) {
     console.log('error!', validatedFields.error.flatten().fieldErrors);
@@ -661,7 +661,7 @@ export const createWork = async (
           eq(collection.userId, user.id),
         ),
       ));
-
+  console.log(height, width, depth, unit);
   const newWork =
     user &&
     user.id !== null &&
@@ -908,6 +908,7 @@ const CollectionFormSchema = z.object({
     .string()
     .max(100, { message: 'Must be fewer than 100 characters.' })
     .nullish(),
+  slug: z.string().max(100, { message: 'Must be fewer than 30 characters.' }),
   linkSrc2: z
     .string({ invalid_type_error: 'Please use a valid url.' })
     .url()
@@ -945,6 +946,7 @@ export const updateCollection = async (
     linkText2: formData.get('linkText2') || '',
     imgSrc: formData.get('imgSrc') || null,
     visibility: formData.get('visibility') || 'private',
+    slug: formData.get('slug'),
     imgCaption: formData.get('imgCaption') || '',
   });
 
@@ -964,6 +966,7 @@ export const updateCollection = async (
     linkSrc1,
     linkText1,
     linkSrc2,
+    slug,
     linkText2,
     imgSrc,
     imgCaption,
@@ -979,6 +982,7 @@ export const updateCollection = async (
       subheading: subheading,
       visibility: visibility,
       linkSrc1: linkSrc1,
+      slug: slug,
       linkText1: linkText1,
       linkSrc2: linkSrc2,
       linkText2: linkText2,

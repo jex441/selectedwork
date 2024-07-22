@@ -195,14 +195,14 @@ export default function PieceForm({
             </div>
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="unit">Unit</Label>
-              <Select defaultValue={work.unit ?? ''}>
+              <Select name="unit" defaultValue={work.unit ?? ''}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select unit" />
+                  <SelectValue placeholder="select" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="inches">inches</SelectItem>
                   <SelectItem value="feet">feet</SelectItem>
-                  <SelectItem value="centimeters">cm</SelectItem>
+                  <SelectItem value="cm">cm</SelectItem>
                   <SelectItem value="meters">meters</SelectItem>
                 </SelectContent>
               </Select>

@@ -8,7 +8,7 @@ import { ICollection } from '../../../interfaces/ICollection';
 import placeholder from '../../../assets/placeholder.png';
 import Visibility from './visibility';
 
-export default async function Invoices({
+export default async function Collection({
   params,
 }: {
   params: { slug: string };

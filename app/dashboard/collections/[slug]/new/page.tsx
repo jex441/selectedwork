@@ -173,9 +173,9 @@ export default function Component({ params }: { params: { slug: string } }) {
               </div>
               <div className="grid w-24 gap-2.5">
                 <Label htmlFor="unit">Unit</Label>
-                <Select>
+                <Select name="unit">
                   <SelectTrigger>
-                    <SelectValue placeholder="" />
+                    <SelectValue placeholder="select" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="inches">inches</SelectItem>
@@ -205,7 +205,7 @@ export default function Component({ params }: { params: { slug: string } }) {
               </div> */}
               <div className="grid gap-2.5">
                 <Label htmlFor="sold">Mark as Sold</Label>
-                <Checkbox id="sold" />
+                <Checkbox name="sold" id="sold" />
               </div>
             </div>
 
