@@ -12,7 +12,14 @@ This is a prototype for a dashboard for artists to upload their info and generat
 - Custom domains
 - Billing portal
 
-It uses Next.js, Vercel for hosting, UploadThing for file uploads, and Clerk for authentication. It is in a state of rapid development.
+It uses 
+- Clerk for authentication
+- Next.js
+- Vercel
+- UploadThing for file uploads
+- Drizzle ORM
+
+It is in a state of rapid development.
 
 Preview:
 
