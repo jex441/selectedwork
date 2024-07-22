@@ -691,7 +691,7 @@ export const createWorkWithMedia = async (
   newMedia: { url: string; main: string; type: string },
 ) => {
   const user = await getUserData();
-
+  console.log('slug', slug);
   const userCollectionData =
     user &&
     user.id !== null &&
@@ -709,7 +709,7 @@ export const createWorkWithMedia = async (
       .values({
         collectionId: userCollectionData[0].id,
       })
-      .returning({ id: work.id }));
+      .returning());
 
   const newMediaEntry =
     newWorkEntry &&
@@ -722,11 +722,12 @@ export const createWorkWithMedia = async (
         main: newMedia.main,
         type: newMedia.type,
       })
-      .returning({ id: media.id }));
+      .returning());
 
-  if (newWorkEntry) {
-    return newWorkEntry[0].id;
-  }
+  const newWork = newWorkEntry &&
+    newMediaEntry && { ...newWorkEntry[0], media: newMediaEntry };
+
+  return newWork;
 };
 
 export const addMedia = async (
@@ -744,7 +745,9 @@ export const addMedia = async (
     })
     .returning({ id: media.id });
   revalidatePath(`/dashboard/collections/${slug}/piece/${id}`);
-  return newMediaEntry[0].id;
+  revalidatePath(`/dashboard/collections/${slug}/new`);
+
+  return newMediaEntry[0];
 };
 
 // Need to revalidate path to piece after adding new media
@@ -777,6 +780,7 @@ export const makeMainMedia = async (
   await db.update(media).set({ main: 'false' }).where(eq(media.workId, workId));
   await db.update(media).set({ main: 'true' }).where(eq(media.id, mediaId));
   revalidatePath(`/dashboard/collections/${slug}/piece/${workId}`);
+  revalidatePath(`/dashboard/collections/${slug}/new`);
 };
 export const getUserCollection = async (slug: string) => {
   const user = await getUserData();
@@ -812,7 +816,30 @@ export const getUserCollection = async (slug: string) => {
       return acc;
     }, {} as ICollection);
 
-  return result;
+  if (result) {
+    return result;
+  } else {
+    return {
+      id: 0,
+      title: '',
+      slug: '',
+      description: '',
+      linkSrc1: '',
+      linkText1: '',
+      linkSrc2: '',
+      linkText2: '',
+      template: '',
+      heading: '',
+      subheading: '',
+      imgSrc: '',
+      imgCaption: '',
+      visibility: '',
+      userId: 0,
+      works: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  }
 };
 
 export const getUserCollections = async () => {

@@ -1,13 +1,12 @@
 'use client';
-
 import { useState } from 'react';
-
-import { UploadButton, UploadDropzone } from '../../../../lib/uploadthing';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { useFormState } from 'react-dom';
+import Link from 'next/link';
+import placeholder from '../../../../assets/placeholder.png';
+import { UploadButton, UploadDropzone } from '../../../../lib/uploadthing';
 
 import {
   Select,
@@ -24,197 +23,282 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { create } from 'domain';
+import { IWork, IMedia } from '@/app/interfaces/IWork';
+import { createWork } from '../../../../lib/data';
+import { useFormState } from 'react-dom';
 import {
   WorkState,
-  createWork,
-  createWorkWithMedia,
   addMedia,
+  makeMainMedia,
+  deleteWork,
+  deleteMedia,
+  createWorkWithMedia,
 } from '@/app/lib/data';
 
-export default function Component({ params }: { params: { slug: string } }) {
+export default function NewPieceForm({
+  params,
+}: {
+  params: { id: string; slug: string };
+}) {
   const initialState: WorkState = { message: null, errors: {} };
-  const [workId, setWorkId] = useState<number | null>(null);
 
-  const [media, setMedia] = useState<string[]>(['']);
+  const [work, setWork] = useState<IWork>({
+    id: null,
+    collectionId: null,
+    title: '',
+    year: '',
+    medium: '',
+    height: '',
+    width: '',
+    depth: '',
+    unit: '',
+    description: '',
+    location: '',
+    price: '',
+    currency: '',
+    sold: '',
+    hidden: '',
+    displayHeight: '',
+    displayWidth: '',
+    media: [],
+  });
 
-  const createWorkWithId = workId && createWork.bind(null, workId);
-  // const [state, formAction] = useFormState(createWorkWithId, initialState);
-
-  const createWorkWithMediaHandler = async (slug: string, url: string) => {
-    const newMedia = { url: url, type: 'image', main: 'true' };
-    const id = await createWorkWithMedia(slug, newMedia);
-    setWorkId(id);
-  };
+  const createWorkWithId = work.id !== null && createWork.bind(null, work.id);
 
   const addMediaHandler = async (id: number, url: string) => {
     const newMedia = { url: url, type: 'image', main: 'false' };
-    await addMedia(id, newMedia);
+    const res = await addMedia(id, newMedia, params.slug);
+    setWork({
+      ...work,
+      media: [...work.media, { ...newMedia, id: res.id }],
+    });
+  };
+  const makeMainMediaHandler = async (workId: number, mediaId: number) => {
+    work.collectionId && (await makeMainMedia(workId, mediaId, params.slug));
+  };
+  console.log(work);
+  const createWorkWithMediaHandler = async (slug: string, url: string) => {
+    const newMedia = { url: url, type: 'image', main: 'true' };
+    const newWork = await createWorkWithMedia(slug, newMedia);
+    newWork && setWork(newWork);
+  };
+  const deleteWorkHandler = async (workId: number, collectionId: number) => {
+    work && (await deleteWork(workId, collectionId));
   };
 
-  // need to create media as array of objects with url and type
-  // need to add functionality to update work
+  const deleteMediaHandler = async (mediaId: number) => {
+    work && (await deleteMedia(mediaId, params.slug));
+  };
+
+  const mainMedia = work.media.filter((m) => m.main === 'true');
+
   return (
-    <div className="mx-10 my-4 text-lg">
-      Upload a new image
-      <form
-        action={createWorkWithId || ''}
-        className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2"
-      >
-        <Input name="userCollection" value={params.slug} className="hidden" />
-        <div className="flex flex-col items-center">
-          <div className="flex items-center justify-center">
-            <div className="relative my-2 flex h-[350px] w-[500px] items-center justify-center">
-              {media[0] ? (
-                <Image
-                  src={media[0]}
-                  objectFit={'contain'}
-                  fill={true}
-                  alt="Image"
-                />
-              ) : (
-                <UploadDropzone
-                  className="h-full w-full"
-                  endpoint="imageUploader"
-                  onClientUploadComplete={(res) => {
-                    const updatedMedia = [res[0].url];
-                    setMedia(updatedMedia);
-                    if (!workId) {
-                      createWorkWithMediaHandler(params.slug, res[0].url);
-                    } else {
-                      addMediaHandler(workId, res[0].url);
-                    }
-                  }}
-                  onUploadError={(error: Error) => {
-                    alert(`ERROR! ${error.message}`);
-                  }}
-                />
-              )}
-            </div>
-          </div>
-          <div className="m-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
-            {media.slice(1).map((media, index) => {
-              return (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <div className="group relative">
-                      <Image
-                        src={media}
-                        alt="Thumbnail"
-                        width={150}
-                        height={150}
-                        className="aspect-square  object-cover"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
-                    </div>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem
-                      onClick={() => handleMakeMainMedia(index)}
-                    >
-                      Make Main Image
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleDeleteMedia(index)}>
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              );
-            })}
-          </div>
-          <UploadButton
-            className="self-start"
+    <form
+      action={createWorkWithId || ''}
+      className="mx-auto grid h-full items-center gap-6 md:grid-cols-2"
+    >
+      <div className="flex flex-col items-center">
+        {mainMedia[0]?.url ? (
+          <Image
+            src={mainMedia[0]?.url}
+            alt="Product Image"
+            width={500}
+            height={300}
+            className="border border-gray-200 dark:border-gray-800"
+          />
+        ) : (
+          <UploadDropzone
+            className="h-full w-full"
             endpoint="imageUploader"
             onClientUploadComplete={(res) => {
-              const updatedMedia = [...media, res[0].url];
-              setMedia(updatedMedia);
-              if (!workId) {
+              if (!work.id) {
                 createWorkWithMediaHandler(params.slug, res[0].url);
               } else {
-                addMediaHandler(workId, res[0].url);
+                addMediaHandler(work.id, res[0].url);
               }
             }}
             onUploadError={(error: Error) => {
               alert(`ERROR! ${error.message}`);
             }}
           />
+        )}
+        <div className="m-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
+          {work?.media
+            .filter((w) => w.main === 'false')
+            .map((media, index) => (
+              <DropdownMenu key={media.url}>
+                <DropdownMenuTrigger asChild>
+                  <div className="group relative">
+                    <Image
+                      src={media.url ?? ''}
+                      alt="Thumbnail"
+                      width={150}
+                      height={150}
+                      className="aspect-square  object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem
+                    onClick={() =>
+                      work.id && makeMainMediaHandler(work.id, media.id)
+                    }
+                  >
+                    Make Main Image
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => deleteMediaHandler(media.id)}
+                  >
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ))}
         </div>
-        <div className="mx-auto grid w-5/6">
-          <div className="grid gap-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2.5">
-                <Label htmlFor="title">Title</Label>
-                <Input name="title" placeholder="Title" />
-              </div>
-              <div className="grid w-20 gap-2.5">
-                <Label htmlFor="year">Year</Label>
-                <Input name="year" type="number" placeholder="Year" />
-              </div>
-            </div>
-            <div className="grid grid-cols-2">
-              <div className="grid gap-2.5">
-                <Label htmlFor="medium">Medium</Label>
-                <Input name="medium" placeholder="Medium" />
-              </div>
-            </div>
+        <UploadButton
+          className="self-start"
+          endpoint="imageUploader"
+          onClientUploadComplete={(res) => {
+            work.id && addMediaHandler(work.id, res[0].url);
+          }}
+          onUploadError={(error: Error) => {
+            alert(`ERROR! ${error.message}`);
+          }}
+        />
+      </div>
 
-            <div className="grid grid-cols-4 gap-6">
-              <div className="grid w-24 gap-2.5">
-                <Label htmlFor="height">Height</Label>
-                <Input name="height" type="number" placeholder="height" />
-              </div>
-              <div className="grid w-24 gap-2.5">
-                <Label htmlFor="width">Width</Label>
-                <Input name="width" type="number" placeholder="width" />
-              </div>
-              <div className="grid w-24 gap-2.5">
-                <Label htmlFor="depth">Depth</Label>
-                <Input name="depth" type="number" placeholder="depth" />
-              </div>
-              <div className="grid w-24 gap-2.5">
-                <Label htmlFor="unit">Unit</Label>
-                <Select name="unit">
-                  <SelectTrigger>
-                    <SelectValue placeholder="select" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="inches">inches</SelectItem>
-                    <SelectItem value="feet">feet</SelectItem>
-                    <SelectItem value="centimeters">cm</SelectItem>
-                    <SelectItem value="meters">meters</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-2"></div>
+      <div className="mx-auto grid w-5/6 gap-2 px-2 py-8">
+        <div className="grid gap-2">
+          <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2.5">
-              <Label htmlFor="description">Description</Label>
-              <Textarea id="description" placeholder="Description" />
-            </div>
-            <div className="grid gap-2.5">
-              <Label htmlFor="location">Location</Label>
+              <Label htmlFor="title">Title</Label>
               <Input
-                id="location"
-                placeholder="Artwork location or collection"
+                name="userCollection"
+                defaultValue={params.slug}
+                className="hidden"
+              />
+              <Input
+                name="title"
+                placeholder="Title"
+                defaultValue={work.title ?? ''}
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              {/* <div className="grid gap-2.5">
-                <Label htmlFor="price">Price</Label>
-                <Input name="price" type="number" placeholder="Price" />
-              </div> */}
-              <div className="grid gap-2.5">
-                <Label htmlFor="sold">Mark as Sold</Label>
-                <Checkbox name="sold" id="sold" />
-              </div>
-            </div>
-
-            <div className="my-4 flex gap-2">
-              <Button type="submit">Add to collection</Button>
+            <div className="grid w-20 gap-2.5">
+              <Label htmlFor="year">Year</Label>
+              <Input
+                name="year"
+                type="number"
+                placeholder="Year"
+                defaultValue={work.year ?? ''}
+              />
             </div>
           </div>
+          <div className="grid grid-cols-2">
+            <div className="grid gap-2.5">
+              <Label htmlFor="medium">Medium</Label>
+              <Input
+                name="medium"
+                placeholder="Medium"
+                defaultValue={work.medium ?? ''}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-4 gap-4">
+            <div className="grid w-24 gap-2.5">
+              <Label htmlFor="height">Height</Label>
+              <Input
+                name="height"
+                type="number"
+                placeholder="height"
+                defaultValue={work.height ?? ''}
+              />
+            </div>
+            <div className="grid w-24 gap-2.5">
+              <Label htmlFor="width">Width</Label>
+              <Input
+                name="width"
+                type="number"
+                placeholder="width"
+                defaultValue={work.width ?? ''}
+              />
+            </div>
+            <div className="grid w-24 gap-2.5">
+              <Label htmlFor="depth">Depth</Label>
+              <Input
+                name="depth"
+                type="number"
+                placeholder="depth"
+                defaultValue={work.depth ?? ''}
+              />
+            </div>
+            <div className="grid w-24 gap-2.5">
+              <Label htmlFor="unit">Unit</Label>
+              <Select name="unit" defaultValue={work.unit ?? ''}>
+                <SelectTrigger>
+                  <SelectValue placeholder="select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="inches">inches</SelectItem>
+                  <SelectItem value="feet">feet</SelectItem>
+                  <SelectItem value="cm">cm</SelectItem>
+                  <SelectItem value="meters">meters</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-2"></div>
+          <div className="grid gap-2.5">
+            <Label htmlFor="description">Description</Label>
+            <Textarea
+              name="description"
+              placeholder="Description"
+              defaultValue={work.description ?? ''}
+            />
+          </div>
+          <div className="grid gap-2.5">
+            <Label htmlFor="location">Location</Label>
+            <Input
+              name="location"
+              placeholder="Artwork location or collection"
+              defaultValue={work.location ?? ''}
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-2.5">
+              <Label htmlFor="price">Price</Label>
+              <Input
+                name="price"
+                type="number"
+                placeholder="Price"
+                defaultValue={work.price ?? ''}
+              />
+            </div>
+            <div className="grid gap-2.5">
+              <Label htmlFor="sold">Mark as Sold</Label>
+              <Checkbox name="sold" />
+            </div>
+          </div>
+
+          <div className="my-4 flex justify-between gap-2">
+            <Button>Save Changes</Button>
+            {/* <Button variant="outline">Discard Changes</Button> */}
+            <Button
+              variant="outline"
+              className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+              onClick={() => {
+                work &&
+                  work.id !== null &&
+                  work.collectionId !== null &&
+                  deleteWorkHandler(work.id, work.collectionId);
+              }}
+            >
+              Delete Work
+            </Button>
+          </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 }
