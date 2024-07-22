@@ -4,11 +4,10 @@ This is a prototype for a dashboard for artists to upload their info and generat
 
 - Easy onboarding experience featuring drag and drop to upload, instant site generation
 - Template selection
-- Content organization based on artwork: Collections with pieces, each with a set of metadata and additional thumbnails
+- Content organization tailored specifically for artwork: Collections which contain pieces, each piece containing set of metadata and additional thumbnails/media
 - Standard fields for artwork metadata, title, medium, dimensions, price, etc
-- Custom sizing/spacing for odd sized works so that pieces are displayed with a sense of scale to the actual physical work
+- Customization of sizing/spacing for odd sized works so that pieces are displayed with a sense of scale to the actual physical work
 - Hidden collections for private links
-- Analytics dashboard for user's sites
 - Custom domains
 - Billing portal
 
