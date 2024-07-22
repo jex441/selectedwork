@@ -604,13 +604,9 @@ const CreateWorkSchema = z.object({
     .nullish(),
 });
 
-export const createWork = async (
-  id: number,
-  prevState: {},
-  formData: FormData,
-) => {
+export const createWork = async (id: number, formData: FormData) => {
   const user = await getUserData();
-
+  console.log('formData', formData);
   const validatedFields = CreateWorkSchema.safeParse({
     userCollection: formData.get('userCollection'),
     title: formData.get('title') || '',

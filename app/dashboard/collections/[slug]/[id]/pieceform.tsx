@@ -43,7 +43,6 @@ export default function PieceForm({
 }) {
   const initialState: WorkState = { message: null, errors: {} };
   const createWorkWithId = work.id && createWork.bind(null, work.id);
-  const [state, formAction] = useFormState(createWorkWithId, initialState);
 
   const addMediaHandler = async (id: number, url: string) => {
     const newMedia = { url: url, type: 'image', main: 'false' };
@@ -58,18 +57,14 @@ export default function PieceForm({
   };
 
   const deleteMediaHandler = async (mediaId: number) => {
-    work && (await deleteMedia(mediaId));
+    work && (await deleteMedia(mediaId, slug));
   };
 
   const mainMedia = work.media.filter((m) => m.main === 'true');
 
-  // UPDATE WORK NOT WORKING
-  // update collection not working
-  // sold check box
-
   return (
     <form
-      action={formAction}
+      action={createWorkWithId || ''}
       className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2"
     >
       <div className="flex flex-col items-center">

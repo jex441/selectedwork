@@ -39,7 +39,7 @@ export default function Component({ params }: { params: { slug: string } }) {
   const [media, setMedia] = useState<string[]>(['']);
 
   const createWorkWithId = workId && createWork.bind(null, workId);
-  const [state, formAction] = useFormState(createWorkWithId, initialState);
+  // const [state, formAction] = useFormState(createWorkWithId, initialState);
 
   const createWorkWithMediaHandler = async (slug: string, url: string) => {
     const newMedia = { url: url, type: 'image', main: 'true' };
@@ -58,7 +58,7 @@ export default function Component({ params }: { params: { slug: string } }) {
     <div className="mx-10 my-4 text-lg">
       Upload a new image
       <form
-        action={formAction}
+        action={createWorkWithId || ''}
         className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2"
       >
         <Input name="userCollection" value={params.slug} className="hidden" />
