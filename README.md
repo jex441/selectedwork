@@ -13,3 +13,7 @@ This is a prototype for a dashboard for artists to upload their info and generat
 - Billing portal
 
 It uses Next.js, Vercel for hosting, UploadThing for file uploads, and Clerk for authentication. It is in a state of rapid development.
+
+Preview:
+
+<img width="1452" alt="Screenshot 2024-07-22 at 2 18 58 PM" src="https://github.com/user-attachments/assets/b6371b81-8a62-4050-b8e6-f58a05e04964">
