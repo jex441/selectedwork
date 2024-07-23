@@ -4,6 +4,7 @@ import { currentUser, auth } from '@clerk/nextjs/server';
 import { eq, and, inArray } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db';
+import { redirect } from 'next/navigation';
 
 import {
   users,
@@ -12,22 +13,21 @@ import {
   contact,
   cv,
   cvSection,
-  section,
-  sectionAttribute,
-  InsertUser,
-  InsertSectionAttribute,
+  work,
   NewUser,
+  collection,
   InsertPage,
-  InsertSection,
+  InsertWork,
+  media,
 } from '../db/schema';
-import { IPage } from '../interfaces/IPage';
 import { IUser } from '../interfaces/IUser';
-import { ISection } from '../interfaces/ISection';
-import { ISectionAttribute } from '../interfaces/ISectionAttribute';
 import { IAboutPage } from '../interfaces/IAboutPage';
-import { link } from 'fs';
 import { ICVPage } from '../interfaces/ICVPage';
 import { revalidatePath } from 'next/cache';
+import { ICollection } from '../interfaces/ICollection';
+import { IWork } from '../interfaces/IWork';
+import { get } from 'http';
+import Visibility from '../dashboard/collections/[slug]/visibility';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -437,8 +437,41 @@ export const getCVPageData = async (title: string) => {
   if (rows) return result;
 };
 
+export const createCollection = async () => {
+  const userData = await user();
+
+  const userCollections =
+    userData &&
+    (await db
+      .select()
+      .from(collection)
+      .where(eq(collection.userId, userData?.id)));
+
+  const userCollection =
+    userCollections &&
+    (await db
+      .insert(collection)
+      .values({
+        template: 'g1',
+        slug: 'new-collection' + '-' + String(userCollections.length + 1),
+        title: 'New Collection' + ' ' + String(userCollections.length + 1),
+        userId: userData?.id,
+      })
+      .returning({ id: collection.id }));
+
+  revalidatePath('/dashboard/collections/');
+
+  if (userCollection) {
+    return userCollection[0].id;
+  }
+};
 export const deleteCVSection = async (id: number) => {
   return await db.delete(cvSection).where(eq(cvSection.id, id));
+};
+
+export const deleteCollection = async (id: number) => {
+  await db.delete(collection).where(eq(collection.id, id));
+  redirect('/dashboard/collections');
 };
 
 export const deleteCVSectionBulletPoint = async (
@@ -503,10 +536,536 @@ export const saveCVSections = async (
   });
   revalidatePath('/dashboard/cv');
 };
-export const getPagesData = async (userId: number) => {
-  return await db.select().from(pages).where(eq(pages.userId, userId));
+
+export type WorkState = {
+  errors?: {
+    title?: string;
+    medium?: string;
+    year?: string;
+    description?: string;
+    height?: string;
+    width?: string;
+    depth?: string;
+    unit?: string;
+    price?: string;
+    location?: string;
+    currency?: string;
+    sold?: boolean;
+  };
+  message?: string | null;
 };
 
-export const insertSections = async (newData: InsertSection[]) => {
-  return await db.insert(section).values(newData).returning({ id: section.id });
+const CreateWorkSchema = z.object({
+  userCollection: z.string(),
+  title: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+  year: z
+    .string()
+    .max(4, { message: 'Must be fewer than 4 characters.' })
+    .nullish(),
+  description: z
+    .string()
+    .max(1_000_000, { message: 'Must be fewer than 1,000,000 characters.' })
+    .nullish(),
+  medium: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+  location: z
+    .string()
+    .max(50, { message: 'Must be fewer than 50 characters.' })
+    .nullish(),
+  sold: z.string().nullish(),
+  height: z
+    .string()
+    .max(10, { message: 'Must be fewer than 10 characters.' })
+    .nullish(),
+  width: z
+    .string()
+    .max(10, { message: 'Must be fewer than 10 characters.' })
+    .nullish(),
+  depth: z
+    .string()
+    .max(10, { message: 'Must be fewer than 10 characters.' })
+    .nullish(),
+  unit: z
+    .string()
+    .max(10, { message: 'Must be fewer than 10 characters.' })
+    .nullish(),
+  price: z
+    .string()
+    .max(7, { message: 'Must be fewer than 7 characters.' })
+    .nullish(),
+  currency: z
+    .string()
+    .max(3, { message: 'Must be fewer than 3 characters.' })
+    .nullish(),
+});
+
+export const createWork = async (id: number, formData: FormData) => {
+  const user = await getUserData();
+  console.log('formData', formData);
+  const validatedFields = CreateWorkSchema.safeParse({
+    userCollection: formData.get('userCollection'),
+    title: formData.get('title') || '',
+    medium: formData.get('medium') || '',
+    year: formData.get('year') || '',
+    description: formData.get('description') || '',
+    height: formData.get('height') || '',
+    width: formData.get('width') || '',
+    depth: formData.get('depth') || '',
+    unit: formData.get('unit') || '',
+    price: formData.get('price') || '',
+    currency: formData.get('currency') || '',
+    location: formData.get('location') || '',
+    sold: formData.get('sold') === 'on' ? 'true' : 'false',
+  });
+  if (!validatedFields.success) {
+    console.log('error!', validatedFields.error.flatten().fieldErrors);
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Work.',
+    };
+  }
+  const {
+    userCollection,
+    title,
+    medium,
+    year,
+    description,
+    height,
+    width,
+    depth,
+    unit,
+    price,
+    currency,
+    location,
+    sold,
+  } = validatedFields.data;
+
+  const userCollectionData =
+    user &&
+    user.id !== null &&
+    (await db
+      .select()
+      .from(collection)
+      .where(
+        and(
+          eq(collection.slug, userCollection),
+          eq(collection.userId, user.id),
+        ),
+      ));
+  console.log(height, width, depth, unit);
+  const newWork =
+    user &&
+    user.id !== null &&
+    userCollectionData &&
+    userCollectionData[0].id !== null &&
+    (await db
+      .update(work)
+      .set({
+        collectionId: userCollectionData[0].id,
+        title: title,
+        medium: medium,
+        year: year,
+        description: description,
+        height: height,
+        width: width,
+        depth: depth,
+        unit: unit,
+        price: price,
+        currency: currency,
+        location: location,
+        sold: sold,
+        hidden: 'false',
+      })
+      .where(eq(work.id, id)));
+
+  return validatedFields.data;
+};
+
+export const createWorkWithMedia = async (
+  slug: string,
+  newMedia: { url: string; main: string; type: string },
+) => {
+  const user = await getUserData();
+  console.log('slug', slug);
+  const userCollectionData =
+    user &&
+    user.id !== null &&
+    (await db
+      .select()
+      .from(collection)
+      .where(and(eq(collection.slug, slug), eq(collection.userId, user.id))));
+
+  const newWorkEntry =
+    userCollectionData &&
+    userCollectionData[0].id !== null &&
+    user.id !== null &&
+    (await db
+      .insert(work)
+      .values({
+        collectionId: userCollectionData[0].id,
+      })
+      .returning());
+
+  const newMediaEntry =
+    newWorkEntry &&
+    newWorkEntry[0].id !== null &&
+    (await db
+      .insert(media)
+      .values({
+        workId: newWorkEntry[0].id,
+        url: newMedia.url,
+        main: newMedia.main,
+        type: newMedia.type,
+      })
+      .returning());
+
+  const newWork = newWorkEntry &&
+    newMediaEntry && { ...newWorkEntry[0], media: newMediaEntry };
+
+  return newWork;
+};
+
+export const addMedia = async (
+  id: number,
+  newMedia: { url: string; type: string; main: string },
+  slug: string,
+) => {
+  const newMediaEntry = await db
+    .insert(media)
+    .values({
+      workId: id,
+      url: newMedia.url,
+      main: newMedia.main,
+      type: newMedia.type,
+    })
+    .returning({ id: media.id });
+  revalidatePath(`/dashboard/collections/${slug}/piece/${id}`);
+  revalidatePath(`/dashboard/collections/${slug}/new`);
+
+  return newMediaEntry[0];
+};
+
+// Need to revalidate path to piece after adding new media
+// Need to enable editing of collection view
+// Need to toggle visibility of collection: visible, private, hidden
+
+export const deleteWork = async (workId: number, collectionId: number) => {
+  const userCollection = await db
+    .select()
+    .from(collection)
+    .where(eq(collection.id, collectionId));
+
+  await db.delete(work).where(eq(work.id, workId));
+
+  revalidatePath(`/dashboard/collections/${userCollection[0].slug}`);
+  redirect(`/dashboard/collections/${userCollection[0].slug}`);
+};
+
+export const deleteMedia = async (mediaId: number, slug: string) => {
+  await db.delete(media).where(eq(media.id, mediaId));
+
+  revalidatePath(`/dashboard/collections/${slug}`);
+};
+
+export const makeMainMedia = async (
+  workId: number,
+  mediaId: number,
+  slug: string,
+) => {
+  await db.update(media).set({ main: 'false' }).where(eq(media.workId, workId));
+  await db.update(media).set({ main: 'true' }).where(eq(media.id, mediaId));
+  revalidatePath(`/dashboard/collections/${slug}/piece/${workId}`);
+  revalidatePath(`/dashboard/collections/${slug}/new`);
+};
+export const getUserCollection = async (slug: string) => {
+  const user = await getUserData();
+
+  const rows =
+    user &&
+    user.id !== null &&
+    (await db
+      .select()
+      .from(collection)
+      .where(and(eq(collection.userId, user.id), eq(collection.slug, slug)))
+      .leftJoin(work, eq(collection.id, work.collectionId))
+      .leftJoin(media, eq(work.id, media.workId)));
+
+  const result =
+    rows &&
+    rows.reduce<ICollection>((acc, row) => {
+      const collection = row.collection_table;
+      const work = row.work_table;
+      const media = row.media_table;
+
+      if (!acc.id && collection.id) {
+        acc = { ...collection, works: [] };
+      }
+      if (work) {
+        const isNew = acc.works.find((w) => w.id === work.id);
+        !isNew && acc.works.push({ ...work, media: [] });
+      }
+      if (media) {
+        acc.works.find((w) => w.id === media.workId)?.media.push(media);
+      }
+
+      return acc;
+    }, {} as ICollection);
+
+  if (result) {
+    return result;
+  } else {
+    return {
+      id: 0,
+      title: '',
+      slug: '',
+      description: '',
+      linkSrc1: '',
+      linkText1: '',
+      linkSrc2: '',
+      linkText2: '',
+      template: '',
+      heading: '',
+      subheading: '',
+      imgSrc: '',
+      imgCaption: '',
+      visibility: '',
+      userId: 0,
+      works: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  }
+};
+
+export const getUserCollections = async () => {
+  const user = await getUserData();
+  const rows =
+    user &&
+    user.id !== null &&
+    (await db
+      .select()
+      .from(collection)
+      .where(eq(collection.userId, user.id))
+      .leftJoin(work, eq(work.collectionId, collection.id))
+      .leftJoin(media, eq(media.workId, work.id)));
+
+  const result =
+    rows &&
+    rows.reduce<ICollection[]>((acc, row) => {
+      const collection = row.collection_table;
+      const work = row.work_table;
+      const media = row.media_table;
+
+      if (collection) {
+        // Find or create the collection
+        let collectionEntry = acc.find((col) => col.id === collection.id);
+        if (!collectionEntry) {
+          collectionEntry = { ...collection, works: [] };
+          acc.push(collectionEntry);
+        }
+
+        if (work) {
+          // Ensure the work is added to the correct collection
+          let workEntry = collectionEntry.works.find((w) => w.id === work.id);
+          if (!workEntry) {
+            workEntry = { ...work, media: [] };
+            collectionEntry.works.push(workEntry);
+          }
+
+          if (media) {
+            // Ensure the media is added to the correct work in the correct collection
+            const workToUpdate = collectionEntry.works.find(
+              (w) => w.id === media.workId,
+            );
+            if (workToUpdate) {
+              workToUpdate.media.push(media);
+            }
+          }
+        }
+      }
+
+      return acc;
+    }, [] as ICollection[]);
+  return result;
+};
+export type CollectionState = {
+  errors?: {
+    template?: string[];
+    title?: string[];
+    heading?: string[];
+    subheading?: string[];
+    description?: string[];
+    linkText1?: string[];
+    linkSrc1?: string[];
+    linkText2?: string[];
+    linkSrc2?: string[];
+    imgSrc?: string[];
+  };
+  message?: string | null;
+};
+const CollectionFormSchema = z.object({
+  id: z.number(),
+  template: z.string(),
+  title: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+  subheading: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+  description: z
+    .string()
+    .max(1_000_000, { message: 'Must be fewer than 1000000 characters.' })
+    .nullish(),
+  linkSrc1: z
+    .string({ invalid_type_error: 'Please use a valid url.' })
+    .url()
+    .nullish(),
+  linkText1: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+  slug: z.string().max(100, { message: 'Must be fewer than 30 characters.' }),
+  linkSrc2: z
+    .string({ invalid_type_error: 'Please use a valid url.' })
+    .url()
+    .nullish(),
+  visibility: z.string(),
+  linkText2: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+  imgSrc: z.string().url().nullish(),
+  imgCaption: z
+    .string()
+    .max(100, { message: 'Must be fewer than 100 characters.' })
+    .nullish(),
+});
+const UpdateCollection = CollectionFormSchema.omit({
+  id: true,
+});
+
+export const updateCollection = async (
+  id: number,
+  prevState: {},
+  formData: FormData,
+) => {
+  const user = await getUserData();
+
+  const validatedFields = UpdateCollection.safeParse({
+    template: formData.get('template') || '',
+    title: formData.get('title') || '',
+    subheading: formData.get('subheading') || null,
+    description: formData.get('description') || null,
+    linkSrc1: formData.get('linkSrc1') || null,
+    linkText1: formData.get('linkText1') || '',
+    linkSrc2: formData.get('linkSrc2') || null,
+    linkText2: formData.get('linkText2') || '',
+    imgSrc: formData.get('imgSrc') || null,
+    visibility: formData.get('visibility') || 'private',
+    slug: formData.get('slug'),
+    imgCaption: formData.get('imgCaption') || '',
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Invoice.',
+    };
+  }
+
+  const {
+    template,
+    description,
+    title,
+    subheading,
+    linkSrc1,
+    linkText1,
+    linkSrc2,
+    slug,
+    linkText2,
+    imgSrc,
+    imgCaption,
+    visibility,
+  } = validatedFields.data;
+
+  const update = await db
+    .update(collection)
+    .set({
+      template: template,
+      description: description,
+      title: title || '',
+      subheading: subheading,
+      visibility: visibility,
+      linkSrc1: linkSrc1,
+      slug: slug,
+      linkText1: linkText1,
+      linkSrc2: linkSrc2,
+      linkText2: linkText2,
+      imgSrc: imgSrc,
+      imgCaption: imgCaption,
+    })
+    .where(eq(collection.id, id))
+    .returning({ id: collection.id });
+
+  return { success: true };
+};
+
+export const updateCollectionVisibility = async (
+  collectionId: number,
+  visibility: string,
+) => {
+  const userCollection = await db
+    .select()
+    .from(collection)
+    .where(eq(collection.id, collectionId));
+
+  const collectionData = userCollection[0];
+
+  await db
+    .update(collection)
+    .set({ visibility: visibility })
+    .where(eq(collection.id, collectionId));
+
+  collectionData &&
+    revalidatePath(`/dashboard/collections/${collectionData.slug}`);
+};
+
+export const getUserWork = async (id: number) => {
+  const user = await getUserData();
+  const rows =
+    user &&
+    user.id !== null &&
+    (await db
+      .select()
+      .from(work)
+      .where(eq(work.id, id))
+      .leftJoin(media, eq(work.id, media.workId)));
+
+  const result =
+    rows &&
+    rows.reduce<IWork>((acc, row) => {
+      const work = row.work_table;
+      const media = row.media_table;
+
+      if (!acc.id && work.id) {
+        acc = { ...work, media: [] };
+      }
+      if (media) {
+        acc.media.push(media);
+      }
+      return acc;
+    }, {} as IWork);
+
+  return result;
+};
+
+export const getPagesData = async (userId: number) => {
+  return await db.select().from(pages).where(eq(pages.userId, userId));
 };

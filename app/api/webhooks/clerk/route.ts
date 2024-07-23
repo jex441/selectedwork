@@ -5,7 +5,7 @@ const SmeeClient = require('smee-client')
 import { eq } from "drizzle-orm";
 
 import { db } from "../../../db"
-import { users, NewUser, pages, InsertPage, about, contact, cv} from "../../../db/schema";
+import { users, NewUser, pages, InsertPage, about, contact, cv, collection} from "../../../db/schema";
 import { Event } from "./types"
 
 const smee = new SmeeClient({
@@ -49,8 +49,8 @@ export async function POST(req: Request) {
         {template: "a1", slug: "about", title: "About", userId: userId}, 
         {template: "c1", slug: "contact", title: "Contact", userId: userId},
         {template: "r1", slug: "cv", title: "CV", userId: userId}, 
-        {template: "h1", slug: "home", title: "Home", userId: userId},
         {template: "g1", slug: "work", title: "Selected Work", userId: userId}, 
+        {template: "h1", slug: "home", title: "Home", userId: userId},
       ]
 
       const insertAboutPage = async () => {
@@ -62,10 +62,14 @@ export async function POST(req: Request) {
       const insertCVPage = async () => {
         return await db.insert(cv).values(defaultPages[2]).returning({id: pages.id, title: pages.title})
       } 
+      const insertCollection = async () => {
+        return await db.insert(collection).values(defaultPages[3]).returning({id: pages.id, title: pages.title})
+      } 
       const aboutPage = await insertAboutPage()
       const contactPage = await insertContactPage()
       const cvPage =  await insertCVPage()
-      console.log(cvPage)
+      const collectionPage = await insertCollection()
+      console.log(collection)
     }
 
 

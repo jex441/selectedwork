@@ -49,7 +49,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
                     prefetch={false}
                   >
-                    Selected Work
+                    My Collections
                   </Link>
                   <Link
                     href="/dashboard/about"
