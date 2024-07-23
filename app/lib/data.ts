@@ -842,6 +842,73 @@ export const getUserCollection = async (slug: string) => {
   }
 };
 
+export const getCollection = async (username: string, slug: string) => {
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.username, username));
+
+  if (!user[0]) {
+    return { status: 404 };
+  }
+
+  const rows =
+    user &&
+    user[0].id !== null &&
+    (await db
+      .select()
+      .from(collection)
+      .where(and(eq(collection.userId, user[0].id), eq(collection.slug, slug)))
+      .leftJoin(work, eq(collection.id, work.collectionId))
+      .leftJoin(media, eq(work.id, media.workId)));
+
+  const result =
+    rows &&
+    rows.reduce<ICollection>((acc, row) => {
+      const collection = row.collection_table;
+      const work = row.work_table;
+      const media = row.media_table;
+
+      if (!acc.id && collection.id) {
+        acc = { ...collection, works: [] };
+      }
+      if (work) {
+        const isNew = acc.works.find((w) => w.id === work.id);
+        !isNew && acc.works.push({ ...work, media: [] });
+      }
+      if (media) {
+        acc.works.find((w) => w.id === media.workId)?.media.push(media);
+      }
+
+      return acc;
+    }, {} as ICollection);
+
+  if (result) {
+    return result;
+  } else {
+    return {
+      id: 0,
+      title: '',
+      slug: '',
+      description: '',
+      linkSrc1: '',
+      linkText1: '',
+      linkSrc2: '',
+      linkText2: '',
+      template: '',
+      heading: '',
+      subheading: '',
+      imgSrc: '',
+      imgCaption: '',
+      visibility: '',
+      userId: 0,
+      works: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  }
+};
+
 export const getUserCollections = async () => {
   const user = await getUserData();
   const rows =
