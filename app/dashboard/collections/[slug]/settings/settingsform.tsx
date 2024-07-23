@@ -82,12 +82,12 @@ export default function settingsform({
           <div>
             <Label htmlFor="title">
               Collection Title
-              {state.errors?.title &&
+              {/* {state.errors?.title &&
                 state.errors.title.map((error: string) => (
                   <p className="mx-4 text-sm text-red-500" key={error}>
                     {error}
                   </p>
-                ))}
+                ))} */}
             </Label>
             <Input
               id="title"
@@ -99,12 +99,12 @@ export default function settingsform({
           <div>
             <Label htmlFor="slug">
               Url Path
-              {state.errors?.slug &&
+              {/* {state.errors?.slug &&
                 state.errors.slug.map((error: string) => (
                   <span className="mx-4 text-sm text-red-500" key={error}>
                     {error}
                   </span>
-                ))}
+                ))} */}
             </Label>
             <Input
               id="slug"
@@ -121,12 +121,12 @@ export default function settingsform({
           <div>
             <Label htmlFor="subheading">
               Subhead
-              {state.errors?.subheading &&
+              {/* {state.errors?.subheading &&
                 state.errors.subheading.map((error: string) => (
                   <span className="mx-4 text-sm text-red-500" key={error}>
                     {error}
                   </span>
-                ))}
+                ))} */}
             </Label>
             <Input
               id="subheading"
@@ -150,34 +150,36 @@ export default function settingsform({
             <Label>Links</Label>
             <div className="flex flex-col">
               <LinkInput
-                error={state.errors?.linkSrc1 ?? ''}
+                // error={state.errors?.linkSrc1 ?? ''}
+                error={''}
                 linkSrc={collection.linkSrc1 ?? ''}
                 linkText={collection.linkText1 ?? ''}
                 textName={'linkText1'}
                 urlName={'linkSrc1'}
               />
               <div className="my-2 block h-5 w-1/2 self-end">
-                {state.errors?.linkSrc1 &&
+                {/* {state.errors?.linkSrc1 &&
                   state.errors.linkSrc1.map((error: string) => (
                     <p className="text-sm text-red-500" key={error}>
                       {error}
                     </p>
-                  ))}
+                  ))} */}
               </div>
               <LinkInput
-                error={state.errors?.linkSrc2 ?? ''}
+                // error={state.errors?.linkSrc2 ?? ''}
+                error={''}
                 linkSrc={collection.linkSrc2 ?? ''}
                 linkText={collection.linkText2 ?? ''}
                 textName={'linkText2'}
                 urlName={'linkSrc2'}
               />
               <div className="my-2 block h-5 w-1/2 self-end">
-                {state.errors?.linkSrc2 &&
+                {/* {state.errors?.linkSrc2 &&
                   state.errors.linkSrc2.map((error: string) => (
                     <p className="text-sm text-red-500" key={error}>
                       {error}
                     </p>
-                  ))}
+                  ))} */}
               </div>
             </div>
           </div>
