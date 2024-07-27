@@ -1159,7 +1159,7 @@ export const getCollection = async (username: string, slug: string) => {
 
     console.log('result', result);
     if (result) {
-      return result;
+      return { name: user.firstName + ' ' + user.lastName, ...result };
     }
   }
 

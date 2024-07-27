@@ -1,10 +1,10 @@
 import React from 'react';
 import { db } from '../../../app/db';
 import { users } from '../../../app/db/schema';
-import About from './About';
-import Contact from './Contact';
-import CV from './CV';
-import Work from './Work';
+import About from './about/page';
+import Contact from './contact/page';
+import CV from './cv/page';
+import Work from './work/page';
 
 import {
   getPageDataForSite,
