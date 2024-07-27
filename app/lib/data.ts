@@ -382,6 +382,19 @@ export const getPageData = async (title: string) => {
   if (rows) return rows[0];
 };
 
+export const getAboutPageData = async (username: string, title: string) => {
+  const userData = await user();
+  const rows =
+    userData &&
+    userData.id !== null &&
+    (await db
+      .select()
+      .from(about)
+      .where(and(eq(about.title, title), eq(about.userId, userData?.id))));
+
+  if (rows) return rows[0];
+};
+
 export const getContactPageData = async (title: string) => {
   const userData = await user();
   const rows =
@@ -750,10 +763,6 @@ export const addMedia = async (
   return newMediaEntry[0];
 };
 
-// Need to revalidate path to piece after adding new media
-// Need to enable editing of collection view
-// Need to toggle visibility of collection: visible, private, hidden
-
 export const deleteWork = async (workId: number, collectionId: number) => {
   const userCollection = await db
     .select()
@@ -792,73 +801,6 @@ export const getUserCollection = async (slug: string) => {
       .select()
       .from(collection)
       .where(and(eq(collection.userId, user.id), eq(collection.slug, slug)))
-      .leftJoin(work, eq(collection.id, work.collectionId))
-      .leftJoin(media, eq(work.id, media.workId)));
-
-  const result =
-    rows &&
-    rows.reduce<ICollection>((acc, row) => {
-      const collection = row.collection_table;
-      const work = row.work_table;
-      const media = row.media_table;
-
-      if (!acc.id && collection.id) {
-        acc = { ...collection, works: [] };
-      }
-      if (work) {
-        const isNew = acc.works.find((w) => w.id === work.id);
-        !isNew && acc.works.push({ ...work, media: [] });
-      }
-      if (media) {
-        acc.works.find((w) => w.id === media.workId)?.media.push(media);
-      }
-
-      return acc;
-    }, {} as ICollection);
-
-  if (result) {
-    return result;
-  } else {
-    return {
-      id: 0,
-      title: '',
-      slug: '',
-      description: '',
-      linkSrc1: '',
-      linkText1: '',
-      linkSrc2: '',
-      linkText2: '',
-      template: '',
-      heading: '',
-      subheading: '',
-      imgSrc: '',
-      imgCaption: '',
-      visibility: '',
-      userId: 0,
-      works: [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-  }
-};
-
-export const getCollection = async (username: string, slug: string) => {
-  const user = await db
-    .select()
-    .from(users)
-    .where(eq(users.username, username));
-
-  if (!user[0]) {
-    return { status: 404 };
-  }
-
-  const rows =
-    user &&
-    user[0].id !== null &&
-    (await db
-      .select()
-      .from(collection)
-      .where(and(eq(collection.userId, user[0].id), eq(collection.slug, slug)))
       .leftJoin(work, eq(collection.id, work.collectionId))
       .leftJoin(media, eq(work.id, media.workId)));
 
@@ -1135,4 +1077,98 @@ export const getUserWork = async (id: number) => {
 
 export const getPagesData = async (userId: number) => {
   return await db.select().from(pages).where(eq(pages.userId, userId));
+};
+
+// need a set of get page data functions which take a username and slug
+// the difference is that we dont have user(), we have another function to get user by their username
+// and the corresponding page data
+
+// functions for generating site:
+const getUserByUsername = async (username: string) => {
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.username, username));
+
+  if (user[0]) {
+    return user[0];
+  } else {
+    return null;
+  }
+};
+
+export const getPageDataForSite = async (username: string, title: string) => {
+  const userData = await getUserByUsername(username);
+  const table = { about: about };
+  const rows =
+    userData &&
+    userData.id !== null &&
+    (await db
+      .select()
+      .from(table[title as keyof table])
+      .where(eq(table[title as keyof table].userId, userData?.id)));
+  return rows && rows[0];
+};
+
+export const getCollection = async (username: string, slug: string) => {
+  const user = await getUserByUsername(username);
+
+  if (!user) {
+    return { status: 404 };
+  }
+
+  const rows =
+    user.id !== null &&
+    (await db
+      .select()
+      .from(collection)
+      .where(and(eq(collection.userId, user.id), eq(collection.slug, slug)))
+      .leftJoin(work, eq(collection.id, work.collectionId))
+      .leftJoin(media, eq(work.id, media.workId)));
+
+  const result =
+    rows &&
+    rows.reduce<ICollection>((acc, row) => {
+      const collection = row.collection_table;
+      const work = row.work_table;
+      const media = row.media_table;
+
+      if (!acc.id && collection.id) {
+        acc = { ...collection, works: [] };
+      }
+      if (work) {
+        const isNew = acc.works.find((w) => w.id === work.id);
+        !isNew && acc.works.push({ ...work, media: [] });
+      }
+      if (media) {
+        acc.works.find((w) => w.id === media.workId)?.media.push(media);
+      }
+
+      return acc;
+    }, {} as ICollection);
+
+  if (result) {
+    return result;
+  } else {
+    return {
+      id: 0,
+      title: '',
+      slug: '',
+      description: '',
+      linkSrc1: '',
+      linkText1: '',
+      linkSrc2: '',
+      linkText2: '',
+      template: '',
+      heading: '',
+      subheading: '',
+      imgSrc: '',
+      imgCaption: '',
+      visibility: '',
+      userId: 0,
+      works: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  }
 };
