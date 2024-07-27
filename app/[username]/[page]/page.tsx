@@ -2,6 +2,9 @@ import React from 'react';
 import { db } from '../../../app/db';
 import { users } from '../../../app/db/schema';
 import About from './About';
+import Contact from './Contact';
+import CV from './CV';
+import Work from './Work';
 
 import {
   getPageDataForSite,
@@ -24,5 +27,14 @@ export default async function page({
   }
   if (page === 'about') {
     return <About data={data} />;
+  }
+  if (page === 'contact') {
+    return <Contact data={data} />;
+  }
+  if (page === 'cv') {
+    return <CV data={data} />;
+  }
+  if (page === 'work' || '') {
+    return <Work data={data} />;
   }
 }

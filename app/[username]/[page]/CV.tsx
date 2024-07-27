@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React from 'react';
 
-export default function About({
+export default function CV({
   data,
 }: {
   data: {
@@ -31,18 +31,7 @@ export default function About({
   return (
     <main className="flex flex-row items-start justify-center">
       <section className="m-10 flex w-1/2 items-center justify-center">
-        <Image
-          src={imgSrc}
-          width={500}
-          height={500}
-          objectFit="contain"
-          alt={imgCaption}
-        />
-      </section>
-      <section className="m-10 w-1/2 bg-red-100">
-        <h1 className="text-xl">{heading}</h1>
-        <div className="">{text}</div>
-        <div className="">{linkText1}</div>
+        CV
       </section>
     </main>
   );

@@ -1099,15 +1099,23 @@ const getUserByUsername = async (username: string) => {
 
 export const getPageDataForSite = async (username: string, title: string) => {
   const userData = await getUserByUsername(username);
-  const table = { about: about };
-  const rows =
-    userData &&
-    userData.id !== null &&
-    (await db
-      .select()
-      .from(table[title as keyof table])
-      .where(eq(table[title as keyof table].userId, userData?.id)));
-  return rows && rows[0];
+  const table = { about: about, contact: contact, cv: cv, work: work };
+  console.log('userData', userData);
+  if (title === 'work') {
+    return await getCollection(username, 'work');
+  } else {
+    const rows =
+      userData &&
+      userData.id !== null &&
+      (await db
+        .select()
+        .from(table[title as keyof table])
+        .where(eq(table[title as keyof table].userId, userData?.id)));
+
+    return (
+      rows && { username: userData.firstName + userData.lastName, ...rows[0] }
+    );
+  }
 };
 
 export const getCollection = async (username: string, slug: string) => {
@@ -1115,6 +1123,44 @@ export const getCollection = async (username: string, slug: string) => {
 
   if (!user) {
     return { status: 404 };
+  }
+
+  // if path is just /username/ return first collection
+  if (slug === 'work') {
+    const rows =
+      user.id !== null &&
+      (await db
+        .select()
+        .from(collection)
+        .where(eq(collection.userId, user.id))
+        .leftJoin(work, eq(collection.id, work.collectionId))
+        .leftJoin(media, eq(work.id, media.workId)));
+
+    const result =
+      rows &&
+      rows.reduce<ICollection>((acc, row) => {
+        const collection = row.collection_table;
+        const work = row.work_table;
+        const media = row.media_table;
+
+        if (!acc.id && collection.id) {
+          acc = { ...collection, works: [] };
+        }
+        if (work) {
+          const isNew = acc.works.find((w) => w.id === work.id);
+          !isNew && acc.works.push({ ...work, media: [] });
+        }
+        if (media) {
+          acc.works.find((w) => w.id === media.workId)?.media.push(media);
+        }
+
+        return acc;
+      }, {} as ICollection);
+
+    console.log('result', result);
+    if (result) {
+      return result;
+    }
   }
 
   const rows =
