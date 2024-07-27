@@ -1,6 +1,8 @@
 import React from 'react';
 import { db } from '../../../app/db';
 import { users } from '../../../app/db/schema';
+import About from './About';
+
 import {
   getPageDataForSite,
   getContactPageData,
@@ -13,12 +15,14 @@ export default async function page({
 }: {
   params: { username: string; page: string };
 }) {
-  let data = await getPageDataForSite(params.username, params.page);
-  return (
-    <div>
-      <div>{data && data.heading !== null && data.heading}</div>
+  let page = params.page;
+  let username = params.username;
+  let data = await getPageDataForSite(username, page);
 
-      <div>{data && data.heading !== null && data.text}</div>
-    </div>
-  );
+  if (!data) {
+    return 'loading';
+  }
+  if (page === 'about') {
+    return <About data={data} />;
+  }
 }
