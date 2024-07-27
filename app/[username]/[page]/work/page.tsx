@@ -1,9 +1,12 @@
 'use client';
 
-import Image from 'next/image';
 import React from 'react';
+import Piece from './piece';
 
 export default function Work({ data }: {}) {
-  console.log(data);
-  return <main className="flex flex-row items-start justify-center"></main>;
+  return (
+    <main className="flex w-full flex-row items-start justify-start">
+      {data && data.works.map((work) => <Piece data={work} />)}
+    </main>
+  );
 }
