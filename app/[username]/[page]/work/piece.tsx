@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 export default function piece({ data }: {}) {
   return (
-    <section className="border-1 relative m-2 grid h-auto w-full justify-items-stretch bg-green-100 lg:m-5 lg:h-[290px] lg:w-[305px]">
-      <figure className="relative h-[400px] w-full self-center justify-self-center bg-red-100 object-contain lg:h-[230px] lg:w-[305px]">
+    <section className="border-1 relative m-2 grid h-auto w-full justify-items-stretch lg:m-5 lg:h-[290px] lg:w-[305px]">
+      <figure className="relative h-[400px] w-full self-center justify-self-center object-contain lg:h-[230px] lg:w-[305px]">
         <Image
           fill
           alt="work"
