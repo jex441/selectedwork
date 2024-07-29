@@ -1157,7 +1157,6 @@ export const getCollection = async (username: string, slug: string) => {
         return acc;
       }, {} as ICollection);
 
-    console.log('result', result);
     if (result) {
       return { name: user.firstName + ' ' + user.lastName, ...result };
     }

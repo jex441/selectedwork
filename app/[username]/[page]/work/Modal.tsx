@@ -1,31 +1,20 @@
 import React from 'react';
 import Image from 'next/image';
 
+import { IWork } from '@/app/interfaces/IWork';
 import close from '/public/close.png';
 
 export default function Modal({
   data,
   setModal,
 }: {
-  data: {
-    title: string;
-    year: string;
-    medium: string;
-    height: string;
-    width: string;
-    depth: string;
-    unit: string;
-    description: string;
-    location: string;
-    price: string;
-    media: { url: string }[];
-    sold: boolean;
-  };
+  setModal: (val: boolean) => void;
+  data: IWork;
 }) {
   return (
     <>
       <div className="fixed right-0 top-0 z-10 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
-        <nav className="flex w-full justify-end p-5 lg:fixed">
+        <nav className="flex w-full justify-end p-2 lg:fixed lg:p-5">
           <span
             className="cursor-pointer opacity-50 hover:opacity-100"
             onClick={() => setModal(false)}

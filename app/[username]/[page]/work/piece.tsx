@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-
+import { IWork } from '@/app/interfaces/IWork';
 import Modal from './Modal';
 
-export default function piece({ data }: {}) {
+export default function piece({ data }: { data: IWork }) {
   const [modal, setModal] = useState(false);
   return (
     <>
-      {modal && <Modal setModal={setModal} modal={modal} data={data} />}
+      {modal && <Modal setModal={setModal} data={data} />}
       <section
         onClick={() => setModal(true)}
         className="border-1 relative mx-1 mb-6 grid h-auto w-full cursor-pointer justify-items-stretch lg:m-3 lg:h-[290px] lg:w-[305px]"

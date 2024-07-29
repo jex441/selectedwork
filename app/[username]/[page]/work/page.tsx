@@ -1,10 +1,12 @@
 'use client';
-import Image from 'next/image';
 
 import React from 'react';
+import Image from 'next/image';
+
+import { ICollection } from '@/app/interfaces/ICollection';
 import Piece from './piece';
-export default function Work({ data }: {}) {
-  console.log(data);
+
+export default function Work({ data }: { data: ICollection }) {
   return (
     <main className="flex w-full flex-wrap justify-center">
       <section className="my-5 flex w-full flex-col justify-center lg:mx-20 lg:flex-row">
@@ -34,22 +36,26 @@ export default function Work({ data }: {}) {
           <h3 className="text-sm leading-7 text-gray-600">{data.subheading}</h3>
           <p className="text-sm leading-7 text-gray-600">{data.description}</p>
           <p className="my-4 text-sm text-gray-600">
-            <a
-              href={data.linkSrc1}
-              className="underline hover:text-black"
-              target="_blank"
-            >
-              {data.linkText1}
-            </a>
+            {data.linkSrc1 && (
+              <a
+                href={data.linkSrc1}
+                className="underline hover:text-black"
+                target="_blank"
+              >
+                {data.linkText1}
+              </a>
+            )}
           </p>
           <p className="text-sm leading-7 text-gray-600">
-            <a
-              href={data.linkSrc2}
-              className="underline hover:text-black"
-              target="_blank"
-            >
-              {data.linkText2}
-            </a>
+            {data.linkSrc2 && (
+              <a
+                href={data.linkSrc2}
+                className="underline hover:text-black"
+                target="_blank"
+              >
+                {data.linkText2}
+              </a>
+            )}
           </p>
         </div>
       </section>
