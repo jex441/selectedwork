@@ -112,10 +112,14 @@ export default function Component({ data }: { data: ICVPage }) {
     bulletPointIndex: number,
     value: string,
   ) => {
-    const updatedWorkExperience = [...workExperience];
-    updatedWorkExperience[workExperienceIndex].bulletPoints[bulletPointIndex] =
-      value;
-    updatedWorkExperience[workExperienceIndex].unsaved = true;
+    const updatedWorkExperience = workExperience.map((exp, idx) => {
+      if (idx === workExperienceIndex) {
+        exp.bulletPoints[bulletPointIndex] = value;
+        return { ...exp, unsaved: true };
+      } else {
+        return exp;
+      }
+    });
     setWorkExperience(updatedWorkExperience);
   };
 
