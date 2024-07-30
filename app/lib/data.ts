@@ -515,7 +515,7 @@ export const saveCVSections = async (
   const userData = await user();
   const userCV =
     userData && (await db.select().from(cv).where(eq(cv.userId, userData?.id)));
-
+  console.log(sections);
   sections.map(async (section) => {
     if (section.id !== null) {
       await db
@@ -1190,13 +1190,57 @@ export const getCVPageDataForSite = async (
       .where(eq(cv.userId, userData?.id))
       .leftJoin(cvSection, eq(cvSection.cvId, cv.id)));
 
-  console.log(rows);
-  const responseData = rows && (rows[0] as unknown as ICVPage);
-  if (responseData) {
+  // Need to reduce the rows into the correct format, as the join returns multiple rows, then map over the categories on the front end
+  /*
+  {status: 200, user: {}, data:{
+    education: [{}, {}],
+    soloExhibitions: [{}, {}],
+    groupExhibitions: [{}, {}],
+    awards: [{}, {}],
+    press: [{}, {}],
+    residencies: [{}, {}],
+    teaching: [{}, {}],
+
+  }}
+  */
+  const result =
+    rows &&
+    rows.reduce<ICVPage>((acc, row) => {
+      const cv = row.cv_table;
+      const section = row.cv_section_table;
+
+      if (!acc.id && cv.id) {
+        acc = {
+          ...cv,
+          education: [],
+          groupExhibitions: [],
+          soloExhibitions: [],
+          awards: [],
+          residencies: [],
+          press: [],
+          teaching: [],
+        };
+      }
+      if (section) {
+        let category = section.categoryId;
+        let sectionData = { ...section, bulletPoints: [] };
+        section.bulletPoint1 &&
+          sectionData.bulletPoints.push(section.bulletPoint1 as never);
+        section.bulletPoint2 &&
+          sectionData.bulletPoints.push(section.bulletPoint2 as never);
+        section.bulletPoint3 &&
+          sectionData.bulletPoints.push(section.bulletPoint3 as never);
+        category && acc[category].push(sectionData);
+      }
+
+      return acc;
+    }, {} as ICVPage);
+
+  if (result) {
     return {
       status: 200,
       user: { username: userData.firstName + userData.lastName },
-      data: responseData,
+      data: result,
     };
   } else {
     return {
