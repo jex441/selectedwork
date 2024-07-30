@@ -1,8 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-export default function page({ params }: { params: { slug: string } }) {
-  const { slug } = params;
-  return (
-    <div>Page</div>
-  )
+export default async function page({
+  params,
+}: {
+  params: { username: string; page: string };
+}) {
+  return '?';
 }

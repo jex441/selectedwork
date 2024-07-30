@@ -28,6 +28,7 @@ import { ICollection } from '../interfaces/ICollection';
 import { IWork } from '../interfaces/IWork';
 import { get } from 'http';
 import Visibility from '../dashboard/collections/[slug]/visibility';
+import { IContactPage } from '../interfaces/IContactPage';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -1097,28 +1098,119 @@ const getUserByUsername = async (username: string) => {
   }
 };
 
-export const getPageDataForSite = async (username: string, title: string) => {
+export const getAboutPageDataForSite = async (
+  username: string,
+  title: string,
+): Promise<{
+  status: number;
+  user: { username: string } | null;
+  data: IAboutPage | null;
+}> => {
   const userData = await getUserByUsername(username);
-  const table = { about: about, contact: contact, cv: cv, work: work };
-  console.log('userData', userData);
-  if (title === 'work') {
-    return await getCollection(username, 'work');
-  } else {
-    const rows =
-      userData &&
-      userData.id !== null &&
-      (await db
-        .select()
-        .from(table[title as keyof table])
-        .where(eq(table[title as keyof table].userId, userData?.id)));
 
-    return (
-      rows && { username: userData.firstName + userData.lastName, ...rows[0] }
-    );
+  if (!userData) {
+    return { status: 200, user: null, data: null };
+  }
+
+  const table = { about: about, contact: contact, cv: cv, work: work };
+
+  const rows =
+    userData &&
+    userData.id !== null &&
+    (await db
+      .select()
+      .from(table[title as keyof table])
+      .where(eq(table[title as keyof table].userId, userData?.id)));
+
+  const responseData = rows && (rows[0] as IAboutPage);
+  if (responseData) {
+    return {
+      status: 200,
+      user: { username: userData.firstName + userData.lastName },
+      data: responseData,
+    };
+  } else {
+    return {
+      status: 404,
+      user: { username: userData.firstName + userData.lastName },
+      data: null,
+    };
   }
 };
 
-export const getCollection = async (username: string, slug: string) => {
+export const getContactPageDataForSite = async (
+  username: string,
+  title: string,
+): Promise<{
+  status: number;
+  user: { username: string } | null;
+  data: IContactPage | null;
+}> => {
+  const userData = await getUserByUsername(username);
+
+  if (!userData) {
+    return { status: 200, user: null, data: null };
+  }
+
+  const rows =
+    userData &&
+    userData.id !== null &&
+    (await db.select().from(contact).where(eq(contact.userId, userData?.id)));
+
+  const responseData = rows && (rows[0] as IContactPage);
+  if (responseData) {
+    return {
+      status: 200,
+      user: { username: userData.firstName + userData.lastName },
+      data: responseData,
+    };
+  } else {
+    return {
+      status: 404,
+      user: { username: userData.firstName + userData.lastName },
+      data: null,
+    };
+  }
+};
+export const getCVPageDataForSite = async (
+  username: string,
+  title: string,
+): Promise<{
+  status: number;
+  user: { username: string } | null;
+  data: ICVPage | null;
+}> => {
+  const userData = await getUserByUsername(username);
+
+  if (!userData) {
+    return { status: 200, user: null, data: null };
+  }
+
+  const rows =
+    userData &&
+    userData.id !== null &&
+    (await db.select().from(cv).where(eq(cv.userId, userData?.id)));
+
+  const responseData = rows && (rows[0] as ICVPage);
+  if (responseData) {
+    return {
+      status: 200,
+      user: { username: userData.firstName + userData.lastName },
+      data: responseData,
+    };
+  } else {
+    return {
+      status: 404,
+      user: { username: userData.firstName + userData.lastName },
+      data: null,
+    };
+  }
+};
+
+export const getCollectionDataForSite = async (
+  username: string,
+  slug: string,
+) => {
   const user = await getUserByUsername(username);
 
   if (!user) {
@@ -1158,7 +1250,17 @@ export const getCollection = async (username: string, slug: string) => {
       }, {} as ICollection);
 
     if (result) {
-      return { name: user.firstName + ' ' + user.lastName, ...result };
+      return {
+        status: 200,
+        user: { name: user.firstName + ' ' + user.lastName },
+        data: { ...result },
+      };
+    } else {
+      return {
+        status: 404,
+        user: { name: user.firstName + ' ' + user.lastName },
+        data: null,
+      };
     }
   }
 
@@ -1193,7 +1295,11 @@ export const getCollection = async (username: string, slug: string) => {
     }, {} as ICollection);
 
   if (result) {
-    return result;
+    return {
+      status: 200,
+      user: { username: user.firstName + user.lastName },
+      data: result,
+    };
   } else {
     return {
       id: 0,

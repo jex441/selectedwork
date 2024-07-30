@@ -1,32 +1,22 @@
-'use client';
-
 import Image from 'next/image';
 import React from 'react';
 
-export default function Contact({
-  data,
+import { IContactPage } from '@/app/interfaces/IContactPage';
+import { getContactPageDataForSite } from '@/app/lib/data';
+
+export default async function Contact({
+  params: { username, page },
 }: {
-  data: {
-    heading: string;
-    text: string;
-    linkSrc1: string;
-    linkText1: string;
-    linkSrc2: string;
-    linkText2: string;
-    imgSrc: string;
-    imgCaption: string;
-  };
+  params: { username: string; page: string };
 }) {
-  const {
-    text,
-    heading,
-    linkSrc1,
-    linkText1,
-    linkSrc2,
-    linkText2,
-    imgSrc,
-    imgCaption,
-  } = data;
+  const res: {
+    status: number;
+    user: { username: string } | null;
+    data: IContactPage | null;
+  } = await getContactPageDataForSite(username, 'contact');
+
+  const { imgSrc, imgCaption, heading, text, linkText1 } = res.data || {};
+
   console.log(imgSrc, imgCaption);
   return (
     <main className="flex flex-row items-start justify-center">

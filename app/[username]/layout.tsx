@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getPageDataForSite } from '@/app/lib/data';
+import { getCollectionDataForSite } from '@/app/lib/data';
 
 export default async function Layout({
   params,
@@ -9,7 +9,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   let username = params.username;
-  let data = await getPageDataForSite(username, 'work');
+  let data = await getCollectionDataForSite(username, 'work');
 
   return (
     <div className="flex min-h-screen w-full flex-col">
