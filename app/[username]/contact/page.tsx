@@ -17,7 +17,6 @@ export default async function Contact({
 
   const { imgSrc, imgCaption, heading, text, linkText1 } = res.data || {};
 
-  console.log(imgSrc, imgCaption);
   return (
     <main className="flex flex-row items-start justify-center">
       <section className="m-10 flex w-1/2 items-center justify-center">
@@ -29,7 +28,7 @@ export default async function Contact({
           alt={imgCaption ?? ''}
         />
       </section>
-      <section className="m-10 w-1/2 bg-red-100">
+      <section className="m-10 w-1/2">
         <h1 className="text-xl">{heading}</h1>
         <div className="">{text}</div>
         <div className="">{linkText1}</div>

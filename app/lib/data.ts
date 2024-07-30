@@ -1245,7 +1245,7 @@ export const getCollectionDataForSite = async (
   if (result && user) {
     return {
       status: 200,
-      user: { username: user.firstName + user.lastName },
+      user: { username: user.firstName + ' ' + user.lastName },
       data: result,
     };
   } else {

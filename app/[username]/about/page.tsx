@@ -30,7 +30,7 @@ export default async function About({
           />
         )}
       </section>
-      <section className="m-10 w-1/2 bg-red-100">
+      <section className="m-10 w-1/2">
         <h1 className="text-xl">{heading}</h1>
         <div className="">{text}</div>
         <div className="">{linkText1}</div>
