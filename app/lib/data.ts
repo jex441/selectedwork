@@ -1184,8 +1184,13 @@ export const getCVPageDataForSite = async (
   const rows =
     userData &&
     userData.id !== null &&
-    (await db.select().from(cv).where(eq(cv.userId, userData?.id)));
+    (await db
+      .select()
+      .from(cv)
+      .where(eq(cv.userId, userData?.id))
+      .leftJoin(cvSection, eq(cvSection.cvId, cv.id)));
 
+  console.log(rows);
   const responseData = rows && (rows[0] as unknown as ICVPage);
   if (responseData) {
     return {
