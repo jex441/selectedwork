@@ -28,6 +28,7 @@ import { ICollection } from '../interfaces/ICollection';
 import { IWork } from '../interfaces/IWork';
 import { get } from 'http';
 import Visibility from '../dashboard/collections/[slug]/visibility';
+import { IContactPage } from '../interfaces/IContactPage';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -382,6 +383,19 @@ export const getPageData = async (title: string) => {
   if (rows) return rows[0];
 };
 
+export const getAboutPageData = async (username: string, title: string) => {
+  const userData = await user();
+  const rows =
+    userData &&
+    userData.id !== null &&
+    (await db
+      .select()
+      .from(about)
+      .where(and(eq(about.title, title), eq(about.userId, userData?.id))));
+
+  if (rows) return rows[0];
+};
+
 export const getContactPageData = async (title: string) => {
   const userData = await user();
   const rows =
@@ -501,7 +515,7 @@ export const saveCVSections = async (
   const userData = await user();
   const userCV =
     userData && (await db.select().from(cv).where(eq(cv.userId, userData?.id)));
-
+  console.log(sections);
   sections.map(async (section) => {
     if (section.id !== null) {
       await db
@@ -749,10 +763,6 @@ export const addMedia = async (
 
   return newMediaEntry[0];
 };
-
-// Need to revalidate path to piece after adding new media
-// Need to enable editing of collection view
-// Need to toggle visibility of collection: visible, private, hidden
 
 export const deleteWork = async (workId: number, collectionId: number) => {
   const userCollection = await db
@@ -1068,4 +1078,230 @@ export const getUserWork = async (id: number) => {
 
 export const getPagesData = async (userId: number) => {
   return await db.select().from(pages).where(eq(pages.userId, userId));
+};
+
+// need a set of get page data functions which take a username and slug
+// the difference is that we dont have user(), we have another function to get user by their username
+// and the corresponding page data
+
+// functions for generating site:
+const getUserByUsername = async (username: string) => {
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.username, username));
+
+  if (user[0]) {
+    return user[0];
+  } else {
+    return null;
+  }
+};
+
+export const getAboutPageDataForSite = async (
+  username: string,
+  title: string,
+): Promise<{
+  status: number;
+  user: { username: string } | null;
+  data: IAboutPage | null;
+}> => {
+  const userData = await getUserByUsername(username);
+
+  if (!userData) {
+    return { status: 200, user: null, data: null };
+  }
+
+  const rows =
+    userData &&
+    userData.id !== null &&
+    (await db.select().from(about).where(eq(about.userId, userData?.id)));
+
+  const responseData = rows && (rows[0] as IAboutPage);
+  if (responseData) {
+    return {
+      status: 200,
+      user: { username: userData.firstName + userData.lastName },
+      data: responseData,
+    };
+  } else {
+    return {
+      status: 404,
+      user: { username: userData.firstName + userData.lastName },
+      data: null,
+    };
+  }
+};
+
+export const getContactPageDataForSite = async (
+  username: string,
+  title: string,
+): Promise<{
+  status: number;
+  user: { username: string } | null;
+  data: IContactPage | null;
+}> => {
+  const userData = await getUserByUsername(username);
+
+  if (!userData) {
+    return { status: 200, user: null, data: null };
+  }
+
+  const rows =
+    userData &&
+    userData.id !== null &&
+    (await db.select().from(contact).where(eq(contact.userId, userData?.id)));
+
+  const responseData = rows && (rows[0] as IContactPage);
+  if (responseData) {
+    return {
+      status: 200,
+      user: { username: userData.firstName + userData.lastName },
+      data: responseData,
+    };
+  } else {
+    return {
+      status: 404,
+      user: { username: userData.firstName + userData.lastName },
+      data: null,
+    };
+  }
+};
+export const getCVPageDataForSite = async (
+  username: string,
+  title: string,
+): Promise<{
+  status: number;
+  user: { username: string } | null;
+  data: ICVPage | null;
+}> => {
+  const userData = await getUserByUsername(username);
+
+  if (!userData) {
+    return { status: 200, user: null, data: null };
+  }
+
+  const rows =
+    userData &&
+    userData.id !== null &&
+    (await db
+      .select()
+      .from(cv)
+      .where(eq(cv.userId, userData?.id))
+      .leftJoin(cvSection, eq(cvSection.cvId, cv.id)));
+
+  // Need to reduce the rows into the correct format, as the join returns multiple rows, then map over the categories on the front end
+  /*
+  {status: 200, user: {}, data:{
+    education: [{}, {}],
+    soloExhibitions: [{}, {}],
+    groupExhibitions: [{}, {}],
+    awards: [{}, {}],
+    press: [{}, {}],
+    residencies: [{}, {}],
+    teaching: [{}, {}],
+
+  }}
+  */
+  const result =
+    rows &&
+    rows.reduce<ICVPage>((acc, row) => {
+      const cv = row.cv_table;
+      const section = row.cv_section_table;
+
+      if (!acc.id && cv.id) {
+        acc = {
+          ...cv,
+          education: [],
+          groupExhibitions: [],
+          soloExhibitions: [],
+          awards: [],
+          residencies: [],
+          press: [],
+          teaching: [],
+        };
+      }
+      if (section) {
+        let category = section.categoryId;
+        let sectionData = { ...section, bulletPoints: [] };
+        section.bulletPoint1 &&
+          sectionData.bulletPoints.push(section.bulletPoint1 as never);
+        section.bulletPoint2 &&
+          sectionData.bulletPoints.push(section.bulletPoint2 as never);
+        section.bulletPoint3 &&
+          sectionData.bulletPoints.push(section.bulletPoint3 as never);
+        category && acc[category].push(sectionData);
+      }
+
+      return acc;
+    }, {} as ICVPage);
+
+  if (result) {
+    return {
+      status: 200,
+      user: { username: userData.firstName + userData.lastName },
+      data: result,
+    };
+  } else {
+    return {
+      status: 404,
+      user: { username: userData.firstName + userData.lastName },
+      data: null,
+    };
+  }
+};
+
+export const getCollectionDataForSite = async (
+  username: string,
+  slug: string,
+) => {
+  const user = await getUserByUsername(username);
+
+  if (!user) {
+    return { status: 404, user: null, data: null };
+  }
+
+  const rows =
+    user.id !== null &&
+    (await db
+      .select()
+      .from(collection)
+      .where(and(eq(collection.userId, user.id), eq(collection.slug, slug)))
+      .leftJoin(work, eq(collection.id, work.collectionId))
+      .leftJoin(media, eq(work.id, media.workId)));
+
+  const result =
+    rows &&
+    rows.reduce<ICollection>((acc, row) => {
+      const collection = row.collection_table;
+      const work = row.work_table;
+      const media = row.media_table;
+
+      if (!acc.id && collection.id) {
+        acc = { ...collection, works: [] };
+      }
+      if (work) {
+        const isNew = acc.works.find((w) => w.id === work.id);
+        !isNew && acc.works.push({ ...work, media: [] });
+      }
+      if (media) {
+        acc.works.find((w) => w.id === media.workId)?.media.push(media);
+      }
+
+      return acc;
+    }, {} as ICollection);
+
+  if (result && user) {
+    return {
+      status: 200,
+      user: { username: user.firstName + ' ' + user.lastName },
+      data: result,
+    };
+  } else {
+    return {
+      status: 200,
+      user: null,
+      data: null,
+    };
+  }
 };
