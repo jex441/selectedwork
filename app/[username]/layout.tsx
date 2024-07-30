@@ -22,8 +22,8 @@ export default async function Layout({
   }
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <nav className="flex w-full flex-row items-center gap-4 p-10">
-        <span className="mr-6 text-xl">
+      <nav className="flex w-full flex-row items-center px-1 py-5 lg:gap-4 lg:p-10">
+        <span className="lg:mr-6 lg:text-xl">
           <Link href={`/${params.username}/`}>{res.user.username}</Link>
         </span>
         <span>

@@ -89,7 +89,6 @@ export default function Component({ data }: { data: ICVPage }) {
     const updatedWorkExperience = [...workExperience];
     if (updatedWorkExperience[index].bulletPoints.length < 3) {
       updatedWorkExperience[index].bulletPoints.push('');
-      updatedWorkExperience[index].unsaved = true;
     }
     setWorkExperience(updatedWorkExperience);
   };
