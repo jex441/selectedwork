@@ -30,7 +30,7 @@ export default function Modal({
               alt="work"
               objectFit="contain"
               style={{ objectFit: 'contain' }}
-              src={data.media[0].url}
+              src={data.media[0].url ?? ''}
             />
           </div>
           <div className="flex w-full flex-col gap-2 px-1 lg:w-1/3 lg:px-4">

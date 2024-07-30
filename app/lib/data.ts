@@ -1112,15 +1112,10 @@ export const getAboutPageDataForSite = async (
     return { status: 200, user: null, data: null };
   }
 
-  const table = { about: about, contact: contact, cv: cv, work: work };
-
   const rows =
     userData &&
     userData.id !== null &&
-    (await db
-      .select()
-      .from(table[title as keyof table])
-      .where(eq(table[title as keyof table].userId, userData?.id)));
+    (await db.select().from(about).where(eq(about.userId, userData?.id)));
 
   const responseData = rows && (rows[0] as IAboutPage);
   if (responseData) {
@@ -1191,7 +1186,7 @@ export const getCVPageDataForSite = async (
     userData.id !== null &&
     (await db.select().from(cv).where(eq(cv.userId, userData?.id)));
 
-  const responseData = rows && (rows[0] as ICVPage);
+  const responseData = rows && (rows[0] as unknown as ICVPage);
   if (responseData) {
     return {
       status: 200,
@@ -1214,54 +1209,7 @@ export const getCollectionDataForSite = async (
   const user = await getUserByUsername(username);
 
   if (!user) {
-    return { status: 404 };
-  }
-
-  // if path is just /username/ return first collection
-  if (slug === 'work') {
-    const rows =
-      user.id !== null &&
-      (await db
-        .select()
-        .from(collection)
-        .where(eq(collection.userId, user.id))
-        .leftJoin(work, eq(collection.id, work.collectionId))
-        .leftJoin(media, eq(work.id, media.workId)));
-
-    const result =
-      rows &&
-      rows.reduce<ICollection>((acc, row) => {
-        const collection = row.collection_table;
-        const work = row.work_table;
-        const media = row.media_table;
-
-        if (!acc.id && collection.id) {
-          acc = { ...collection, works: [] };
-        }
-        if (work) {
-          const isNew = acc.works.find((w) => w.id === work.id);
-          !isNew && acc.works.push({ ...work, media: [] });
-        }
-        if (media) {
-          acc.works.find((w) => w.id === media.workId)?.media.push(media);
-        }
-
-        return acc;
-      }, {} as ICollection);
-
-    if (result) {
-      return {
-        status: 200,
-        user: { name: user.firstName + ' ' + user.lastName },
-        data: { ...result },
-      };
-    } else {
-      return {
-        status: 404,
-        user: { name: user.firstName + ' ' + user.lastName },
-        data: null,
-      };
-    }
+    return { status: 404, user: null, data: null };
   }
 
   const rows =
@@ -1294,7 +1242,7 @@ export const getCollectionDataForSite = async (
       return acc;
     }, {} as ICollection);
 
-  if (result) {
+  if (result && user) {
     return {
       status: 200,
       user: { username: user.firstName + user.lastName },
@@ -1302,24 +1250,9 @@ export const getCollectionDataForSite = async (
     };
   } else {
     return {
-      id: 0,
-      title: '',
-      slug: '',
-      description: '',
-      linkSrc1: '',
-      linkText1: '',
-      linkSrc2: '',
-      linkText2: '',
-      template: '',
-      heading: '',
-      subheading: '',
-      imgSrc: '',
-      imgCaption: '',
-      visibility: '',
-      userId: 0,
-      works: [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      status: 200,
+      user: null,
+      data: null,
     };
   }
 };

@@ -12,9 +12,12 @@ export default async function Work({
 }) {
   let username = params.username;
 
+  type user = { username: string };
+
+  // fix this and run npm build again
   const res: {
     status: number;
-    user: { username: string } | null;
+    user: user | null;
     data: ICollection | null;
   } = await getCollectionDataForSite(username, 'work');
 

@@ -22,11 +22,11 @@ export default async function Contact({
     <main className="flex flex-row items-start justify-center">
       <section className="m-10 flex w-1/2 items-center justify-center">
         <Image
-          src={imgSrc}
+          src={imgSrc ?? ''}
           width={500}
           height={500}
           objectFit="contain"
-          alt={imgCaption}
+          alt={imgCaption ?? ''}
         />
       </section>
       <section className="m-10 w-1/2 bg-red-100">

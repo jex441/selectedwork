@@ -20,7 +20,7 @@ export default function piece({ data }: { data: IWork }) {
             alt="work"
             objectFit="contain"
             style={{ objectFit: 'contain' }}
-            src={data.media[0].url}
+            src={data.media[0].url ?? ''}
           />
         </figure>
         <div className="mt-4 flex w-full self-end justify-self-center text-xs tracking-wide lg:mt-0 lg:w-[305px] ">
