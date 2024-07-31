@@ -16,7 +16,7 @@ export default function Nav({
 }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex h-[60px] w-full flex-row bg-white lg:items-center">
+    <div className="fixed z-20 flex h-[60px] w-full flex-row  bg-white lg:static lg:items-center">
       <header className="absolute z-20 m-5 lg:static lg:mr-6 lg:text-xl">
         <Link href={`/${username}/`}>{displayName}</Link>
       </header>
@@ -29,7 +29,7 @@ export default function Nav({
       </div>
 
       <nav
-        className={`${open ? 'flex' : 'hidden'} absolute z-10 h-full w-full flex-col bg-white p-20 text-[32px] lg:static lg:m-5 lg:flex lg:w-auto lg:flex-row lg:items-center lg:gap-4 lg:p-0 lg:text-sm`}
+        className={`${open ? 'flex' : 'hidden'} fixed z-10 h-full w-full flex-col bg-white p-20 text-[32px] font-light lg:static lg:m-5 lg:flex lg:w-auto lg:flex-row lg:items-center lg:gap-4 lg:p-0 lg:text-sm`}
       >
         <span>
           <Link onClick={() => setOpen(false)} href={`/${username}/work`}>

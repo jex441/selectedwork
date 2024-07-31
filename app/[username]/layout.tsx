@@ -23,7 +23,7 @@ export default async function Layout({
   return (
     <div className="flex min-h-screen w-full flex-col">
       <Nav username={username} displayName={res.user.username} />
-      <main>{children}</main>
+      <main className="mt-[60px] lg:mt-0">{children}</main>
     </div>
   );
 }
