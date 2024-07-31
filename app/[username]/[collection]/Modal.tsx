@@ -13,7 +13,7 @@ export default function Modal({
 }) {
   return (
     <>
-      <div className="fixed right-0 top-0 z-10 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
+      <div className="fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
         <nav className="flex w-full justify-end p-2 lg:fixed lg:p-5">
           <span
             className="cursor-pointer opacity-50 hover:opacity-100"
@@ -28,7 +28,6 @@ export default function Modal({
             <Image
               fill
               alt="work"
-              objectFit="contain"
               style={{ objectFit: 'contain' }}
               src={data.media[0].url ?? ''}
             />
