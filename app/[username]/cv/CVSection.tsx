@@ -27,7 +27,7 @@ export default function CVSection({
             bulletPoint2: string | null;
             bulletPoint3: string | null;
           }) => {
-            return <CVLine experience={experience} />;
+            return <CVLine key={data[categoryId].id} experience={experience} />;
           },
         )}
     </section>

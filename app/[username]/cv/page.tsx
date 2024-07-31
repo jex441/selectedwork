@@ -46,7 +46,7 @@ export default async function page({
         <div className="w-full text-sm text-gray-700">{imgCaption}</div>
       </section> */}
 
-      <section className="flex w-full flex-col items-center justify-center">
+      <section className="flex w-full flex-col items-center justify-center lg:mt-10 lg:w-3/4">
         {res.data !== null && res.data.education.length > 0 && (
           <CVSection
             data={res.data}
