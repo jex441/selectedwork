@@ -95,7 +95,7 @@ export async function POST(req: Request) {
       const cvPage = await insertCVPage();
       const collectionPage = await insertCollection();
     };
-
+    console.log('msg.data', msg.data);
     const newUser: NewUser = {
       authId: msg.data.id,
       username:
