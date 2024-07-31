@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Nav from './Nav';
 import { getCollectionDataForSite } from '@/app/lib/data';
 import { ICollection } from '../interfaces/ICollection';
 export default async function Layout({
@@ -22,23 +22,7 @@ export default async function Layout({
   }
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <nav className="flex w-full flex-row items-center px-1 py-5 lg:gap-4 lg:p-10">
-        <span className="lg:mr-6 lg:text-xl">
-          <Link href={`/${params.username}/`}>{res.user.username}</Link>
-        </span>
-        <span>
-          <Link href={`/${params.username}/work`}>Selected Work</Link>
-        </span>
-        <span>
-          <Link href={`/${params.username}/about`}>About</Link>
-        </span>
-        <span>
-          <Link href={`/${params.username}/contact`}>Contact</Link>
-        </span>
-        <span>
-          <Link href={`/${params.username}/cv`}>CV</Link>
-        </span>
-      </nav>
+      <Nav username={username} displayName={res.user.username} />
       <main>{children}</main>
     </div>
   );
