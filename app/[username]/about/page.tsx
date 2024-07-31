@@ -35,7 +35,7 @@ export default async function About({
             <Image
               fill
               src={imgSrc}
-              objectFit="contain"
+              style={{ objectFit: 'contain' }}
               alt={imgCaption ?? 'about the artist'}
             />
           )}

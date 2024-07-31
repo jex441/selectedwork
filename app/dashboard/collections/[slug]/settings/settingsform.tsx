@@ -189,12 +189,7 @@ export default function settingsform({
             <Label>Image</Label>
             <div className="relative my-4 flex h-[300px] w-[500px] items-center justify-center">
               {imgSrc ? (
-                <Image
-                  src={imgSrc ?? ''}
-                  objectFit={'contain'}
-                  fill={true}
-                  alt="Image"
-                />
+                <Image src={imgSrc ?? ''} fill={true} alt="Image" />
               ) : (
                 <div className="border-1 block flex h-full w-full items-center justify-center rounded-md bg-gray-100 text-gray-300">
                   {' '}

@@ -48,7 +48,6 @@ export async function POST(req: Request) {
   }
 
   if (msg.type === 'user.created') {
-    console.log('CREATED');
     const insertUser = async (user: NewUser) => {
       let userId: number;
       let res = await db.insert(users).values(user).returning({ id: users.id });
@@ -95,7 +94,6 @@ export async function POST(req: Request) {
       const contactPage = await insertContactPage();
       const cvPage = await insertCVPage();
       const collectionPage = await insertCollection();
-      console.log(collection);
     };
 
     const newUser: NewUser = {

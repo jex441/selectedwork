@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 
 import { IWork } from '@/app/interfaces/IWork';
-// import close from '/public/close.png';
+import close from '/public/close.png';
 
 export default function Modal({
   data,
@@ -19,7 +19,7 @@ export default function Modal({
             className="cursor-pointer opacity-50 hover:opacity-100"
             onClick={() => setModal(false)}
           >
-            <Image src={''} alt="close" height={25} width={25} />
+            <Image src={close} alt="close" height={25} width={25} />
           </span>
         </nav>
 

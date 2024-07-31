@@ -14,7 +14,6 @@ export default async function Work({
 
   type user = { username: string };
 
-  // fix this and run npm build again
   const res: {
     status: number;
     user: user | null;
@@ -48,7 +47,6 @@ export default async function Work({
                 <Image
                   fill
                   src={imgSrc}
-                  objectFit="contain"
                   style={{ objectFit: 'contain' }}
                   alt="cover"
                 />

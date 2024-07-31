@@ -515,7 +515,6 @@ export const saveCVSections = async (
   const userData = await user();
   const userCV =
     userData && (await db.select().from(cv).where(eq(cv.userId, userData?.id)));
-  console.log(sections);
   sections.map(async (section) => {
     if (section.id !== null) {
       await db
@@ -620,7 +619,6 @@ const CreateWorkSchema = z.object({
 
 export const createWork = async (id: number, formData: FormData) => {
   const user = await getUserData();
-  console.log('formData', formData);
   const validatedFields = CreateWorkSchema.safeParse({
     userCollection: formData.get('userCollection'),
     title: formData.get('title') || '',
@@ -671,7 +669,6 @@ export const createWork = async (id: number, formData: FormData) => {
           eq(collection.userId, user.id),
         ),
       ));
-  console.log(height, width, depth, unit);
   const newWork =
     user &&
     user.id !== null &&
@@ -705,7 +702,6 @@ export const createWorkWithMedia = async (
   newMedia: { url: string; main: string; type: string },
 ) => {
   const user = await getUserData();
-  console.log('slug', slug);
   const userCollectionData =
     user &&
     user.id !== null &&

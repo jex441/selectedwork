@@ -14,7 +14,6 @@ export default async function Contact({
     user: { username: string } | null;
     data: IContactPage | null;
   } = await getContactPageDataForSite(username, 'contact');
-  console.log(res.data);
   const {
     imgSrc,
     imgCaption,
@@ -36,7 +35,7 @@ export default async function Contact({
             <Image
               fill
               src={imgSrc}
-              objectFit="contain"
+              style={{ objectFit: 'contain' }}
               alt={imgCaption ?? 'about the artist'}
             />
           )}

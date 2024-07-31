@@ -18,7 +18,6 @@ export default function piece({ data }: { data: IWork }) {
           <Image
             fill
             alt="work"
-            objectFit="contain"
             style={{ objectFit: 'contain' }}
             src={data.media[0].url ?? ''}
           />
