@@ -34,12 +34,12 @@ export default function Modal({
               src={data.media[0].url ?? ''}
             />
           </div>
-          <div className="flex w-full flex-col gap-2 px-1 lg:w-1/3 lg:px-4">
+          <div className="flex w-full flex-col gap-2 px-1 lg:mx-auto lg:w-1/4">
             <span className="flex w-full items-center justify-between">
               <span className="flex items-center text-xl italic leading-10">
                 {data.title}
                 {data.sold && (
-                  <span className="mx-4 inline-block h-2 w-2 rounded-lg"></span>
+                  <span className="mx-4 inline-block h-2 w-2 rounded-lg bg-red-500"></span>
                 )}
               </span>
               <p className="leading-7 text-gray-600">{data.year}</p>
