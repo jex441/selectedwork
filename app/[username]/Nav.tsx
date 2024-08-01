@@ -44,9 +44,7 @@ export default function Nav({
         className={`${open ? 'flex' : 'hidden'} fixed z-10 h-full w-full flex-col gap-4 bg-white px-5 pl-10 pt-20 text-[32px] font-light lg:static lg:m-5 lg:flex lg:w-auto lg:flex-row lg:items-center lg:gap-4 lg:p-0 lg:text-sm`}
       >
         {collections.length > 1 ? (
-          <span
-            onMouseEnter={() => collections.length > 1 && setDropDown('flex')}
-          >
+          <span onMouseEnter={() => setDropDown('flex')}>
             <Link href={`/${username}/${collections[0].slug}`}>
               Selected Work
             </Link>
@@ -54,13 +52,13 @@ export default function Nav({
         ) : (
           <span onMouseEnter={() => clickHandler()}>
             <Link href={`/${username}/${collections[0].slug}`}>
-              Selected Work
+              {collections[0].title}
             </Link>
           </span>
         )}
 
         <section
-          className={`${dropDown} left-0 top-[60px] h-[200px] w-full flex-col gap-2 bg-red-100 lg:absolute lg:p-5 lg:pl-60`}
+          className={`${dropDown} left-0 top-[60px] h-[200px] w-full flex-col gap-2 bg-white lg:absolute lg:p-5 lg:pl-60`}
         >
           {collections.length > 1 &&
             collections.map((collection) => (
