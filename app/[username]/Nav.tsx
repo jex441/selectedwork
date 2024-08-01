@@ -31,7 +31,11 @@ export default function Nav({
         className="fixed z-20 flex h-[70px] w-full flex-row bg-white lg:static lg:items-center lg:p-10"
       >
         <header className="absolute z-10 m-5 tracking-wide lg:static lg:mr-6 lg:text-xl">
-          <Link onClick={() => clickHandler()} href={`/${username}/`}>
+          <Link
+            onMouseEnter={() => setDropDown('hidden')}
+            onClick={() => clickHandler()}
+            href={`/${username}/`}
+          >
             {displayName}
           </Link>
         </header>
@@ -81,7 +85,11 @@ export default function Nav({
           </section>
 
           <span>
-            <Link onClick={() => clickHandler()} href={`/${username}/about`}>
+            <Link
+              onMouseEnter={() => setDropDown('hidden')}
+              onClick={() => clickHandler()}
+              href={`/${username}/about`}
+            >
               About
             </Link>
           </span>
