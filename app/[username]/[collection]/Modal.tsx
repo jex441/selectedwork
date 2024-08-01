@@ -23,12 +23,14 @@ export default function Modal({
           </span>
         </nav>
 
-        <section className="flex h-full w-full flex-col lg:flex-row lg:items-center lg:justify-center lg:justify-around">
-          <div className="relative mx-1 flex h-[480px] w-full lg:mx-0 lg:h-[600px] lg:w-[700px]">
+        <section className="flex h-full w-full flex-col px-2 pt-20 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:p-0">
+          <div className="flex max-h-[600px] w-full items-center justify-center lg:w-2/3">
             <Image
-              fill
+              height={0}
+              width={0}
+              sizes="100vw"
               alt="work"
-              style={{ objectFit: 'contain' }}
+              className="max-h-auto w-full self-center object-contain lg:max-h-[600px] lg:w-4/5"
               src={data.media[0].url ?? ''}
             />
           </div>
@@ -37,7 +39,7 @@ export default function Modal({
               <span className="flex items-center text-xl italic leading-10">
                 {data.title}
                 {data.sold && (
-                  <span className="mx-4 inline-block h-2 w-2 rounded-lg bg-red-500"></span>
+                  <span className="mx-4 inline-block h-2 w-2 rounded-lg"></span>
                 )}
               </span>
               <p className="leading-7 text-gray-600">{data.year}</p>
