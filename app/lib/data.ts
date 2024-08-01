@@ -320,9 +320,12 @@ export const getUserData = async () => {
       const page = row.pages_table;
 
       if (!acc.id && user.id) {
-        acc = { ...user, pages: [] };
+        acc = { ...user, pages: [], collections: [] };
       }
       if (page) {
+        if (!acc.pages) {
+          acc.pages = [];
+        }
         acc.pages.push(page);
       }
       return acc;
@@ -1081,14 +1084,33 @@ export const getPagesData = async (userId: number) => {
 // and the corresponding page data
 
 // functions for generating site:
-const getUserByUsername = async (username: string) => {
-  const user = await db
+export const getUserByUsername = async (username: string) => {
+  const rows = await db
     .select()
     .from(users)
-    .where(eq(users.username, username));
+    .where(eq(users.username, username))
+    .leftJoin(collection, eq(collection.userId, users.id));
 
-  if (user[0]) {
-    return user[0];
+  const result = rows.reduce<IUser>((acc, row) => {
+    const user = row.users_table;
+    const collection = row.collection_table;
+
+    if (!acc.id && user.id) {
+      acc = { ...user, pages: [], collections: [] };
+    }
+    if (collection) {
+      if (!acc.collections) {
+        acc.collections = [];
+      }
+      collection.visibility === 'public' &&
+        acc.collections.push({ ...collection, works: [] });
+    }
+    return acc;
+  }, {} as IUser);
+
+  console.log(user);
+  if (result) {
+    return result;
   } else {
     return null;
   }
@@ -1104,7 +1126,7 @@ export const getAboutPageDataForSite = async (
 }> => {
   const userData = await getUserByUsername(username);
 
-  if (!userData) {
+  if (!userData || userData.firstName === null || userData.lastName === null) {
     return { status: 200, user: null, data: null };
   }
 
@@ -1139,7 +1161,7 @@ export const getContactPageDataForSite = async (
 }> => {
   const userData = await getUserByUsername(username);
 
-  if (!userData) {
+  if (!userData || userData.firstName === null || userData.lastName === null) {
     return { status: 200, user: null, data: null };
   }
 
@@ -1173,7 +1195,7 @@ export const getCVPageDataForSite = async (
 }> => {
   const userData = await getUserByUsername(username);
 
-  if (!userData) {
+  if (!userData || userData.firstName === null || userData.lastName === null) {
     return { status: 200, user: null, data: null };
   }
 
@@ -1249,23 +1271,34 @@ export const getCVPageDataForSite = async (
 
 export const getCollectionDataForSite = async (
   username: string,
-  slug: string,
+  slug: string | null,
 ) => {
   const user = await getUserByUsername(username);
 
   if (!user) {
     return { status: 404, user: null, data: null };
   }
+  let rows;
 
-  const rows =
-    user.id !== null &&
-    (await db
-      .select()
-      .from(collection)
-      .where(and(eq(collection.userId, user.id), eq(collection.slug, slug)))
-      .leftJoin(work, eq(collection.id, work.collectionId))
-      .leftJoin(media, eq(work.id, media.workId)));
-
+  if (slug === null) {
+    rows =
+      user.id !== null &&
+      (await db
+        .select()
+        .from(collection)
+        .where(eq(collection.userId, user.id))
+        .leftJoin(work, eq(collection.id, work.collectionId))
+        .leftJoin(media, eq(work.id, media.workId)));
+  } else {
+    rows =
+      user.id !== null &&
+      (await db
+        .select()
+        .from(collection)
+        .where(and(eq(collection.userId, user.id), eq(collection.slug, slug)))
+        .leftJoin(work, eq(collection.id, work.collectionId))
+        .leftJoin(media, eq(work.id, media.workId)));
+  }
   const result =
     rows &&
     rows.reduce<ICollection>((acc, row) => {

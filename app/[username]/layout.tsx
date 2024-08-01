@@ -1,6 +1,8 @@
 import Nav from './Nav';
-import { getCollectionDataForSite } from '@/app/lib/data';
+import { getCollectionDataForSite, getUserByUsername } from '@/app/lib/data';
 import { ICollection } from '../interfaces/ICollection';
+import { IUser } from '../interfaces/IUser';
+
 export default async function Layout({
   params,
   children,
@@ -17,12 +19,23 @@ export default async function Layout({
     data: ICollection | null;
   } = await getCollectionDataForSite(username, 'work');
 
+  const userData: IUser | null = await getUserByUsername(username);
+
+  console.log(userData);
+
   if (res.user === null) {
+    return <div>404</div>;
+  }
+  if (userData === null) {
     return <div>404</div>;
   }
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <Nav username={username} displayName={res.user.username} />
+      <Nav
+        collections={userData.collections ?? []}
+        username={username}
+        displayName={res.user.username}
+      />
       <main className="mt-[70px] lg:mt-0">{children}</main>
     </div>
   );
