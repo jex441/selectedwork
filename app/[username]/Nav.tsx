@@ -31,7 +31,9 @@ export default function Nav({
         className="fixed z-20 flex h-[70px] w-full flex-row bg-white lg:static lg:items-center lg:p-10"
       >
         <header className="absolute z-10 m-5 tracking-wide lg:static lg:mr-6 lg:text-xl">
-          <Link href={`/${username}/`}>{displayName}</Link>
+          <Link onClick={() => clickHandler()} href={`/${username}/`}>
+            {displayName}
+          </Link>
         </header>
 
         <div
@@ -45,7 +47,10 @@ export default function Nav({
           className={`${open ? 'flex' : 'hidden'} fixed z-10 h-full w-full flex-col gap-4 bg-white px-5 pl-10 pt-20 text-[32px] font-light lg:static lg:m-5 lg:flex lg:w-auto lg:flex-row lg:items-center lg:gap-4 lg:p-0 lg:text-sm`}
         >
           {collections.length > 1 ? (
-            <span onMouseEnter={() => setDropDown('flex')}>
+            <span
+              onClick={() => clickHandler()}
+              onMouseEnter={() => setDropDown('flex')}
+            >
               <Link href={`/${username}/${collections[0].slug}`}>
                 Selected Work
               </Link>
