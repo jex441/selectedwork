@@ -1081,14 +1081,30 @@ export const getPagesData = async (userId: number) => {
 // and the corresponding page data
 
 // functions for generating site:
-const getUserByUsername = async (username: string) => {
-  const user = await db
+export const getUserByUsername = async (username: string) => {
+  const rows = await db
     .select()
     .from(users)
-    .where(eq(users.username, username));
+    .where(eq(users.username, username))
+    .leftJoin(collection, eq(collection.userId, users.id));
 
-  if (user[0]) {
-    return user[0];
+  const result = rows.reduce<IUser>((acc, row) => {
+    const user = row.users_table;
+    const collection = row.collection_table;
+
+    if (!acc.id && user.id) {
+      acc = { ...user, collections: [] };
+    }
+    if (collection) {
+      collection.visibility === 'public' &&
+        acc.collections.push({ ...collection, works: [] });
+    }
+    return acc;
+  }, {} as IUser);
+
+  console.log(user);
+  if (result) {
+    return result;
   } else {
     return null;
   }
