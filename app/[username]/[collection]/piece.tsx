@@ -11,18 +11,19 @@ export default function piece({ data }: { data: IWork }) {
     <>
       {modal && <Modal setModal={setModal} data={data} />}
       <section
+        key={data.id}
         onClick={() => setModal(true)}
-        className="border-1 relative mx-1 mb-6 grid h-auto w-full cursor-pointer justify-items-stretch lg:m-3 lg:h-[290px] lg:w-[305px]"
+        className="border-1 relative mx-1 mb-8 grid h-auto w-full cursor-pointer justify-items-stretch gap-3 lg:mx-3 lg:h-[300px] lg:w-auto"
       >
-        <figure className="relative h-[400px] w-full self-center justify-self-center object-contain lg:h-[230px] lg:w-[305px]">
-          <Image
-            fill
-            alt="work"
-            style={{ objectFit: 'contain' }}
-            src={data.media[0].url ?? ''}
-          />
-        </figure>
-        <div className="mt-4 flex w-full self-end justify-self-center text-xs tracking-wide lg:mt-0 lg:w-[305px] ">
+        <Image
+          width={0}
+          height={0}
+          alt="work"
+          sizes="100vw"
+          className="max-h-[620px] w-full self-center object-contain lg:max-h-[270px]"
+          src={data.media[0].url ?? ''}
+        />
+        <div className="flex w-full self-start self-end text-xs tracking-wide lg:mt-0 lg:w-auto">
           <span className="uppercase italic text-gray-600">{data.title}</span>
           <span className="ml-3 text-gray-400">
             {data.year && `${data.year}`}

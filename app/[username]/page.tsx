@@ -88,7 +88,7 @@ export default async function Work({
           </p>
         </div>
       </section>
-      <section className="flex w-full flex-wrap justify-center">
+      <section className="flex w-full flex-wrap justify-between gap-y-10 lg:p-10">
         {works && works.map((work) => <Piece data={work} />)}
       </section>
     </main>
