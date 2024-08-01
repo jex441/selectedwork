@@ -29,18 +29,20 @@ export default async function About({
 
   return (
     <main className="flex flex-col items-start justify-center lg:flex-row">
-      <section className="relative m-1 flex h-[300px] w-full flex-col object-contain lg:m-10 lg:h-[490px] lg:w-1/2">
-        <div className="relative h-[320px] w-full lg:h-[480px] ">
+      <section className="relative flex h-[300px] w-full flex-col object-contain p-1 lg:m-10 lg:h-[490px] lg:w-1/2">
+        <div className="relative h-auto w-full lg:max-h-[480px]">
           {imgSrc && (
             <Image
-              fill
+              height={0}
+              width={0}
+              sizes="100vw"
               src={imgSrc}
-              style={{ objectFit: 'contain' }}
+              className="h-full w-full object-contain"
               alt={imgCaption ?? 'about the artist'}
             />
           )}
         </div>
-        <div className="w-full text-sm text-gray-700">{imgCaption}</div>
+        <div className="mt-2 w-full text-sm text-gray-700">{imgCaption}</div>
       </section>
       <section className="m-1 w-full lg:m-10 lg:w-1/2">
         <h1 className="text-xl leading-8">{heading}</h1>
