@@ -16,6 +16,7 @@ export default async function Component() {
     domain: '',
     url: '',
     pages: [],
+    collections: [],
   };
   let res = await getUserData();
   if (res !== null) userData = res;

@@ -320,9 +320,12 @@ export const getUserData = async () => {
       const page = row.pages_table;
 
       if (!acc.id && user.id) {
-        acc = { ...user, pages: [] };
+        acc = { ...user, pages: [], collections: [] };
       }
       if (page) {
+        if (!acc.pages) {
+          acc.pages = [];
+        }
         acc.pages.push(page);
       }
       return acc;
@@ -1093,9 +1096,12 @@ export const getUserByUsername = async (username: string) => {
     const collection = row.collection_table;
 
     if (!acc.id && user.id) {
-      acc = { ...user, collections: [] };
+      acc = { ...user, pages: [], collections: [] };
     }
     if (collection) {
+      if (!acc.collections) {
+        acc.collections = [];
+      }
       collection.visibility === 'public' &&
         acc.collections.push({ ...collection, works: [] });
     }
@@ -1120,7 +1126,7 @@ export const getAboutPageDataForSite = async (
 }> => {
   const userData = await getUserByUsername(username);
 
-  if (!userData) {
+  if (!userData || userData.firstName === null || userData.lastName === null) {
     return { status: 200, user: null, data: null };
   }
 
@@ -1155,7 +1161,7 @@ export const getContactPageDataForSite = async (
 }> => {
   const userData = await getUserByUsername(username);
 
-  if (!userData) {
+  if (!userData || userData.firstName === null || userData.lastName === null) {
     return { status: 200, user: null, data: null };
   }
 
@@ -1189,7 +1195,7 @@ export const getCVPageDataForSite = async (
 }> => {
   const userData = await getUserByUsername(username);
 
-  if (!userData) {
+  if (!userData || userData.firstName === null || userData.lastName === null) {
     return { status: 200, user: null, data: null };
   }
 
@@ -1265,23 +1271,34 @@ export const getCVPageDataForSite = async (
 
 export const getCollectionDataForSite = async (
   username: string,
-  slug: string,
+  slug: string | null,
 ) => {
   const user = await getUserByUsername(username);
 
   if (!user) {
     return { status: 404, user: null, data: null };
   }
+  let rows;
 
-  const rows =
-    user.id !== null &&
-    (await db
-      .select()
-      .from(collection)
-      .where(and(eq(collection.userId, user.id), eq(collection.slug, slug)))
-      .leftJoin(work, eq(collection.id, work.collectionId))
-      .leftJoin(media, eq(work.id, media.workId)));
-
+  if (slug === null) {
+    rows =
+      user.id !== null &&
+      (await db
+        .select()
+        .from(collection)
+        .where(eq(collection.userId, user.id))
+        .leftJoin(work, eq(collection.id, work.collectionId))
+        .leftJoin(media, eq(work.id, media.workId)));
+  } else {
+    rows =
+      user.id !== null &&
+      (await db
+        .select()
+        .from(collection)
+        .where(and(eq(collection.userId, user.id), eq(collection.slug, slug)))
+        .leftJoin(work, eq(collection.id, work.collectionId))
+        .leftJoin(media, eq(work.id, media.workId)));
+  }
   const result =
     rows &&
     rows.reduce<ICollection>((acc, row) => {

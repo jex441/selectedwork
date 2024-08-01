@@ -18,7 +18,7 @@ export default async function Work({
     status: number;
     user: user | null;
     data: ICollection | null;
-  } = await getCollectionDataForSite(username, 'work');
+  } = await getCollectionDataForSite(username, null);
 
   const {
     imgSrc,

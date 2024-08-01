@@ -1,5 +1,5 @@
 import { ICollection } from './ICollection';
-
+import { IPage } from './IPage';
 export interface IUser {
   id: number | null;
   authId: string;
@@ -11,5 +11,6 @@ export interface IUser {
   occupation: string | null;
   domain: string | null;
   url: string | null;
-  collections: ICollection[];
+  collections: ICollection[] | null;
+  pages: IPage[] | null;
 }
