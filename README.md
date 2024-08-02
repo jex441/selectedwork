@@ -29,6 +29,9 @@ It uses
 
 It is in a state of rapid development.
 
+### Dashboard Preview with drag and drop:
+![ScreenRecording2024-08-02at3 59 10PM-ezgif com-optimize](https://github.com/user-attachments/assets/7933391f-2eea-49d2-9ab4-83974085df72)
+
 An example site generated using Selected Work is found [here](https://dash-xi-seven.vercel.app/camdenross)
 
-![ScreenRecording2024-08-02at9 39 39AM-ezgif com-optimize](https://github.com/user-attachments/assets/74a6a37c-0968-4311-929f-358fd5ecb7c1)
+
