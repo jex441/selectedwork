@@ -97,13 +97,15 @@ export async function POST(req: Request) {
       const cvPage = await insertCVPage();
       const collectionPage = await insertCollection();
     };
-
+    const id = Date.now();
+    const username =
+      msg.data.email_addresses[0].email_address.split('@')[0] + String(id);
     const newUser: NewUser = {
       authId: msg.data.id,
-      username: msg.data.email_addresses[0].email_address.split('@')[0],
+      username: username,
       email: msg.data.email_addresses[0].email_address,
-      firstName: msg.data.email_addresses[0].email_address.split('@')[0],
-      lastName: msg.data.email_addresses[0].email_address.split('@')[0],
+      firstName: msg.data.first_name || 'User',
+      lastName: msg.data.first_name || 'User',
       plan: 'free',
     };
 
