@@ -17,7 +17,7 @@ export default async function Layout({
     status: number;
     user: user | null;
     data: ICollection | null;
-  } = await getCollectionDataForSite(username, 'work');
+  } = await getCollectionDataForSite(username, null);
 
   const userData: IUser | null = await getUserByUsername(username);
 
