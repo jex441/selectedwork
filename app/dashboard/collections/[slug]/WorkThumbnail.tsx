@@ -30,9 +30,9 @@ export default function WorkThumbnail({
     transform: CSS.Transform.toString(transform),
     transition,
     width: '250px',
-    height: '200px',
-    border: '2px solid #ccc',
-    backgroundColor: '#cccccc',
+    height: '270px',
+    borderRadius: '5px',
+    backgroundColor: 'white',
     margin: '10px',
     zIndex: isDragging ? '100' : 'auto',
     opacity: isDragging ? 0.3 : 1,
@@ -41,8 +41,12 @@ export default function WorkThumbnail({
   return (
     <div ref={setNodeRef} style={style}>
       <Box>
-        <button {...listeners} {...attributes}>
-          =
+        <button
+          className="p-1 text-right text-sm text-gray-500"
+          {...listeners}
+          {...attributes}
+        >
+          ::
         </button>
         <Link
           href={`/dashboard/collections/${slug}/${work.id}`}
@@ -57,7 +61,7 @@ export default function WorkThumbnail({
               className="w-full overflow-hidden object-cover"
             />
           </div>
-          <div className="bg-white p-4 dark:bg-gray-950">
+          <div className="bg-white p-2 dark:bg-gray-950">
             <h3 className="font-semibold">{work.title}</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
               {work.medium}

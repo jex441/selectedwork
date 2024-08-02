@@ -55,7 +55,7 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
   };
   if (!items.length) return null;
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen rounded-lg bg-gray-100">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -90,9 +90,9 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
               {activeId ? (
                 <div
                   style={{
-                    width: '100px',
-                    height: '100px',
-                    backgroundColor: 'red',
+                    width: '250px',
+                    height: '200px',
+                    backgroundColor: '#ccc',
                   }}
                 ></div>
               ) : null}
