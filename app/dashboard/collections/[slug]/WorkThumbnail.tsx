@@ -29,9 +29,9 @@ export default function WorkThumbnail({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    width: '200px',
+    width: '250px',
     height: '200px',
-    border: '2px solid red',
+    border: '2px solid #ccc',
     backgroundColor: '#cccccc',
     margin: '10px',
     zIndex: isDragging ? '100' : 'auto',
@@ -39,30 +39,26 @@ export default function WorkThumbnail({
   };
   //
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="group relative overflow-hidden rounded-lg"
-    >
+    <div ref={setNodeRef} style={style}>
       <Box>
         <button {...listeners} {...attributes}>
-          Drag handle
+          =
         </button>
-        {id}
         <Link
           href={`/dashboard/collections/${slug}/${work.id}`}
-          className=""
+          className="h-full w-full"
           prefetch={false}
         >
-          <Image
-            src={work.media[0]?.url ?? placeholder}
-            alt="Image 7"
-            width={400}
-            height={300}
-            className="h-60 w-full object-cover"
-          />
+          <div className="relative h-40 w-full bg-gray-100">
+            <Image
+              fill
+              src={work.media[0]?.url ?? placeholder}
+              alt="Image 7"
+              className="w-full overflow-hidden object-cover"
+            />
+          </div>
           <div className="bg-white p-4 dark:bg-gray-950">
-            <h3 className="text-lg font-semibold md:text-xl">{work.title}</h3>
+            <h3 className="font-semibold">{work.title}</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
               {work.medium}
             </p>

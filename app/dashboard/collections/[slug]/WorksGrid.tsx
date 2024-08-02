@@ -55,7 +55,7 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
   };
   if (!items.length) return null;
   return (
-    <div className="flex bg-gray-100">
+    <div className="flex min-h-screen bg-gray-100">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
