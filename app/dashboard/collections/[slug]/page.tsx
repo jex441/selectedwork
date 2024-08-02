@@ -7,13 +7,15 @@ import { getUserCollection } from '../../../lib/data';
 import { ICollection } from '../../../interfaces/ICollection';
 import placeholder from '../../../assets/placeholder.png';
 import Visibility from './visibility';
-
+import WorkThumbnail from './WorkThumbnail';
+import WorksGrid from './WorksGrid';
 export default async function Collection({
   params,
 }: {
   params: { slug: string };
 }) {
   const collection: ICollection = await getUserCollection(params.slug);
+
   if (collection === null) {
     return <div>Collection not found</div>;
   }
@@ -45,43 +47,7 @@ export default async function Collection({
           </Link>
         </div>
       </header>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {collection.works &&
-          collection.works.map((work) => (
-            <div className="group relative overflow-hidden rounded-lg">
-              <Link
-                href={`/dashboard/collections/${params.slug}/${work.id}`}
-                className="absolute inset-0 z-10"
-                prefetch={false}
-              >
-                <span className="sr-only">View Image</span>
-              </Link>
-              <Image
-                src={work.media[0]?.url ?? placeholder}
-                alt="Image 7"
-                width={400}
-                height={300}
-                className="h-60 w-full object-cover"
-              />
-              <div className="bg-white p-4 dark:bg-gray-950">
-                <h3 className="text-lg font-semibold md:text-xl">
-                  {work.title}
-                </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {work.medium}
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="text-sm text-gray-500 dark:text-gray-400">
-                    {work.year}
-                  </div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">
-                    {work.height} {work.width} {work.unit}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-      </div>
+      <WorksGrid collection={collection} />
     </main>
   );
 }
