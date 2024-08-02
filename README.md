@@ -20,6 +20,8 @@ It uses
 
 It is in a state of rapid development.
 
-Preview:
+An example site generated using Selected Work is found [here](https://dash-xi-seven.vercel.app/camdenross)
 
+Dashboard Preview:
 <img width="1452" alt="Screenshot 2024-07-22 at 2 18 58 PM" src="https://github.com/user-attachments/assets/b6371b81-8a62-4050-b8e6-f58a05e04964">
+![ScreenRecording2024-08-02at9 39 39AM-ezgif com-optimize](https://github.com/user-attachments/assets/74a6a37c-0968-4311-929f-358fd5ecb7c1)
