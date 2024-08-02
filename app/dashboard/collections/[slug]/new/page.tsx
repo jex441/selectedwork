@@ -45,6 +45,8 @@ export default function NewPieceForm({
   const [work, setWork] = useState<IWork>({
     id: null,
     collectionId: null,
+    index: null,
+    idx: 99,
     title: '',
     year: '',
     medium: '',

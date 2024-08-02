@@ -3,6 +3,8 @@ import { IWork } from './IWork';
 export interface ICollection {
   id: number;
   title: string | null;
+  index: number | null;
+  idx: number | null;
   slug: string | null;
   description: string | null;
   linkSrc1: string | null;

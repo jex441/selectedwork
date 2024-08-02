@@ -6,6 +6,8 @@ export interface IMedia {
 }
 export interface IWork {
   id: number | null;
+  idx: number;
+  index: number | null;
   collectionId: number | null;
   title: string | null;
   year: string | null;

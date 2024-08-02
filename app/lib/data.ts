@@ -804,7 +804,7 @@ export const getUserCollection = async (slug: string) => {
       .leftJoin(work, eq(collection.id, work.collectionId))
       .leftJoin(media, eq(work.id, media.workId)));
 
-  const result =
+  let result =
     rows &&
     rows.reduce<ICollection>((acc, row) => {
       const collection = row.collection_table;
@@ -826,11 +826,15 @@ export const getUserCollection = async (slug: string) => {
     }, {} as ICollection);
 
   if (result) {
-    return result;
+    const sorted = result.works.sort((a, b) => a.idx - b.idx);
+
+    return { ...result, works: sorted };
   } else {
     return {
       id: 0,
       title: '',
+      index: 0,
+      idx: 0,
       slug: '',
       description: '',
       linkSrc1: '',
@@ -960,6 +964,19 @@ const UpdateCollection = CollectionFormSchema.omit({
   id: true,
 });
 
+export const reorderWorks = async (updatedWorks: IWork[]) => {
+  // need to insert multiple works at once and update Works on conflict with id, consider passing entire work object?
+  for (let i = 0; i < updatedWorks.length; i++) {
+    const query = await db
+      .update(work)
+      .set({ idx: i + 1 })
+      .where(eq(work.id, Number(updatedWorks[i].id)))
+      .returning({ id: work.id });
+
+    console.log('query', query);
+  }
+};
+
 export const updateCollection = async (
   id: number,
   prevState: {},
@@ -1001,7 +1018,6 @@ export const updateCollection = async (
     linkText2,
     imgSrc,
     imgCaption,
-    visibility,
   } = validatedFields.data;
 
   const update = await db
@@ -1011,7 +1027,7 @@ export const updateCollection = async (
       description: description,
       title: title || '',
       subheading: subheading,
-      visibility: visibility,
+      // visibility: visibility, done in separate function
       linkSrc1: linkSrc1,
       slug: slug,
       linkText1: linkText1,
@@ -1108,7 +1124,6 @@ export const getUserByUsername = async (username: string) => {
     return acc;
   }, {} as IUser);
 
-  console.log(user);
   if (result) {
     return result;
   } else {
@@ -1299,6 +1314,7 @@ export const getCollectionDataForSite = async (
         .leftJoin(work, eq(collection.id, work.collectionId))
         .leftJoin(media, eq(work.id, media.workId)));
   }
+
   const result =
     rows &&
     rows.reduce<ICollection>((acc, row) => {
@@ -1316,8 +1332,8 @@ export const getCollectionDataForSite = async (
       if (media) {
         acc.works.find((w) => w.id === media.workId)?.media.push(media);
       }
-
-      return acc;
+      const sortedWorks = acc.works.sort((a, b) => a.idx - b.idx);
+      return { ...acc, works: sortedWorks };
     }, {} as ICollection);
 
   if (result && user) {
