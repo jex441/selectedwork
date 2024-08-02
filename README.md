@@ -22,5 +22,4 @@ It is in a state of rapid development.
 
 An example site generated using Selected Work is found [here](https://dash-xi-seven.vercel.app/camdenross)
 
-Dashboard Preview:
 ![ScreenRecording2024-08-02at9 39 39AM-ezgif com-optimize](https://github.com/user-attachments/assets/74a6a37c-0968-4311-929f-358fd5ecb7c1)
