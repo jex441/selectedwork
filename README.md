@@ -16,6 +16,7 @@ It uses
 - Next.js
 - Vercel
 - UploadThing for file uploads
+- React DND Kit for drag and drop functionality
 - Drizzle ORM
 
 It is in a state of rapid development.
