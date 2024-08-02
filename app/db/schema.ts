@@ -130,6 +130,7 @@ export const cvSection = pgTable('cv_section_table', {
 export const collection = pgTable('collection_table', {
   id: serial('id').primaryKey(),
   index: integer('index'),
+  idx: serial('idx'),
   title: text('title').notNull(),
   slug: text('slug').notNull(),
   template: text('template').notNull(),
@@ -155,6 +156,7 @@ export const collection = pgTable('collection_table', {
 export const work = pgTable('work_table', {
   id: serial('id').primaryKey(),
   index: integer('index'),
+  idx: serial('idx'),
   title: text('title'),
   medium: text('medium'),
   description: text('description'),

@@ -10,12 +10,14 @@ import { IWork } from '@/app/interfaces/IWork';
 
 export default function WorkThumbnail({
   slug,
-  id,
+  idx,
   work,
+  handle,
 }: {
-  id: number;
+  idx: number;
   slug: string;
   work: IWork;
+  handle: boolean;
 }) {
   const {
     attributes,
@@ -24,7 +26,7 @@ export default function WorkThumbnail({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: id });
+  } = useSortable({ id: idx });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -33,7 +35,7 @@ export default function WorkThumbnail({
     height: '270px',
     borderRadius: '5px',
     backgroundColor: 'white',
-    margin: '10px',
+    margin: '5px',
     zIndex: isDragging ? '100' : 'auto',
     opacity: isDragging ? 0.3 : 1,
   };
