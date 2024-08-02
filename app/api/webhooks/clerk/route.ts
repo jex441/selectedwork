@@ -102,8 +102,8 @@ export async function POST(req: Request) {
       authId: msg.data.id,
       username: msg.data.email_addresses[0].email_address.split('@')[0],
       email: msg.data.email_addresses[0].email_address,
-      firstName: msg.data.first_name,
-      lastName: msg.data.last_name,
+      firstName: msg.data.email_addresses[0].email_address.split('@')[0],
+      lastName: msg.data.email_addresses[0].email_address.split('@')[0],
       plan: 'free',
     };
 
