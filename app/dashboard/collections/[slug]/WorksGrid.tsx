@@ -26,8 +26,10 @@ import { ICollection } from '@/app/interfaces/ICollection';
 
 export default function WorksGrid({ collection }: { collection: ICollection }) {
   const [activeId, setActiveId] = useState(null);
-  const [items, setItems] = useState(collection.works);
-
+  const [items, setItems] = useState<number[]>(
+    collection.works.map((work) => work.id),
+  );
+  // const [items, setItems] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -51,8 +53,9 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
       });
     }
   };
+  if (!items.length) return null;
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="flex bg-gray-100">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -63,16 +66,26 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
           flex={true}
           wrap={true}
           direction="row"
-          style={{ maxWidth: '600px' }}
+          style={{ maxWidth: '100%' }}
         >
           <SortableContext items={items} strategy={rectSortingStrategy}>
-            {items.map((work) => (
-              <WorkThumbnail key={work.id} slug={collection.slug} work={work} />
-            ))}
-            {/* 
-{items.map((id) => (
-            <SortableItem key={id} id={id} handle={true} value={id} />
-          ))} */}
+            {/* {items.map((item) => {
+              const work = collection.works.find((work) => work.id === item);
+              if (!work) return null;
+              if (!collection.slug) return null;
+              return (
+                <WorkThumbnail key={item} slug={collection.slug} work={work} />
+              );
+            })} */}
+
+            {items.map((id) => {
+              const work = collection.works.find((work) => work.id === id);
+              if (!work) return null;
+              if (!collection.slug) return null;
+              return (
+                <WorkThumbnail key={id} id={id} handle={true} work={work} />
+              );
+            })}
             <DragOverlay>
               {activeId ? (
                 <div
