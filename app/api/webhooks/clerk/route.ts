@@ -48,6 +48,8 @@ export async function POST(req: Request) {
   }
 
   if (msg.type === 'user.created') {
+    console.log('msg.data', msg.data);
+
     const insertUser = async (user: NewUser) => {
       let userId: number;
       let res = await db.insert(users).values(user).returning({ id: users.id });
@@ -95,18 +97,17 @@ export async function POST(req: Request) {
       const cvPage = await insertCVPage();
       const collectionPage = await insertCollection();
     };
-    console.log('msg.data', msg.data);
+
     const newUser: NewUser = {
       authId: msg.data.id,
-      username:
-        msg.data.first_name.toLowerCase() + msg.data.last_name.toLowerCase(),
+      username: msg.data.email_addresses[0].email_address.split('@')[0],
       email: msg.data.email_addresses[0].email_address,
       firstName: msg.data.first_name,
       lastName: msg.data.last_name,
       plan: 'free',
     };
 
-    await insertUser(newUser);
+    // await insertUser(newUser);
   }
 
   if (msg.type === 'user.deleted') {
