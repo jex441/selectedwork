@@ -107,7 +107,7 @@ export async function POST(req: Request) {
       plan: 'free',
     };
 
-    // await insertUser(newUser);
+    await insertUser(newUser);
   }
 
   if (msg.type === 'user.deleted') {
