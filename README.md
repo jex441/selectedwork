@@ -12,10 +12,10 @@ Planned features are:
 
 - Easy onboarding experience featuring drag and drop to upload, instant site generation
 - Template selection
-- x Content organization tailored specifically for artwork: Collections which contain pieces, each piece containing set of metadata and additional thumbnails/media
-- x Standard fields for artwork metadata, title, medium, dimensions, price, etc
+- ~~Content organization tailored specifically for artwork: Collections which contain pieces, each piece containing set of metadata and additional thumbnails/media~~
+- ~~Standard fields for artwork metadata, title, medium, dimensions, price, etc~~
 - Customization of sizing/spacing for odd sized works so that pieces are displayed with a sense of scale to the actual physical work
-- x Hidden collections for private links
+- ~~Hidden collections for private links~~
 - Custom domains
 - Billing portal
 
