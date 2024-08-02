@@ -23,7 +23,7 @@ const smee = new SmeeClient({
   logger: console,
 });
 
-const events = smee.start();
+const events = process.env.NODE_ENV === 'development' && smee.start();
 
 export async function POST(req: Request) {
   const webhookSecret: string = process.env.CLERK_WEBHOOK_SECRET!;
@@ -122,4 +122,4 @@ export async function POST(req: Request) {
 
   return new Response('OK', { status: 200 });
 }
-events.close();
+process.env.NODE_ENV === 'development' && events.close();
