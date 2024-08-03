@@ -28,7 +28,7 @@ export default async function Contact({
     subheading,
     instagram,
   } = res.data || {};
-
+  console.log(res.data);
   return (
     <main className="flex w-full flex-col items-start justify-center lg:flex-row lg:gap-14 lg:pt-10">
       <section className="relative flex max-h-[520px] w-full flex-col object-contain p-1 lg:h-[490px] lg:w-1/3">
