@@ -28,8 +28,8 @@ export default async function Contact({
   } = res.data || {};
 
   return (
-    <main className="flex flex-col items-start justify-center lg:flex-row">
-      <section className="relative flex h-[300px] w-full flex-col object-contain px-1 lg:m-10 lg:h-[490px] lg:w-1/2">
+    <main className="flex w-full flex-col items-start justify-center lg:flex-row lg:gap-14 lg:pt-10">
+      <section className="relative flex max-h-[520px] w-full flex-col object-contain p-1 lg:h-[490px] lg:w-1/3">
         <div className="relative h-auto w-full lg:max-h-[480px]">
           {imgSrc && (
             <Image
@@ -44,7 +44,7 @@ export default async function Contact({
         </div>
         <div className="mt-2 w-full text-sm text-gray-700">{imgCaption}</div>
       </section>
-      <section className="m-1 w-full lg:m-10 lg:w-1/2">
+      <section className="m-1 w-full lg:w-1/2 lg:pr-20">
         <h1 className="text-xl leading-8">{heading}</h1>
         <h3 className="text-sm leading-8">{subheading}</h3>
         <p className="my-4 text-sm text-sm leading-7 text-gray-700">{text}</p>

@@ -11,7 +11,7 @@ export default function CVSection({
   categoryId: string;
 }) {
   return (
-    <section className="mb-6 flex w-full flex-col lg:w-3/4">
+    <section className="mb-6 flex w-full flex-col">
       <h1 className="mb-2 text-xl uppercase text-gray-500">{heading}</h1>
       {data &&
         data[categoryId] &&
