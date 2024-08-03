@@ -1,21 +1,23 @@
-export const dynamic = 'force-dynamic';
-
 import Image from 'next/image';
 import React from 'react';
 
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { IContactPage } from '@/app/interfaces/IContactPage';
 import { getContactPageDataForSite } from '@/app/lib/data';
 
-export default async function Contact({
-  params: { username, page },
-}: {
-  params: { username: string; page: string };
-}) {
-  const res: {
-    status: number;
-    user: { username: string } | null;
-    data: IContactPage | null;
-  } = await getContactPageDataForSite(username, 'contact');
+interface ContactProps {
+  data: IContactPage | null;
+}
+
+export const getServerSideProps = (async (context) => {
+  // Fetch data from external API
+  const { username } = context.params;
+  const data = await getContactPageDataForSite(username, 'contact');
+  // Pass data to the page via props
+  return { props: { data } };
+}) satisfies GetServerSideProps<{ data: IContactPage }>;
+
+export default async function Contact({ data }: { data: ContactProps }) {
   const {
     imgSrc,
     imgCaption,
@@ -27,7 +29,7 @@ export default async function Contact({
     linkText2,
     subheading,
     instagram,
-  } = res.data || {};
+  } = data || {};
 
   return (
     <main className="flex w-full flex-col items-start justify-center lg:flex-row lg:gap-14 lg:pt-10">
