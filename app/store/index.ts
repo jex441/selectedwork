@@ -8,7 +8,8 @@ interface IState {
 
 export const useStore = create<IState>()((set) => ({
   user: {
-    id: null,
+    id: 99,
+    displayName: '',
     authId: '',
     firstName: '',
     lastName: '',

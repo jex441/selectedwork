@@ -100,12 +100,15 @@ export async function POST(req: Request) {
     const id = Date.now();
     const username =
       msg.data.email_addresses[0].email_address.split('@')[0] + String(id);
+    const displayName = msg.data.first_name + ' ' + msg.data.last_name;
+
     const newUser: NewUser = {
       authId: msg.data.id,
       username: username,
       email: msg.data.email_addresses[0].email_address,
       firstName: msg.data.first_name || 'User',
       lastName: msg.data.first_name || 'User',
+      displayName: msg.data.first_name ? displayName : username,
       plan: 'free',
     };
 

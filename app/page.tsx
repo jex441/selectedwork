@@ -5,7 +5,8 @@ import Home from './home';
 
 export default async function Component() {
   let userData: IUser = {
-    id: null,
+    id: 99,
+    displayName: '',
     authId: '',
     firstName: '',
     lastName: '',

@@ -76,7 +76,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </div>
             </div>
           </div>
-          <div className="mt-auto p-4"></div>
+          <div className="mt-auto p-4">
+            <div className="flex items-center gap-4">
+              <Link
+                href="/dashboard/account"
+                className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                prefetch={false}
+              >
+                <span>Account Settings</span>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
       <div className="flex w-full flex-col">
