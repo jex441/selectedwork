@@ -1,11 +1,12 @@
 import { ICollection } from './ICollection';
 import { IPage } from './IPage';
 export interface IUser {
-  id: number | null;
+  id: number;
   authId: string;
+  displayName: string;
   firstName: string | null;
   lastName: string | null;
-  username: string | null;
+  username: string;
   email: string | null;
   plan: string | null;
   occupation: string | null;

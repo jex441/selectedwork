@@ -336,6 +336,63 @@ export const getUserData = async () => {
   return null;
 };
 
+export type UserState = {
+  errors?: {
+    username?: string[];
+    displayName?: string[];
+    occupation?: string[];
+  };
+  message?: string | null;
+};
+
+const UserSchema = z.object({
+  id: z.number(),
+  username: z.string(),
+  displayName: z.string(),
+  occupation: z.string(),
+  email: z.string(),
+  plan: z.string(),
+});
+
+const UpdateUser = UserSchema.omit({
+  id: true,
+  email: true,
+  plan: true,
+});
+
+export const updateUser = async (
+  id: number,
+  prevState: {},
+  formData: FormData,
+) => {
+  const validatedFields = UpdateUser.safeParse({
+    displayName: formData.get('displayName') || '',
+    username: formData.get('username') || '',
+    occupation: formData.get('occupation') || '',
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Invoice.',
+    };
+  }
+
+  const { username, displayName, occupation } = validatedFields.data;
+
+  const update = await db
+    .update(users)
+    .set({
+      username: username,
+      displayName: displayName,
+      occupation: occupation,
+    })
+    .where(eq(users.id, id))
+    .returning({ id: users.id });
+
+  revalidatePath('/dashboard/account');
+  return { success: true };
+};
 export const insertUser = async (
   authId: string,
   firstName: string,
@@ -348,6 +405,7 @@ export const insertUser = async (
   const newUser: NewUser = {
     authId: authId,
     username: firstName + lastName,
+    displayName: firstName + ' ' + lastName,
     email: email,
     firstName: firstName,
     lastName: lastName,
@@ -1154,13 +1212,13 @@ export const getAboutPageDataForSite = async (
   if (responseData) {
     return {
       status: 200,
-      user: { username: userData.firstName + userData.lastName },
+      user: { username: userData.username },
       data: responseData,
     };
   } else {
     return {
       status: 404,
-      user: { username: userData.firstName + userData.lastName },
+      user: { username: userData.username },
       data: null,
     };
   }
@@ -1189,13 +1247,17 @@ export const getContactPageDataForSite = async (
   if (responseData) {
     return {
       status: 200,
-      user: { username: userData.firstName + userData.lastName },
+      user: {
+        username: userData.username,
+      },
       data: responseData,
     };
   } else {
     return {
       status: 404,
-      user: { username: userData.firstName + userData.lastName },
+      user: {
+        username: userData.username,
+      },
       data: null,
     };
   }
@@ -1272,13 +1334,13 @@ export const getCVPageDataForSite = async (
   if (result) {
     return {
       status: 200,
-      user: { username: userData.firstName + userData.lastName },
+      user: { username: userData.username },
       data: result,
     };
   } else {
     return {
       status: 404,
-      user: { username: userData.firstName + userData.lastName },
+      user: { username: userData.username },
       data: null,
     };
   }
@@ -1339,7 +1401,10 @@ export const getCollectionDataForSite = async (
   if (result && user) {
     return {
       status: 200,
-      user: { username: user.firstName + ' ' + user.lastName },
+      user: {
+        username: user.firstName + ' ' + user.lastName,
+        displayName: user.displayName,
+      },
       data: result,
     };
   } else {

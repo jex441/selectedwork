@@ -11,7 +11,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   let username = params.username;
-  type user = { username: string };
+  type user = { username: string; displayName: string };
 
   const res: {
     status: number;
@@ -34,7 +34,7 @@ export default async function Layout({
       <Nav
         collections={userData.collections ?? []}
         username={username}
-        displayName={res.user.username}
+        displayName={res.user.displayName}
       />
       <main className="mt-[70px] lg:mt-0">{children}</main>
     </div>
