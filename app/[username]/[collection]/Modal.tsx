@@ -39,9 +39,9 @@ export default function Modal({
             <span className="flex w-full items-center justify-between">
               <span className="flex items-center text-xl font-light italic leading-10 text-gray-600">
                 {data.title}
-                {data.sold && (
+                {/* {data.sold && (
                   <span className="mx-4 inline-block h-2 w-2 rounded-lg"></span>
-                )}
+                )} */}
               </span>
               <p className="leading-7 text-gray-500">{data.year}</p>
             </span>
