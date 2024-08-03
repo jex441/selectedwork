@@ -23,39 +23,42 @@ export default function Modal({
           </span>
         </nav>
 
-        <section className="flex h-full w-full flex-col px-2 pt-20 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:p-0">
-          <div className="flex max-h-[600px] w-full items-center justify-center lg:w-2/3">
+        <section className="flex h-full w-full flex-col px-2 pt-5 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:p-0">
+          <div className="relative flex max-h-[600px] w-full items-center justify-center lg:w-2/3">
             <Image
               height={0}
               width={0}
               sizes="100vw"
               alt="work"
-              className="max-h-auto w-full self-center object-contain lg:max-h-[600px] lg:w-4/5"
+              className="w-full object-contain lg:max-h-[600px] lg:w-4/5"
               src={data.media[0].url ?? ''}
             />
           </div>
-          <div className="flex w-full flex-col gap-2 px-1 lg:mx-auto lg:w-1/4">
+
+          <div className="flex w-full flex-col gap-2  px-1 lg:mx-auto lg:w-1/3 lg:pr-20">
             <span className="flex w-full items-center justify-between">
-              <span className="flex items-center text-xl italic leading-10">
+              <span className="flex items-center text-xl font-light italic leading-10 text-gray-600">
                 {data.title}
                 {data.sold && (
-                  <span className="mx-4 inline-block h-2 w-2 rounded-lg bg-red-500"></span>
+                  <span className="mx-4 inline-block h-2 w-2 rounded-lg"></span>
                 )}
               </span>
-              <p className="leading-7 text-gray-600">{data.year}</p>
+              <p className="leading-7 text-gray-500">{data.year}</p>
             </span>
-            <p className="leading-7">{data.medium}</p>
-            <p className="text-sm">
+            <p className="text-sm leading-7 text-gray-600">{data.medium}</p>
+            <p className="text-xs uppercase text-gray-600">
               {data.height && `${data.height} x `}
               {data.width && data.width}
               {data.depth && ` x ${data.depth}`}
               {data.unit && ` ${data.unit}`}
             </p>
-            <p className="text-sm leading-7">{data.description}</p>
-            <p className="text-sm italic leading-7 text-gray-600">
+            <p className="text-xs font-light leading-7 text-gray-700">
+              {data.description}
+            </p>
+            <p className="text-sm italic leading-7 text-gray-500">
               {data.location}
             </p>
-            <p className="leading-7 text-gray-600">
+            <p className="font-light leading-7 text-gray-600">
               {data.price && `$ ${data.price}`}
             </p>
           </div>
