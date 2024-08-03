@@ -22,7 +22,7 @@ export default function home({ userData }: Props) {
     <div className="flex min-h-[100dvh] flex-col">
       <header className="flex h-14 items-center justify-between px-4 lg:px-6">
         <Link href="#" className="flex items-center" prefetch={false}>
-          <span className="ml-2 text-lg font-semibold">Portfolio Maker</span>
+          <span className="ml-2 text-lg font-semibold">Selected Work</span>
         </Link>
         <div className="flex items-center gap-4">
           <Link
@@ -43,11 +43,11 @@ export default function home({ userData }: Props) {
       </header>
       <main className="flex flex-1 flex-col items-center justify-center px-4 py-12 text-center md:px-6 md:py-24 lg:py-32">
         <div className="max-w-3xl space-y-4">
-          <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-            Don't leave your portfolio to chance.
+          <h1 className="text-2xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
+            Selected Work
           </h1>
           <p className="text-muted-foreground md:text-xl">
-            Bespoke designs to help you stand out from the crowd.
+            A platform for showcasing your best work.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Link
@@ -69,7 +69,7 @@ export default function home({ userData }: Props) {
       </main>
       <footer className="flex w-full shrink-0 flex-col items-center gap-2 border-t px-4 py-6 sm:flex-row md:px-6">
         <p className="text-xs text-muted-foreground">
-          &copy; 2024 Portfolio Maker. All rights reserved.
+          &copy; 2024 Selected Work. All rights reserved.
         </p>
         <nav className="flex gap-4 sm:ml-auto sm:gap-6">
           <Link
