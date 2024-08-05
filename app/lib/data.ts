@@ -93,6 +93,8 @@ export const user = async () => {
 
   if (data) {
     return data[0];
+  } else {
+    return null;
   }
 };
 
@@ -105,6 +107,8 @@ export async function updateAbout(
   prevState: {},
   formData: FormData,
 ) {
+  const userData = await user();
+
   const validatedFields = UpdateAbout.safeParse({
     template: formData.get('template') || '',
     text: formData.get('text') || null,
@@ -155,6 +159,8 @@ export async function updateAbout(
     .where(eq(about.id, id))
     .returning({ id: about.id });
 
+  revalidatePath('/dashboard/about');
+  revalidatePath(`/${userData?.username}/about`);
   return { success: true };
 }
 
@@ -397,6 +403,7 @@ export const updateUser = async (
   revalidatePath('/dashboard/account');
   return { success: true };
 };
+
 export const insertUser = async (
   authId: string,
   firstName: string,
@@ -544,8 +551,13 @@ export const createCollection = async () => {
     return userCollection[0].id;
   }
 };
+
 export const deleteCVSection = async (id: number) => {
-  return await db.delete(cvSection).where(eq(cvSection.id, id));
+  const userData = await user();
+
+  await db.delete(cvSection).where(eq(cvSection.id, id));
+  revalidatePath('/dashboard/cv');
+  revalidatePath(`/${userData?.username}/cv`);
 };
 
 export const deleteCollection = async (id: number) => {
@@ -557,12 +569,18 @@ export const deleteCVSectionBulletPoint = async (
   id: number,
   bulletPointIndex: number,
 ) => {
+  const userData = await user();
   const bulletPointKey = `bulletPoint${bulletPointIndex + 1}`;
+
+  revalidatePath('/dashboard/cv');
+  revalidatePath(`/${userData?.username}/cv`);
+
   return await db
     .update(cvSection)
     .set({ [bulletPointKey]: null })
     .where(eq(cvSection.id, id));
 };
+
 export const saveCVSections = async (
   sections: {
     unsaved: boolean;
@@ -854,6 +872,7 @@ export const makeMainMedia = async (
   revalidatePath(`/dashboard/collections/${slug}/piece/${workId}`);
   revalidatePath(`/dashboard/collections/${slug}/new`);
 };
+
 export const getUserCollection = async (slug: string) => {
   const user = await getUserData();
 
@@ -889,6 +908,8 @@ export const getUserCollection = async (slug: string) => {
     }, {} as ICollection);
 
   if (result) {
+    revalidatePath(`/dashboard/${result.slug}`);
+    revalidatePath(`/${user?.username}/${result.slug}`);
     const sorted = result.works.sort((a, b) => a.idx - b.idx);
 
     return { ...result, works: sorted };
@@ -969,6 +990,7 @@ export const getUserCollections = async () => {
     }, [] as ICollection[]);
   return result;
 };
+
 export type CollectionState = {
   errors?: {
     template?: string[];
@@ -984,6 +1006,7 @@ export type CollectionState = {
   };
   message?: string | null;
 };
+
 const CollectionFormSchema = z.object({
   id: z.number(),
   template: z.string(),
@@ -1023,12 +1046,14 @@ const CollectionFormSchema = z.object({
     .max(100, { message: 'Must be fewer than 100 characters.' })
     .nullish(),
 });
+
 const UpdateCollection = CollectionFormSchema.omit({
   id: true,
 });
 
 export const reorderWorks = async (updatedWorks: IWork[]) => {
-  // need to insert multiple works at once and update Works on conflict with id, consider passing entire work object?
+  // need collection slug for revalidate path
+  // const userData = await user();
   for (let i = 0; i < updatedWorks.length; i++) {
     const query = await db
       .update(work)
@@ -1038,6 +1063,8 @@ export const reorderWorks = async (updatedWorks: IWork[]) => {
 
     console.log('query', query);
   }
+  // revalidatePath(`/dashboard/collections/${userData?.username}`);
+  // revalidatePath(`/${userData?.username}/${userData?.username}`);
 };
 
 export const updateCollection = async (
@@ -1102,6 +1129,8 @@ export const updateCollection = async (
     .where(eq(collection.id, id))
     .returning({ id: collection.id });
 
+  revalidatePath(`/dashboard/collections/${slug}`);
+  revalidatePath(`/${user?.username}/${slug}`);
   return { success: true };
 };
 
