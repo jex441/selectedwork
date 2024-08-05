@@ -7,13 +7,17 @@ import close from '/public/close.png';
 export default function Modal({
   data,
   setModal,
+  modal,
 }: {
   setModal: (val: boolean) => void;
+  modal: boolean;
   data: IWork;
 }) {
   return (
     <>
-      <div className="fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
+      <div
+        className={`${modal ? 'opacity-1' : 'opacity-0'} duration-2000 delay-1500 fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white transition`}
+      >
         <nav className="flex w-full justify-end p-2 lg:fixed lg:p-5">
           <span
             className="cursor-pointer opacity-50 hover:opacity-100"
