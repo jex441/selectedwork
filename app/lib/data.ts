@@ -245,6 +245,8 @@ export async function updateContactPage(
   prevState: {},
   formData: FormData,
 ) {
+  const userData = await user();
+
   const validatedFields = UpdateContact.safeParse({
     template: formData.get('template') || '',
     text: formData.get('text') || null,
@@ -302,6 +304,8 @@ export async function updateContactPage(
     })
     .where(eq(contact.id, id))
     .returning({ id: contact.id });
+  revalidatePath('/dashboard/contact');
+  revalidatePath(`/${userData?.username}/contact`);
   return { success: true };
 }
 
