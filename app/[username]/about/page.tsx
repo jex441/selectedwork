@@ -14,7 +14,7 @@ export default async function About({
     user: { username: string } | null;
     data: IAboutPage | null;
   } = await getAboutPageDataForSite(username, 'about');
-
+  console.log(res.data);
   const {
     imgSrc,
     imgCaption,
@@ -47,7 +47,15 @@ export default async function About({
       <section className="m-1 w-full lg:w-1/2 lg:pr-20">
         <h1 className="text-xl leading-8">{heading}</h1>
         <h3 className="text-sm leading-8">{subheading}</h3>
-        <p className="my-4 text-sm text-sm leading-7 text-gray-700">{text}</p>
+        {text &&
+          text
+            .split('\r\n')
+            .map((paragraph) => (
+              <p className="my-4 text-sm text-sm leading-7 text-gray-700">
+                {paragraph}
+              </p>
+            ))}
+
         {linkSrc1 && (
           <p className="my-2 text-sm leading-7 text-gray-700 underline hover:text-black">
             <a href={linkSrc1} target="_blank">
