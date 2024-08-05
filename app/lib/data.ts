@@ -609,6 +609,7 @@ export const saveCVSections = async (
     }
   });
   revalidatePath('/dashboard/cv');
+  revalidatePath(`/${userData?.username}/cv`);
 };
 
 export type WorkState = {
