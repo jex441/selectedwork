@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { getCVPageDataForSite } from '../../lib/data';
 import { ICVPage } from '../../interfaces/ICVPage';
