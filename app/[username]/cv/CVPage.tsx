@@ -4,6 +4,7 @@ import { ICVPage } from '../../interfaces/ICVPage';
 import CVSection from './CVSection';
 
 export default function CVPage({ data }: { data: ICVPage }) {
+  console.log('data', data);
   return (
     <main className="flex w-full flex-col items-center justify-center lg:flex-row">
       {/* <section className="relative m-1 flex h-[300px] w-full flex-col object-contain lg:m-10 lg:h-[490px] lg:w-1/2">
