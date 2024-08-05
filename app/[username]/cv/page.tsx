@@ -1,6 +1,6 @@
 import React from 'react';
 import { Suspense } from 'react';
-import { getCVPageDataForSite } from '../../lib/data';
+import { getCVPageDataForSite } from '../../lib/requests';
 import { ICVPage } from '../../interfaces/ICVPage';
 import CVSection from './CVSection';
 import CVPage from './CVPage';
