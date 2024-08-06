@@ -29,9 +29,9 @@ export default function Nav({
     <>
       <div
         onMouseLeave={() => setDropDown('hidden')}
-        className="fixed z-20 flex h-[70px] w-full flex-row bg-white lg:static lg:items-center lg:p-10"
+        className="fixed z-20 flex h-[70px] w-full flex-row bg-white text-secondary lg:static lg:items-center lg:p-10"
       >
-        <header className="absolute z-10 m-5 tracking-wide lg:static lg:mr-6 lg:text-xl">
+        <header className="absolute z-10 m-5 tracking-wide lg:static lg:my-0 lg:mr-6 lg:text-xl">
           <Link
             onMouseEnter={() => setDropDown('hidden')}
             onClick={() => clickHandler()}
@@ -49,20 +49,26 @@ export default function Nav({
         </div>
 
         <nav
-          className={`${open ? 'flex' : 'hidden'} fixed z-10 h-full w-full flex-col gap-4 bg-white px-5 pl-10 pt-20 text-[32px] font-light lg:static lg:m-5 lg:flex lg:w-auto lg:flex-row lg:items-center lg:gap-4 lg:p-0 lg:text-sm`}
+          className={`${open ? 'flex' : 'hidden'} fixed z-10 h-full w-full flex-col gap-4 bg-white px-5 pl-10 pt-20 text-[32px] lg:static lg:mx-5 lg:flex lg:w-auto lg:flex-row lg:items-center lg:gap-4 lg:p-0 lg:text-sm`}
         >
           {collections.length > 1 ? (
             <span
               onClick={() => clickHandler()}
               onMouseEnter={() => setDropDown('flex')}
             >
-              <Link href={`/${username}/${collections[0].slug}`}>
+              <Link
+                className="text-primary hover:text-secondary"
+                href={`/${username}/${collections[0].slug}`}
+              >
                 Selected Work
               </Link>
             </span>
           ) : (
             <span onMouseEnter={() => clickHandler()}>
-              <Link href={`/${username}/${collections[0].slug}`}>
+              <Link
+                className="text-primary hover:text-secondary"
+                href={`/${username}/${collections[0].slug}`}
+              >
                 {collections[0].title}
               </Link>
             </span>
@@ -87,6 +93,7 @@ export default function Nav({
 
           <span>
             <Link
+              className="text-primary hover:text-secondary"
               onMouseEnter={() => setDropDown('hidden')}
               onClick={() => clickHandler()}
               href={`/${username}/about`}
@@ -95,12 +102,20 @@ export default function Nav({
             </Link>
           </span>
           <span>
-            <Link onClick={() => clickHandler()} href={`/${username}/cv`}>
+            <Link
+              className="text-primary hover:text-secondary"
+              onClick={() => clickHandler()}
+              href={`/${username}/cv`}
+            >
               CV
             </Link>
           </span>
           <span>
-            <Link onClick={() => clickHandler()} href={`/${username}/contact`}>
+            <Link
+              className="text-primary hover:text-secondary"
+              onClick={() => clickHandler()}
+              href={`/${username}/contact`}
+            >
               Contact
             </Link>
           </span>

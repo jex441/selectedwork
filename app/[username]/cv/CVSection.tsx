@@ -12,7 +12,7 @@ export default function CVSection({
 }) {
   return (
     <section className="mb-6 flex w-full flex-col">
-      <h1 className="mb-2 text-xl uppercase text-gray-500">{heading}</h1>
+      <h1 className="text-lightGray mb-1 uppercase lg:text-lg">{heading}</h1>
       {data &&
         data[categoryId] &&
         data[categoryId].map(
