@@ -75,15 +75,30 @@
     }
   }
 
-  .fade-in-section {
+  .fade-in-from-bottom {
     opacity: 0;
-    transform: translateY(1vh);
+    transform: translateY(2vh);
     visibility: hidden;
-    transition: opacity 1s ease-out, transform 2.5s ease-out;
+    transition: opacity 1s ease-out, transform 3s ease-out;
     will-change: opacity, visibility;
   }
-  .fade-in-section.is-visible {
+
+  .fade-in-from-top {
+    opacity: 0;
+    transform: translateY(-2vh);
+    visibility: hidden;
+    transition: opacity 1s ease-out, transform 3s ease-out;
+    will-change: opacity, visibility;
+  }
+  
+  .fade-in-from-top.is-visible {
     opacity: 1;
-    transform: none;
     visibility: visible;
+    transform: translateY(0);
+  }
+
+  .fade-in-from-bottom.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
   }

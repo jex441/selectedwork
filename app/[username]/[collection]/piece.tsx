@@ -5,18 +5,34 @@ import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
 import Modal from './Modal';
 
-export default function piece({ data }: { data: IWork }) {
+export default function Piece({ data }: { data: IWork }) {
   const [modal, setModal] = useState(false);
-  const [isVisible, setVisible] = useState(true);
+  const [isVisible, setVisible] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
   const domRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => setVisible(entry.isIntersecting));
-    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setVisible(true);
+            setHasAnimated(true);
+            domRef.current?.classList.add('fade-in-from-bottom', 'is-visible');
+          } else if (!entry.isIntersecting && !hasAnimated) {
+            setVisible(false);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    ); // Adjust threshold as needed
+
     if (domRef.current) observer.observe(domRef.current);
-    // return () => observer.unobserve(domRef.current);
-  }, []);
+
+    return () => {
+      if (domRef.current) observer.unobserve(domRef.current);
+    };
+  }, [hasAnimated]);
 
   return (
     <>
@@ -25,14 +41,14 @@ export default function piece({ data }: { data: IWork }) {
         ref={domRef}
         key={data.id}
         onClick={() => setModal(true)}
-        className={`fade-in-section ${isVisible ? 'is-visible' : ''} border-1 relative mx-1 mb-8 grid h-auto w-full cursor-pointer justify-items-stretch gap-3 lg:mx-3 lg:h-[340px] lg:w-auto`}
+        className="fade-in-from-bottom border-1 relative mx-1 mb-8 grid h-auto w-full cursor-pointer justify-items-stretch gap-3 lg:mx-3 lg:h-[340px] lg:w-auto"
       >
         <Image
           width={0}
           height={0}
           alt="work"
           sizes="100vw"
-          className={`max-h-[620px] w-full self-center object-contain lg:h-[310px]`}
+          className="max-h-[620px] w-full self-center object-contain lg:h-[310px]"
           src={data.media[0].url ?? ''}
         />
         <div className="flex w-full self-start self-end text-xs tracking-wide lg:mt-0 lg:w-auto">
