@@ -41,7 +41,7 @@ export default function Piece({ data }: { data: IWork }) {
         ref={domRef}
         key={data.id}
         onClick={() => setModal(true)}
-        className="fade-in-from-bottom border-1 relative mx-1 mb-8 grid h-auto w-full cursor-pointer justify-items-stretch gap-3 lg:mx-3 lg:h-[340px] lg:w-auto"
+        className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} fade-in-from-bottom border-1 relative mx-1 mb-8 grid h-auto w-full cursor-pointer justify-items-stretch gap-3 lg:mx-3 lg:h-[340px] lg:w-auto`}
       >
         <Image
           width={0}

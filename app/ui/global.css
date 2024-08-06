@@ -194,7 +194,7 @@
   0% { opacity: 0; transform: translateY(10px) }
   100% { opacity: 1; transform: translateY(0) }
 }
- 
+
 .fade-in-right-simple {
   animation: fadeInRight 2s;
   -webkit-animation: fadeInRight 2s;
@@ -228,3 +228,6 @@
   100% { opacity: 1; transform: translateX(0) }
 }
  
+.animDelay {
+  transition-delay: .3s;
+}
