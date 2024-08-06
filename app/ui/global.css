@@ -83,6 +83,13 @@
     will-change: opacity, visibility;
   }
 
+  .fade-in {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .5s ease-out;
+    will-change: opacity, visibility;
+  }
+
   .fade-in-from-top {
     opacity: 0;
     transform: translateY(-2vh);
@@ -97,7 +104,24 @@
     transform: translateY(0);
   }
 
+  .fade-in.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
   .fade-in-from-bottom.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .modal {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s;
+  }
+  
+  .modal.is-visible {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);

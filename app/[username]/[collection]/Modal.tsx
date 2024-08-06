@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { IWork } from '@/app/interfaces/IWork';
@@ -13,15 +13,27 @@ export default function Modal({
   modal: boolean;
   data: IWork;
 }) {
+  const [visible, setVisible] = useState(false);
+  setTimeout(() => {
+    setVisible(true);
+  }, 100);
+
+  const closeHandler = () => {
+    setTimeout(() => {
+      setVisible(false);
+    }, 500);
+
+    setModal(false);
+  };
   return (
     <>
       <div
-        className={`${modal ? 'opacity-1' : 'opacity-0'} duration-2000 delay-1500 fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white transition`}
+        className={`fade-in ${visible ? 'is-visible' : ''} fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white`}
       >
         <nav className="flex w-full justify-end p-2 lg:fixed lg:p-5">
           <span
             className="cursor-pointer opacity-50 hover:opacity-100"
-            onClick={() => setModal(false)}
+            onClick={() => closeHandler()}
           >
             <Image src={close} alt="close" height={25} width={25} />
           </span>
