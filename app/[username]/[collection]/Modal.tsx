@@ -53,7 +53,7 @@ export default function Modal({
 
           <div className="flex w-full flex-col gap-2  px-1 lg:mx-auto lg:w-1/3 lg:pr-20">
             <span className="flex w-full items-center justify-between">
-              <span className="flex items-center text-xl font-light italic leading-10 text-primary">
+              <span className="flex items-center text-xl font-light italic leading-7 text-primary">
                 {data.title}
                 {/* {data.sold && (
                   <span className="mx-4 inline-block h-2 w-2 rounded-lg"></span>
@@ -63,6 +63,7 @@ export default function Modal({
             </span>
             <p className="text-lightGray text-sm leading-7">{data.medium}</p>
             <p className="text-xs uppercase text-primary">
+
               {data.height && `${data.height} x `}
               {data.width && data.width}
               {data.depth && ` x ${data.depth}`}
@@ -73,6 +74,7 @@ export default function Modal({
               {data.location}
             </p>
             <p className="text-gray-primary font-light leading-7">
+
               {data.price && `$ ${data.price}`}
             </p>
           </div>
