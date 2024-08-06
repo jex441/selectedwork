@@ -41,14 +41,14 @@ export default function Piece({ data }: { data: IWork }) {
         ref={domRef}
         key={data.id}
         onClick={() => setModal(true)}
-        className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} fade-in-from-bottom border-1 relative mx-1 mb-8 grid h-auto w-full cursor-pointer justify-items-stretch gap-3 lg:mx-3 lg:h-[340px] lg:w-auto`}
+        className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} fade-in-from-bottom relative col-span-1 mx-2 grid cursor-pointer justify-items-stretch gap-3 lg:h-[340px]`}
       >
         <Image
           width={0}
           height={0}
           alt="work"
           sizes="100vw"
-          className="max-h-[620px] w-full self-center object-contain lg:h-[310px]"
+          className="max-h-[620px] w-full self-center object-contain lg:h-[300px]"
           src={data.media[0].url ?? ''}
         />
         <div className="flex w-full self-start self-end text-xs tracking-wide lg:mt-0 lg:w-auto">
