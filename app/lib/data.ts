@@ -1131,6 +1131,8 @@ export const updateCollection = async (
 
   revalidatePath(`/dashboard/collections/${slug}`);
   revalidatePath(`/${user?.username}/${slug}`);
+  revalidatePath(`/${user?.username}`);
+
   return { success: true };
 };
 
