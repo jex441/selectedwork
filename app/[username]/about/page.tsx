@@ -42,29 +42,27 @@ export default async function About({
             />
           )}
         </div>
-        <div className="mt-2 w-full text-sm text-gray-700">{imgCaption}</div>
+        <div className="mt-2 text-sm italic text-secondary">{imgCaption}</div>
       </section>
       <section className="m-1 w-full lg:w-1/2 lg:pr-20">
-        <h1 className="text-xl leading-8">{heading}</h1>
-        <h3 className="text-sm leading-8">{subheading}</h3>
+        <h1 className="text-xl leading-9 text-secondary">{heading}</h1>
+        <h3 className="text-sm leading-9 text-primary">{subheading}</h3>
         {text &&
           text
             .split('\r\n')
             .map((paragraph) => (
-              <p className="my-4 text-sm text-sm leading-7 text-gray-700">
-                {paragraph}
-              </p>
+              <p className="my-2 text-xs leading-7 text-primary">{paragraph}</p>
             ))}
 
         {linkSrc1 && (
-          <p className="my-2 text-sm leading-7 text-gray-700 underline hover:text-black">
+          <p className="my-2 text-sm leading-7 text-primary underline hover:text-secondary">
             <a href={linkSrc1} target="_blank">
               {linkText1}
             </a>
           </p>
         )}
         {linkSrc2 && (
-          <p className="my-2 text-sm leading-7 text-gray-700 underline hover:text-black">
+          <p className="my-2 text-sm leading-7 text-primary underline hover:text-secondary">
             <a href={linkSrc2} target="_blank">
               {linkText2}
             </a>

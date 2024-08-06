@@ -52,8 +52,8 @@ export default function Piece({ data }: { data: IWork }) {
           src={data.media[0].url ?? ''}
         />
         <div className="flex w-full self-start self-end text-xs tracking-wide lg:mt-0 lg:w-auto">
-          <span className="uppercase italic text-gray-600">{data.title}</span>
-          <span className="ml-3 text-gray-400">
+          <span className="uppercase italic text-primary">{data.title}</span>
+          <span className="text-lightGray ml-3">
             {data.year && `${data.year}`}
           </span>
         </div>

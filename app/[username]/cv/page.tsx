@@ -44,7 +44,9 @@ export default async function page({
     return 'loading';
   }
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={<div className="flex h-full w-full justify-center">...</div>}
+    >
       <CVPage data={res.data} />
     </Suspense>
   );

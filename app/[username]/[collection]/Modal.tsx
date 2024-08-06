@@ -53,30 +53,28 @@ export default function Modal({
 
           <div className="flex w-full flex-col gap-2  px-1 lg:mx-auto lg:w-1/3 lg:pr-20">
             <span className="flex w-full items-center justify-between">
-              <span className="flex items-center text-xl font-light italic leading-7 text-gray-500">
+              <span className="flex items-center text-xl font-light italic leading-7 text-primary">
                 {data.title}
                 {/* {data.sold && (
                   <span className="mx-4 inline-block h-2 w-2 rounded-lg"></span>
                 )} */}
               </span>
+              <p className="text-lightGray leading-7">{data.year}</p>
             </span>
-            <p className="text-sm text-gray-700">{data.year}</p>
-            <p className="text-gray-00 text-sm font-light leading-7">
-              {data.medium}
-            </p>
-            <p className="text-xs tracking-wide text-gray-700">
+            <p className="text-lightGray text-sm leading-7">{data.medium}</p>
+            <p className="text-xs uppercase text-primary">
+
               {data.height && `${data.height} x `}
               {data.width && data.width}
               {data.depth && ` x ${data.depth}`}
               {data.unit && ` ${data.unit}`}
             </p>
-            <p className="text-sm font-light leading-7 text-gray-700">
-              {data.description}
-            </p>
-            <p className="text-sm font-light italic leading-7 text-gray-500">
+            <p className="text-xs leading-7 text-primary">{data.description}</p>
+            <p className="text-sm italic leading-7 text-primary">
               {data.location}
             </p>
-            <p className="font-light leading-7 text-gray-500">
+            <p className="text-gray-primary font-light leading-7">
+
               {data.price && `$ ${data.price}`}
             </p>
           </div>
