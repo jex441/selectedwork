@@ -1,19 +1,47 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
 import Modal from './Modal';
 
-export default function piece({ data }: { data: IWork }) {
+export default function Piece({ data }: { data: IWork }) {
   const [modal, setModal] = useState(false);
+  const [isVisible, setVisible] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const domRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setVisible(true);
+            setHasAnimated(true);
+            domRef.current?.classList.add('fade-in-from-bottom', 'is-visible');
+          } else if (!entry.isIntersecting && !hasAnimated) {
+            setVisible(false);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    ); // Adjust threshold as needed
+
+    if (domRef.current) observer.observe(domRef.current);
+
+    return () => {
+      if (domRef.current) observer.unobserve(domRef.current);
+    };
+  }, [hasAnimated]);
+
   return (
     <>
-      {modal && <Modal setModal={setModal} data={data} />}
+      {modal && <Modal modal={modal} setModal={setModal} data={data} />}
       <section
+        ref={domRef}
         key={data.id}
         onClick={() => setModal(true)}
-        className="border-1 relative mx-1 mb-8 grid h-auto w-full cursor-pointer justify-items-stretch gap-3 lg:mx-3 lg:h-[340px] lg:w-auto"
+        className="fade-in-from-bottom border-1 relative mx-1 mb-8 grid h-auto w-full cursor-pointer justify-items-stretch gap-3 lg:mx-3 lg:h-[340px] lg:w-auto"
       >
         <Image
           width={0}
