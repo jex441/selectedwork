@@ -15,10 +15,10 @@ import {
   cvSection,
   work,
   NewUser,
-  collection,
   InsertPage,
   InsertWork,
   media,
+  collection,
 } from '../db/schema';
 import { IUser } from '../interfaces/IUser';
 import { IAboutPage } from '../interfaces/IAboutPage';
@@ -1394,12 +1394,18 @@ export const getCollectionDataForSite = async (
   let rows;
 
   if (slug === null) {
+    const collectionData = await db
+      .select()
+      .from(collection)
+      .where(eq(collection.userId, user.id));
+
     rows =
       user.id !== null &&
+      collectionData[0].id !== null &&
       (await db
         .select()
         .from(collection)
-        .where(eq(collection.userId, user.id))
+        .where(eq(collection.id, collectionData[0].id))
         .leftJoin(work, eq(collection.id, work.collectionId))
         .leftJoin(media, eq(work.id, media.workId)));
   } else {

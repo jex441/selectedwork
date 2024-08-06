@@ -28,7 +28,7 @@ export default function Modal({
           </span>
         </nav>
 
-        <section className="flex h-full w-full flex-col px-2 pt-5 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:p-0">
+        <section className="animDelay flex h-full w-full flex-col px-2 pt-5 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:p-0">
           <div className="relative flex max-h-[600px] w-full items-center justify-center lg:w-2/3">
             <Image
               height={0}
