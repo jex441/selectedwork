@@ -13,23 +13,12 @@ export default function Modal({
   modal: boolean;
   data: IWork;
 }) {
-  const [visible, setVisible] = useState(false);
-  setTimeout(() => {
-    setVisible(true);
-  }, 10);
-
   const closeHandler = () => {
-    setTimeout(() => {
-      setVisible(false);
-    }, 500);
-
     setModal(false);
   };
   return (
     <>
-      <div
-        className={`fade-in ${visible ? 'is-visible' : ''} fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white`}
-      >
+      <div className="fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
         <nav className="flex w-full justify-end p-2 lg:fixed lg:p-5">
           <span
             className="cursor-pointer opacity-50 hover:opacity-100"
@@ -46,12 +35,12 @@ export default function Modal({
               width={0}
               sizes="100vw"
               alt="work"
-              className="w-full object-contain lg:max-h-[600px] lg:w-4/5"
+              className="fade-in-up-simple w-full object-contain lg:max-h-[600px] lg:w-4/5"
               src={data.media[0].url ?? ''}
             />
           </div>
 
-          <div className="flex w-full flex-col gap-2  px-1 lg:mx-auto lg:w-1/3 lg:pr-20">
+          <div className="fade-in-right-simple flex w-full flex-col gap-2  px-1 lg:mx-auto lg:w-1/3 lg:pr-20">
             <span className="flex w-full items-center justify-between">
               <span className="text-mediumGray flex items-center text-xl font-light italic leading-7">
                 {data.title}
