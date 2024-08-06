@@ -26,8 +26,8 @@ const config = withUt({
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
-        primary: '#4B5563',
-        secondary: '#1F2937',
+        mediumGray: '#4B5563',
+        darkGray: '#1F2937',
         lightGray: '#6B7280',
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',

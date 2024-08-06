@@ -10,7 +10,7 @@ export default function CVPage({ data }: { data: ICVPage }) {
     <main className="flex w-full flex-col items-center justify-center lg:flex-row">
       {/* <section className="relative m-1 flex h-[300px] w-full flex-col object-contain lg:m-10 lg:h-[490px] lg:w-1/2">
     <div className="relative h-[320px] w-full lg:h-[480px] "></div>
-    <div className="w-full text-sm text-secondary">{imgCaption}</div>
+    <div className="w-full text-sm text-darkGray">{imgCaption}</div>
   </section> */}
 
       <section className="flex w-full flex-col items-center justify-center lg:mt-10 lg:w-3/4">
