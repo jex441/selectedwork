@@ -39,7 +39,7 @@ export default async function Work({
 
   return (
     <main className="flex w-full flex-wrap justify-center">
-      <section className="flex w-4/5 flex-col justify-center lg:flex-row lg:gap-10">
+      <section className="fade-in-up-simple flex flex-col justify-center lg:w-4/5 lg:flex-row lg:gap-10">
         {imgSrc && (
           <>
             <div className="mx-1 flex flex-col lg:m-5 lg:mx-0 lg:h-[400px] lg:w-1/2 lg:w-[500px]">
@@ -62,7 +62,7 @@ export default async function Work({
           </>
         )}
 
-        <div className="mx-1 my-5 flex-1 lg:m-5 lg:w-1/2">
+        <div className="fade-in-right-simple mx-1 my-5 flex-1 lg:m-5 lg:w-1/2">
           <h1 className="text-mediumGray text-xl leading-9">{title}</h1>
           <h3 className="text-mediumGray text-sm leading-9">{subheading}</h3>
           <p className="text-mediumGray text-xs leading-7">{description}</p>

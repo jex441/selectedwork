@@ -16,7 +16,7 @@ export default function Modal({
   const [visible, setVisible] = useState(false);
   setTimeout(() => {
     setVisible(true);
-  }, 100);
+  }, 10);
 
   const closeHandler = () => {
     setTimeout(() => {

@@ -13,7 +13,7 @@ export default function CVPage({ data }: { data: ICVPage }) {
     <div className="w-full text-sm text-darkGray">{imgCaption}</div>
   </section> */}
 
-      <section className="flex w-full flex-col items-center justify-center lg:mt-10 lg:w-3/4">
+      <section className="fade-in-up-simple flex w-full flex-col items-center justify-center lg:mt-10 lg:w-3/4">
         {data !== null && data.education.length > 0 && (
           <CVSection data={data} heading="Education" categoryId="education" />
         )}

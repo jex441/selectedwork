@@ -22,7 +22,7 @@ export default function ContactPage({ data }: { data: IContactPage }) {
 
   return (
     <main className="flex w-full flex-col items-start justify-center lg:flex-row lg:gap-14 lg:pt-10">
-      <section className="relative flex max-h-[520px] w-full flex-col object-contain p-1 lg:h-[490px] lg:w-1/3">
+      <section className="fade-in-up-simple relative flex max-h-[520px] w-full flex-col object-contain p-1 lg:h-[490px] lg:w-1/3">
         <div className="relative h-auto w-full lg:max-h-[480px]">
           {imgSrc && (
             <Image
@@ -37,7 +37,7 @@ export default function ContactPage({ data }: { data: IContactPage }) {
         </div>
         <div className="text-darkGray mt-2 text-sm italic">{imgCaption}</div>
       </section>
-      <section className="m-1 w-full lg:w-1/2 lg:pr-20">
+      <section className="fade-in-right-simple m-1 w-full lg:w-1/2 lg:pr-20">
         <h1 className="text-darkGray text-xl leading-9">{heading}</h1>
         <h3 className="text-mediumGray text-sm leading-9">{subheading}</h3>
         {text &&
