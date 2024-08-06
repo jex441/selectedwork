@@ -35,33 +35,35 @@ export default function ContactPage({ data }: { data: IContactPage }) {
             />
           )}
         </div>
-        <div className="mt-2 text-sm italic text-secondary">{imgCaption}</div>
+        <div className="text-darkGray mt-2 text-sm italic">{imgCaption}</div>
       </section>
       <section className="m-1 w-full lg:w-1/2 lg:pr-20">
-        <h1 className="text-xl leading-9 text-secondary">{heading}</h1>
-        <h3 className="text-sm leading-9 text-primary">{subheading}</h3>
+        <h1 className="text-darkGray text-xl leading-9">{heading}</h1>
+        <h3 className="text-mediumGray text-sm leading-9">{subheading}</h3>
         {text &&
           text
             .split('\r\n')
             .map((paragraph) => (
-              <p className="my-2 text-xs leading-7 text-primary">{paragraph}</p>
+              <p className="text-mediumGray my-2 text-xs leading-7">
+                {paragraph}
+              </p>
             ))}
         {instagram && (
-          <p className="my-2 text-sm leading-7 text-primary underline hover:text-black">
+          <p className="text-mediumGray my-2 text-sm leading-7 underline hover:text-black">
             <a href={instagram} target="_blank">
               {instagram}
             </a>
           </p>
         )}
         {linkSrc1 && (
-          <p className="my-2 text-sm leading-7 text-primary underline hover:text-black">
+          <p className="text-mediumGray my-2 text-sm leading-7 underline hover:text-black">
             <a href={linkSrc1} target="_blank">
               {linkText1}
             </a>
           </p>
         )}
         {linkSrc2 && (
-          <p className="my-2 text-sm leading-7 text-primary underline hover:text-black">
+          <p className="text-mediumGray my-2 text-sm leading-7 underline hover:text-black">
             <a href={linkSrc2} target="_blank">
               {linkText2}
             </a>

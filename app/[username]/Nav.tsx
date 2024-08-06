@@ -29,7 +29,7 @@ export default function Nav({
     <>
       <div
         onMouseLeave={() => setDropDown('hidden')}
-        className="fixed z-20 flex h-[70px] w-full flex-row bg-white text-secondary lg:static lg:items-center lg:p-10"
+        className="text-darkGray fixed z-20 flex h-[70px] w-full flex-row bg-white lg:static lg:items-center lg:p-10"
       >
         <header className="absolute z-10 m-5 tracking-wide lg:static lg:my-0 lg:mr-6 lg:text-xl">
           <Link
@@ -57,7 +57,7 @@ export default function Nav({
               onMouseEnter={() => setDropDown('flex')}
             >
               <Link
-                className="text-primary hover:text-secondary"
+                className="text-mediumGray hover:text-darkGray"
                 href={`/${username}/${collections[0].slug}`}
               >
                 Selected Work
@@ -66,7 +66,7 @@ export default function Nav({
           ) : (
             <span onMouseEnter={() => clickHandler()}>
               <Link
-                className="text-primary hover:text-secondary"
+                className="text-mediumGray hover:text-darkGray"
                 href={`/${username}/${collections[0].slug}`}
               >
                 {collections[0].title}
@@ -93,7 +93,7 @@ export default function Nav({
 
           <span>
             <Link
-              className="text-primary hover:text-secondary"
+              className="text-mediumGray hover:text-darkGray"
               onMouseEnter={() => setDropDown('hidden')}
               onClick={() => clickHandler()}
               href={`/${username}/about`}
@@ -103,7 +103,7 @@ export default function Nav({
           </span>
           <span>
             <Link
-              className="text-primary hover:text-secondary"
+              className="text-mediumGray hover:text-darkGray"
               onClick={() => clickHandler()}
               href={`/${username}/cv`}
             >
@@ -112,7 +112,7 @@ export default function Nav({
           </span>
           <span>
             <Link
-              className="text-primary hover:text-secondary"
+              className="text-mediumGray hover:text-darkGray"
               onClick={() => clickHandler()}
               href={`/${username}/contact`}
             >

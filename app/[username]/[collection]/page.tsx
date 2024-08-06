@@ -54,7 +54,7 @@ export default async function Work({
                 />
               </div>
               <div className="mt-2">
-                <span className="text-sm italic text-primary">
+                <span className="text-mediumGray text-sm italic">
                   {imgCaption}
                 </span>
               </div>
@@ -63,10 +63,10 @@ export default async function Work({
         )}
 
         <div className="mx-1 my-5 flex-1 lg:m-5 lg:w-1/2">
-          <h1 className="text-xl leading-9 text-primary">{title}</h1>
-          <h3 className="text-sm leading-9 text-primary">{subheading}</h3>
-          <p className="text-xs leading-7 text-primary">{description}</p>
-          <p className="my-4 text-sm text-primary">
+          <h1 className="text-mediumGray text-xl leading-9">{title}</h1>
+          <h3 className="text-mediumGray text-sm leading-9">{subheading}</h3>
+          <p className="text-mediumGray text-xs leading-7">{description}</p>
+          <p className="text-mediumGray my-4 text-sm">
             {linkSrc1 && (
               <a
                 href={linkSrc1}
