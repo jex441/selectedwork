@@ -45,17 +45,17 @@ export default function Modal({
             />
           </div>
 
-          <div className="fade-in-right-simple flex w-full flex-col gap-1 px-1 pt-5 lg:mx-auto lg:w-1/3 lg:pr-20 lg:pt-0">
-            <p className="text-darkGray text-xl">{artist}</p>
+          <div className="fade-in-right-simple flex w-full flex-col gap-1 px-1 pt-5 lg:mx-auto lg:w-1/4 lg:pt-0">
+            <p className="text-darkGray text-lg">{artist}</p>
             <span className="mb-2 flex w-full items-center justify-between">
               <span className="text-lightGray flex items-center text-xl font-light italic">
                 {data.title}
-                {data.year && `, ${data.year}`}
-                {/* {data.sold && (
-                  <span className="mx-4 inline-block h-2 w-2 rounded-lg"></span>
-                )} */}
+                {data.sold !== null && (
+                  <span className="mx-4 inline-block h-2 w-2 rounded-lg bg-red-400"></span>
+                )}
               </span>
             </span>
+            <p className="text-lightGray text-sm">{data.year}</p>
             <p className="text-lightGray text-sm">{data.medium}</p>
             <div className="text-mediumGray text-sm">
               <span className="">{data.height && `${data.height}`}</span>
