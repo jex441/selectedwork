@@ -90,7 +90,8 @@ export default async function Work({
           </p>
         </div>
       </section>
-      <section className="flex w-full flex-wrap justify-around gap-y-10 lg:px-20">
+
+     <section className="mg:grid-cols-2 mb-10 grid w-full grid-cols-1 gap-1 gap-y-10 lg:grid-cols-4 lg:px-20">
         {works &&
           res.user !== null &&
           works.map((work, index) => (
