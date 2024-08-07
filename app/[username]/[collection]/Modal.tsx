@@ -8,14 +8,19 @@ export default function Modal({
   data,
   setModal,
   modal,
+  artist,
 }: {
   setModal: (val: boolean) => void;
   modal: boolean;
   data: IWork;
+  artist: string;
 }) {
   const closeHandler = () => {
     setModal(false);
   };
+  const units = { inches: 'in', cm: 'cm', ft: 'ft', m: 'm' };
+  const key: string = data.unit ?? 'inches';
+  const unit = units[key as keyof typeof units];
   return (
     <>
       <div className="fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
@@ -28,7 +33,7 @@ export default function Modal({
           </span>
         </nav>
 
-        <section className="animDelay flex h-full w-full flex-col px-2 pt-5 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:p-0">
+        <section className="animDelay flex h-full w-full flex-col px-2 pt-1 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:p-0">
           <div className="relative flex max-h-[600px] w-full items-center justify-center lg:w-2/3">
             <Image
               height={0}
@@ -40,24 +45,33 @@ export default function Modal({
             />
           </div>
 
-          <div className="fade-in-right-simple flex w-full flex-col gap-2  px-1 lg:mx-auto lg:w-1/3 lg:pr-20">
-            <span className="flex w-full items-center justify-between">
-              <span className="text-mediumGray flex items-center text-xl font-light italic leading-7">
+          <div className="fade-in-right-simple flex w-full flex-col gap-1 px-1 pt-5 lg:mx-auto lg:w-1/3 lg:pr-20 lg:pt-0">
+            <p className="text-darkGray text-xl">{artist}</p>
+            <span className="mb-2 flex w-full items-center justify-between">
+              <span className="text-lightGray flex items-center text-xl font-light italic">
                 {data.title}
+                {data.year && `, ${data.year}`}
                 {/* {data.sold && (
                   <span className="mx-4 inline-block h-2 w-2 rounded-lg"></span>
                 )} */}
               </span>
-              <p className="text-lightGray leading-7">{data.year}</p>
             </span>
-            <p className="text-lightGray text-sm leading-7">{data.medium}</p>
-            <p className="text-mediumGray text-xs uppercase">
-              {data.height && `${data.height} x `}
-              {data.width && data.width}
-              {data.depth && ` x ${data.depth}`}
-              {data.unit && ` ${data.unit}`}
-            </p>
-            <p className="text-mediumGray text-xs leading-7">
+            <p className="text-lightGray text-sm">{data.medium}</p>
+            <div className="text-mediumGray text-sm">
+              <span className="">{data.height && `${data.height}`}</span>
+              <span className="text-lightGray"> x </span>
+              <span className="">{data.width && data.width}</span>
+              {data.depth && (
+                <span className="">
+                  <span className="text-lightGray"> x </span>
+                  `${data.depth}`
+                </span>
+              )}
+              <span className="text-lightGray text-xs">
+                {data.unit && ` ${unit}`}
+              </span>
+            </div>
+            <p className="text-mediumGray my-2 text-xs leading-7 ">
               {data.description}
             </p>
             <p className="text-mediumGray text-sm italic leading-7">

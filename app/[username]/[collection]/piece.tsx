@@ -5,7 +5,13 @@ import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
 import Modal from './Modal';
 
-export default function Piece({ data }: { data: IWork }) {
+export default function Piece({
+  data,
+  artist,
+}: {
+  data: IWork;
+  artist: string;
+}) {
   const [modal, setModal] = useState(false);
   const [isVisible, setVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -36,7 +42,9 @@ export default function Piece({ data }: { data: IWork }) {
 
   return (
     <>
-      {modal && <Modal modal={modal} setModal={setModal} data={data} />}
+      {modal && (
+        <Modal artist={artist} modal={modal} setModal={setModal} data={data} />
+      )}
       <section
         ref={domRef}
         key={data.id}
