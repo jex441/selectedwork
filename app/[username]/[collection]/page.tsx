@@ -33,7 +33,7 @@ export default async function Work({
     works,
   } = res.data || {};
 
-  if (!res) {
+  if (!res || !res.user || !res.user?.displayName || !res.data) {
     return 'loading';
   }
 
@@ -92,9 +92,11 @@ export default async function Work({
       </section>
       <section className="flex w-full flex-wrap justify-around gap-y-10 lg:px-20">
         {works &&
-          works.map((work) => (
+          works.map((work, index) => (
             <Piece
-              artist={res.user.displayName ?? ''}
+              index={index}
+              works={res.data.works}
+              artist={res.user.displayName}
               key={work.id}
               data={work}
             />

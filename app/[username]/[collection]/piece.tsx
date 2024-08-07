@@ -8,8 +8,12 @@ import Modal from './Modal';
 export default function Piece({
   data,
   artist,
+  works,
+  index,
 }: {
   data: IWork;
+  works: IWork[];
+  index: number;
   artist: string;
 }) {
   const [modal, setModal] = useState(false);
@@ -43,7 +47,14 @@ export default function Piece({
   return (
     <>
       {modal && (
-        <Modal artist={artist} modal={modal} setModal={setModal} data={data} />
+        <Modal
+          index={index}
+          works={works}
+          artist={artist}
+          modal={modal}
+          setModal={setModal}
+          data={data}
+        />
       )}
       <section
         ref={domRef}
