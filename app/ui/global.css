@@ -108,6 +108,7 @@
     opacity: 1;
     visibility: visible;
   }
+
   .fade-in-from-bottom.is-visible {
     opacity: 1;
     visibility: visible;
@@ -161,9 +162,8 @@
   100% { opacity: 1; }
 }
  
-
 .fade-in-up-simple {
-  animation: fadeInUp 2s;
+  animation: fadeInUp 2s ease-in-out;
   -webkit-animation: fadeInUp 2s;
   -moz-animation: fadeInUp 2s;
   -o-animation: fadeInUp 2s;
@@ -196,11 +196,11 @@
 }
 
 .fade-in-right-simple {
-  animation: fadeInRight 2s;
-  -webkit-animation: fadeInRight 2s;
-  -moz-animation: fadeInRight 2s;
-  -o-animation: fadeInRight 2s;
-  -ms-animation: fadeInRight 2s;
+  animation: fadeInRight 3s ease-in;
+  -webkit-animation: fadeInRight 3s;
+  -moz-animation: fadeInRight 3s;
+  -o-animation: fadeInRight 3s;
+  -ms-animation: fadeInRight 3s;
 }
 
 @keyframes fadeInRight {

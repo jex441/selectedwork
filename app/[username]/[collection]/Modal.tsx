@@ -45,12 +45,12 @@ export default function Modal({
   return (
     <>
       <div className="fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
-        <nav className="flex w-full justify-end p-2 lg:fixed lg:p-5">
+        <nav className="flex w-full justify-end p-2 lg:fixed lg:p-10">
           <span
-            className="cursor-pointer cursor-pointer opacity-50 hover:opacity-100"
+            className="fade-in-simple cursor-pointer cursor-pointer opacity-50 hover:opacity-100"
             onClick={() => closeHandler()}
           >
-            <Image src={close} alt="close" height={25} width={25} />
+            <Image src={close} alt="close" height={30} width={30} />
           </span>
         </nav>
 
@@ -69,7 +69,7 @@ export default function Modal({
               width={0}
               sizes="100vw"
               alt="work"
-              className="fade-in-up-simple w-full object-contain lg:max-h-[600px] lg:w-4/5"
+              className="animDelay fade-in-up-simple w-full object-contain lg:max-h-[600px] lg:w-4/5"
               src={work.media[0].url ?? ''}
             />
           </div>
