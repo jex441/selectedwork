@@ -92,11 +92,12 @@ export default async function Work({
       </section>
       <section className="flex w-full flex-wrap justify-around gap-y-10 lg:px-20">
         {works &&
+          res.user !== null &&
           works.map((work, index) => (
             <Piece
               index={index}
-              works={res.data.works}
-              artist={res.user.displayName}
+              works={works}
+              artist={res.user ? res.user.displayName : ''}
               key={work.id}
               data={work}
             />
