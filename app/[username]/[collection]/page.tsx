@@ -12,7 +12,7 @@ export default async function Work({
 }) {
   const username = params.username;
   const collection = params.collection;
-  type user = { username: string };
+  type user = { username: string; displayName: string };
 
   const res: {
     status: number;
@@ -33,7 +33,7 @@ export default async function Work({
     works,
   } = res.data || {};
 
-  if (!res) {
+  if (!res || !res.user || !res.user?.displayName || !res.data) {
     return 'loading';
   }
 
@@ -90,8 +90,19 @@ export default async function Work({
           </p>
         </div>
       </section>
-      <section className="mg:grid-cols-2 mb-10 grid w-full grid-cols-1 gap-1 gap-y-10 lg:grid-cols-4 lg:px-20">
-        {works && works.map((work) => <Piece key={work.id} data={work} />)}
+
+     <section className="mg:grid-cols-2 mb-10 grid w-full grid-cols-1 gap-1 gap-y-10 lg:grid-cols-4 lg:px-20">
+        {works &&
+          res.user !== null &&
+          works.map((work, index) => (
+            <Piece
+              index={index}
+              works={works}
+              artist={res.user ? res.user.displayName : ''}
+              key={work.id}
+              data={work}
+            />
+          ))}
       </section>
     </main>
   );
