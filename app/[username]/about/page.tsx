@@ -56,7 +56,7 @@ export default async function About({
         {text &&
           text
             .split('\r\n')
-            .map((paragraph) => (
+            .map((paragraph: string) => (
               <p className="text-mediumGray my-2 text-xs leading-7">
                 {paragraph}
               </p>

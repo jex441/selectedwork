@@ -5,11 +5,12 @@ import { getAboutPageDataForSite } from '@/app/lib/data';
 
 export async function GET(
   req: NextApiRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { username: string } },
   res: NextApiResponse,
 ) {
   const username = params.username;
-  const response = username && (await getAboutPageDataForSite(username, null));
+  const response =
+    username && (await getAboutPageDataForSite(username, 'about'));
 
   return NextResponse.json(response);
 }

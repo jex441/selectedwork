@@ -5,7 +5,7 @@ import { getContactPageDataForSite } from '@/app/lib/data';
 
 export async function GET(
   req: NextApiRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { username: string } },
   res: NextApiResponse,
 ) {
   const username = params.username;

@@ -3,9 +3,10 @@ import { NextResponse } from 'next/server';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getCVPageDataForSite } from '@/app/lib/data';
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
-  const host = req.headers ? req.headers.get('host') : false;
-  console.log(host);
+export async function GET(req: Request, res: NextApiResponse) {
+  const headers = req.headers;
+  const host: string = headers.get('host') || '';
+
   const response = host && (await getCVPageDataForSite(host, 'cv'));
   return NextResponse.json(response);
 }
