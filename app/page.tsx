@@ -13,7 +13,7 @@ export default async function Page() {
   };
 
   const response = await getHost();
-
+  console.log(response);
   if (
     response.data.host === 'localhost:3000' ||
     response.data.host === 'selected-work.com'
