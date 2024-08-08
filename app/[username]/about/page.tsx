@@ -1,14 +1,10 @@
 import Image from 'next/image';
 import React from 'react';
 
-import { getAboutPageDataForSite } from '@/app/lib/data';
-import { IAboutPage } from '@/app/interfaces/IAboutPage';
-import { identifierHandler } from '@/app/lib/utils';
-
 export default async function About({
   params: { username },
 }: {
-  params: { username: string };
+  params: { username: string | null };
 }) {
   const request = async () => {
     return await fetch(

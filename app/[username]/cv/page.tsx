@@ -8,7 +8,7 @@ import CVPage from './CVPage';
 export default async function page({
   params,
 }: {
-  params: { username: string; page: string };
+  params: { username: string | null };
 }) {
   const username = params.username;
 

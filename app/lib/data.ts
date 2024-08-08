@@ -423,7 +423,8 @@ export const updateUser = async (
     }));
   console.log('vercel toaken', process.env.VERCEL_TOKEN);
   console.log('vercelResponse', vercelResponse);
-
+  // need to check if www. is redirecting, fine tune vercel config, remove old domains, etc...
+  // deploy branch - my domain should point to selected-work.com which should query db for user's domain
   const update = await db
     .update(users)
     .set({

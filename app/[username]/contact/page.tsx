@@ -5,9 +5,9 @@ import { IContactPage } from '@/app/interfaces/IContactPage';
 import { getContactPageDataForSite } from '@/app/lib/data';
 import ContactPage from './ContactPage';
 export default async function Contact({
-  params: { username, page },
+  params: { username },
 }: {
-  params: { username: string; page: string };
+  params: { username: string | null };
 }) {
   const request = async () => {
     return await fetch(
