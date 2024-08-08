@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 import { ICollection } from '@/app/interfaces/ICollection';
 import Piece from './piece';
+import { IWork } from '@/app/interfaces/IWork';
 
 export default async function Work({
   params,
@@ -14,32 +15,36 @@ export default async function Work({
   type user = { username: string; displayName: string };
 
   const request = async () => {
-    await fetch('http://localhost:3000/api/requests/getCollectionDataForSite', {
-      method: 'GET',
-    }).then((res) => res.json());
+    return await fetch(
+      `${process.env.BASE_URL}/api/requests/getCollectionDataForSite${username !== null ? `/${username}` : ''}`,
+      {
+        method: 'GET',
+      },
+    ).then((res) => res.json());
   };
 
-  await request();
-  // const {
-  //   imgSrc,
-  //   imgCaption,
-  //   title,
-  //   subheading,
-  //   description,
-  //   linkText1,
-  //   linkSrc1,
-  //   linkText2,
-  //   linkSrc2,
-  //   works,
-  // } = res.data || {};
+  const res = await request();
 
-  // if (!res || !res.user || !res.user?.displayName || !res.data) {
-  //   return 'loading';
-  // }
+  console.log('res =>', res);
+  const {
+    imgSrc,
+    imgCaption,
+    title,
+    subheading,
+    description,
+    linkText1,
+    linkSrc1,
+    linkText2,
+    linkSrc2,
+    works,
+  } = res.data || {};
 
+  if (!works) {
+    return 'loading';
+  }
   return (
     <main className="flex w-full flex-wrap justify-center">
-      {/* <section className="fade-in-up-simple flex flex-col justify-center lg:w-4/5 lg:flex-row lg:gap-10">
+      <section className="fade-in-up-simple flex flex-col justify-center lg:w-4/5 lg:flex-row lg:gap-10">
         {imgSrc && (
           <>
             <div className="mx-1 flex flex-col lg:m-5 lg:mx-0 lg:h-[400px] lg:w-1/2 lg:w-[500px]">
@@ -93,8 +98,7 @@ export default async function Work({
 
       <section className="mg:grid-cols-2 mb-10 grid w-full grid-cols-1 gap-1 gap-y-10 lg:grid-cols-4 lg:px-20">
         {works &&
-          res.user !== null &&
-          works.map((work, index) => (
+          res.data.works.map((work: IWork, index: number) => (
             <Piece
               index={index}
               works={works}
@@ -103,7 +107,7 @@ export default async function Work({
               data={work}
             />
           ))}
-      </section> */}
+      </section>
     </main>
   );
 }

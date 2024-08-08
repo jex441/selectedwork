@@ -1,7 +1,7 @@
 'use server';
 
 import { currentUser, auth } from '@clerk/nextjs/server';
-import { eq, and, inArray } from 'drizzle-orm';
+import { eq, and, inArray, or } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db';
 import { redirect } from 'next/navigation';
@@ -1228,14 +1228,14 @@ export const getPagesData = async (userId: number) => {
 
 // functions for generating site:
 export const getUserByUsername = async (username: string) => {
-  const rows = await db
+  let rows = await db
     .select()
     .from(users)
-    .where(eq(users.username, username))
+    .where(or(eq(users.username, username), eq(users.domain, username)))
     .leftJoin(collection, eq(collection.userId, users.id));
 
   if (!rows) {
-    await db
+    rows = await db
       .select()
       .from(users)
       .where(eq(users.domain, username))

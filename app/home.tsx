@@ -16,7 +16,7 @@ export default function home({ userData }: Props) {
       setUserData(userData);
     }
   }, [userData, user.id]);
-  console.log(window.location);
+
   return (
     <div className="flex min-h-[100dvh] flex-col">
       <header className="flex h-14 items-center justify-between px-4 lg:px-6">

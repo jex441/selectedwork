@@ -30,7 +30,6 @@ import { IWork } from '@/app/interfaces/IWork';
 
 export default function WorksGrid({ collection }: { collection: ICollection }) {
   const [activeId, setActiveId] = useState<string | number | null>(null);
-  console.log(activeId);
   const [items, setItems] = useState<number[]>(
     collection.works.map((work) => work.idx),
   );
@@ -43,13 +42,10 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
   );
 
   const handleDragStart = (event: DragStartEvent) => {
-    console.log('evnet', event);
     setActiveId(event.active.id);
   };
 
   const handleDragEnd = async (event: { active: any; over: any }) => {
-    console.log('evnet', event);
-
     setActiveId(null);
     const { active, over } = event;
 

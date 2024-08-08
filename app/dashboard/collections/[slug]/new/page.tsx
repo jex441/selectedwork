@@ -78,7 +78,6 @@ export default function NewPieceForm({
   const makeMainMediaHandler = async (workId: number, mediaId: number) => {
     work.collectionId && (await makeMainMedia(workId, mediaId, params.slug));
   };
-  console.log(work);
   const createWorkWithMediaHandler = async (slug: string, url: string) => {
     const newMedia = { url: url, type: 'image', main: 'true' };
     const newWork = await createWorkWithMedia(slug, newMedia);
