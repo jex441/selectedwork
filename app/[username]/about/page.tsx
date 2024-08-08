@@ -1,20 +1,22 @@
 import Image from 'next/image';
 import React from 'react';
 
-import { getAboutPageDataForSite } from '@/app/lib/data';
-import { IAboutPage } from '@/app/interfaces/IAboutPage';
-
 export default async function About({
-  params: { username, page },
+  params: { username },
 }: {
-  params: { username: string; page: string };
+  params: { username: string | null };
 }) {
-  const res: {
-    status: number;
-    user: { username: string } | null;
-    data: IAboutPage | null;
-  } = await getAboutPageDataForSite(username, 'about');
-  console.log(res.data);
+  const request = async () => {
+    return await fetch(
+      `${process.env.BASE_URL}/api/requests/getAboutPageDataForSite${username !== null ? `/${username}` : ''}`,
+      {
+        method: 'GET',
+      },
+    ).then((res) => res.json());
+  };
+
+  const res = await request();
+
   const {
     imgSrc,
     imgCaption,
@@ -50,7 +52,7 @@ export default async function About({
         {text &&
           text
             .split('\r\n')
-            .map((paragraph) => (
+            .map((paragraph: string) => (
               <p className="text-mediumGray my-2 text-xs leading-7">
                 {paragraph}
               </p>

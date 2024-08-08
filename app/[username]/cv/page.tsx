@@ -8,37 +8,20 @@ import CVPage from './CVPage';
 export default async function page({
   params,
 }: {
-  params: { username: string; page: string };
+  params: { username: string | null };
 }) {
   const username = params.username;
 
-  const res: {
-    status: number;
-    user: { username: string } | null;
-    data: ICVPage | null;
-  } = await getCVPageDataForSite(username, 'cv');
+  const request = async () => {
+    return await fetch(
+      `${process.env.BASE_URL}/api/requests/getCVPageDataForSite${username !== null ? `/${username}` : ''}`,
+      {
+        method: 'GET',
+      },
+    ).then((res) => res.json());
+  };
 
-  const {
-    imgCaption,
-    imgSrc,
-    groupExhibitions,
-    education,
-    soloExhibitions,
-    teaching,
-    press,
-    awards,
-    residencies,
-  } = res.data || {};
-
-  const categories = [
-    'education',
-    'groupExhibitions',
-    'soloExhibitions',
-    'press',
-    'awards',
-    'residencies',
-    'teaching',
-  ];
+  const res = await request();
 
   if (res.data === null) {
     return 'loading';

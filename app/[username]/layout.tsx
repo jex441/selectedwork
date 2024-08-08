@@ -21,8 +21,6 @@ export default async function Layout({
 
   const userData: IUser | null = await getUserByUsername(username);
 
-  console.log(userData);
-
   if (res.user === null) {
     return <div>404</div>;
   }

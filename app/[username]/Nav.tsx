@@ -24,7 +24,7 @@ export default function Nav({
     setOpen(false);
     setDropDown('hidden');
   };
-  console.log(displayName);
+
   return (
     <>
       <div

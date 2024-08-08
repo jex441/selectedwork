@@ -28,6 +28,7 @@ export default function AccountForm({ data }: { data: IUser }) {
   const initialState: UserState = { message: null, errors: {} };
   const updateUserWithId = updateUser.bind(null, data.id);
   const [state, formAction] = useFormState(updateUserWithId, initialState);
+
   return (
     <form action={formAction} className="flex min-h-screen flex-col">
       <main className="flex-1 p-6 md:p-10">
@@ -72,7 +73,7 @@ export default function AccountForm({ data }: { data: IUser }) {
               <Button type="submit">Save Changes</Button>
             </CardFooter>
           </Card>
-          {/* <Card>
+          <Card>
             <CardHeader>
               <CardTitle>Domain Settings</CardTitle>
               <CardDescription>Manage your custom domain.</CardDescription>
@@ -80,14 +81,24 @@ export default function AccountForm({ data }: { data: IUser }) {
             <CardContent className="grid gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="domain">Custom Domain</Label>
-                <Input id="domain" defaultValue="example.com" />
+                <Input
+                  name="domain"
+                  id="domain"
+                  defaultValue={data.domain || undefined}
+                />
               </div>
+              {data.domain !== null && (
+                <div>
+                  Add an A record with name @ and value of '76.76.21.21' to your
+                  DNS
+                </div>
+              )}
             </CardContent>
             <CardFooter className="border-t">
-              <Button>Update Domain</Button>
+              <Button type="submit">Update Domain</Button>
             </CardFooter>
-          </Card> */}
-          {/* <Card>
+          </Card>
+          <Card>
             <CardHeader>
               <CardTitle>Billing</CardTitle>
               <CardDescription>
@@ -116,7 +127,7 @@ export default function AccountForm({ data }: { data: IUser }) {
             <CardFooter className="border-t">
               <Button>Update Billing</Button>
             </CardFooter>
-          </Card> */}
+          </Card>
           {/* <Card>
             <CardHeader>
               <CardTitle>Danger Zone</CardTitle>

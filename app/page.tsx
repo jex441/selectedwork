@@ -1,26 +1,25 @@
-import { getUserData, user } from './lib/data';
-import { IUser } from './interfaces/IUser';
-
+import React from 'react';
+import UserSite from './[username]/[collection]/page';
 import Home from './home';
-
-export default async function Component() {
-  let userData: IUser = {
-    id: 99,
-    displayName: '',
-    authId: '',
-    firstName: '',
-    lastName: '',
-    occupation: '',
-    username: '',
-    email: '',
-    plan: '',
-    domain: '',
-    url: '',
-    pages: [],
-    collections: [],
+export default async function Page() {
+  const getHost = async () => {
+    const data = await fetch(
+      `${process.env.BASE_URL}/api/requests/getHostName`,
+      {
+        method: 'GET',
+      },
+    ).then((res) => res.json());
+    return data;
   };
-  let res = await getUserData();
-  if (res !== null) userData = res;
 
-  return <Home userData={userData} />;
+  const response = await getHost();
+
+  if (
+    response.data.host === 'localhost:3000' ||
+    response.data.host === 'selected-work.com'
+  ) {
+    return <Home />;
+  }
+
+  return <UserSite params={{ username: null, collection: null }} />;
 }

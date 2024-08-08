@@ -1,7 +1,7 @@
 'use server';
 
 import { currentUser, auth } from '@clerk/nextjs/server';
-import { eq, and, inArray } from 'drizzle-orm';
+import { eq, and, inArray, or } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db';
 import { redirect } from 'next/navigation';
@@ -362,6 +362,7 @@ const UserSchema = z.object({
   occupation: z.string(),
   email: z.string(),
   plan: z.string(),
+  domain: z.string().nullish(),
 });
 
 const UpdateUser = UserSchema.omit({
@@ -375,10 +376,13 @@ export const updateUser = async (
   prevState: {},
   formData: FormData,
 ) => {
+  const userData = await user();
+
   const validatedFields = UpdateUser.safeParse({
     displayName: formData.get('displayName') || '',
     username: formData.get('username') || '',
     occupation: formData.get('occupation') || '',
+    domain: formData.get('domain') || '',
   });
 
   if (!validatedFields.success) {
@@ -388,20 +392,52 @@ export const updateUser = async (
     };
   }
 
-  const { username, displayName, occupation } = validatedFields.data;
+  const { username, displayName, occupation, domain } = validatedFields.data;
 
+  // paywall
+  // if (domain !== '' && userData[0].plan === 'free') {
+  //   return { success: false };
+  // }
+
+  // api call to vercel to add a new domain:
+  const vercelFormData = new FormData();
+  domain && vercelFormData.append('name', domain);
+  vercelFormData.append('cdnEnabled', 'true');
+  vercelFormData.append('zone', 'true');
+  vercelFormData.append('method', 'add');
+
+  const vercelResponse =
+    domain &&
+    (await fetch('https://api.vercel.com/v5/projects/dash/domains', {
+      body: JSON.stringify({
+        name: domain,
+        cdnEnabled: true,
+        zone: true,
+        method: 'add',
+      }),
+      headers: {
+        Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      method: 'post',
+    }));
+  console.log('vercel toaken', process.env.VERCEL_TOKEN);
+  console.log('vercelResponse', vercelResponse);
+  // need to check if www. is redirecting, fine tune vercel config, remove old domains, etc...
+  // deploy branch - my domain should point to selected-work.com which should query db for user's domain
   const update = await db
     .update(users)
     .set({
       username: username,
       displayName: displayName,
       occupation: occupation,
+      domain: domain,
     })
     .where(eq(users.id, id))
     .returning({ id: users.id });
 
   revalidatePath('/dashboard/account');
-  return { success: true };
+  return { success: true, message: '76.76.21.21' };
 };
 
 export const insertUser = async (
@@ -1060,8 +1096,6 @@ export const reorderWorks = async (updatedWorks: IWork[]) => {
       .set({ idx: i + 1 })
       .where(eq(work.id, Number(updatedWorks[i].id)))
       .returning({ id: work.id });
-
-    console.log('query', query);
   }
   // revalidatePath(`/dashboard/collections/${userData?.username}`);
   // revalidatePath(`/${userData?.username}/${userData?.username}`);
@@ -1195,11 +1229,19 @@ export const getPagesData = async (userId: number) => {
 
 // functions for generating site:
 export const getUserByUsername = async (username: string) => {
-  const rows = await db
+  let rows = await db
     .select()
     .from(users)
-    .where(eq(users.username, username))
+    .where(or(eq(users.username, username), eq(users.domain, username)))
     .leftJoin(collection, eq(collection.userId, users.id));
+
+  if (!rows) {
+    rows = await db
+      .select()
+      .from(users)
+      .where(eq(users.domain, username))
+      .leftJoin(collection, eq(collection.userId, users.id));
+  }
 
   const result = rows.reduce<IUser>((acc, row) => {
     const user = row.users_table;
@@ -1393,7 +1435,7 @@ export const getCollectionDataForSite = async (
   }
   let rows;
 
-  if (slug === null) {
+  if (!slug) {
     const collectionData = await db
       .select()
       .from(collection)

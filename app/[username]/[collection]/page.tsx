@@ -1,24 +1,29 @@
 import React from 'react';
 import Image from 'next/image';
 
-import { getCollectionDataForSite } from '@/app/lib/data';
 import { ICollection } from '@/app/interfaces/ICollection';
 import Piece from './piece';
+import { IWork } from '@/app/interfaces/IWork';
 
 export default async function Work({
   params,
 }: {
-  params: { username: string; collection: string };
+  params: { username: string | null; collection: string | null };
 }) {
   const username = params.username;
+  // need route for collection:
   const collection = params.collection;
-  type user = { username: string; displayName: string };
 
-  const res: {
-    status: number;
-    user: user | null;
-    data: ICollection | null;
-  } = await getCollectionDataForSite(username, collection);
+  const request = async () => {
+    return await fetch(
+      `${process.env.BASE_URL}/api/requests/getCollectionDataForSite${username !== null ? `/${username}` : ''}`,
+      {
+        method: 'GET',
+      },
+    ).then((res) => res.json());
+  };
+
+  const res = await request();
 
   const {
     imgSrc,
@@ -33,10 +38,9 @@ export default async function Work({
     works,
   } = res.data || {};
 
-  if (!res || !res.user || !res.user?.displayName || !res.data) {
+  if (!works) {
     return 'loading';
   }
-
   return (
     <main className="flex w-full flex-wrap justify-center">
       <section className="fade-in-up-simple flex flex-col justify-center lg:w-4/5 lg:flex-row lg:gap-10">
@@ -91,10 +95,9 @@ export default async function Work({
         </div>
       </section>
 
-     <section className="mg:grid-cols-2 mb-10 grid w-full grid-cols-1 gap-1 gap-y-10 lg:grid-cols-4 lg:px-20">
+      <section className="mg:grid-cols-2 mb-10 grid w-full grid-cols-1 gap-1 gap-y-10 lg:grid-cols-4 lg:px-20">
         {works &&
-          res.user !== null &&
-          works.map((work, index) => (
+          res.data.works.map((work: IWork, index: number) => (
             <Piece
               index={index}
               works={works}

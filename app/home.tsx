@@ -1,23 +1,7 @@
-'use client';
-
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { useStore } from './store';
-import { IUser } from './interfaces/IUser';
 
-type Props = {
-  userData: IUser | null;
-};
-
-export default function home({ userData }: Props) {
-  const { user, setUserData } = useStore();
-
-  useEffect(() => {
-    if (user.id === null && userData !== null) {
-      setUserData(userData);
-    }
-  }, [userData, user.id]);
-
+export default function home() {
   return (
     <div className="flex min-h-[100dvh] flex-col">
       <header className="flex h-14 items-center justify-between px-4 lg:px-6">
