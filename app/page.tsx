@@ -16,6 +16,7 @@ export default async function Page() {
   console.log('hostname', response);
   if (
     response.data.host === 'localhost:3000' ||
+    response.data.host === 'www.selected-work.com' ||
     response.data.host === 'selected-work.com'
   ) {
     return <Home />;
