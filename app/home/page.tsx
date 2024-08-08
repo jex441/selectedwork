@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-export default function home() {
+export default function page() {
   return (
     <div className="flex min-h-[100dvh] flex-col">
       <header className="flex h-14 items-center justify-between px-4 lg:px-6">
