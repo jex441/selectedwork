@@ -3,18 +3,21 @@ import React from 'react';
 
 import { getAboutPageDataForSite } from '@/app/lib/data';
 import { IAboutPage } from '@/app/interfaces/IAboutPage';
+import { identifierHandler } from '@/app/lib/utils';
 
 export default async function About({
-  params: { username, page },
+  params: { username },
 }: {
-  params: { username: string; page: string };
+  params: { username: string };
 }) {
+  const identifier: string = identifierHandler(username, 'localhost');
+
   const res: {
     status: number;
     user: { username: string } | null;
     data: IAboutPage | null;
-  } = await getAboutPageDataForSite(username, 'about');
-  console.log(res.data);
+  } = await getAboutPageDataForSite(identifier, 'about');
+
   const {
     imgSrc,
     imgCaption,

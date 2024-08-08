@@ -1095,8 +1095,6 @@ export const reorderWorks = async (updatedWorks: IWork[]) => {
       .set({ idx: i + 1 })
       .where(eq(work.id, Number(updatedWorks[i].id)))
       .returning({ id: work.id });
-
-    console.log('query', query);
   }
   // revalidatePath(`/dashboard/collections/${userData?.username}`);
   // revalidatePath(`/${userData?.username}/${userData?.username}`);
@@ -1235,6 +1233,14 @@ export const getUserByUsername = async (username: string) => {
     .from(users)
     .where(eq(users.username, username))
     .leftJoin(collection, eq(collection.userId, users.id));
+
+  if (!rows) {
+    await db
+      .select()
+      .from(users)
+      .where(eq(users.domain, username))
+      .leftJoin(collection, eq(collection.userId, users.id));
+  }
 
   const result = rows.reduce<IUser>((acc, row) => {
     const user = row.users_table;
@@ -1428,7 +1434,7 @@ export const getCollectionDataForSite = async (
   }
   let rows;
 
-  if (slug === null) {
+  if (!slug) {
     const collectionData = await db
       .select()
       .from(collection)

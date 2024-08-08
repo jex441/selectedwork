@@ -1,19 +1,14 @@
+'use client';
+
 import '@/app/ui/global.css';
 import { inter } from '@/app/ui/fonts';
 import { ClerkProvider } from '@clerk/nextjs';
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import { usePathname } from 'next/navigation';
+export default function RootLayout(props) {
+  console.log(usePathname());
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${inter.className} antialiased`}>
-          <main>{children}</main>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html>
+      <body>{props.children}</body>
+    </html>
   );
 }

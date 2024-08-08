@@ -1,26 +1,12 @@
-import { getUserData, user } from './lib/data';
-import { IUser } from './interfaces/IUser';
+import React from 'react';
+import UserSite from './[username]/[collection]/page';
+import { useContext } from 'react';
 
-import Home from './home';
-
-export default async function Component() {
-  let userData: IUser = {
-    id: 99,
-    displayName: '',
-    authId: '',
-    firstName: '',
-    lastName: '',
-    occupation: '',
-    username: '',
-    email: '',
-    plan: '',
-    domain: '',
-    url: '',
-    pages: [],
-    collections: [],
-  };
-  let res = await getUserData();
-  if (res !== null) userData = res;
-
-  return <Home userData={userData} />;
+export default async function Page(props) {
+  // const value = useContext(HostName);
+  // Need to render [username] contents here in the root. The only difference is we are sourcing the user's data from the domain name.
+  // How to achieve this without duplicating the code? Hrefs will be /work not /username/work0
+  // return <UserSite params={params} />;
+  // return <UserSite params={{ username: 'value', collection: null }} />;
+  return <UserSite params={props.params} />;
 }

@@ -1,45 +1,45 @@
 import React from 'react';
 import Image from 'next/image';
 
-import { getCollectionDataForSite } from '@/app/lib/data';
 import { ICollection } from '@/app/interfaces/ICollection';
 import Piece from './piece';
 
 export default async function Work({
   params,
 }: {
-  params: { username: string; collection: string };
+  params: { username: string; collection: string | null };
 }) {
   const username = params.username;
   const collection = params.collection;
   type user = { username: string; displayName: string };
 
-  const res: {
-    status: number;
-    user: user | null;
-    data: ICollection | null;
-  } = await getCollectionDataForSite(username, collection);
+  const request = async () => {
+    await fetch('http://localhost:3000/api/requests/getCollectionDataForSite', {
+      method: 'GET',
+    }).then((res) => res.json());
+  };
 
-  const {
-    imgSrc,
-    imgCaption,
-    title,
-    subheading,
-    description,
-    linkText1,
-    linkSrc1,
-    linkText2,
-    linkSrc2,
-    works,
-  } = res.data || {};
+  await request();
+  // const {
+  //   imgSrc,
+  //   imgCaption,
+  //   title,
+  //   subheading,
+  //   description,
+  //   linkText1,
+  //   linkSrc1,
+  //   linkText2,
+  //   linkSrc2,
+  //   works,
+  // } = res.data || {};
 
-  if (!res || !res.user || !res.user?.displayName || !res.data) {
-    return 'loading';
-  }
+  // if (!res || !res.user || !res.user?.displayName || !res.data) {
+  //   return 'loading';
+  // }
 
   return (
     <main className="flex w-full flex-wrap justify-center">
-      <section className="fade-in-up-simple flex flex-col justify-center lg:w-4/5 lg:flex-row lg:gap-10">
+      {/* <section className="fade-in-up-simple flex flex-col justify-center lg:w-4/5 lg:flex-row lg:gap-10">
         {imgSrc && (
           <>
             <div className="mx-1 flex flex-col lg:m-5 lg:mx-0 lg:h-[400px] lg:w-1/2 lg:w-[500px]">
@@ -91,7 +91,7 @@ export default async function Work({
         </div>
       </section>
 
-     <section className="mg:grid-cols-2 mb-10 grid w-full grid-cols-1 gap-1 gap-y-10 lg:grid-cols-4 lg:px-20">
+      <section className="mg:grid-cols-2 mb-10 grid w-full grid-cols-1 gap-1 gap-y-10 lg:grid-cols-4 lg:px-20">
         {works &&
           res.user !== null &&
           works.map((work, index) => (
@@ -103,7 +103,7 @@ export default async function Work({
               data={work}
             />
           ))}
-      </section>
+      </section> */}
     </main>
   );
 }
