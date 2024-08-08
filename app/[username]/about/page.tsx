@@ -10,13 +10,16 @@ export default async function About({
 }: {
   params: { username: string };
 }) {
-  const identifier: string = identifierHandler(username, 'localhost');
+  const request = async () => {
+    return await fetch(
+      `${process.env.BASE_URL}/api/requests/getAboutPageDataForSite${username !== null ? `/${username}` : ''}`,
+      {
+        method: 'GET',
+      },
+    ).then((res) => res.json());
+  };
 
-  const res: {
-    status: number;
-    user: { username: string } | null;
-    data: IAboutPage | null;
-  } = await getAboutPageDataForSite(identifier, 'about');
+  const res = await request();
 
   const {
     imgSrc,

@@ -25,7 +25,6 @@ export default async function Work({
 
   const res = await request();
 
-  console.log('res =>', res);
   const {
     imgSrc,
     imgCaption,

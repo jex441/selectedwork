@@ -9,11 +9,16 @@ export default async function Contact({
 }: {
   params: { username: string; page: string };
 }) {
-  const res: {
-    status: number;
-    user: { username: string } | null;
-    data: IContactPage | null;
-  } = await getContactPageDataForSite(username, 'contact');
+  const request = async () => {
+    return await fetch(
+      `${process.env.BASE_URL}/api/requests/getContactPageDataForSite${username !== null ? `/${username}` : ''}`,
+      {
+        method: 'GET',
+      },
+    ).then((res) => res.json());
+  };
+
+  const res = await request();
 
   if (res.data === null) {
     return 'loading';
