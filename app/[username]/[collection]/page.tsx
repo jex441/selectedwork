@@ -8,11 +8,11 @@ import { IWork } from '@/app/interfaces/IWork';
 export default async function Work({
   params,
 }: {
-  params: { username: string; collection: string | null };
+  params: { username: string | null; collection: string | null };
 }) {
   const username = params.username;
+  // need route for collection:
   const collection = params.collection;
-  type user = { username: string; displayName: string };
 
   const request = async () => {
     return await fetch(

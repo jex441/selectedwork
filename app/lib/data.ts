@@ -406,23 +406,23 @@ export const updateUser = async (
   vercelFormData.append('zone', 'true');
   vercelFormData.append('method', 'add');
 
-  // const vercelResponse =
-  //   domain &&
-  //   (await fetch('https://api.vercel.com/v5/domains', {
-  //     body: JSON.stringify({
-  //       name: domain,
-  //       cdnEnabled: true,
-  //       zone: true,
-  //       method: 'add',
-  //     }),
-  //     headers: {
-  //       Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
-  //       'Content-Type': 'application/json',
-  //     },
-  //     method: 'post',
-  //   }));
-  // console.log('vercel toaken', process.env.VERCEL_TOKEN);
-  // console.log('vercelResponse', vercelResponse);
+  const vercelResponse =
+    domain &&
+    (await fetch('https://api.vercel.com/v5/projects/dash/domains', {
+      body: JSON.stringify({
+        name: domain,
+        cdnEnabled: true,
+        zone: true,
+        method: 'add',
+      }),
+      headers: {
+        Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      method: 'post',
+    }));
+  console.log('vercel toaken', process.env.VERCEL_TOKEN);
+  console.log('vercelResponse', vercelResponse);
 
   const update = await db
     .update(users)
