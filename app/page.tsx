@@ -8,7 +8,10 @@ export default async function Page() {
       {
         method: 'GET',
       },
-    ).then((res) => res.json());
+    ).then((res) => {
+      console.log('res', res);
+      return res.json();
+    });
     return data;
   };
 
