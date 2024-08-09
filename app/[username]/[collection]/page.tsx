@@ -11,16 +11,19 @@ export default async function Work({
   params: { username: string | null; collection: string | null };
 }) {
   const username = params.username;
-  // need route for collection:
   const collection = params.collection;
 
   const request = async () => {
-    return await fetch(
-      `${process.env.BASE_URL}/api/requests/getCollectionDataForSite${username !== null ? `/${username}` : ''}`,
-      {
-        method: 'GET',
-      },
-    ).then((res) => res.json());
+    let url = `${process.env.BASE_URL}/api/requests/getCollectionDataForSite`;
+    if (username !== null) {
+      url += `/${username}`;
+    }
+    if (collection) {
+      url += `/${collection}`;
+    }
+    return await fetch(url, {
+      method: 'GET',
+    }).then((res) => res.json());
   };
 
   const res = await request();

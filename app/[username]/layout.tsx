@@ -1,6 +1,5 @@
 import Nav from './Nav';
-import { getCollectionDataForSite, getUserByUsername } from '@/app/lib/data';
-import { ICollection } from '../interfaces/ICollection';
+import { getUserByUsername } from '@/app/lib/data';
 import { IUser } from '../interfaces/IUser';
 
 export default async function Layout({
@@ -13,12 +12,17 @@ export default async function Layout({
   let username = params.username;
   type user = { username: string; displayName: string };
 
-  const res: {
-    status: number;
-    user: user | null;
-    data: ICollection | null;
-  } = await getCollectionDataForSite(username, null);
+  const request = async () => {
+    let url = `${process.env.BASE_URL}/api/requests/getCollectionDataForSite`;
+    if (username !== null) {
+      url += `/${username}`;
+    }
+    return await fetch(url, {
+      method: 'GET',
+    }).then((res) => res.json());
+  };
 
+  const res = await request();
   const userData: IUser | null = await getUserByUsername(username);
 
   if (res.user === null) {
