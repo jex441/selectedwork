@@ -1428,6 +1428,9 @@ export const getCollectionDataForSite = async (
   username: string,
   slug: string | null,
 ) => {
+  if (username === 'selected-work.com') {
+    return { status: 404, user: null, data: null };
+  }
   const user = await getUserByUsername(username);
 
   if (!user) {
