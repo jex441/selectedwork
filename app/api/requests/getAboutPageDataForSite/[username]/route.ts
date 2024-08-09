@@ -9,6 +9,7 @@ export async function GET(
   res: NextApiResponse,
 ) {
   const username = params.username;
+  console.log('username::', username);
   const response =
     username && (await getAboutPageDataForSite(username, 'about'));
 

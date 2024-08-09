@@ -1229,9 +1229,10 @@ export const getPagesData = async (userId: number) => {
 
 // functions for generating site:
 export const getUserByUsername = async (username: string) => {
-  const subdomain = username.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
-    ? username.split('.')[0]
-    : false;
+  const subdomain =
+    username.split('.')[1] === process.env.NEXT_PUBLIC_ROOT_DOMAIN
+      ? username.split('.')[0]
+      : false;
 
   let rows = await db
     .select()

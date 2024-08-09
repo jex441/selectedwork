@@ -2,13 +2,13 @@ import Image from 'next/image';
 import React from 'react';
 
 export default async function About({
-  params: { username },
+  params,
 }: {
-  params: { username: string | null };
+  params: { domain: string };
 }) {
   const request = async () => {
     return await fetch(
-      `${process.env.BASE_URL}/api/requests/getAboutPageDataForSite${username !== null ? `/${username}` : ''}`,
+      `${process.env.BASE_URL}/api/requests/getAboutPageDataForSite/${params.domain}`,
       {
         method: 'GET',
       },

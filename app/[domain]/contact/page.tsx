@@ -5,13 +5,13 @@ import { IContactPage } from '@/app/interfaces/IContactPage';
 import { getContactPageDataForSite } from '@/app/lib/data';
 import ContactPage from './ContactPage';
 export default async function Contact({
-  params: { username },
+  params,
 }: {
-  params: { username: string | null };
+  params: { domain: string };
 }) {
   const request = async () => {
     return await fetch(
-      `${process.env.BASE_URL}/api/requests/getContactPageDataForSite${username !== null ? `/${username}` : ''}`,
+      `${process.env.BASE_URL}/api/requests/getContactPageDataForSite/${params.domain}`,
       {
         method: 'GET',
       },

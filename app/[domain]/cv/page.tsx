@@ -5,16 +5,10 @@ import { ICVPage } from '../../interfaces/ICVPage';
 import CVSection from './CVSection';
 import CVPage from './CVPage';
 
-export default async function page({
-  params,
-}: {
-  params: { username: string | null };
-}) {
-  const username = params.username;
-
+export default async function page({ params }: { params: { domain: string } }) {
   const request = async () => {
     return await fetch(
-      `${process.env.BASE_URL}/api/requests/getCVPageDataForSite${username !== null ? `/${username}` : ''}`,
+      `${process.env.BASE_URL}/api/requests/getCVPageDataForSite/${params.domain}`,
       {
         method: 'GET',
       },
