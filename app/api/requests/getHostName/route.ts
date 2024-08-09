@@ -9,7 +9,7 @@ export async function GET(req: Request, res: NextApiResponse) {
   // json error
   // return res.json({ status: 200, data: { host: 'selected-work.com' } });
   if (host) {
-    return res.json({ status: 200, data: { host: host } });
+    return res.json({ status: 200, data: { host: 'jeffreylwood.com' } });
   } else {
     return res.json({ status: 400, data: { host: null } });
   }
