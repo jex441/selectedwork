@@ -1,6 +1,7 @@
 import React from 'react';
 import UserSite from './[username]/[collection]/page';
 import Home from './home/page';
+
 export default async function Page() {
   const getHost = async () => {
     const data = await fetch(
