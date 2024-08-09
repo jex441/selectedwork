@@ -16,5 +16,5 @@ export async function GET(req: Request, res: NextApiResponse) {
   console.log('domain::', domain);
   // do something with the "domain"
 
-  return NextResponse.json({ status: 200, data: { host: domain } });
+  return NextResponse.json({ status: 200, data: { host: domain, req: req } });
 }
