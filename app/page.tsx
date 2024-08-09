@@ -10,14 +10,12 @@ export default async function Page() {
         method: 'GET',
       },
     ).then((res) => {
-      console.log('res', res);
-      return res;
+      return res.json();
     });
     return data;
   };
 
   const response = await getHost();
-  console.log('hostname', response);
   if (
     // response.data.host === 'localhost:3000' ||
     // response.data.host === 'www.selected-work.com' ||
