@@ -1,32 +1,24 @@
+import { notFound } from 'next/navigation';
+import { getSiteData } from '@/app/lib/fetchers';
 import React from 'react';
 import Image from 'next/image';
-
 import { ICollection } from '@/app/interfaces/ICollection';
 import Piece from './piece';
 import { IWork } from '@/app/interfaces/IWork';
 
-export default async function Work({
+export default async function SiteHomePage({
   params,
 }: {
-  params: { username: string | null; collection: string | null };
+  params: { domain: string };
 }) {
-  const username = params.username;
-  const collection = params.collection;
+  const domain = decodeURIComponent(params.domain);
 
-  const request = async () => {
-    let url = `${process.env.BASE_URL}/api/requests/getCollectionDataForSite`;
-    if (username !== null) {
-      url += `/${username}`;
-    }
-    if (collection) {
-      url += `/${collection}`;
-    }
-    return await fetch(url, {
-      method: 'GET',
-    }).then((res) => res.json());
-  };
+  const res = await getSiteData(domain);
 
-  const res = await request();
+  if (!res.data) {
+    return <div>not found</div>;
+    // notFound();
+  }
 
   const {
     imgSrc,

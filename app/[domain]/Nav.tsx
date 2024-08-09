@@ -35,7 +35,7 @@ export default function Nav({
           <Link
             onMouseEnter={() => setDropDown('hidden')}
             onClick={() => clickHandler()}
-            href={`/${username}/`}
+            href={'/'}
           >
             {displayName}
           </Link>
@@ -58,7 +58,7 @@ export default function Nav({
             >
               <Link
                 className="text-mediumGray hover:text-darkGray"
-                href={`/${username}/${collections[0].slug}`}
+                href={`/${collections[0].slug}`}
               >
                 Selected Work
               </Link>
@@ -67,7 +67,7 @@ export default function Nav({
             <span onMouseEnter={() => clickHandler()}>
               <Link
                 className="text-mediumGray hover:text-darkGray"
-                href={`/${username}/${collections[0].slug}`}
+                href={`/${collections[0].slug}`}
               >
                 {collections[0].title}
               </Link>
@@ -83,7 +83,7 @@ export default function Nav({
                   <Link
                     onClick={() => clickHandler()}
                     key={collection.id}
-                    href={`/${username}/${collection.slug}`}
+                    href={`/${collection.slug}`}
                   >
                     {collection.title}
                   </Link>
@@ -96,7 +96,7 @@ export default function Nav({
               className="text-mediumGray hover:text-darkGray"
               onMouseEnter={() => setDropDown('hidden')}
               onClick={() => clickHandler()}
-              href={`/${username}/about`}
+              href={`/about`}
             >
               About
             </Link>
@@ -105,7 +105,7 @@ export default function Nav({
             <Link
               className="text-mediumGray hover:text-darkGray"
               onClick={() => clickHandler()}
-              href={`/${username}/cv`}
+              href={`/cv`}
             >
               CV
             </Link>
@@ -114,7 +114,7 @@ export default function Nav({
             <Link
               className="text-mediumGray hover:text-darkGray"
               onClick={() => clickHandler()}
-              href={`/${username}/contact`}
+              href={`/contact`}
             >
               Contact
             </Link>
