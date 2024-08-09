@@ -11,7 +11,7 @@ export default async function Page() {
       },
     ).then((res) => {
       console.log('res', res);
-      return res.json();
+      return res;
     });
     return data;
   };
@@ -19,12 +19,14 @@ export default async function Page() {
   const response = await getHost();
   console.log('hostname', response);
   if (
-    response.data.host === 'localhost:3000' ||
-    response.data.host === 'www.selected-work.com' ||
-    response.data.host === 'selected-work.com'
+    // response.data.host === 'localhost:3000' ||
+    // response.data.host === 'www.selected-work.com' ||
+    // response.data.host === 'selected-work.com'
+    response
   ) {
     return <Home />;
   } else {
-    return <UserSite params={{ username: null, collection: null }} />;
+    // return <UserSite params={{ username: null, collection: null }} />;
+    return <div>test</div>;
   }
 }
