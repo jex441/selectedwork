@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { UploadButton } from '../../../lib/uploadthing';
 import { useFormState } from 'react-dom';
-import { IAboutPage } from '../../interfaces/IAboutPage';
+import { IAboutPage } from '../../../interfaces/IAboutPage';
 import Link from 'next/link';
 
 import { updateAbout } from '@/app/lib/data';
@@ -28,7 +28,7 @@ export default function AboutForm({ data }: { data: IAboutPage }) {
       <div className="mb-6 flex items-center justify-between">
         <div className="flex flex-row items-center gap-8">
           <Link
-            href="/dashboard/collections"
+            href="/collections"
             className="text-muted-foreground hover:text-primary"
             prefetch={false}
           >

@@ -1,4 +1,4 @@
-import { getUserWork } from '../../../../lib/data';
+import { getUserWork } from '../../../../../lib/data';
 import PieceForm from './pieceform';
 
 export default async function Component({

@@ -8,11 +8,11 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { deleteCollection } from '../../../../lib/data';
+import { deleteCollection } from '../../../../../lib/data';
 import Image from 'next/image';
-import { UploadButton } from '../../../../lib/uploadthing';
+import { UploadButton } from '../../../../../lib/uploadthing';
 import { useFormState } from 'react-dom';
-import { ICollection } from '../../../../interfaces/ICollection';
+import { ICollection } from '../../../../../interfaces/ICollection';
 import { updateCollection } from '@/app/lib/data';
 import LinkInput from './linkinput';
 import AboutTemplates from './abouttemplates';
@@ -41,7 +41,7 @@ export default function settingsform({
       <div className="mb-6 flex items-center justify-between">
         <div className="flex flex-row items-center gap-8">
           <Link
-            href="/dashboard/collections"
+            href="/collections"
             className="text-muted-foreground hover:text-primary"
             prefetch={false}
           >

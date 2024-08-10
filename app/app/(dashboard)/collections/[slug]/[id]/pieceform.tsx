@@ -5,8 +5,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
-import placeholder from '../../../../assets/placeholder.png';
-import { UploadButton } from '../../../../lib/uploadthing';
+import placeholder from '../../../../../assets/placeholder.png';
+import { UploadButton } from '../../../../../lib/uploadthing';
 
 import {
   Select,
@@ -24,7 +24,7 @@ import {
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { IWork, IMedia } from '@/app/interfaces/IWork';
-import { createWork } from '../../../../lib/data';
+import { createWork } from '../../../../../lib/data';
 import { useFormState } from 'react-dom';
 import {
   WorkState,
@@ -68,7 +68,7 @@ export default function PieceForm({
       className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2"
     >
       <div className="flex flex-col items-center">
-        <Link href="/dashboard/collections/piece/scale">
+        <Link href="/collections/piece/scale">
           <Image
             src={mainMedia[0]?.url ?? placeholder}
             alt="Product Image"

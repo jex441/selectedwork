@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input } from '@/components/ui/input';
 
-import { LinkIcon } from '../../../../assets/svgs';
+import { LinkIcon } from '../../../../../assets/svgs';
 
 export default function LinkInput({
   linkText,

@@ -29,7 +29,7 @@ export default function ContactForm({ data }: { data: IContactPage }) {
       <div className="mb-6 flex items-center justify-between">
         <div className="flex flex-row items-center gap-8">
           <Link
-            href="/dashboard/collections"
+            href="/collections"
             className="text-muted-foreground hover:text-primary"
             prefetch={false}
           >

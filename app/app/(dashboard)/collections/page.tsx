@@ -21,7 +21,7 @@ export default async function Invoices() {
             return (
               <div className="group relative overflow-hidden rounded-lg">
                 <Link
-                  href={`/dashboard/collections/${collection.slug}`}
+                  href={`/collections/${collection.slug}`}
                   className="absolute inset-0 z-10"
                   prefetch={false}
                 >

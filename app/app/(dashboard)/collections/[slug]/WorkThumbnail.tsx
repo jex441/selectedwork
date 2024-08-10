@@ -5,7 +5,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Box } from 'grommet';
 
-import placeholder from '../../../assets/placeholder.png';
+import placeholder from '../../../../assets/placeholder.png';
 import { IWork } from '@/app/interfaces/IWork';
 
 export default function WorkThumbnail({
@@ -51,7 +51,7 @@ export default function WorkThumbnail({
           ::
         </button>
         <Link
-          href={`/dashboard/collections/${slug}/${work.id}`}
+          href={`/collections/${slug}/${work.id}`}
           className="h-full w-full"
           prefetch={false}
         >

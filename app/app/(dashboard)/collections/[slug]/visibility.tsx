@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ICollection } from '@/app/interfaces/ICollection';
-import { updateCollectionVisibility } from '../../../lib/data';
+import { updateCollectionVisibility } from '../../../../lib/data';
 
 // need to go around and find where selects like this are used and update form correctly with value defaultValue etc
 export default function Visibility({

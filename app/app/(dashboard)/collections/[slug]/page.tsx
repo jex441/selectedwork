@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import Image from 'next/image';
-import { getUserCollection } from '../../../lib/data';
-import { ICollection } from '../../../interfaces/ICollection';
+import { getUserCollection } from '../../../../lib/data';
+import { ICollection } from '../../../../interfaces/ICollection';
 import placeholder from '../../../assets/placeholder.png';
 import Visibility from './visibility';
 import WorkThumbnail from './WorkThumbnail';
@@ -28,7 +28,7 @@ export default async function Collection({
             {collection.title}
           </Link>
           <Link
-            href={`/dashboard/collections/${params.slug}/settings`}
+            href={`/collections/${params.slug}/settings`}
             className="text-sm font-medium"
             prefetch={false}
           >
@@ -40,7 +40,7 @@ export default async function Collection({
           <div className="flex items-center gap-2">
             <Visibility collection={collection} />
           </div>
-          <Link href={`/dashboard/collections/${params.slug}/new`}>
+          <Link href={`/collections/${params.slug}/new`}>
             <Button className="ml-auto" size="sm">
               Upload Image
             </Button>

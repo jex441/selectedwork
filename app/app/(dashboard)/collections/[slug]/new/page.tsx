@@ -6,7 +6,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import placeholder from '../../../../assets/placeholder.png';
-import { UploadButton, UploadDropzone } from '../../../../lib/uploadthing';
+import { UploadButton, UploadDropzone } from '../../../../../lib/uploadthing';
 
 import {
   Select,
@@ -24,7 +24,7 @@ import {
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { IWork, IMedia } from '@/app/interfaces/IWork';
-import { createWork } from '../../../../lib/data';
+import { createWork } from '../../../../../lib/data';
 import { useFormState } from 'react-dom';
 import {
   WorkState,

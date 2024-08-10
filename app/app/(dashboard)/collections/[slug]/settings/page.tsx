@@ -1,6 +1,6 @@
 import SettingsForm from './settingsform';
-import { getUserCollection } from '../../../../lib/data';
-import { ICollection } from '../../../../interfaces/ICollection';
+import { getUserCollection } from '../../../../../lib/data';
+import { ICollection } from '../../../../../interfaces/ICollection';
 
 export default async function Component({
   params,

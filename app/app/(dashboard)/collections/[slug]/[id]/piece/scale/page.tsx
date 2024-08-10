@@ -10,7 +10,7 @@ export default function Component() {
     <div className="flex flex-col">
       <header className="flex items-center justify-between bg-background px-4 py-3">
         <Link
-          href="/dashboard/collections/piece"
+          href="/collections/piece"
           className="text-primary hover:text-primary-foreground"
           prefetch={false}
         >

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IAboutPage } from '../../interfaces/IAboutPage';
+import { IAboutPage } from '../../../interfaces/IAboutPage';
 import AboutForm from './aboutform';
 import { getPageData } from '../../../lib/data';
 
