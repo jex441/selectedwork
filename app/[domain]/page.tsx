@@ -13,11 +13,11 @@ export default async function SiteHomePage({
   params: { domain: string };
 }) {
   const domain = decodeURIComponent(params.domain);
-  // const res = await getSiteData(domain);
+  const res = await getSiteData(domain);
 
-  // if (!res.data) {
-  //   return <div>not found</div>;
-  //   // notFound();
-  // }
+  if (!res.data) {
+    return <div>not found</div>;
+    // notFound();
+  }
   return <UserSite params={params} />;
 }
