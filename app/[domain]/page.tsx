@@ -13,8 +13,7 @@ export default async function SiteHomePage({
   params: { domain: string };
 }) {
   const domain = decodeURIComponent(params.domain);
-  console.log('domain!', domain);
-  const res = await getSiteData('camdenross');
+  const res = await getSiteData(domain);
 
   if (!res.data) {
     return <div>not found</div>;

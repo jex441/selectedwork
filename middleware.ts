@@ -5,7 +5,7 @@ import {
   createRouteMatcher,
 } from '@clerk/nextjs/server';
 
-const isProtectedRoute = createRouteMatcher(['/dashboard(.*)']);
+const isProtectedRoute = createRouteMatcher(['/app(.*)']);
 
 import { NextRequest, NextResponse } from 'next/server';
 // import { getToken } from 'next-auth/jwt';
@@ -45,13 +45,15 @@ export default authMiddleware({
     const searchParams = req.nextUrl.searchParams.toString();
     // Get the pathname of the request (e.g. /, /about, /blog/first-post)
     const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ''}`;
-
+    console.log(auth);
     // rewrites for app pages
     if (hostname === `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
       if (!auth.userId && !auth.isPublicRoute) {
         const prefix =
           process.env.NODE_ENV === 'development' ? 'http://' : 'https://';
-        return redirectToSignIn({ returnBackUrl: `${prefix}${hostname}/` });
+        return redirectToSignIn({
+          returnBackUrl: `${prefix}${hostname}/sign-in`,
+        });
       }
 
       return NextResponse.rewrite(

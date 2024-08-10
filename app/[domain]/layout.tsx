@@ -15,8 +15,10 @@ export default async function SiteLayout({
   children: ReactNode;
 }) {
   const domain = decodeURIComponent(params.domain);
-  console.log('domain:', domain);
-
+  console.log('domain', domain);
+  if (domain === 'home') {
+    return <Home />;
+  }
   const data = await getSiteData(domain);
 
   const res = await getUserByUsername(domain);
@@ -34,7 +36,6 @@ export default async function SiteLayout({
   //   ) {
   //     return redirect(`https://${data.customDomain}`);
   //   }
-  console.log(res);
   if (!res) {
     return <div>user not found</div>;
   }
