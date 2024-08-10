@@ -13,32 +13,33 @@ export default async function SiteHomePage({
 }) {
   const domain = decodeURIComponent(params.domain);
 
-  const res = await getSiteData(domain);
+  // const res = await getSiteData(domain);
 
-  if (!res.data) {
-    return <div>not found</div>;
-    // notFound();
-  }
+  // if (!res.data) {
+  //   return <div>not found</div>;
+  //   // notFound();
+  // }
 
-  const {
-    imgSrc,
-    imgCaption,
-    title,
-    subheading,
-    description,
-    linkText1,
-    linkSrc1,
-    linkText2,
-    linkSrc2,
-    works,
-  } = res.data || {};
+  // const {
+  //   imgSrc,
+  //   imgCaption,
+  //   title,
+  //   subheading,
+  //   description,
+  //   linkText1,
+  //   linkSrc1,
+  //   linkText2,
+  //   linkSrc2,
+  //   works,
+  // } = res.data || {};
 
-  if (!works) {
-    return 'loading';
-  }
+  // if (!works) {
+  //   return 'loading';
+  // }
   return (
     <main className="flex w-full flex-wrap justify-center">
-      <section className="fade-in-up-simple flex flex-col justify-center lg:w-4/5 lg:flex-row lg:gap-10">
+      user site
+      {/* <section className="fade-in-up-simple flex flex-col justify-center lg:w-4/5 lg:flex-row lg:gap-10">
         {imgSrc && (
           <>
             <div className="mx-1 flex flex-col lg:m-5 lg:mx-0 lg:h-[400px] lg:w-1/2 lg:w-[500px]">
@@ -101,7 +102,7 @@ export default async function SiteHomePage({
               data={work}
             />
           ))}
-      </section>
+      </section> */}
     </main>
   );
 }

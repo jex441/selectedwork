@@ -5,7 +5,7 @@ import {
   createRouteMatcher,
 } from '@clerk/nextjs/server';
 
-const isProtectedRoute = createRouteMatcher(['/app(.*)']);
+const isProtectedRoute = createRouteMatcher(['/app/']);
 
 import { NextRequest, NextResponse } from 'next/server';
 // import { getToken } from 'next-auth/jwt';
