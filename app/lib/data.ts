@@ -27,7 +27,6 @@ import { revalidatePath } from 'next/cache';
 import { ICollection } from '../interfaces/ICollection';
 import { IWork } from '../interfaces/IWork';
 import { get } from 'http';
-import Visibility from '../dashboard/collections/[slug]/visibility';
 import { IContactPage } from '../interfaces/IContactPage';
 
 const FormSchema = z.object({
@@ -108,7 +107,7 @@ export async function updateAbout(
   formData: FormData,
 ) {
   const userData = await user();
-
+  console.log('userData::', userData);
   const validatedFields = UpdateAbout.safeParse({
     template: formData.get('template') || '',
     text: formData.get('text') || null,
@@ -159,8 +158,8 @@ export async function updateAbout(
     .where(eq(about.id, id))
     .returning({ id: about.id });
 
-  revalidatePath('/dashboard/about');
-  revalidatePath(`/${userData?.username}/about`);
+  revalidatePath('/about');
+  // revalidatePath(`/${userData?.username}/about`); ?
   return { success: true };
 }
 
@@ -480,6 +479,7 @@ export const insertUser = async (
 
 export const getPageData = async (title: string) => {
   const userData = await user();
+  console.log('userData:', userData);
   const rows =
     userData &&
     userData.id !== null &&
@@ -487,7 +487,7 @@ export const getPageData = async (title: string) => {
       .select()
       .from(about)
       .where(and(eq(about.title, title), eq(about.userId, userData?.id))));
-
+  console.log('rows:', rows);
   if (rows) return rows[0];
 };
 
@@ -500,7 +500,7 @@ export const getAboutPageData = async (username: string, title: string) => {
       .select()
       .from(about)
       .where(and(eq(about.title, title), eq(about.userId, userData?.id))));
-
+  console.log('rows:', rows);
   if (rows) return rows[0];
 };
 
@@ -1229,10 +1229,20 @@ export const getPagesData = async (userId: number) => {
 
 // functions for generating site:
 export const getUserByUsername = async (username: string) => {
+  const subdomain =
+    username.split('.')[1] === process.env.NEXT_PUBLIC_ROOT_DOMAIN
+      ? username.split('.')[0]
+      : false;
+
   let rows = await db
     .select()
     .from(users)
-    .where(or(eq(users.username, username), eq(users.domain, username)))
+    .where(
+      or(
+        eq(users.username, subdomain ? subdomain : username),
+        eq(users.domain, username),
+      ),
+    )
     .leftJoin(collection, eq(collection.userId, users.id));
 
   if (!rows) {
