@@ -22,9 +22,12 @@ import { IContactPage } from '../interfaces/IContactPage';
 // functions for generating site:
 export const getUserByUsername = async (username: string) => {
   console.log('username::', username);
-  const subdomain = username.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
-    ? username.split('.')[0]
-    : false;
+
+  const subdomain =
+    username.split(`.`)[1] === process.env.NEXT_PUBLIC_ROOT_DOMAIN
+      ? username.split('.')[0]
+      : false;
+  console.log('subdomain:', subdomain);
   const rows = await db
     .select()
     .from(users)
@@ -64,7 +67,7 @@ export const getAboutPageDataForSite = async (
   data: IAboutPage | null;
 }> => {
   const userData = await getUserByUsername(username);
-
+  console.log('userData:', userData);
   if (!userData || userData.firstName === null || userData.lastName === null) {
     return { status: 200, user: null, data: null };
   }
@@ -73,7 +76,7 @@ export const getAboutPageDataForSite = async (
     userData &&
     userData.id !== null &&
     (await db.select().from(about).where(eq(about.userId, userData?.id)));
-
+  console.log('rows:', rows);
   const responseData = rows && (rows[0] as IAboutPage);
   if (responseData) {
     return {

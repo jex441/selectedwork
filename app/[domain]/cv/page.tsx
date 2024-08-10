@@ -6,16 +6,8 @@ import CVSection from './CVSection';
 import CVPage from './CVPage';
 
 export default async function page({ params }: { params: { domain: string } }) {
-  const request = async () => {
-    return await fetch(
-      `${process.env.BASE_URL}/api/requests/getCVPageDataForSite/${params.domain}`,
-      {
-        method: 'GET',
-      },
-    ).then((res) => res.json());
-  };
-
-  const res = await request();
+  const domain = decodeURIComponent(params.domain);
+  const res = await getCVPageDataForSite(domain, 'cv');
 
   if (res.data === null) {
     return 'loading';

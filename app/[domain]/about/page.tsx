@@ -1,3 +1,4 @@
+import { getAboutPageDataForSite } from '@/app/lib/requests';
 import Image from 'next/image';
 import React from 'react';
 
@@ -6,17 +7,17 @@ export default async function About({
 }: {
   params: { domain: string };
 }) {
-  const request = async () => {
-    return await fetch(
-      `${process.env.BASE_URL}/api/requests/getAboutPageDataForSite/${params.domain}`,
-      {
-        method: 'GET',
-      },
-    ).then((res) => res.json());
-  };
-
-  const res = await request();
-  console.log('params.domain:', params.domain, res);
+  // const request = async () => {
+  //   return await fetch(
+  //     `${process.env.BASE_URL}/api/requests/getAboutPageDataForSite/${params.domain}`,
+  //     {
+  //       method: 'GET',
+  //     },
+  //   ).then((res) => res.json());
+  // };
+  const domain = decodeURIComponent(params.domain);
+  const res = await getAboutPageDataForSite(domain, 'about');
+  console.log('res::', res);
   const {
     imgSrc,
     imgCaption,

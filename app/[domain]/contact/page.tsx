@@ -2,23 +2,17 @@ import Image from 'next/image';
 import React from 'react';
 
 import { IContactPage } from '@/app/interfaces/IContactPage';
-import { getContactPageDataForSite } from '@/app/lib/data';
+import { getContactPageDataForSite } from '@/app/lib/requests';
 import ContactPage from './ContactPage';
+import { get } from 'http';
 export default async function Contact({
   params,
 }: {
   params: { domain: string };
 }) {
-  const request = async () => {
-    return await fetch(
-      `${process.env.BASE_URL}/api/requests/getContactPageDataForSite/${params.domain}`,
-      {
-        method: 'GET',
-      },
-    ).then((res) => res.json());
-  };
+  const domain = decodeURIComponent(params.domain);
 
-  const res = await request();
+  const res = await getContactPageDataForSite(domain, 'contact');
 
   if (res.data === null) {
     return 'loading';

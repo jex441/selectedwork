@@ -479,6 +479,7 @@ export const insertUser = async (
 
 export const getPageData = async (title: string) => {
   const userData = await user();
+  console.log('userData:', userData);
   const rows =
     userData &&
     userData.id !== null &&
@@ -486,7 +487,7 @@ export const getPageData = async (title: string) => {
       .select()
       .from(about)
       .where(and(eq(about.title, title), eq(about.userId, userData?.id))));
-
+  console.log('rows:', rows);
   if (rows) return rows[0];
 };
 
@@ -499,7 +500,7 @@ export const getAboutPageData = async (username: string, title: string) => {
       .select()
       .from(about)
       .where(and(eq(about.title, title), eq(about.userId, userData?.id))));
-
+  console.log('rows:', rows);
   if (rows) return rows[0];
 };
 
