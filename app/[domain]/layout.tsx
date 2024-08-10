@@ -5,6 +5,8 @@ import { notFound, redirect } from 'next/navigation';
 import { getSiteData } from '@/app/lib/fetchers';
 import Nav from './Nav';
 import { getUserByUsername } from '../lib/data';
+import Home from '../home/page';
+import Dashboard from '../dashboard/collections/page';
 
 export default async function SiteLayout({
   params,
@@ -14,14 +16,11 @@ export default async function SiteLayout({
   children: ReactNode;
 }) {
   const domain = decodeURIComponent(params.domain);
-  const data = await getSiteData(domain);
   console.log('domain:', domain);
 
-  const res = await getUserByUsername(domain);
+  const data = await getSiteData(domain);
 
-  if (domain === 'app') {
-    return <div>hello</div>;
-  }
+  const res = await getUserByUsername(domain);
 
   if (!data) {
     <div>not found</div>;
