@@ -32,7 +32,7 @@ export default authMiddleware({
     // biome-ignore lint/style/noNonNullAssertion: <explanation>
     let hostname = req.headers
       .get('host')!
-      .replace('.localhost:3123', `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`);
+      .replace('.localhost:3000', `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`);
 
     // special case for Vercel preview deployment URLs
     if (
@@ -68,7 +68,7 @@ export default authMiddleware({
 
     // rewrite root application to `/home` folder
     if (
-      hostname === 'localhost:3123' ||
+      hostname === 'localhost:3000' ||
       hostname === process.env.NEXT_PUBLIC_ROOT_DOMAIN
     ) {
       return NextResponse.rewrite(

@@ -27,7 +27,6 @@ import { revalidatePath } from 'next/cache';
 import { ICollection } from '../interfaces/ICollection';
 import { IWork } from '../interfaces/IWork';
 import { get } from 'http';
-import Visibility from '../(dashboard)/collections/[slug]/visibility';
 import { IContactPage } from '../interfaces/IContactPage';
 
 const FormSchema = z.object({
