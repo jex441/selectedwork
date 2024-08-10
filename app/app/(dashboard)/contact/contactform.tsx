@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { UploadButton } from '../../../lib/uploadthing';
 import { useFormState } from 'react-dom';
-import { IContactPage } from '../../interfaces/IContactPage';
+import { IContactPage } from '../../../interfaces/IContactPage';
 import Link from 'next/link';
 import SocialLinkInputs from './sociallinkinputs';
 import { updateContactPage } from '@/app/lib/data';

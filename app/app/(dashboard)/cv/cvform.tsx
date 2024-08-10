@@ -20,7 +20,7 @@ import {
   deleteCVSection,
   deleteCVSectionBulletPoint,
 } from '../../../lib/data';
-import { ICVPage } from '../../interfaces/ICVPage';
+import { ICVPage } from '../../../interfaces/ICVPage';
 import { set } from 'zod';
 
 export default function Component({ data }: { data: ICVPage }) {

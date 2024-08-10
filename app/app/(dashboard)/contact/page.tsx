@@ -1,5 +1,5 @@
 import React from 'react';
-import { IContactPage } from '../../interfaces/IContactPage';
+import { IContactPage } from '../../../interfaces/IContactPage';
 import ContactForm from './contactform';
 import { getContactPageData } from '../../../lib/data';
 
