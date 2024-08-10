@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { getUserCollections, createCollection } from '../../lib/data';
+import { getUserCollections, createCollection } from '../../../lib/data';
 import { Button } from '@/components/ui/button';
 
 export default function createbutton() {

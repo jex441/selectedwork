@@ -11,7 +11,7 @@ import {
   SelectSeparator,
   SelectValue,
 } from '@/components/ui/select';
-import { Trash2Icon, PlusIcon } from '../../assets/svgs';
+import { Trash2Icon, PlusIcon } from '../../../assets/svgs';
 import { getCVPageData } from '@/app/lib/data';
 import { Contact } from 'lucide-react';
 import CvForm from './cvform';

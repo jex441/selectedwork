@@ -38,35 +38,35 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div className="flex flex-col space-y-4">
                 <nav className="flex flex-col space-y-2">
                   <Link
-                    href="/dashboard"
+                    href=""
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
                     prefetch={false}
                   >
                     Home
                   </Link>
                   <Link
-                    href="/dashboard/collections"
+                    href="/collections"
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
                     prefetch={false}
                   >
                     My Collections
                   </Link>
                   <Link
-                    href="/dashboard/about"
+                    href="/about"
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
                     prefetch={false}
                   >
                     About
                   </Link>
                   <Link
-                    href="/dashboard/cv"
+                    href="/cv"
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
                     prefetch={false}
                   >
                     CV
                   </Link>
                   <Link
-                    href="/dashboard/contact"
+                    href="/contact"
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
                     prefetch={false}
                   >
@@ -79,7 +79,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="mt-auto p-4">
             <div className="flex items-center gap-4">
               <Link
-                href="/dashboard/account"
+                href="/account"
                 className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                 prefetch={false}
               >

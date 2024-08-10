@@ -1,7 +1,7 @@
 import React from 'react';
 import { IAboutPage } from '../../interfaces/IAboutPage';
 import AboutForm from './aboutform';
-import { getPageData } from '../../lib/data';
+import { getPageData } from '../../../lib/data';
 
 export default async function Component() {
   const data: IAboutPage | undefined = await getPageData('About');

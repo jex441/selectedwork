@@ -1,7 +1,7 @@
 import React from 'react';
 import { IContactPage } from '../../interfaces/IContactPage';
 import ContactForm from './contactform';
-import { getContactPageData } from '../../lib/data';
+import { getContactPageData } from '../../../lib/data';
 
 export default async function Component() {
   const data: IContactPage | undefined = await getContactPageData('Contact');

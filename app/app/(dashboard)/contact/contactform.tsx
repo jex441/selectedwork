@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { UploadButton } from '../../lib/uploadthing';
+import { UploadButton } from '../../../lib/uploadthing';
 import { useFormState } from 'react-dom';
 import { IContactPage } from '../../interfaces/IContactPage';
 import Link from 'next/link';
@@ -16,7 +16,7 @@ import LinkInput from './linkinput';
 // import contactTemplates from './contacttemplates';
 import Image from 'next/image';
 import { ContactState } from '@/app/lib/data';
-import { ArrowLeftIcon } from '../../assets/svgs';
+import { ArrowLeftIcon } from '../../../assets/svgs';
 
 export default function ContactForm({ data }: { data: IContactPage }) {
   const initialState: ContactState = { message: null, errors: {} };

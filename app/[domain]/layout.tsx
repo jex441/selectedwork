@@ -6,7 +6,6 @@ import { getSiteData } from '@/app/lib/fetchers';
 import Nav from './Nav';
 import { getUserByUsername } from '../lib/data';
 import Home from '../home/page';
-import Dashboard from '../dashboard/collections/page';
 
 export default async function SiteLayout({
   params,

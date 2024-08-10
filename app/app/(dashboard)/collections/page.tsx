@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import Image from 'next/image';
-import { getUserCollections, createCollection } from '../../lib/data';
+import { getUserCollections, createCollection } from '../../../lib/data';
 import CreateButton from './createbutton';
-import placeholder from '../../assets/placeholder.png';
+import placeholder from '../../../assets/placeholder.png';
 
 export default async function Invoices() {
   const data = await getUserCollections();

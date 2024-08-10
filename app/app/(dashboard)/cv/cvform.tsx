@@ -13,13 +13,13 @@ import {
   SelectSeparator,
   SelectValue,
 } from '@/components/ui/select';
-import { Trash2Icon, PlusIcon } from '../../assets/svgs';
+import { Trash2Icon, PlusIcon } from '../../../assets/svgs';
 import {
   getCVPageData,
   saveCVSections,
   deleteCVSection,
   deleteCVSectionBulletPoint,
-} from '../../lib/data';
+} from '../../../lib/data';
 import { ICVPage } from '../../interfaces/ICVPage';
 import { set } from 'zod';
 
