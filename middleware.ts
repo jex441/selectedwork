@@ -48,12 +48,10 @@ export default authMiddleware({
     console.log(auth);
     // rewrites for app pages
     if (hostname === `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
-      if (!auth.userId && !auth.isPublicRoute) {
+      if (!auth.userId && path !== '/sign-in') {
         const prefix =
           process.env.NODE_ENV === 'development' ? 'http://' : 'https://';
-        return redirectToSignIn({
-          returnBackUrl: `${prefix}${hostname}/sign-in`,
-        });
+        return NextResponse.redirect(`${prefix}${hostname}/sign-in`);
       }
 
       return NextResponse.rewrite(
