@@ -21,10 +21,14 @@ import { IContactPage } from '../interfaces/IContactPage';
 
 // functions for generating site:
 export const getUserByUsername = async (username: string) => {
+  console.log('username::', username);
+  const subdomain = username.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
+    ? username.split('.')[0]
+    : false;
   const rows = await db
     .select()
     .from(users)
-    .where(eq(users.username, username))
+    .where(eq(users.username, subdomain ? subdomain : username))
     .leftJoin(collection, eq(collection.userId, users.id));
 
   const result = rows.reduce<IUser>((acc, row) => {

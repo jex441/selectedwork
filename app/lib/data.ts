@@ -107,7 +107,7 @@ export async function updateAbout(
   formData: FormData,
 ) {
   const userData = await user();
-
+  console.log('userData::', userData);
   const validatedFields = UpdateAbout.safeParse({
     template: formData.get('template') || '',
     text: formData.get('text') || null,
@@ -158,8 +158,8 @@ export async function updateAbout(
     .where(eq(about.id, id))
     .returning({ id: about.id });
 
-  revalidatePath('/dashboard/about');
-  revalidatePath(`/${userData?.username}/about`);
+  revalidatePath('/about');
+  // revalidatePath(`/${userData?.username}/about`); ?
   return { success: true };
 }
 

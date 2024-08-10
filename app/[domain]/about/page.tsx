@@ -16,7 +16,7 @@ export default async function About({
   };
 
   const res = await request();
-
+  console.log('params.domain:', params.domain, res);
   const {
     imgSrc,
     imgCaption,
