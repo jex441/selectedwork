@@ -24,9 +24,7 @@ export const getUserByUsername = async (username: string) => {
   console.log('username::', username);
 
   const subdomain =
-    username.split(`.`)[1] === process.env.NEXT_PUBLIC_ROOT_DOMAIN
-      ? username.split('.')[0]
-      : false;
+    username.split(`.`).length > 2 ? username.split('.')[0] : false;
   console.log('subdomain:', subdomain);
   const rows = await db
     .select()
