@@ -39,7 +39,7 @@ export default async function SiteLayout({
   if (!res) {
     return <div>user not found</div>;
   }
-
+  console.log(res);
   return (
     <div className="flex min-h-screen w-full flex-col">
       <Nav

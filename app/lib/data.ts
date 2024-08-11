@@ -1233,6 +1233,8 @@ export const getUserByUsername = async (username: string) => {
     username.split('.')[1] === process.env.NEXT_PUBLIC_ROOT_DOMAIN
       ? username.split('.')[0]
       : false;
+  console.log('username:', username);
+  console.log('subdomain:', subdomain);
 
   let rows = await db
     .select()
