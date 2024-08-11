@@ -10,10 +10,10 @@ import UserSite from './[collection]/page';
 export default async function SiteHomePage({
   params,
 }: {
-  params: { domain: string };
+  params: { domain: string; collection: null };
 }) {
   const domain = decodeURIComponent(params.domain);
-  const res = await getSiteData(domain);
+  const res = await getSiteData(domain, null);
 
   if (!res.data) {
     return <div>not found</div>;

@@ -19,7 +19,7 @@ export default async function SiteLayout({
   if (domain === 'home') {
     return <Home />;
   }
-  const data = await getSiteData(domain);
+  const data = await getSiteData(domain, null);
 
   const res = await getUserByUsername(domain);
 
