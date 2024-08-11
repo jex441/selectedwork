@@ -1230,9 +1230,7 @@ export const getPagesData = async (userId: number) => {
 // functions for generating site:
 export const getUserByUsername = async (username: string) => {
   const subdomain =
-    username.split('.')[1] === process.env.NEXT_PUBLIC_ROOT_DOMAIN
-      ? username.split('.')[0]
-      : false;
+    username.split('.').length > 2 ? username.split('.')[0] : false;
   console.log('username:', username);
   console.log('subdomain:', subdomain);
 
