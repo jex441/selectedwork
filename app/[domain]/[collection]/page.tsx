@@ -9,11 +9,11 @@ import { IWork } from '@/app/interfaces/IWork';
 export default async function SiteHomePage({
   params,
 }: {
-  params: { domain: string };
+  params: { domain: string; collection: string | null };
 }) {
   const domain = decodeURIComponent(params.domain);
 
-  const res = await getSiteData(domain);
+  const res = await getSiteData(domain, params.collection);
 
   if (!res.data) {
     return <div>not found</div>;
