@@ -16,6 +16,7 @@ import {
   collection,
 } from '../../../db/schema';
 import { Event } from './types';
+import Visibility from '@/app/app/(dashboard)/collections/[slug]/visibility';
 
 const smee = new SmeeClient({
   source: process.env.WEBHOOK_PROXY_URL!,
@@ -64,6 +65,7 @@ export async function POST(req: Request) {
           slug: 'work',
           title: 'Selected Work',
           userId: userId,
+          Visibility: 'public',
         },
         { template: 'h1', slug: 'home', title: 'Home', userId: userId },
       ];
