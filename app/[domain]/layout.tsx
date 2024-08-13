@@ -15,7 +15,6 @@ export default async function SiteLayout({
   children: ReactNode;
 }) {
   const domain = decodeURIComponent(params.domain);
-  console.log('domain', domain);
   if (domain === 'home') {
     return <Home />;
   }
@@ -39,7 +38,6 @@ export default async function SiteLayout({
   if (!res) {
     return <div>user not found</div>;
   }
-  console.log(res);
   return (
     <div className="flex min-h-screen w-full flex-col">
       <Nav
