@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
-import { getSiteData } from '@/app/lib/fetchers';
 import React from 'react';
 import Image from 'next/image';
 import { ICollection } from '@/app/interfaces/ICollection';
 import Piece from './piece';
 import { IWork } from '@/app/interfaces/IWork';
+import { getCollectionDataForSite } from '@/app/lib/requests';
 
 export default async function SiteHomePage({
   params,
@@ -13,7 +13,7 @@ export default async function SiteHomePage({
 }) {
   const domain = decodeURIComponent(params.domain);
 
-  const res = await getSiteData(domain, params.collection);
+  const res = await getCollectionDataForSite(domain, params.collection);
 
   if (!res.data) {
     return <div>not found</div>;

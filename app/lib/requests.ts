@@ -25,6 +25,7 @@ export const getUserByUsername = async (username: string) => {
     ? username.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, '')
     : null;
 
+  console.log('subdomain', subdomain);
   let rows = await db
     .select()
     .from(users)
@@ -65,7 +66,6 @@ export const getAboutPageDataForSite = async (
   data: IAboutPage | null;
 }> => {
   const userData = await getUserByUsername(username);
-  console.log('userData:', userData);
   if (!userData || userData.firstName === null || userData.lastName === null) {
     return { status: 200, user: null, data: null };
   }
@@ -74,7 +74,6 @@ export const getAboutPageDataForSite = async (
     userData &&
     userData.id !== null &&
     (await db.select().from(about).where(eq(about.userId, userData?.id)));
-  console.log('rows:', rows);
   const responseData = rows && (rows[0] as IAboutPage);
   if (responseData) {
     return {
@@ -217,6 +216,9 @@ export const getCollectionDataForSite = async (
   username: string,
   slug: string | null,
 ) => {
+  if (username === 'selected-work.com') {
+    return { status: 404, user: null, data: null };
+  }
   const user = await getUserByUsername(username);
 
   if (!user) {
@@ -224,13 +226,19 @@ export const getCollectionDataForSite = async (
   }
   let rows;
 
-  if (slug === null) {
+  if (!slug) {
+    const collectionData = await db
+      .select()
+      .from(collection)
+      .where(eq(collection.userId, user.id));
+
     rows =
       user.id !== null &&
+      collectionData[0].id !== null &&
       (await db
         .select()
         .from(collection)
-        .where(eq(collection.userId, user.id))
+        .where(eq(collection.id, collectionData[0].id))
         .leftJoin(work, eq(collection.id, work.collectionId))
         .leftJoin(media, eq(work.id, media.workId)));
   } else {

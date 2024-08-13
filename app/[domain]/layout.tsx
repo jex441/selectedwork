@@ -2,10 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import { notFound, redirect } from 'next/navigation';
-import { getSiteData } from '@/app/lib/fetchers';
 import Nav from './Nav';
 import { getUserByUsername } from '../lib/data';
 import Home from '../home/page';
+import { getCollectionDataForSite } from '../lib/requests';
 
 export default async function SiteLayout({
   params,
@@ -18,7 +18,7 @@ export default async function SiteLayout({
   if (domain === 'home') {
     return <Home />;
   }
-  const data = await getSiteData(domain, null);
+  const data = await getCollectionDataForSite(domain, null);
 
   const res = await getUserByUsername(domain);
 
