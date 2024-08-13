@@ -25,7 +25,6 @@ export const getUserByUsername = async (username: string) => {
     ? username.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, '')
     : null;
 
-  console.log('subdomain', subdomain);
   let rows = await db
     .select()
     .from(users)
@@ -57,6 +56,7 @@ export const getUserByUsername = async (username: string) => {
     return null;
   }
 };
+
 export const getAboutPageDataForSite = async (
   username: string,
   title: string,
@@ -128,6 +128,7 @@ export const getContactPageDataForSite = async (
     };
   }
 };
+
 export const getCVPageDataForSite = async (
   username: string,
   title: string,

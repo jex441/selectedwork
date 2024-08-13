@@ -4,7 +4,6 @@ import React from 'react';
 import Image from 'next/image';
 
 import { IContactPage } from '@/app/interfaces/IContactPage';
-import { getContactPageDataForSite } from '@/app/lib/data';
 
 export default function ContactPage({ data }: { data: IContactPage }) {
   const {

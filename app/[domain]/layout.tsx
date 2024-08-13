@@ -1,9 +1,6 @@
-import Image from 'next/image';
-import Link from 'next/link';
 import { ReactNode } from 'react';
-import { notFound, redirect } from 'next/navigation';
 import Nav from './Nav';
-import { getUserByUsername } from '../lib/data';
+import { getUserByUsername } from '../lib/requests';
 import Home from '../home/page';
 import { getCollectionDataForSite } from '../lib/requests';
 
@@ -24,7 +21,6 @@ export default async function SiteLayout({
 
   if (!data) {
     <div>not found</div>;
-    // notFound();
   }
 
   // Optional: Redirect to custom domain if it exists
