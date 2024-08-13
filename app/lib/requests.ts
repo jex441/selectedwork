@@ -21,11 +21,9 @@ import { IContactPage } from '../interfaces/IContactPage';
 
 // functions for generating site:
 export const getUserByUsername = async (username: string) => {
-  console.log('username::', username);
-
-  const subdomain =
-    username.split(`.`).length > 2 ? username.split('.')[0] : false;
-  console.log('subdomain:', subdomain);
+  const subdomain = username.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
+    ? username.split('.')[0]
+    : false;
   const rows = await db
     .select()
     .from(users)
