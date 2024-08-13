@@ -15,13 +15,7 @@ export default async function SiteLayout({
   if (domain === 'home') {
     return <Home />;
   }
-  const data = await getCollectionDataForSite(domain, null);
-
   const res = await getUserByUsername(domain);
-
-  if (!data) {
-    <div>not found</div>;
-  }
 
   // Optional: Redirect to custom domain if it exists
   //   if (
@@ -31,9 +25,18 @@ export default async function SiteLayout({
   //   ) {
   //     return redirect(`https://${data.customDomain}`);
   //   }
+
   if (!res) {
     return <div>user not found</div>;
   }
+
+  if (
+    !domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) &&
+    res.plan === 'free'
+  ) {
+    return <div>Not found</div>;
+  }
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <Nav
