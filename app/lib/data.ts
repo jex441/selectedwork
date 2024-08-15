@@ -1263,25 +1263,3 @@ export const getUserWork = async (id: number) => {
 export const getPagesData = async (userId: number) => {
   return await db.select().from(pages).where(eq(pages.userId, userId));
 };
-
-export const createCheckoutSession = async () => {
-  const user = await getUserData();
-
-  const session =
-    stripe &&
-    user &&
-    user.email !== null &&
-    (await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          price: process.env.STRIPE_PREMIUM_PRICE_ID,
-          quantity: 1,
-        },
-      ],
-      mode: 'subscription',
-      customer_email: user.email,
-      success_url: `http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/account`,
-      cancel_url: `http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/account`,
-    }));
-  console.log(session.url);
-};

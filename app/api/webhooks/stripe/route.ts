@@ -60,7 +60,7 @@ export async function POST(req: Request) {
     try {
       switch (event.type) {
         case 'customer.subscription.created':
-          event.data.object.customer &&
+          typeof event.data.object.customer === 'string' &&
             (await db
               .update(users)
               .set({
@@ -78,29 +78,32 @@ export async function POST(req: Request) {
               .where(eq(users.email, event.data.object.email)));
           break;
         case 'checkout.session.completed':
-          await db
-            .update(users)
-            .set({
-              plan: 'premium',
-            })
-            .where(eq(users.customerId, event.data.object.customer));
-          break;
-        case 'customer.subscription.updated':
-          if (event.data.object.status === 'active') {
-            await db
+          typeof event.data.object.customer === 'string' &&
+            (await db
               .update(users)
               .set({
                 plan: 'premium',
               })
-              .where(eq(users.customerId, event.data.object.customer));
+              .where(eq(users.customerId, event.data.object.customer)));
+          break;
+        case 'customer.subscription.updated':
+          if (event.data.object.status === 'active') {
+            typeof event.data.object.customer === 'string' &&
+              (await db
+                .update(users)
+                .set({
+                  plan: 'premium',
+                })
+                .where(eq(users.customerId, event.data.object.customer)));
           }
           if (event.data.object.status === 'canceled') {
-            await db
-              .update(users)
-              .set({
-                plan: 'free',
-              })
-              .where(eq(users.customerId, event.data.object.customer));
+            typeof event.data.object.customer === 'string' &&
+              (await db
+                .update(users)
+                .set({
+                  plan: 'free',
+                })
+                .where(eq(users.customerId, event.data.object.customer)));
           }
           break;
         default:
