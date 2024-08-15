@@ -11,11 +11,13 @@ export async function POST(req: Request, res: NextApiResponse) {
   const { email } = await req.json();
 
   const user = await db.select().from(users).where(eq(users.email, email));
-
   await db
     .update(users)
-    .set({ hibernate: !user[0].hibernate })
+    .set({ hibernate: user[0].hibernate ? false : true })
     .where(eq(users.email, email));
 
+  // Not working with the app. subdomain
   revalidatePath('/account');
+
+  return NextResponse.json(200);
 }

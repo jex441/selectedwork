@@ -7,7 +7,6 @@ import DomainForm from './DomainForm';
 
 export default async function page() {
   const userData: IUser | null = await getUserData();
-  console.log(userData);
   return (
     <main className="flex min-h-screen flex-col gap-5 px-20 py-10">
       {userData && <AccountForm data={userData} />}

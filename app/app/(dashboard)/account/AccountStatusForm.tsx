@@ -19,7 +19,7 @@ export default function AccountStatusForm({ data }: { data: IUser }) {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
-    }).then((res) => res.json());
+    });
   };
 
   const deleteAccount = async () => {
@@ -29,7 +29,7 @@ export default function AccountStatusForm({ data }: { data: IUser }) {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
-    }).then((res) => res.json());
+    });
   };
 
   return (
