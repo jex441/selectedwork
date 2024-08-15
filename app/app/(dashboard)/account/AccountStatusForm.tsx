@@ -32,6 +32,13 @@ export default function AccountStatusForm({ data }: { data: IUser }) {
     });
   };
 
+  const deleteHandler = () => {
+    alert(
+      'Are you sure you want to delete your account? This action is irreversible.',
+    );
+    // not active for now
+    // deleteAccount()
+  };
   return (
     <Card className="border-destructive">
       <CardHeader>
@@ -80,7 +87,11 @@ export default function AccountStatusForm({ data }: { data: IUser }) {
                 data.
               </p>
             </div>
-            <Button variant="destructive" className="w-40">
+            <Button
+              onClick={() => deleteHandler()}
+              variant="destructive"
+              className="w-40"
+            >
               Delete Account
             </Button>
           </div>
