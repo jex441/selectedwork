@@ -89,7 +89,6 @@ export type State = {
 
 export const user = async () => {
   const currentUser = auth();
-  console.log('data:lub', currentUser);
   const data =
     currentUser !== null &&
     currentUser.userId !== null &&
@@ -98,8 +97,6 @@ export const user = async () => {
   if (data) {
     return data[0];
   } else {
-    console.log('data:lub', currentUser);
-
     return null;
   }
 };
@@ -114,7 +111,6 @@ export async function updateAbout(
   formData: FormData,
 ) {
   const userData = await user();
-  console.log('userData::', userData);
   const validatedFields = UpdateAbout.safeParse({
     template: formData.get('template') || '',
     text: formData.get('text') || null,
@@ -463,10 +459,6 @@ export const updateUserCustomDomain = async (
       },
       method: 'post',
     }));
-  console.log('vercel toaken', process.env.VERCEL_TOKEN);
-  console.log('vercelResponse', vercelResponse);
-  // need to check if www. is redirecting, fine tune vercel config, remove old domains, etc...
-  // deploy branch - my domain should point to selected-work.com which should query db for user's domain
   const update = await db
     .update(users)
     .set({
@@ -520,7 +512,6 @@ export const insertUser = async (
 
 export const getPageData = async (title: string) => {
   const userData = await user();
-  console.log('userData:', userData);
   const rows =
     userData &&
     userData.id !== null &&
@@ -528,7 +519,6 @@ export const getPageData = async (title: string) => {
       .select()
       .from(about)
       .where(and(eq(about.title, title), eq(about.userId, userData?.id))));
-  console.log('rows:', rows);
   if (rows) return rows[0];
 };
 
@@ -541,7 +531,6 @@ export const getAboutPageData = async (username: string, title: string) => {
       .select()
       .from(about)
       .where(and(eq(about.title, title), eq(about.userId, userData?.id))));
-  console.log('rows:', rows);
   if (rows) return rows[0];
 };
 
