@@ -45,7 +45,6 @@ export default authMiddleware({
     const searchParams = req.nextUrl.searchParams.toString();
     // Get the pathname of the request (e.g. /, /about, /blog/first-post)
     const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ''}`;
-    console.log(auth);
     // rewrites for app pages
     if (hostname === `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
       if (!auth.userId && path !== '/sign-in') {

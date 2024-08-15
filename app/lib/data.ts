@@ -4,7 +4,12 @@ import { currentUser, auth } from '@clerk/nextjs/server';
 import { eq, and, inArray, or } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db';
-import { redirect } from 'next/navigation';
+import { redirect } from 'next/navigation'
+import Stripe from 'stripe';
+const stripe = process.env.STRIPE_SECRET_KEY && new Stripe(process.env.STRIPE_SECRET_KEY);
+import type { NextApiResponse, NextApiRequest } from 'next';
+import { NextResponse } from 'next/server';
+
 
 import {
   users,
@@ -84,7 +89,7 @@ export type State = {
 
 export const user = async () => {
   const currentUser = auth();
-
+console.log('data:lub', currentUser)
   const data =
     currentUser !== null &&
     currentUser.userId !== null &&
@@ -93,6 +98,8 @@ export const user = async () => {
   if (data) {
     return data[0];
   } else {
+console.log('data:lub', currentUser)
+
     return null;
   }
 };
@@ -1222,3 +1229,21 @@ export const getUserWork = async (id: number) => {
 export const getPagesData = async (userId: number) => {
   return await db.select().from(pages).where(eq(pages.userId, userId));
 };
+
+export const createCheckoutSession = async () => {
+  const user = await getUserData();
+
+  const session = stripe && user && user.email !== null && await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price: process.env.STRIPE_PREMIUM_PRICE_ID,
+        quantity: 1,
+      },
+    ],
+    mode: 'subscription',
+    customer_email: user.email,
+    success_url: `http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/account`,
+    cancel_url: `http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/account`,
+  });
+  console.log(session.url)
+}
