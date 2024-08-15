@@ -24,7 +24,7 @@ export const getUserByUsername = async (username: string) => {
   const subdomain = username.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? username.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, '')
     : username;
-
+  console.log(subdomain, username);
   let rows = await db
     .select()
     .from(users)
