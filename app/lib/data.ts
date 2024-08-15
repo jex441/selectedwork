@@ -5,6 +5,11 @@ import { eq, and, inArray, or } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db';
 import { redirect } from 'next/navigation';
+import Stripe from 'stripe';
+const stripe =
+  process.env.STRIPE_SECRET_KEY && new Stripe(process.env.STRIPE_SECRET_KEY);
+import type { NextApiResponse, NextApiRequest } from 'next';
+import { NextResponse } from 'next/server';
 
 import {
   users,
@@ -84,7 +89,6 @@ export type State = {
 
 export const user = async () => {
   const currentUser = auth();
-
   const data =
     currentUser !== null &&
     currentUser.userId !== null &&
@@ -107,7 +111,6 @@ export async function updateAbout(
   formData: FormData,
 ) {
   const userData = await user();
-  console.log('userData::', userData);
   const validatedFields = UpdateAbout.safeParse({
     template: formData.get('template') || '',
     text: formData.get('text') || null,
@@ -359,15 +362,10 @@ const UserSchema = z.object({
   username: z.string(),
   displayName: z.string(),
   occupation: z.string(),
-  email: z.string(),
-  plan: z.string(),
-  domain: z.string().nullish(),
 });
 
 const UpdateUser = UserSchema.omit({
   id: true,
-  email: true,
-  plan: true,
 });
 
 export const updateUser = async (
@@ -375,12 +373,53 @@ export const updateUser = async (
   prevState: {},
   formData: FormData,
 ) => {
-  const userData = await user();
-
   const validatedFields = UpdateUser.safeParse({
     displayName: formData.get('displayName') || '',
     username: formData.get('username') || '',
     occupation: formData.get('occupation') || '',
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Invoice.',
+    };
+  }
+
+  const { username, displayName, occupation } = validatedFields.data;
+
+  const update = await db
+    .update(users)
+    .set({
+      username: username,
+      displayName: displayName,
+      occupation: occupation,
+    })
+    .where(eq(users.id, id))
+    .returning({ id: users.id });
+
+  revalidatePath('/dashboard/account');
+  return { success: true };
+};
+
+//
+const UserCustomDomainSchema = z.object({
+  id: z.number(),
+  domain: z.string().nullish(),
+});
+
+const UpdateUserCustomDomain = UserCustomDomainSchema.omit({
+  id: true,
+});
+
+export const updateUserCustomDomain = async (
+  id: number,
+  prevState: {},
+  formData: FormData,
+) => {
+  const userData = await user();
+
+  const validatedFields = UpdateUserCustomDomain.safeParse({
     domain: formData.get('domain') || '',
   });
 
@@ -391,12 +430,12 @@ export const updateUser = async (
     };
   }
 
-  const { username, displayName, occupation, domain } = validatedFields.data;
+  const { domain } = validatedFields.data;
 
   // paywall
-  // if (domain !== '' && userData[0].plan === 'free') {
-  //   return { success: false };
-  // }
+  if (userData && userData.plan === 'free') {
+    return { success: false };
+  }
 
   // api call to vercel to add a new domain:
   const vercelFormData = new FormData();
@@ -420,16 +459,9 @@ export const updateUser = async (
       },
       method: 'post',
     }));
-  console.log('vercel toaken', process.env.VERCEL_TOKEN);
-  console.log('vercelResponse', vercelResponse);
-  // need to check if www. is redirecting, fine tune vercel config, remove old domains, etc...
-  // deploy branch - my domain should point to selected-work.com which should query db for user's domain
   const update = await db
     .update(users)
     .set({
-      username: username,
-      displayName: displayName,
-      occupation: occupation,
       domain: domain,
     })
     .where(eq(users.id, id))
@@ -438,6 +470,7 @@ export const updateUser = async (
   revalidatePath('/dashboard/account');
   return { success: true, message: '76.76.21.21' };
 };
+//
 
 export const insertUser = async (
   authId: string,
@@ -479,7 +512,6 @@ export const insertUser = async (
 
 export const getPageData = async (title: string) => {
   const userData = await user();
-  console.log('userData:', userData);
   const rows =
     userData &&
     userData.id !== null &&
@@ -487,7 +519,6 @@ export const getPageData = async (title: string) => {
       .select()
       .from(about)
       .where(and(eq(about.title, title), eq(about.userId, userData?.id))));
-  console.log('rows:', rows);
   if (rows) return rows[0];
 };
 
@@ -500,7 +531,6 @@ export const getAboutPageData = async (username: string, title: string) => {
       .select()
       .from(about)
       .where(and(eq(about.title, title), eq(about.userId, userData?.id))));
-  console.log('rows:', rows);
   if (rows) return rows[0];
 };
 

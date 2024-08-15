@@ -14,4 +14,7 @@ export interface IUser {
   url: string | null;
   collections: ICollection[] | null;
   pages: IPage[] | null;
+  customerId: string | null;
+  subscriptionId: string | null;
+  hibernate: boolean;
 }

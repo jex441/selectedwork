@@ -9,6 +9,9 @@ interface IState {
 export const useStore = create<IState>()((set) => ({
   user: {
     id: 99,
+    hibernate: false,
+    customerId: '',
+    subscriptionId: '',
     displayName: '',
     authId: '',
     firstName: '',
