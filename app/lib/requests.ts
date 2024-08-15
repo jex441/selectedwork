@@ -23,14 +23,12 @@ import { IContactPage } from '../interfaces/IContactPage';
 export const getUserByUsername = async (username: string) => {
   const subdomain = username.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? username.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, '')
-    : null;
+    : username;
 
   let rows = await db
     .select()
     .from(users)
-    .where(
-      or(eq(users.username, subdomain || username), eq(users.domain, username)),
-    )
+    .where(or(eq(users.username, subdomain), eq(users.domain, username)))
     .leftJoin(collection, eq(collection.userId, users.id));
 
   const result = rows.reduce<IUser>((acc, row) => {
