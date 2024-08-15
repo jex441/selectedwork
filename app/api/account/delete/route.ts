@@ -10,7 +10,7 @@ import { revalidatePath } from 'next/cache';
 export async function POST(req: Request, res: NextApiResponse) {
   const { email } = await req.json();
 
-  const user = await db.delete(users).where(eq(users.email, email));
+  // const user = await db.delete(users).where(eq(users.email, email));
 
   return NextResponse.json(200);
 }
