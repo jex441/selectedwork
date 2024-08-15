@@ -2,14 +2,18 @@ import AccountForm from './AccountForm';
 import { getUserData } from '@/app/lib/data';
 import { IUser } from '../../../interfaces/IUser';
 import BillingForm from './BillingForm';
+import AccountStatusForm from './AccountStatusForm';
+import DomainForm from './DomainForm';
 
 export default async function page() {
   const userData: IUser | null = await getUserData();
 
   return (
-  <main>
-    <AccountForm data={userData} />
-   <BillingForm data={userData} />
+  <main  className="flex min-h-screen flex-col px-20 py-10 gap-5">
+    {userData && <AccountForm data={userData} />}
+    {userData && <DomainForm data={userData} />}
+    {userData && <BillingForm data={userData} />}
+    {userData && <AccountStatusForm data={userData} />}
    </main>
    )
 }

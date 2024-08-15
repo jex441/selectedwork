@@ -11,13 +11,6 @@ import {
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from '@/components/ui/select';
 import { useFormState } from 'react-dom';
 import { IUser } from '@/app/interfaces/IUser';
 import { updateUser } from '@/app/lib/data';
@@ -29,10 +22,7 @@ export default function AccountForm({ data }: { data: IUser }) {
   const [state, formAction] = useFormState(updateUserWithId, initialState);
 
   return (
-    <main className="flex-1 p-6 md:p-10">
-      <form action={formAction} className="flex min-h-screen flex-col">
-        <main className="flex-1 p-6 md:p-10">
-          <div className="mx-auto grid max-w-4xl gap-8">
+      <form action={formAction}>
             <Card>
               <CardHeader>
                 <CardTitle>Account Settings</CardTitle>
@@ -69,77 +59,10 @@ export default function AccountForm({ data }: { data: IUser }) {
                   />
                 </div>
               </CardContent>
-              <CardFooter className="border-t">
+              <CardFooter>
                 <Button type="submit">Save Changes</Button>
               </CardFooter>
             </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Domain Settings</CardTitle>
-                <CardDescription>Manage your custom domain.</CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-6">
-                <div className="grid gap-2">
-                  <Label htmlFor="domain">Custom Domain</Label>
-                  <Input
-                  disabled={data.plan === 'free'}
-                    name="domain"
-                    id="domain"
-                    defaultValue={data.domain || undefined}
-                  />
-                </div>
-                {data.plan !== 'free' && (
-                  <div>
-                    Add an A record with name @ and value of '76.76.21.21' to
-                    your DNS
-                  </div>
-                )}
-              </CardContent>
-              <CardFooter className="border-t">
-                <Button 
-                  disabled={data.plan === 'free'}
-                
-                type="submit">Update Domain</Button>
-              </CardFooter>
-            </Card>
-
-            {/* <Card>
-            <CardHeader>
-              <CardTitle>Danger Zone</CardTitle>
-              <CardDescription>These actions are irreversible.</CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-6">
-              <div className="grid gap-2">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-lg font-medium">Archive Website</h3>
-                    <p className="text-sm text-muted-foreground">
-                      This will make your website inaccessible to the public.
-                    </p>
-                  </div>
-                  <Button variant="destructive">Archive</Button>
-                </div>
-              </div>
-              <Separator />
-              <div className="grid gap-2">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-lg font-medium text-destructive">
-                      Delete Account
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      This will permanently delete your account and all
-                      associated data.
-                    </p>
-                  </div>
-                  <Button variant="destructive">Delete Account</Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card> */}
-          </div>
-        </main>
       </form>
-    </main>
   );
 }

@@ -8,6 +8,7 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
+  CardFooter
 } from '@/components/ui/card';
 
 
@@ -31,7 +32,9 @@ export default function BillingForm({data}: {data: any}) {
         <CardDescription>Manage your billing information.</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-6"></CardContent>
+      <CardFooter>
       <Button onClick={()=> createCheckoutSession()}>Update Billing</Button>
+      </CardFooter>
     </Card>
   )
 }
