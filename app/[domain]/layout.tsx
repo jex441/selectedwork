@@ -36,7 +36,7 @@ export default async function SiteLayout({
   ) {
     return <div>Not found</div>;
   }
-  console.log('res', res);
+
   if (res.hibernate) {
     return <div>Not found</div>;
   }
