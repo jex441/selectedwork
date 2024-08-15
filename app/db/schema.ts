@@ -22,6 +22,7 @@ export const users = pgTable('users_table', {
   url: text('url'),
   customerId: text('customerId'),
   subscriptionId: text('subscriptionId'),
+  hibernate: boolean('hibernate').default(false).notNull(),
 });
 
 export const pages = pgTable('pages_table', {

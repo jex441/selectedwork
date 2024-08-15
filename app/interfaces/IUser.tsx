@@ -16,4 +16,5 @@ export interface IUser {
   pages: IPage[] | null;
   customerId: string | null;
   subscriptionId: string | null;
+  hibernate: boolean;
 }
