@@ -4,12 +4,12 @@ import { currentUser, auth } from '@clerk/nextjs/server';
 import { eq, and, inArray, or } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db';
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
 import Stripe from 'stripe';
-const stripe = process.env.STRIPE_SECRET_KEY && new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe =
+  process.env.STRIPE_SECRET_KEY && new Stripe(process.env.STRIPE_SECRET_KEY);
 import type { NextApiResponse, NextApiRequest } from 'next';
 import { NextResponse } from 'next/server';
-
 
 import {
   users,
@@ -89,7 +89,7 @@ export type State = {
 
 export const user = async () => {
   const currentUser = auth();
-console.log('data:lub', currentUser)
+  console.log('data:lub', currentUser);
   const data =
     currentUser !== null &&
     currentUser.userId !== null &&
@@ -98,7 +98,7 @@ console.log('data:lub', currentUser)
   if (data) {
     return data[0];
   } else {
-console.log('data:lub', currentUser)
+    console.log('data:lub', currentUser);
 
     return null;
   }
@@ -390,7 +390,7 @@ export const updateUser = async (
     };
   }
 
-  const { username, displayName, occupation, } = validatedFields.data;
+  const { username, displayName, occupation } = validatedFields.data;
 
   const update = await db
     .update(users)
@@ -403,7 +403,7 @@ export const updateUser = async (
     .returning({ id: users.id });
 
   revalidatePath('/dashboard/account');
-  return { success: true}
+  return { success: true };
 };
 
 //
@@ -1267,17 +1267,21 @@ export const getPagesData = async (userId: number) => {
 export const createCheckoutSession = async () => {
   const user = await getUserData();
 
-  const session = stripe && user && user.email !== null && await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price: process.env.STRIPE_PREMIUM_PRICE_ID,
-        quantity: 1,
-      },
-    ],
-    mode: 'subscription',
-    customer_email: user.email,
-    success_url: `http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/account`,
-    cancel_url: `http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/account`,
-  });
-  console.log(session.url)
-}
+  const session =
+    stripe &&
+    user &&
+    user.email !== null &&
+    (await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: process.env.STRIPE_PREMIUM_PRICE_ID,
+          quantity: 1,
+        },
+      ],
+      mode: 'subscription',
+      customer_email: user.email,
+      success_url: `http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/account`,
+      cancel_url: `http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/account`,
+    }));
+  console.log(session.url);
+};
