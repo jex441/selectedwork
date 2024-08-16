@@ -49,7 +49,7 @@ export default function Nav({
         <nav
           className={`${open ? 'flex' : 'hidden'} fixed z-10 h-full w-full flex-col gap-4 bg-white px-5 pl-10 pt-20 text-[32px] lg:static lg:mx-5 lg:flex lg:w-auto lg:flex-row lg:items-center lg:gap-4 lg:p-0 lg:text-sm`}
         >
-          {collections.length > 1 ? (
+          {collections.length > 3 ? (
             <span
               onClick={() => clickHandler()}
               onMouseEnter={() => setDropDown('flex')}
@@ -62,14 +62,18 @@ export default function Nav({
               </Link>
             </span>
           ) : (
-            <span onMouseEnter={() => clickHandler()}>
-              <Link
-                className="text-mediumGray hover:text-darkGray"
-                href={`/${collections[0].slug}`}
-              >
-                {collections[0].title}
-              </Link>
-            </span>
+            collections.map((collection) => (
+              <span>
+                <Link
+                  className="text-mediumGray hover:text-darkGray"
+                  onClick={() => clickHandler()}
+                  key={collection.id}
+                  href={`/${collection.slug}`}
+                >
+                  {collection.title}
+                </Link>
+              </span>
+            ))
           )}
 
           <section
