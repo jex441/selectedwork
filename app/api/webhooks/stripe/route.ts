@@ -19,7 +19,6 @@ const events = process.env.NODE_ENV === 'development' && smee.start();
 
 export async function POST(req: Request) {
   const body = await req.text();
-  console.log('🔔  Webhook received', body);
   const sig = req.headers.get('stripe-signature') as string;
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   let event: Stripe.Event;
@@ -61,6 +60,7 @@ export async function POST(req: Request) {
     try {
       switch (event.type) {
         case 'customer.subscription.created':
+          console.log('🔔  Webhook received', event);
           typeof event.data.object.customer === 'string' &&
             (await db
               .update(users)
@@ -70,6 +70,7 @@ export async function POST(req: Request) {
               .where(eq(users.customerId, event.data.object.customer)));
           break;
         case 'customer.created':
+          console.log('🔔  Webhook received', event);
           event.data.object.email &&
             (await db
               .update(users)
@@ -79,13 +80,14 @@ export async function POST(req: Request) {
               .where(eq(users.email, event.data.object.email)));
           break;
         case 'checkout.session.completed':
-          typeof event.data.object.customer === 'string' &&
-            (await db
-              .update(users)
-              .set({
-                plan: 'premium',
-              })
-              .where(eq(users.customerId, event.data.object.customer)));
+          console.log('🔔  Webhook received', event);
+          await db
+            .update(users)
+            .set({
+              plan: 'premium',
+            })
+            .where(eq(users.customerId, event.data.object.customer as string))
+            .returning({ email: users.email, plan: users.plan });
           break;
         case 'customer.subscription.updated':
           if (event.data.object.status === 'active') {

@@ -47,7 +47,7 @@ export default authMiddleware({
     const path = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ''}`;
     // rewrites for app pages
     if (hostname === `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
-      if (!auth.userId && path !== '/sign-in') {
+      if (!auth.userId && path.split('-')[0] !== '/sign') {
         const prefix =
           process.env.NODE_ENV === 'development' ? 'http://' : 'https://';
         return NextResponse.redirect(`${prefix}${hostname}/sign-in`);
