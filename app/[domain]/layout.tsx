@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
-import Nav from './Nav';
+import Nav from './nav/Nav';
 import { getUserByUsername } from '../lib/requests';
 import Home from '../home/page';
 import { getCollectionDataForSite } from '../lib/requests';
+import NavPage from './nav/page';
 
 export default async function SiteLayout({
   params,
@@ -16,7 +17,6 @@ export default async function SiteLayout({
     return <Home />;
   }
   const res = await getUserByUsername(domain);
-  console.log('res in layout', res);
   // Optional: Redirect to custom domain if it exists
   //   if (
   //     domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) &&
@@ -37,17 +37,9 @@ export default async function SiteLayout({
     return <div>Not found</div>;
   }
 
-  // if (res.hibernate) {
-  //   return <div>Not found</div>;
-  // }
-
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <Nav
-        collections={res.collections ?? []}
-        username={res.username}
-        displayName={res.displayName}
-      />
+      <NavPage params={params} />
       <main className="mt-[70px] lg:mt-0">{children}</main>
     </div>
   );

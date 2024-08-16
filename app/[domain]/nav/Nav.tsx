@@ -9,11 +9,9 @@ import menu from '/public/menu.png';
 import React from 'react';
 
 export default function Nav({
-  username,
   displayName,
   collections,
 }: {
-  username: string;
   displayName: string;
   collections: ICollection[] | [];
 }) {
@@ -29,7 +27,7 @@ export default function Nav({
     <>
       <div
         onMouseLeave={() => setDropDown('hidden')}
-        className="text-darkGray fixed z-20 flex h-[70px] w-full flex-row bg-white lg:static lg:items-center lg:p-10"
+        className="fixed z-20 flex h-[70px] w-full flex-row bg-white text-darkGray lg:static lg:items-center lg:p-10"
       >
         <header className="absolute z-10 m-5 tracking-wide lg:static lg:my-0 lg:mr-6 lg:text-xl">
           <Link
