@@ -16,7 +16,7 @@ export default async function SiteLayout({
     return <Home />;
   }
   const res = await getUserByUsername(domain);
-
+  console.log('res in layout', res);
   // Optional: Redirect to custom domain if it exists
   //   if (
   //     domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) &&
