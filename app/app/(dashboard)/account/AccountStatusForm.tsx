@@ -58,7 +58,7 @@ export default function AccountStatusForm({ data }: { data: IUser }) {
                   : 'This will make your website inaccessible to the public.'}
               </p>
             </div>
-            {data.hibernate ? (
+            {!data.hibernate ? (
               <Button
                 onClick={() => hibernateAccount()}
                 variant="destructive"

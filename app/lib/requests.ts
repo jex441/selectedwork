@@ -33,7 +33,7 @@ export const getUserByUsername = async (username: string) => {
     .from(users)
     .where(eq(users[key], value))
     .leftJoin(collection, eq(collection.userId, users.id));
-  console.log(rows);
+
   const result = rows.reduce<IUser>((acc, row) => {
     const user = row.users_table;
     const collection = row.collection_table;
@@ -50,8 +50,9 @@ export const getUserByUsername = async (username: string) => {
     }
     return acc;
   }, {} as IUser);
-  console.log('result', result);
+
   if (result) {
+    console.log('user:', result);
     return result;
   } else {
     return null;
