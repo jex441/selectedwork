@@ -16,8 +16,8 @@ Planned features are:
 - ~~Standard fields for artwork metadata, title, medium, dimensions, price, etc~~
 - Customization of sizing/spacing for odd sized works so that pieces are displayed with a sense of scale to the actual physical work
 - ~~Hidden collections for private links~~
-- Custom domains
-- Billing portal
+- ~~Custom domains~~
+- ~~Billing portal~~
 
 It uses 
 - Clerk for authentication
