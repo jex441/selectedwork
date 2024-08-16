@@ -18,8 +18,15 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { UserButton } from '@clerk/nextjs';
+import { getUserData } from '@/app/lib/data';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const user = await getUserData();
+
   return (
     <div className="flex min-h-screen w-full flex-row">
       <div className="border-r bg-gray-100/40 dark:bg-gray-800/40">
@@ -92,14 +99,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="flex w-full flex-col">
         <header className="flex h-14 items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40 lg:h-[60px]">
           <div className="flex flex-1 flex-row gap-6">
-            <Link
-              href="#"
-              target="_blank"
-              className="inline-flex h-8 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-              prefetch={false}
-            >
-              View Live Site
-            </Link>
+            {user && (
+              <Link
+                href={`http${process.env.NODE_ENV !== 'development' ? 's' : ''}://${user.username}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+                target="_blank"
+                className="inline-flex h-8 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                prefetch={false}
+              >
+                View Live Site
+              </Link>
+            )}
           </div>
           <UserButton />
         </header>
