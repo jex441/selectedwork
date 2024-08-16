@@ -399,6 +399,8 @@ export const updateUser = async (
     .returning({ id: users.id });
 
   revalidatePath('/dashboard/account');
+  revalidatePath(`/${username}`);
+
   return { success: true };
 };
 
