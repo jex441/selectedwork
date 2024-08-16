@@ -19,6 +19,7 @@ const events = process.env.NODE_ENV === 'development' && smee.start();
 
 export async function POST(req: Request) {
   const body = await req.text();
+  console.log('🔔  Webhook received', body);
   const sig = req.headers.get('stripe-signature') as string;
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   let event: Stripe.Event;
