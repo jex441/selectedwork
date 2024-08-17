@@ -1,8 +1,12 @@
 'use client';
 
+import { useState } from 'react';
+
 import emailjs from '@emailjs/browser';
 
 export default function ContactForm({ data }: { data: any }) {
+  const [emailSent, setEmailSent] = useState(false);
+  const [error, setError] = useState(false);
   const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
@@ -25,13 +29,14 @@ export default function ContactForm({ data }: { data: any }) {
       )
       .then(
         (result) => {
+          (e.target as HTMLFormElement).reset();
+          setEmailSent(true);
           console.log(result.text);
         },
         (error) => {
           console.log(error);
         },
       );
-    return { message: 'Email Sent!' };
   };
 
   return (
@@ -53,12 +58,18 @@ export default function ContactForm({ data }: { data: any }) {
         name="message"
         placeholder="Your Message"
       />
-      <button
-        className="w-28 rounded-sm bg-darkGray p-2 text-sm text-white"
-        type="submit"
-      >
-        Send
-      </button>
+      <div className="flex flex-row items-center gap-4">
+        <button
+          className="w-28 rounded-sm bg-darkGray p-2 text-sm text-white"
+          type="submit"
+        >
+          Send
+        </button>
+        {emailSent && <p className="text-sm text-darkGray">Email sent.</p>}
+        {error && (
+          <p className="text-sm text-destructive">Error sending email</p>
+        )}
+      </div>
     </form>
   );
 }

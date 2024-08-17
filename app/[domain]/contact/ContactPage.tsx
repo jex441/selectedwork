@@ -45,13 +45,7 @@ export default function ContactPage({ data }: { data: IContactPage }) {
                 {paragraph}
               </p>
             ))}
-        {instagram && (
-          <p className="my-2 text-sm leading-7 text-mediumGray underline hover:text-black">
-            <a href={instagram} target="_blank">
-              {instagram}
-            </a>
-          </p>
-        )}
+
         {linkSrc1 && (
           <p className="my-2 text-sm leading-7 text-mediumGray underline hover:text-black">
             <a href={linkSrc1} target="_blank">
