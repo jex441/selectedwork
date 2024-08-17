@@ -111,8 +111,9 @@ export const getContactPageDataForSite = async (
     userData.id !== null &&
     (await db.select().from(contact).where(eq(contact.userId, userData?.id)));
 
-  const responseData = rows && (rows[0] as IContactPage);
+  let responseData = rows && (rows[0] as IContactPage);
   if (responseData) {
+    responseData.email = userData.email as string;
     return {
       status: 200,
       user: {
