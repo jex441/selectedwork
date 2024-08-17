@@ -42,18 +42,21 @@ export default function ContactForm({ data }: { data: any }) {
   return (
     <form className="flex w-full flex-col gap-2" onSubmit={sendEmail}>
       <input
+        required
         className="m-1 rounded-sm border border-gray-300 p-2 text-sm"
         type="text"
         name="from_name"
         placeholder="Your Name"
       />
       <input
+        required
         className="m-1 rounded-sm border border-gray-300 p-2 text-sm"
         type="email"
         name="reply_to"
         placeholder="Your Email"
       />
       <textarea
+        required
         className="m-1 rounded-sm border border-gray-300 p-2 text-sm"
         name="message"
         placeholder="Your Message"
