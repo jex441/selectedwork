@@ -14,5 +14,5 @@ export interface IContactPage {
   imgSrc: string | null;
   imgCaption: string | null;
   instagram: string | null;
-  email: string;
+  email: string | null;
 }
