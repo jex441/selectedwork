@@ -12,7 +12,11 @@ export default async function page({ params }: { params: { domain: string } }) {
   }
   if (res !== null) {
     return (
-      <Nav collections={res.collections ?? []} displayName={res.displayName} />
+      <Nav
+        collections={res.collections ?? []}
+        displayName={res.displayName}
+        instagram={res.instagram}
+      />
     );
   }
 }

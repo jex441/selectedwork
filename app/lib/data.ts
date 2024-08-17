@@ -312,6 +312,15 @@ export async function updateContactPage(
     })
     .where(eq(contact.id, id))
     .returning({ id: contact.id });
+
+  userData !== null &&
+    (await db
+      .update(users)
+      .set({
+        instagram: instagram,
+      })
+      .where(eq(users.id, userData?.id)));
+
   revalidatePath('/dashboard/contact');
   revalidatePath(`/${userData?.username}/contact`);
   return { success: true };

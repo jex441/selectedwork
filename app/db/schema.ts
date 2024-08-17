@@ -23,6 +23,7 @@ export const users = pgTable('users_table', {
   customerId: text('customerId'),
   subscriptionId: text('subscriptionId'),
   hibernate: boolean('hibernate').default(false).notNull(),
+  instagram: text('instagram'),
 });
 
 export const pages = pgTable('pages_table', {

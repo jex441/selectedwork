@@ -17,4 +17,5 @@ export interface IUser {
   customerId: string | null;
   subscriptionId: string | null;
   hibernate: boolean;
+  instagram: string | null;
 }

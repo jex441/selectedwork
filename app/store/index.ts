@@ -12,6 +12,7 @@ export const useStore = create<IState>()((set) => ({
     hibernate: false,
     customerId: '',
     subscriptionId: '',
+    instagram: '',
     displayName: '',
     authId: '',
     firstName: '',
