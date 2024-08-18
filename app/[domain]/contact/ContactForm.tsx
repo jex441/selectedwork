@@ -17,7 +17,7 @@ export default function ContactForm({ data }: { data: any }) {
 
     emailjs
       .send(
-        'service_wmtm7u2',
+        'service_ej6gfo9',
         'template_v1ulh7q',
         {
           from_name: target.from_name.value,

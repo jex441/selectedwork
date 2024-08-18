@@ -31,9 +31,9 @@ export default async function About({
   } = res.data || {};
 
   return (
-    <main className="flex w-full flex-col items-start justify-center lg:flex-row lg:gap-10 lg:pt-10">
-      <section className="fade-in-up-simple relative mb-2 flex h-[300px] w-full flex-col object-contain p-1 lg:mb-0 lg:h-[490px] lg:w-1/3">
-        <div className="relative max-h-[280px] w-full lg:max-h-[480px]">
+    <main className="mb-20 flex w-full flex-col items-start justify-center px-4 lg:flex-row lg:gap-14 lg:px-20 lg:pt-10">
+      <section className="fade-in-up-simple relative flex max-h-[520px] w-full flex-col object-contain lg:h-[490px] lg:w-1/2">
+        <div className="relative h-auto w-full lg:max-h-[480px] ">
           {imgSrc && (
             <Image
               height={0}
@@ -47,7 +47,7 @@ export default async function About({
         </div>
         <div className="mt-2 text-sm italic text-darkGray">{imgCaption}</div>
       </section>
-      <section className="fade-in-right-simple m-1  w-full lg:w-1/2 lg:pr-20">
+      <section className="fade-in-right-simple mt-2 w-full lg:mt-0 lg:w-1/2">
         <h1 className="text-xl leading-9 text-darkGray">{heading}</h1>
         <h3 className="text-sm leading-9 text-mediumGray">{subheading}</h3>
         {text &&
