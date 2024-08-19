@@ -68,7 +68,8 @@ export default function Component({ data }: { data: ICVPage }) {
     updatedWorkExperience.splice(index, 1);
     setWorkExperience(updatedWorkExperience);
     if (id) {
-      await deleteCVSection(id);
+      const res = await deleteCVSection(id);
+      res && setWorkExperience(res[selectedSection]);
     }
   };
 

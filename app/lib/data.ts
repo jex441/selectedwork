@@ -674,6 +674,8 @@ export const deleteCVSection = async (id: number) => {
   await db.delete(cvSection).where(eq(cvSection.id, id));
   revalidatePath('/dashboard/cv');
   revalidatePath(`/${userData?.username}/cv`);
+  const res = await getCVPageData('CV');
+  return res;
 };
 
 export const deleteCollection = async (id: number) => {
