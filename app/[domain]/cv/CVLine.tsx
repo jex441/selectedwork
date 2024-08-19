@@ -16,36 +16,43 @@ export default function CVSection({
   };
 }) {
   return (
-    <section className="my-4 grid w-full gap-2">
+    <section className="my-1 grid w-full gap-2 lg:my-4">
       <div className="grid-cols grid w-full grid-cols-12 justify-between lg:gap-x-3">
         {/* Need refining for mobile: */}
-        <span className="text-darkGray col-span-4 text-xs italic lg:col-span-3 lg:text-sm">
+        <span className="col-span-4 text-xs italic text-mediumGray lg:col-span-4 lg:text-sm">
           {experience.title}
         </span>
-        <span className="text-lightGray col-span-6 text-xs font-semibold lg:col-span-3 lg:text-sm">
+        <span className="col-span-6 text-xs text-lightGray lg:col-span-4 lg:text-sm">
           {experience.organization}
         </span>
-        <span className="col-span-0 text-mediumGray hidden text-xs lg:col-span-2 lg:block lg:text-sm">
+        <span className="col-span-0 hidden text-xs text-mediumGray lg:col-span-2 lg:block lg:text-sm">
           {experience.location}
         </span>
-        <span className="text-mediumGray col-span-2 text-right text-xs lg:text-sm">
-          {experience.startDate}
-          {experience.endDate && ` - ${experience.endDate}`}
+        <span className="col-span-2 text-right text-xs text-lightGray lg:text-sm">
+          <span className="block lg:inline">{experience.startDate}</span>
+          <span>
+            <span className="hidden lg:inline">
+              {experience.endDate && ` - `}
+            </span>
+            <span className="block lg:inline">
+              {experience.endDate && `${experience.endDate}`}
+            </span>
+          </span>
         </span>
       </div>
-      <div className="text-mediumGray ml-5 hidden w-full flex-col gap-1 text-sm font-light lg:flex">
+      <div className="ml-5 hidden w-full flex-col gap-1 text-sm font-light text-lightGray lg:flex">
         {experience.bulletPoint1 && (
-          <span className="text-mediumGray text-xs lg:text-sm">
+          <span className="text-xs text-mediumGray lg:text-sm">
             · {experience.bulletPoint1}
           </span>
         )}
         {experience.bulletPoint2 && (
-          <span className="text-mediumGray text-xs lg:text-sm">
+          <span className="text-xs text-mediumGray lg:text-sm">
             · {experience.bulletPoint2}
           </span>
         )}
         {experience.bulletPoint3 && (
-          <span className="text-mediumGray text-xs lg:text-sm">
+          <span className="text-xs text-mediumGray lg:text-sm">
             · {experience.bulletPoint3}
           </span>
         )}
