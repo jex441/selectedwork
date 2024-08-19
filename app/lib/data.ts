@@ -322,7 +322,7 @@ export async function updateContactPage(
       .where(eq(users.id, userData?.id)));
 
   revalidatePath('/dashboard/contact');
-  revalidatePath(`/${userData?.username}/contact`);
+  revalidatePath(`/contact`);
   return { success: true };
 }
 
@@ -708,7 +708,7 @@ export const saveCVSections = async (
     }
   });
   revalidatePath('/dashboard/cv');
-  revalidatePath(`/${userData?.username}/cv`);
+  revalidatePath(`/cv`);
 };
 
 export type WorkState = {
@@ -986,7 +986,7 @@ export const getUserCollection = async (slug: string) => {
 
   if (result) {
     revalidatePath(`/dashboard/${result.slug}`);
-    revalidatePath(`/${user?.username}/${result.slug}`);
+    revalidatePath(`/${result.slug}`);
     const sorted = result.works.sort((a, b) => a.idx - b.idx);
 
     return { ...result, works: sorted };
@@ -1205,8 +1205,8 @@ export const updateCollection = async (
     .returning({ id: collection.id });
 
   revalidatePath(`/dashboard/collections/${slug}`);
-  revalidatePath(`/${user?.username}/${slug}`);
-  revalidatePath(`/${user?.username}`);
+  revalidatePath(`/${slug}`);
+  revalidatePath(`/`);
 
   return { success: true };
 };
