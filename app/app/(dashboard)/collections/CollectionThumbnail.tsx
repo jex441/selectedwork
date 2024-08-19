@@ -58,22 +58,19 @@ export default function CollectionThumbnail({
           <div className="relative h-40 w-full bg-gray-100">
             <Image
               fill
-              src={placeholder}
+              src={collection.works[0]?.media[0]?.url ?? placeholder}
               alt="Image 7"
               className="w-full overflow-hidden object-cover"
             />
           </div>
           <div className="bg-white p-2 dark:bg-gray-950">
             <h3 className="font-semibold">{collection.title}</h3>
-            {/* <p className="text-sm text-gray-500 dark:text-gray-400">
-              {work.medium}
-            </p> */}
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {collection.visibility}
+            </p>
             <div className="flex items-center justify-between">
-              {/* <div className="text-sm text-gray-500 dark:text-gray-400">
-                {work.year}
-              </div> */}
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                {/* {work.height} {work.width} {work.unit} */}
+                {collection.works.length} items
               </div>
             </div>
           </div>

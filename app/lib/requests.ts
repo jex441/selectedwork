@@ -33,7 +33,7 @@ export const getUserByUsername = async (username: string) => {
     .where(eq(users[key], value))
     .leftJoin(collection, eq(collection.userId, users.id));
 
-  const result = rows.reduce<IUser>((acc, row) => {
+  let result = rows.reduce<IUser>((acc, row) => {
     const user = row.users_table;
     const collection = row.collection_table;
 
@@ -47,10 +47,16 @@ export const getUserByUsername = async (username: string) => {
       collection.visibility === 'public' &&
         acc.collections.push({ ...collection, works: [] });
     }
+
     return acc;
   }, {} as IUser);
 
   if (result) {
+    const collections = result.collections;
+    const sortedCollections =
+      result.collections !== null &&
+      result.collections.sort((a, b) => a.idx - b.idx);
+    result.collections = sortedCollections || collections;
     return result;
   } else {
     return null;
@@ -268,7 +274,12 @@ export const getCollectionDataForSite = async (
     const collectionData = await db
       .select()
       .from(collection)
-      .where(eq(collection.userId, user.id));
+      .where(
+        and(
+          eq(collection.userId, user.id),
+          eq(collection.visibility, 'public'),
+        ),
+      );
 
     rows =
       user.id !== null &&
