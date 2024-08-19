@@ -16,18 +16,23 @@ export default function CVSection({
       {data &&
         data[categoryId] &&
         data[categoryId].map(
-          (experience: {
-            categoryId: string | null;
-            title: string | null;
-            organization: string | null;
-            location: string | null;
-            startDate: string | null;
-            endDate: string | null;
-            bulletPoint1: string | null;
-            bulletPoint2: string | null;
-            bulletPoint3: string | null;
-          }) => {
-            return <CVLine key={data[categoryId].id} experience={experience} />;
+          (
+            experience: {
+              categoryId: string | null;
+              title: string | null;
+              organization: string | null;
+              location: string | null;
+              startDate: string | null;
+              endDate: string | null;
+              bulletPoint1: string | null;
+              bulletPoint2: string | null;
+              bulletPoint3: string | null;
+            },
+            idx: number,
+          ) => {
+            return (
+              <CVLine key={data[categoryId].id + idx} experience={experience} />
+            );
           },
         )}
     </section>

@@ -24,7 +24,6 @@ export const getUserByUsername = async (username: string) => {
   const subdomain = username.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? username.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, '')
     : null;
-  console.log(subdomain, username);
   const key = subdomain ? 'username' : 'domain';
   const value = subdomain || username;
 
@@ -52,7 +51,6 @@ export const getUserByUsername = async (username: string) => {
   }, {} as IUser);
 
   if (result) {
-    console.log('user:', result);
     return result;
   } else {
     return null;
@@ -202,6 +200,42 @@ export const getCVPageDataForSite = async (
     }, {} as ICVPage);
 
   if (result) {
+    type Line = {
+      id: number;
+      categoryId: string | null;
+      category: string | null;
+      title: string | null;
+      organization: string | null;
+      location: string | null;
+      startDate: string | null;
+      endDate: string | null;
+      bulletPoint1: string | null;
+      bulletPoint2: string | null;
+      bulletPoint3: string | null;
+      order: string | null;
+      cvId: number;
+      bulletPoints: string[];
+    };
+    const compareFn = (a: Line, b: Line) =>
+      a.startDate !== null && b.startDate !== null && a.startDate > b.startDate
+        ? -1
+        : 0;
+    const orderedEducation = result.education.sort(compareFn);
+    const orderedGroupExhibitions = result.groupExhibitions.sort(compareFn);
+    const orderedSoloExhibitions = result.soloExhibitions.sort(compareFn);
+    const orderedAwards = result.awards.sort(compareFn);
+    const orderedResidencies = result.residencies.sort(compareFn);
+    const orderedPress = result.press.sort(compareFn);
+    const orderedTeaching = result.teaching.sort(compareFn);
+
+    result.groupExhibitions = orderedGroupExhibitions;
+    result.soloExhibitions = orderedSoloExhibitions;
+    result.awards = orderedAwards;
+    result.residencies = orderedResidencies;
+    result.press = orderedPress;
+    result.teaching = orderedTeaching;
+    result.education = orderedEducation;
+
     return {
       status: 200,
       user: { username: userData.username },

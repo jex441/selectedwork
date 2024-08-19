@@ -14,7 +14,6 @@ export default async function SiteHomePage({
   const domain = decodeURIComponent(params.domain);
 
   const res = await getCollectionDataForSite(domain, params.collection);
-  console.log('res in [collection] page', res);
 
   if (!res.data) {
     return <div>not found</div>;
