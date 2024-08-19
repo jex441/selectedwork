@@ -4,7 +4,7 @@ export interface ICollection {
   id: number;
   title: string | null;
   index: number | null;
-  idx: number | null;
+  idx: number;
   slug: string | null;
   description: string | null;
   linkSrc1: string | null;
