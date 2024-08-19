@@ -597,7 +597,45 @@ export const getCVPageData = async (title: string) => {
       }
       return acc;
     }, {} as ICVPage);
-  if (rows) return result;
+  if (result) {
+    type Line = {
+      id: number;
+      categoryId: string | null;
+      category: string | null;
+      title: string | null;
+      organization: string | null;
+      location: string | null;
+      startDate: string | null;
+      endDate: string | null;
+      bulletPoint1: string | null;
+      bulletPoint2: string | null;
+      bulletPoint3: string | null;
+      order: string | null;
+      cvId: number;
+      bulletPoints: string[];
+    };
+
+    const compareFn = (a: Line, b: Line) =>
+      a.startDate !== null && b.startDate !== null && a.startDate > b.startDate
+        ? -1
+        : 0;
+    const orderedEducation = result.education.sort(compareFn);
+    const orderedGroupExhibitions = result.groupExhibitions.sort(compareFn);
+    const orderedSoloExhibitions = result.soloExhibitions.sort(compareFn);
+    const orderedAwards = result.awards.sort(compareFn);
+    const orderedResidencies = result.residencies.sort(compareFn);
+    const orderedPress = result.press.sort(compareFn);
+    const orderedTeaching = result.teaching.sort(compareFn);
+
+    result.groupExhibitions = orderedGroupExhibitions;
+    result.soloExhibitions = orderedSoloExhibitions;
+    result.awards = orderedAwards;
+    result.residencies = orderedResidencies;
+    result.press = orderedPress;
+    result.teaching = orderedTeaching;
+    result.education = orderedEducation;
+    return result;
+  }
 };
 
 export const createCollection = async () => {

@@ -16,7 +16,7 @@ export default function CVSection({
   };
 }) {
   return (
-    <section className="my-1 grid w-full gap-2 lg:my-4">
+    <section className="my-1 grid w-full gap-2">
       <div className="grid-cols grid w-full grid-cols-12 justify-between lg:gap-x-3">
         {/* Need refining for mobile: */}
         <span className="col-span-4 text-xs italic text-mediumGray lg:col-span-4 lg:text-sm">
