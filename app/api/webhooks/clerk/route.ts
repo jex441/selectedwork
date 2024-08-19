@@ -49,8 +49,6 @@ export async function POST(req: Request) {
   }
 
   if (msg.type === 'user.created') {
-    console.log('msg.data', msg.data);
-
     const insertUser = async (user: NewUser) => {
       let userId: number;
       let res = await db.insert(users).values(user).returning({ id: users.id });

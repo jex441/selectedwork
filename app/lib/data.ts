@@ -33,6 +33,7 @@ import { ICollection } from '../interfaces/ICollection';
 import { IWork } from '../interfaces/IWork';
 import { get } from 'http';
 import { IContactPage } from '../interfaces/IContactPage';
+import { getCVPageDataForSite } from './requests';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -565,7 +566,7 @@ export const getCVPageData = async (title: string) => {
     (await db
       .select()
       .from(cv)
-      .where(and(eq(cv.title, title), eq(cv.userId, userData?.id)))
+      .where(eq(cv.userId, userData?.id))
       .leftJoin(cvSection, eq(cvSection.cvId, cv.id)));
   const result =
     rows &&
@@ -597,7 +598,45 @@ export const getCVPageData = async (title: string) => {
       }
       return acc;
     }, {} as ICVPage);
-  if (rows) return result;
+  if (result) {
+    type Line = {
+      id: number;
+      categoryId: string | null;
+      category: string | null;
+      title: string | null;
+      organization: string | null;
+      location: string | null;
+      startDate: string | null;
+      endDate: string | null;
+      bulletPoint1: string | null;
+      bulletPoint2: string | null;
+      bulletPoint3: string | null;
+      order: string | null;
+      cvId: number;
+      bulletPoints: string[];
+    };
+
+    const compareFn = (a: Line, b: Line) =>
+      a.startDate !== null && b.startDate !== null && a.startDate > b.startDate
+        ? -1
+        : 0;
+    const orderedEducation = result?.education.sort(compareFn);
+    const orderedGroupExhibitions = result?.groupExhibitions.sort(compareFn);
+    const orderedSoloExhibitions = result?.soloExhibitions.sort(compareFn);
+    const orderedAwards = result?.awards.sort(compareFn);
+    const orderedResidencies = result?.residencies.sort(compareFn);
+    const orderedPress = result?.press.sort(compareFn);
+    const orderedTeaching = result?.teaching.sort(compareFn);
+
+    result.groupExhibitions = orderedGroupExhibitions;
+    result.soloExhibitions = orderedSoloExhibitions;
+    result.awards = orderedAwards;
+    result.residencies = orderedResidencies;
+    result.press = orderedPress;
+    result.teaching = orderedTeaching;
+    result.education = orderedEducation;
+    return result;
+  }
 };
 
 export const createCollection = async () => {
@@ -635,6 +674,8 @@ export const deleteCVSection = async (id: number) => {
   await db.delete(cvSection).where(eq(cvSection.id, id));
   revalidatePath('/dashboard/cv');
   revalidatePath(`/${userData?.username}/cv`);
+  const res = await getCVPageData('CV');
+  return res;
 };
 
 export const deleteCollection = async (id: number) => {
@@ -675,6 +716,7 @@ export const saveCVSections = async (
   const userData = await user();
   const userCV =
     userData && (await db.select().from(cv).where(eq(cv.userId, userData?.id)));
+
   sections.map(async (section) => {
     if (section.id !== null) {
       await db
@@ -707,8 +749,11 @@ export const saveCVSections = async (
         }));
     }
   });
+
   revalidatePath('/dashboard/cv');
   revalidatePath(`/cv`);
+  const res = await getCVPageData('cv');
+  return res;
 };
 
 export type WorkState = {

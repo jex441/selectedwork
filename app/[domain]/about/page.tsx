@@ -17,7 +17,6 @@ export default async function About({
   // };
   const domain = decodeURIComponent(params.domain);
   const res = await getAboutPageDataForSite(domain, 'about');
-  console.log('res::', res);
   const {
     imgSrc,
     imgCaption,

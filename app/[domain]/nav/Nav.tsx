@@ -68,11 +68,10 @@ export default function Nav({
               </span>
             ) : (
               collections.map((collection) => (
-                <span>
+                <span key={collection.id}>
                   <Link
                     className="text-mediumGray hover:text-darkGray"
                     onClick={() => clickHandler()}
-                    key={collection.id}
                     href={`/${collection.slug}`}
                   >
                     {collection.title}
@@ -85,10 +84,9 @@ export default function Nav({
             >
               {collections.length > 1 &&
                 collections.map((collection) => (
-                  <span>
+                  <span key={collection.id}>
                     <Link
                       onClick={() => clickHandler()}
-                      key={collection.id}
                       href={`/${collection.slug}`}
                     >
                       {collection.title}

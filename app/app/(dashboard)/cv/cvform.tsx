@@ -59,6 +59,7 @@ export default function Component({ data }: { data: ICVPage }) {
       },
     ]);
   };
+
   const handleDeleteWorkExperience = async (
     index: number,
     id: number | null,
@@ -67,17 +68,20 @@ export default function Component({ data }: { data: ICVPage }) {
     updatedWorkExperience.splice(index, 1);
     setWorkExperience(updatedWorkExperience);
     if (id) {
-      await deleteCVSection(id);
+      const res = await deleteCVSection(id);
+      res && setWorkExperience(res[selectedSection]);
     }
   };
+
   const handleUpdateWorkExperience = (
     index: number,
     field: string,
     value: string,
+    id: number | null,
   ) => {
     const updatedWorkExperience = workExperience.map((exp, idx) => {
       if (idx === index) {
-        return { ...exp, [field]: value, unsaved: true };
+        return { ...exp, id: id, [field]: value, unsaved: true };
       } else {
         return exp;
       }
@@ -126,7 +130,8 @@ export default function Component({ data }: { data: ICVPage }) {
     const data = workExperience.filter(
       (experience) => experience.unsaved === true,
     );
-    await saveCVSections(data);
+    const res = await saveCVSections(data);
+    res && setWorkExperience(res[selectedSection]);
   };
 
   return (
@@ -175,6 +180,7 @@ export default function Component({ data }: { data: ICVPage }) {
                           index,
                           'title',
                           e.target.value,
+                          experience.id,
                         )
                       }
                       className="w-1/4"
@@ -187,6 +193,7 @@ export default function Component({ data }: { data: ICVPage }) {
                           index,
                           'organization',
                           e.target.value,
+                          experience.id,
                         )
                       }
                       className="w-1/4"
@@ -199,6 +206,7 @@ export default function Component({ data }: { data: ICVPage }) {
                           index,
                           'location',
                           e.target.value,
+                          experience.id,
                         )
                       }
                       className="w-1/4"
@@ -210,6 +218,7 @@ export default function Component({ data }: { data: ICVPage }) {
                           index,
                           'startDate',
                           e.target.value,
+                          experience.id,
                         )
                       }
                       className="w-1/4"
@@ -222,6 +231,7 @@ export default function Component({ data }: { data: ICVPage }) {
                           index,
                           'endDate',
                           e.target.value,
+                          experience.id,
                         )
                       }
                       className="w-1/4"
