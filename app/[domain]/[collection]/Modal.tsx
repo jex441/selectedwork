@@ -27,6 +27,9 @@ export default function Modal({
   };
   const [current, setCurrent] = useState<number>(index);
   const [work, setWork] = useState<IWork>(data);
+  const [src, setSrc] = useState<string>(
+    work.media.find((m) => m.main === 'true')?.url || '',
+  );
   const units = { inches: 'in', cm: 'cm', ft: 'ft', m: 'm' };
   const key: string = work?.unit ?? 'inches';
   const unit = units[key as keyof typeof units];
@@ -70,23 +73,23 @@ export default function Modal({
               sizes="100vw"
               alt="work"
               className="animDelay fade-in-up-simple w-full object-contain lg:max-h-[600px] lg:w-4/5"
-              src={work.media[0].url ?? ''}
+              src={src}
             />
           </div>
 
           <div className="fade-in-right-simple flex w-full flex-col gap-1 px-1 pt-5 lg:mx-auto lg:w-1/4 lg:pt-0">
-            <p className="text-darkGray text-lg">{artist}</p>
+            <p className="text-lg text-darkGray">{artist}</p>
             <span className="mb-2 flex w-full items-center justify-between">
-              <span className="text-lightGray flex items-center text-xl font-light italic">
+              <span className="flex items-center text-xl font-light italic text-lightGray">
                 {work.title}
                 {work.sold === 'true' && (
                   <span className="mx-4 inline-block h-2 w-2 rounded-lg bg-red-400"></span>
                 )}
               </span>
             </span>
-            <p className="text-lightGray text-sm">{work.year}</p>
-            <p className="text-lightGray text-sm">{work.medium}</p>
-            <div className="text-mediumGray text-sm">
+            <p className="text-sm text-lightGray">{work.year}</p>
+            <p className="text-sm text-lightGray">{work.medium}</p>
+            <div className="text-sm text-mediumGray">
               <span className="">{work.height && `${work.height}`}</span>
               <span className="text-lightGray"> x </span>
               <span className="">{work.width && work.width}</span>
@@ -96,19 +99,35 @@ export default function Modal({
                   `${work.depth}`
                 </span>
               )}
-              <span className="text-lightGray text-xs">
+              <span className="text-xs text-lightGray">
                 {work.unit && ` ${unit}`}
               </span>
             </div>
-            <p className="text-mediumGray my-2 text-xs leading-7 ">
+            <p className="my-2 text-xs leading-7 text-mediumGray ">
               {work.description}
             </p>
-            <p className="text-mediumGray text-sm italic leading-7">
+            <p className="text-sm italic leading-7 text-mediumGray">
               {work.location}
             </p>
             <p className="text-gray-primary font-light leading-7">
               {work.price && `$ ${work.price}`}
             </p>
+            <div className="flex gap-2">
+              {data.media.length > 1 &&
+                data.media.map(
+                  (m) =>
+                    m.url && (
+                      <Image
+                        onClick={() => m.url && setSrc(m.url)}
+                        alt={data.title ?? 'Artwork'}
+                        src={m.url}
+                        height={35}
+                        width={35}
+                        className={`cursor-pointer border-2 ${src === m.url ? 'border-darkGray' : 'border-transparent'} hover:border-darkGray`}
+                      />
+                    ),
+                )}
+            </div>
           </div>
           <Image
             src={next}

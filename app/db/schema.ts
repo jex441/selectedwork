@@ -188,6 +188,7 @@ export const work = pgTable('work_table', {
 
 export const media = pgTable('media_table', {
   id: serial('id').primaryKey(),
+  idx: serial('idx'),
   workId: integer('work_id')
     .notNull()
     .references(() => work.id, { onDelete: 'cascade' }),

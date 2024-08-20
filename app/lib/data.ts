@@ -900,6 +900,10 @@ export const createWork = async (id: number, formData: FormData) => {
       })
       .where(eq(work.id, id)));
 
+  revalidatePath(`/dashboard/collections/${collection.slug}`);
+  revalidatePath(`/${collection.slug}`);
+  revalidatePath('/');
+
   return validatedFields.data;
 };
 
@@ -962,7 +966,8 @@ export const addMedia = async (
     .returning({ id: media.id });
   revalidatePath(`/dashboard/collections/${slug}/piece/${id}`);
   revalidatePath(`/dashboard/collections/${slug}/new`);
-
+  revalidatePath(`/${slug}`);
+  revalidatePath('/');
   return newMediaEntry[0];
 };
 
@@ -989,10 +994,14 @@ export const makeMainMedia = async (
   mediaId: number,
   slug: string,
 ) => {
+  // need drag and drop reorder for thumbnails
+  // need idx property on media, fetch them in order
   await db.update(media).set({ main: 'false' }).where(eq(media.workId, workId));
   await db.update(media).set({ main: 'true' }).where(eq(media.id, mediaId));
   revalidatePath(`/dashboard/collections/${slug}/piece/${workId}`);
   revalidatePath(`/dashboard/collections/${slug}/new`);
+  revalidatePath(`/${slug}`);
+  revalidatePath('/');
 };
 
 export const getUserCollection = async (slug: string) => {
