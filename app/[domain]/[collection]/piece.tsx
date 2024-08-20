@@ -20,7 +20,9 @@ export default function Piece({
   const [isVisible, setVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
   const domRef = useRef<HTMLElement | null>(null);
-
+  const [src, setSrc] = useState<string>(
+    data.media.find((m) => m.main === 'true')?.url || '',
+  );
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -68,11 +70,11 @@ export default function Piece({
           alt="work"
           sizes="100vw"
           className="max-h-[620px] w-full self-center object-contain lg:h-[260px] lg:max-w-[260px]"
-          src={data.media[0].url ?? ''}
+          src={src}
         />
         <div className="flex w-full self-start self-end text-xs tracking-wide lg:mt-0 lg:w-auto">
-          <span className="text-mediumGray uppercase italic">{data.title}</span>
-          <span className="text-lightGray ml-3">
+          <span className="uppercase italic text-mediumGray">{data.title}</span>
+          <span className="ml-3 text-lightGray">
             {data.year && `${data.year}`}
           </span>
         </div>

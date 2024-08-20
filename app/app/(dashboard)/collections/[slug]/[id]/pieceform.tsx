@@ -8,6 +8,7 @@ import Link from 'next/link';
 import placeholder from '../../../../../assets/placeholder.png';
 import { UploadButton } from '../../../../../lib/uploadthing';
 
+import { toast } from 'react-hot-toast';
 import {
   Select,
   SelectTrigger,
@@ -46,10 +47,16 @@ export default function PieceForm({
 
   const addMediaHandler = async (id: number, url: string) => {
     const newMedia = { url: url, type: 'image', main: 'false' };
-    await addMedia(id, newMedia, slug);
+    await addMedia(id, newMedia, slug).then((res) => {
+      toast.success('Upload Complete!');
+    });
   };
+
   const makeMainMediaHandler = async (workId: number, mediaId: number) => {
-    work.collectionId && (await makeMainMedia(workId, mediaId, slug));
+    work.collectionId &&
+      (await makeMainMedia(workId, mediaId, slug).then((res) => {
+        toast.success('Main Image Updated!');
+      }));
   };
 
   const deleteWorkHandler = async (workId: number, collectionId: number) => {
@@ -57,7 +64,10 @@ export default function PieceForm({
   };
 
   const deleteMediaHandler = async (mediaId: number) => {
-    work && (await deleteMedia(mediaId, slug));
+    work &&
+      (await deleteMedia(mediaId, slug).then((res) => {
+        toast.success('Media Deleted!');
+      }));
   };
 
   const mainMedia = work.media.filter((m) => m.main === 'true');
@@ -65,19 +75,20 @@ export default function PieceForm({
   return (
     <form
       action={createWorkWithId || ''}
-      className="lg:gap-2.52 mx-auto grid h-full max-w-6xl items-center gap-6 py-6 md:grid-cols-2"
+      className="mx-auto grid  max-w-6xl items-center  justify-start gap-6 py-10 md:grid-cols-2"
     >
-      <div className="flex flex-col items-center">
-        <Link href="/collections/piece/scale">
-          <Image
-            src={mainMedia[0]?.url ?? placeholder}
-            alt="Product Image"
-            width={500}
-            height={300}
-            className="border border-gray-200 dark:border-gray-800"
-          />
-        </Link>
-        <div className="m-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
+      <div className="relative flex h-[550px] flex-col items-center">
+        {/* <Link href="/collections/piece/scale"> */}
+        <Image
+          src={mainMedia[0]?.url ?? placeholder}
+          alt="Product Image"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="max-h-[620px] w-full self-center object-contain lg:h-[400px] lg:max-w-[500px]"
+        />
+        {/* </Link> */}
+        <div className="my-4 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
           {work?.media
             .filter((w) => w.main === 'false')
             .map((media, index) => (
@@ -123,7 +134,7 @@ export default function PieceForm({
         />
       </div>
 
-      <div className="mx-auto grid w-5/6 gap-2 px-2 py-8">
+      <div className="mx-auto grid h-[550px] w-5/6 gap-2">
         <div className="grid gap-2">
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2.5">
@@ -222,7 +233,7 @@ export default function PieceForm({
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2.5">
-              <Label htmlFor="price">Price</Label>
+              <Label htmlFor="price">Price in USD</Label>
               <Input
                 name="price"
                 type="number"
@@ -232,7 +243,7 @@ export default function PieceForm({
             </div>
             <div className="grid gap-2.5">
               <Label htmlFor="sold">Mark as Sold</Label>
-              <Checkbox name="sold" />
+              <Checkbox name="sold" defaultChecked={work.sold === 'true'} />
             </div>
           </div>
 

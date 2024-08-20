@@ -16,7 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-
+import { Toaster } from 'react-hot-toast';
 import { UserButton } from '@clerk/nextjs';
 import { getUserData } from '@/app/lib/data';
 
@@ -29,6 +29,7 @@ export default async function Layout({
 
   return (
     <div className="flex min-h-screen w-full flex-row">
+      <Toaster position="top-right" />
       <div className="border-r bg-gray-100/40 dark:bg-gray-800/40">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-[60px] items-center border-b px-6">
