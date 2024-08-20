@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 
 import { IWork } from '@/app/interfaces/IWork';
 import close from '/public/close.png';
-import { set } from 'zod';
 import next from '@/public/next.png';
 import previous from '@/public/previous.png';
 
@@ -129,9 +128,9 @@ export default function Modal({
             <p className="text-gray-primary my-1 leading-7 text-lightGray">
               {work.price && `$ ${work.price}`}
             </p>
-            <div className="mt-2 flex hidden gap-2 lg:block">
-              {data.media.length > 1 &&
-                data.media.map(
+            {data.media.length > 1 && (
+              <div className="mt-2 hidden w-full flex-row gap-2 lg:flex">
+                {data.media.map(
                   (m) =>
                     m.url && (
                       <Image
@@ -144,7 +143,8 @@ export default function Modal({
                       />
                     ),
                 )}
-            </div>
+              </div>
+            )}
           </div>
           <Image
             src={next}
