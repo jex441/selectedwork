@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 import { IWork } from '@/app/interfaces/IWork';
@@ -44,6 +44,10 @@ export default function Modal({
     }
   };
 
+  useEffect(() => {
+    setSrc(work.media.find((m) => m.main === 'true')?.url || '');
+  }, [work]);
+
   return (
     <>
       <div className="fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
@@ -77,9 +81,9 @@ export default function Modal({
           </div>
 
           <div className="fade-in-right-simple flex w-full flex-col gap-1 px-1 pt-5 lg:mx-auto lg:w-1/4 lg:pt-0">
-            {data.media.length > 1 && (
+            {work.media.length > 1 && (
               <div className="my-2 block flex gap-2 lg:hidden">
-                {data.media.map(
+                {work.media.map(
                   (m) =>
                     m.url && (
                       <Image
