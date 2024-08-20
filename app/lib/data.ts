@@ -900,11 +900,10 @@ export const createWork = async (id: number, formData: FormData) => {
       })
       .where(eq(work.id, id)));
 
-  revalidatePath(`/dashboard/collections/${collection.slug}`);
+  revalidatePath(`/collections/${collection.slug}`);
   revalidatePath(`/${collection.slug}`);
   revalidatePath('/');
-
-  return validatedFields.data;
+  // redirect(`/collections/${userCollectionData[0].slug}`);
 };
 
 export const createWorkWithMedia = async (

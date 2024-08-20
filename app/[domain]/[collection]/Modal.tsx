@@ -66,18 +66,35 @@ export default function Modal({
             onClick={() => navigateHandler('previous')}
             className="hidden cursor-pointer opacity-50 hover:opacity-100 lg:block"
           />
-          <div className="relative flex max-h-[600px] w-full items-center justify-center lg:w-2/3">
+          <div className="relative flex max-h-[520px] w-full items-center justify-center lg:w-2/3">
             <Image
               height={0}
               width={0}
               sizes="100vw"
               alt="work"
-              className="animDelay fade-in-up-simple w-full object-contain lg:max-h-[600px] lg:w-4/5"
+              className="animDelay fade-in-up-simple h-full w-auto object-contain lg:max-h-[600px] lg:w-4/5"
               src={src}
             />
           </div>
 
           <div className="fade-in-right-simple flex w-full flex-col gap-1 px-1 pt-5 lg:mx-auto lg:w-1/4 lg:pt-0">
+            {data.media.length > 1 && (
+              <div className="my-2 block flex gap-2 lg:hidden">
+                {data.media.map(
+                  (m) =>
+                    m.url && (
+                      <Image
+                        onClick={() => m.url && setSrc(m.url)}
+                        alt={data.title ?? 'Artwork'}
+                        src={m.url}
+                        height={35}
+                        width={35}
+                        className={`cursor-pointer border-2 ${src === m.url ? 'border-darkGray' : 'border-transparent'} hover:border-darkGray`}
+                      />
+                    ),
+                )}
+              </div>
+            )}
             <p className="text-lg text-darkGray">{artist}</p>
             <span className="mb-2 flex w-full items-center justify-between">
               <span className="flex items-center text-xl font-light italic text-lightGray">
@@ -109,10 +126,10 @@ export default function Modal({
             <p className="text-sm italic leading-7 text-mediumGray">
               {work.location}
             </p>
-            <p className="text-gray-primary font-light leading-7">
+            <p className="text-gray-primary my-1 leading-7 text-lightGray">
               {work.price && `$ ${work.price}`}
             </p>
-            <div className="flex gap-2">
+            <div className="mt-2 flex hidden gap-2 lg:block">
               {data.media.length > 1 &&
                 data.media.map(
                   (m) =>
