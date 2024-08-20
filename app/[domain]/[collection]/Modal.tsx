@@ -128,9 +128,9 @@ export default function Modal({
             <p className="text-gray-primary my-1 leading-7 text-lightGray">
               {work.price && `$ ${work.price}`}
             </p>
-            {data.media.length > 1 && (
+            {work.media.length > 1 && (
               <div className="mt-2 hidden w-full flex-row gap-2 lg:flex">
-                {data.media.map(
+                {work.media.map(
                   (m) =>
                     m.url && (
                       <Image
