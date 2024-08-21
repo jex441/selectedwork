@@ -38,7 +38,7 @@ export default async function SiteHomePage({
   }
   return (
     <main className="flex w-full flex-wrap justify-center">
-      <section className="fade-in-up-simple flex flex-col justify-center lg:w-4/5 lg:flex-row lg:gap-10">
+      <section className="flex flex-col justify-center lg:w-4/5 lg:flex-row lg:gap-10">
         {imgSrc && (
           <>
             <div className="mx-1 flex flex-col lg:m-5 lg:mx-0 lg:h-[400px] lg:w-1/2 lg:w-[500px]">
