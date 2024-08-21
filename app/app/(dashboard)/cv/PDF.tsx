@@ -46,11 +46,6 @@ export default function Component({ data }: { data: any }) {
             <div className="flex items-center">
               <label htmlFor="cv-upload">
                 <UploadButton
-                  config={{
-                    maxFileSize: '4MB',
-                    accept: '.pdf',
-                    multiple: false,
-                  }}
                   className="self-start"
                   endpoint="pdfUploader"
                   onClientUploadComplete={(res: { url: string }[]) => {
