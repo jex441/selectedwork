@@ -29,6 +29,13 @@ export const ourFileRouter = {
       // return { uploadedBy: metadata.userId };
       return { url: file.url };
     }),
+  pdfUploader: f({ pdf: { maxFileSize: '4MB' } })
+    .middleware(async ({ req }) => {
+      return { userId: 'na' };
+    })
+    .onUploadComplete(async ({ metadata, file }) => {
+      return { url: file.url };
+    }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

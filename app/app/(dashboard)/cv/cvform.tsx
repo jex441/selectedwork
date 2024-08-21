@@ -23,6 +23,7 @@ import {
 import { ICVPage } from '../../../interfaces/ICVPage';
 import { set } from 'zod';
 
+import PDF from './PDF';
 export default function Component({ data }: { data: ICVPage }) {
   const [selectedSection, setSelectedSection] = useState('education');
   const [workExperience, setWorkExperience] = useState<
@@ -39,9 +40,11 @@ export default function Component({ data }: { data: ICVPage }) {
       bulletPoints: string[];
     }[]
   >(data[selectedSection]);
+
   useEffect(() => {
     setWorkExperience(data[selectedSection]);
   }, [selectedSection]);
+
   const handleAddWorkExperience = () => {
     setWorkExperience([
       ...workExperience,
@@ -164,6 +167,7 @@ export default function Component({ data }: { data: ICVPage }) {
               <Button onClick={handleAddWorkExperience}>
                 Add Work Experience
               </Button>
+              <PDF data={data} />
               <Button onClick={handleSaveSection}>Save</Button>
             </div>
             <div className="space-y-4">

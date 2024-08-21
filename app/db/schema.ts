@@ -105,6 +105,8 @@ export const cv = pgTable('cv_table', {
   subheading: text('subheading'),
   imgSrc: text('imgSrc'),
   imgCaption: text('imgCaption'),
+  pdf: text('pdf'),
+  pdfName: text('pdfName'),
   userId: integer('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
