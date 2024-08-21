@@ -22,6 +22,8 @@ import {
 } from '../../../lib/data';
 import { ICVPage } from '../../../interfaces/ICVPage';
 import { set } from 'zod';
+import { UploadButton } from '@uploadthing/react';
+import { addCVPDF } from '@/app/lib/data';
 
 export default function Component({ data }: { data: ICVPage }) {
   const [selectedSection, setSelectedSection] = useState('education');
@@ -39,9 +41,15 @@ export default function Component({ data }: { data: ICVPage }) {
       bulletPoints: string[];
     }[]
   >(data[selectedSection]);
+
+  const addCVPDFHandler = async (url: string) => {
+    const res = await addCVPDF(url as string);
+  };
+
   useEffect(() => {
     setWorkExperience(data[selectedSection]);
   }, [selectedSection]);
+
   const handleAddWorkExperience = () => {
     setWorkExperience([
       ...workExperience,
@@ -164,6 +172,16 @@ export default function Component({ data }: { data: ICVPage }) {
               <Button onClick={handleAddWorkExperience}>
                 Add Work Experience
               </Button>
+              <UploadButton
+                className="self-start"
+                endpoint="pdfUploader"
+                onClientUploadComplete={(res: { url: string }[]) => {
+                  addCVPDFHandler(res[0].url);
+                }}
+                onUploadError={(error: Error) => {
+                  alert(`ERROR! ${error.message}`);
+                }}
+              />
               <Button onClick={handleSaveSection}>Save</Button>
             </div>
             <div className="space-y-4">

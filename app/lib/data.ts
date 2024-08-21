@@ -699,6 +699,34 @@ export const deleteCVSectionBulletPoint = async (
     .where(eq(cvSection.id, id));
 };
 
+export const addCVPDF = async (url: string) => {
+  const userData = await user();
+  const newCVPDF =
+    userData &&
+    (await db
+      .update(cv)
+      .set({
+        pdf: url,
+      })
+      .where(eq(cv.userId, userData?.id)));
+
+  revalidatePath('/cv');
+};
+
+export const removeCVPDF = async () => {
+  const userData = await user();
+  const newCVPDF =
+    userData &&
+    (await db
+      .update(cv)
+      .set({
+        pdf: null,
+      })
+      .where(eq(cv.userId, userData?.id)));
+
+  revalidatePath('/cv');
+};
+
 export const saveCVSections = async (
   sections: {
     unsaved: boolean;
