@@ -31,7 +31,6 @@ export const ourFileRouter = {
     }),
   pdfUploader: f({ pdf: { maxFileSize: '4MB' } })
     .middleware(async ({ req }) => {
-      console.log('req', req);
       return { userId: 'na' };
     })
     .onUploadComplete(async ({ metadata, file }) => {

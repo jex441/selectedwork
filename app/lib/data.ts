@@ -707,6 +707,7 @@ export const addCVPDF = async (url: string) => {
       .update(cv)
       .set({
         pdf: url,
+        pdfName: 'cv.pdf',
       })
       .where(eq(cv.userId, userData?.id)));
 
@@ -721,6 +722,7 @@ export const removeCVPDF = async () => {
       .update(cv)
       .set({
         pdf: null,
+        pdfName: null,
       })
       .where(eq(cv.userId, userData?.id)));
 
