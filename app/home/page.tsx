@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-
+import Onboard from './OnBoard';
 export default function page() {
   return (
     <div className="flex min-h-[100dvh] flex-col">
@@ -25,31 +25,16 @@ export default function page() {
           </Link>
         </div>
       </header>
-      <main className="flex flex-1 flex-col items-center justify-center px-4 py-12 text-center md:px-6 md:py-24 lg:py-32">
-        <div className="max-w-3xl space-y-4">
+      <main className="flex flex-1 flex-col items-center px-4 py-12 text-center md:px-6 ">
+        {/* <div className="max-w-3xl space-y-4">
           <h1 className="text-2xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Selected Work
           </h1>
           <p className="text-muted-foreground md:text-xl">
             A platform for showcasing your best work.
           </p>
-          <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-            <Link
-              href="/sign-up"
-              className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-              prefetch={false}
-            >
-              Get Started
-            </Link>
-            <a
-              href={`http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
-              className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-              // prefetch={false}
-            >
-              Dashboard
-            </a>
-          </div>
-        </div>
+        </div> */}
+        <Onboard />
       </main>
       <footer className="flex w-full shrink-0 flex-col items-center gap-2 border-t px-4 py-6 sm:flex-row md:px-6">
         <p className="text-xs text-muted-foreground">

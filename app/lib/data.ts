@@ -906,6 +906,80 @@ export const createWork = async (id: number, formData: FormData) => {
   // redirect(`/collections/${userCollectionData[0].slug}`);
 };
 
+//
+
+export const createCollectionWithMedia = async (
+  urls: string[],
+  userId: number | null,
+): Promise<{ id: number }> => {
+  let user: { id: number }[] | null = null;
+
+  if (userId === null) {
+    const id = Date.now();
+    user = await db
+      .insert(users)
+      .values({
+        username: 'newuser' + id,
+        firstName: 'new' + id,
+        lastName: 'user' + id,
+        email: 'na' + id,
+        plan: 'free' + id,
+        displayName: 'new user' + id,
+        authId: 'na' + id,
+      })
+      .returning({ id: users.id });
+    userId = user[0].id;
+  }
+
+  const userCollectionData =
+    userId !== null &&
+    (await db
+      .insert(collection)
+      .values({
+        title: 'Selected Work',
+        slug: 'work',
+        userId: userId,
+        template: 'G1',
+        visibility: 'public',
+      })
+      .returning({ id: collection.id }));
+
+  urls.length &&
+    urls.map(async (u) => {
+      const newWorkEntry =
+        userCollectionData &&
+        userCollectionData[0].id !== null &&
+        userId !== null &&
+        (await db
+          .insert(work)
+          .values({
+            collectionId: userCollectionData[0].id,
+          })
+          .returning());
+
+      const newMediaEntry =
+        newWorkEntry &&
+        newWorkEntry[0].id !== null &&
+        urls.length &&
+        (await db.insert(media).values({
+          workId: newWorkEntry[0].id,
+          url: u,
+          main: 'true',
+          type: 'image',
+        }));
+    });
+
+  return { id: userId };
+};
+//
+export const checkUsername = async (username: string) => {
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.username, username));
+  if (user[0]?.id) return true;
+  else return false;
+};
 export const createWorkWithMedia = async (
   slug: string,
   newMedia: { url: string; main: string; type: string },
