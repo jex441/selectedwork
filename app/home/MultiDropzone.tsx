@@ -12,6 +12,7 @@ export default function MultiDropzone({
   urls,
   formDataFiles,
   handleFileChange,
+  name = 'images',
 }: {
   formDataFiles: File[];
   userId: number | null;
@@ -21,12 +22,13 @@ export default function MultiDropzone({
     userId: number | null,
   ) => void;
   urls: string[];
+  name: string;
 }) {
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<File[]>(formDataFiles);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    handleFileChange(acceptedFiles);
+    handleFileChange(acceptedFiles, name);
     // startUpload(acceptedFiles);
   }, []);
 
@@ -59,21 +61,24 @@ export default function MultiDropzone({
   return (
     <div className="relative h-5/6" {...getRootProps()}>
       <input {...getInputProps()} name="images" />
-      <div className="flex h-full rounded-md border-2 border-dashed border-gray-300 text-sm text-lightGray">
+      <div className="flex h-full rounded-md  border-dashed border-gray-200 text-sm text-lightGray">
         {formDataFiles.length > 0 && (
           <div className="grid grid-cols-3 gap-2">
             {Array.from(formDataFiles).map((file, index) => (
-              <img
-                key={index}
-                src={URL.createObjectURL(file)}
-                alt={`Uploaded ${index + 1}`}
-                className="h-30 w-30 m-2 rounded object-cover"
-              />
+              <div className="flex flex-col">
+                <img
+                  key={index}
+                  src={URL.createObjectURL(file)}
+                  alt={`Uploaded ${index + 1}`}
+                  className="h-30 w-30 m-2 rounded object-cover"
+                />
+                <div className="flex flex-col gap-2">{file.name}</div>
+              </div>
             ))}
           </div>
         )}
         {!files.length && (
-          <div className="mx-auto self-center">
+          <div className="absolute left-[250px] top-[200px] mx-auto self-center">
             {loading
               ? `Uploading ${files.length} files...`
               : 'Drop a few images of your work here to get started'}

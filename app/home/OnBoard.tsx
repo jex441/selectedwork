@@ -30,7 +30,7 @@ export default function Component() {
     images: File[];
     name: string;
     username: string;
-    photo: string;
+    photo: File[];
     bio: string;
     instagram: string;
     email: string;
@@ -38,7 +38,7 @@ export default function Component() {
     images: [],
     name: '',
     username: '',
-    photo: '',
+    photo: [],
     bio: '',
     instagram: '',
     email: '',
@@ -93,7 +93,10 @@ export default function Component() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (files: File[]) => {
+  const handleFileChange = (files: File[], name: string) => {
+    if (name === 'photo') {
+      setFormData((prev) => ({ ...prev, photo: files }));
+    }
     setFormData((prev) => ({ ...prev, images: [...prev.images, ...files] }));
   };
 
@@ -120,41 +123,26 @@ export default function Component() {
               handleFileChange={handleFileChange}
               userId={userId}
               urls={urls}
+              name="images"
             />
           </section>
         );
       case 2:
         return (
           <>
-            <main className=" flex h-5/6 flex-col gap-4 bg-red-100">
+            <main className=" flex h-5/6 flex-col gap-4">
               <div className="flex w-full flex-row gap-4">
                 <div className="relative h-[180px] w-1/2">
-                  <Label>Your photo</Label>
-                  {formData.photo ? (
-                    <Image
-                      src={formData.photo}
-                      alt="Profile"
-                      height={0}
-                      width={0}
-                      sizes="100vw"
-                      className="h-full w-full object-contain"
-                    />
-                  ) : (
-                    <UploadDropzone
-                      config={{ mode: 'auto' }}
-                      endpoint="imageUploader"
-                      onClientUploadComplete={(res) => {
-                        if (typeof res[0].url === 'string')
-                          setFormData((prev) => ({
-                            ...prev,
-                            photo: res[0].url,
-                          }));
-                      }}
-                      onUploadError={(error: Error) => {
-                        alert(`ERROR! ${error.message}`);
-                      }}
-                    />
-                  )}
+                  <MultiDropzone
+                    formDataFiles={formData.images}
+                    createCollectionWithMediaHandler={
+                      createCollectionWithMediaHandler
+                    }
+                    handleFileChange={handleFileChange}
+                    userId={userId}
+                    urls={urls}
+                    name="photo"
+                  />
                 </div>
                 <div className="flex w-1/2 flex-col">
                   <span>
@@ -190,61 +178,54 @@ export default function Component() {
                   <span className="my-1 block flex h-4 w-full justify-start text-sm text-red-400">
                     {invalidUsername && 'Username not available'}
                   </span>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="you@example.com"
+                      />
+                    </div>
+                    <div className="h-40">
+                      <Label htmlFor="bio">Brief Bio</Label>
+                      <Textarea
+                        id="bio"
+                        name="bio"
+                        value={formData.bio}
+                        className="h-full"
+                        onChange={handleInputChange}
+                        placeholder="Something about yourself or your work"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="instagram">Instagram Handle</Label>
+                      <Input
+                        id="instagram"
+                        name="instagram"
+                        value={formData.instagram}
+                        onChange={handleInputChange}
+                        placeholder="@yourusername"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </main>
           </>
         );
       case 3:
-        return (
-          <>
-            <CardContent className="h-5/6">
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="instagram">Instagram Handle</Label>
-                  <Input
-                    id="instagram"
-                    name="instagram"
-                    value={formData.instagram}
-                    onChange={handleInputChange}
-                    placeholder="@yourusername"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="email">Contact Email</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="you@example.com"
-                  />
-                </div>
-                <div className="h-40">
-                  <Label htmlFor="bio">Brief Bio</Label>
-                  <Textarea
-                    id="bio"
-                    name="bio"
-                    value={formData.bio}
-                    className="h-full"
-                    onChange={handleInputChange}
-                    placeholder="Something about yourself or your work"
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </>
-        );
-      case 4:
         return <Success />;
     }
   };
 
   return (
-    <main className="mx-auto h-[550px] w-2/3 ">
+    <main className="mx-auto w-2/3 bg-white">
       {renderStep()}
-      <div className="flex justify-between">
+      <div className="mt-2 flex justify-between p-4">
         {step > 1 && (
           <Button onClick={handlePrev} variant="outline">
             Previous
