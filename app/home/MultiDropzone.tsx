@@ -10,8 +10,12 @@ export default function MultiDropzone({
   userId,
   createCollectionWithMediaHandler,
   urls,
+  formDataFiles,
+  handleFileChange,
 }: {
+  formDataFiles: File[];
   userId: number | null;
+  handleFileChange: (urls: File[]) => void;
   createCollectionWithMediaHandler: (
     urls: string[],
     userId: number | null,
@@ -19,11 +23,11 @@ export default function MultiDropzone({
   urls: string[];
 }) {
   const [loading, setLoading] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<File[]>(formDataFiles);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles(acceptedFiles);
-    startUpload(acceptedFiles);
+    handleFileChange(acceptedFiles);
+    // startUpload(acceptedFiles);
   }, []);
 
   const { startUpload, permittedFileInfo } = useUploadThing('imageUploader', {
@@ -51,32 +55,28 @@ export default function MultiDropzone({
     onDrop,
     accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
   });
-
+  console.log('files', files);
   return (
-    <div className="relative" {...getRootProps()}>
-      <input {...getInputProps()} />
-      <div className="flex h-48 rounded-md border-2 border-dashed border-gray-300 text-sm text-lightGray">
-        {urls &&
-          urls.map((url) => (
-            <div
-              className="relative m-2 h-20 w-20 gap-2 rounded-md rounded-md border-2 border-lightGray"
-              key={url}
-            >
-              <Image
-                alt="New artwork"
-                height={0}
-                width={0}
-                sizes="100vw"
-                className="h-full w-full object-cover"
-                src={url}
+    <div className="relative h-5/6" {...getRootProps()}>
+      <input {...getInputProps()} name="images" />
+      <div className="flex h-full rounded-md border-2 border-dashed border-gray-300 text-sm text-lightGray">
+        {formDataFiles.length > 0 && (
+          <div className="grid grid-cols-3 gap-2">
+            {Array.from(formDataFiles).map((file, index) => (
+              <img
+                key={index}
+                src={URL.createObjectURL(file)}
+                alt={`Uploaded ${index + 1}`}
+                className="h-30 w-30 m-2 rounded object-cover"
               />
-            </div>
-          ))}
-        {!urls.length && (
+            ))}
+          </div>
+        )}
+        {!files.length && (
           <div className="mx-auto self-center">
             {loading
               ? `Uploading ${files.length} files...`
-              : 'Drop a few images of your work here (max 8)'}
+              : 'Drop a few images of your work here to get started'}
           </div>
         )}
       </div>

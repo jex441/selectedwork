@@ -980,6 +980,59 @@ export const checkUsername = async (username: string) => {
   if (user[0]?.id) return true;
   else return false;
 };
+
+export const onboardUser = async (formData: FormData) => {
+  const userId = formData.get('id');
+  const displayName = formData.get('displayName');
+  const username = formData.get('username');
+  const aboutText = formData.get('aboutText');
+  const instagram = formData.get('instagram');
+  const email = formData.get('email');
+
+  const user =
+    displayName !== null &&
+    username !== null &&
+    (await db
+      .update(users)
+      .set({
+        displayName: displayName,
+        username: username,
+        email: email,
+        instagram: instagram,
+      })
+      .where(eq(users.id, formData.get('id'))));
+
+  const aboutPage =
+    aboutText !== null &&
+    (await db
+      .insert(about)
+      .values({
+        template: 'a1',
+        text: aboutText,
+        userId: userId,
+      })
+      .returning({ id: about.id }));
+
+  const contactPage =
+    instagram !== null &&
+    (await db
+      .insert(contact)
+      .values({
+        template: 'c1',
+        instagram: instagram,
+        userId: userId,
+      })
+      .returning({ id: contact.id }));
+
+  const cvPage = await db
+    .insert(cv)
+    .values({
+      template: 'r1',
+      userId: userId,
+    })
+    .returning({ id: cv.id });
+};
+
 export const createWorkWithMedia = async (
   slug: string,
   newMedia: { url: string; main: string; type: string },

@@ -15,17 +15,26 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { ImagePlus, User, Instagram, Mail } from 'lucide-react';
-import { createCollectionWithMedia } from '../lib/data';
+import { createCollectionWithMedia, onboardUser } from '../lib/data';
 import { set } from 'zod';
 import MultiDropzone from './MultiDropzone';
 import { checkUsername } from '../lib/data';
+import Success from './Success';
 
 export default function Component() {
   const [step, setStep] = useState(1);
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [userId, setUserId] = useState<number | null>(null);
   const [urls, setUrls] = useState<string[]>([]);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    images: File[];
+    name: string;
+    username: string;
+    photo: string;
+    bio: string;
+    instagram: string;
+    email: string;
+  }>({
     images: [],
     name: '',
     username: '',
@@ -57,187 +66,139 @@ export default function Component() {
     newUrls: string[],
     userId: number | null,
   ) => {
-    const res = await createCollectionWithMedia(newUrls, userId);
+    // const res = await createCollectionWithMedia(newUrls, userId);
     setUrls([...urls, ...newUrls]);
-    setUserId(res.id);
+    // setUserId(res.id);
   };
 
+  const autoUsername = (name: string) => {
+    let alpha = /^[a-zA-Z]+$/;
+    let username = '';
+
+    for (let i = 0; i < name.length; i++) {
+      if (name[i].match(alpha)) {
+        username += name[i];
+      }
+    }
+    return username.toLowerCase();
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     name === 'username' && setInvalidUsername(false);
+    name === 'name' &&
+      setFormData((prev) => ({
+        ...prev,
+        username: autoUsername(value),
+      }));
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    if (name === 'images') {
-      setFormData((prev) => ({ ...prev, images: [...prev.images, ...files] }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: files[0] }));
-    }
+  const handleFileChange = (files: File[]) => {
+    setFormData((prev) => ({ ...prev, images: [...prev.images, ...files] }));
   };
 
-  const handleNext = () => setStep((prev) => Math.min(prev + 1, 3));
+  const onboardUserHandler = async () => {
+    // await onboardUser(formData).then((res) => {
+    //   handleNext();
+    // });
+    handleNext();
+  };
+  const handleNext = () => setStep((prev) => Math.min(prev + 1, 4));
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 1));
 
   const renderStep = () => {
     switch (step) {
       case 1:
         return (
-          <>
-            <CardHeader>
-              <CardTitle>Step 1: Add Images</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex w-full flex-col gap-1">
-                  {/* {urls &&
-                    urls.map((url) => (
-                      <div
-                        className="w-full rounded-md border-2 border-lightGray p-1"
-                        key={url}
-                      >
-                        <Image
-                          alt="New artwork"
-                          height={40}
-                          width={40}
-                          src={url}
-                        />
-                      </div>
-                    ))} */}
-                </div>
-                {/* <UploadDropzone
-                  className="h-full w-full"
-                  endpoint="imageUploader"
-                  config={{
-                    mode: 'auto',
-                  }}
-                  onClientUploadComplete={(res) => {
-                    console.log(res);
-                    const newUrls = res.map((r) => r.url);
-                    createCollectionWithMediaHandler(newUrls, userId);
-                  }}
-                  onUploadError={(error: Error) => {
-                    alert(`ERROR! ${error.message}`);
-                  }}
-                /> */}
-                <MultiDropzone
-                  createCollectionWithMediaHandler={
-                    createCollectionWithMediaHandler
-                  }
-                  userId={userId}
-                  urls={urls}
-                />
-                {formData.images.length > 0 && (
-                  <div className="grid grid-cols-3 gap-2">
-                    {Array.from(formData.images).map((file, index) => (
-                      <img
-                        key={index}
-                        src={URL.createObjectURL(file)}
-                        alt={`Uploaded ${index + 1}`}
-                        className="h-24 w-full rounded object-cover"
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </>
+          <section className="h-[500px] w-full">
+            {/* <CardTitle>Step 1: Add Images</CardTitle> */}
+            <MultiDropzone
+              formDataFiles={formData.images}
+              createCollectionWithMediaHandler={
+                createCollectionWithMediaHandler
+              }
+              handleFileChange={handleFileChange}
+              userId={userId}
+              urls={urls}
+            />
+          </section>
         );
       case 2:
         return (
           <>
-            <CardHeader>
-              <CardTitle>Step 2: Personal Information</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="name">Your Name</Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="John Doe"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="name">Username for your website</Label>
-                  <div className="flex items-center">
-                    <Input
-                      id="username"
-                      name="username"
-                      value={formData.username}
-                      onChange={handleInputChange}
-                      placeholder="johndoe"
-                      className="w-1/2"
+            <main className=" flex h-5/6 flex-col gap-4 bg-red-100">
+              <div className="flex w-full flex-row gap-4">
+                <div className="relative h-[180px] w-1/2">
+                  <Label>Your photo</Label>
+                  {formData.photo ? (
+                    <Image
+                      src={formData.photo}
+                      alt="Profile"
+                      height={0}
+                      width={0}
+                      sizes="100vw"
+                      className="h-full w-full object-contain"
                     />
-                    <span className="w-1/2 pl-1 text-left">
+                  ) : (
+                    <UploadDropzone
+                      config={{ mode: 'auto' }}
+                      endpoint="imageUploader"
+                      onClientUploadComplete={(res) => {
+                        if (typeof res[0].url === 'string')
+                          setFormData((prev) => ({
+                            ...prev,
+                            photo: res[0].url,
+                          }));
+                      }}
+                      onUploadError={(error: Error) => {
+                        alert(`ERROR! ${error.message}`);
+                      }}
+                    />
+                  )}
+                </div>
+                <div className="flex w-1/2 flex-col">
+                  <span>
+                    <Label htmlFor="name">Your Name</Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="John Doe"
+                    />
+                  </span>
+                  <div className="mt-4 flex w-full flex-row items-center justify-between">
+                    <span className="w-1/2">
+                      <Input
+                        id="username"
+                        name="username"
+                        maxLength={18}
+                        value={formData.username}
+                        defaultValue={formData.name
+                          .split(' ')
+                          .join('')
+                          .toLowerCase()}
+                        onChange={handleInputChange}
+                        placeholder="johndoe"
+                        className="border-0 border-b-2 p-0 text-sm"
+                      />
+                    </span>
+                    <span className="w-1/2 text-sm text-mediumGray">
                       .selected-work.com
                     </span>
                   </div>
-                  {invalidUsername && (
-                    <span className="my-1 flex w-full justify-start text-sm text-red-400">
-                      Username not available
-                    </span>
-                  )}
-                </div>
-                <div>
-                  <Label htmlFor="photo">
-                    A photo that represents you or your work
-                  </Label>
-                  <div className="flex w-full flex-row items-center justify-around">
-                    <div>
-                      {formData.photo && (
-                        <Image
-                          src={formData.photo}
-                          alt="Profile"
-                          height={100}
-                          width={100}
-                          className="mt-2 h-24 w-24 rounded-full object-cover"
-                        />
-                      )}
-                    </div>
-                    <div>
-                      <UploadButton
-                        className="self-start"
-                        endpoint="imageUploader"
-                        onClientUploadComplete={(res) => {
-                          if (typeof res[0].url === 'string')
-                            setFormData((prev) => ({
-                              ...prev,
-                              photo: res[0].url,
-                            }));
-                        }}
-                        onUploadError={(error: Error) => {
-                          alert(`ERROR! ${error.message}`);
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <Label htmlFor="bio">Brief Bio</Label>
-                  <Textarea
-                    id="bio"
-                    name="bio"
-                    value={formData.bio}
-                    onChange={handleInputChange}
-                    placeholder="Something about yourself or your work"
-                  />
+                  <span className="my-1 block flex h-4 w-full justify-start text-sm text-red-400">
+                    {invalidUsername && 'Username not available'}
+                  </span>
                 </div>
               </div>
-            </CardContent>
+            </main>
           </>
         );
       case 3:
         return (
           <>
-            <CardHeader>
-              <CardTitle>Step 3: Social and Contact</CardTitle>
-            </CardHeader>
-            <CardContent>
+            <CardContent className="h-5/6">
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="instagram">Instagram Handle</Label>
@@ -260,32 +221,49 @@ export default function Component() {
                     placeholder="you@example.com"
                   />
                 </div>
+                <div className="h-40">
+                  <Label htmlFor="bio">Brief Bio</Label>
+                  <Textarea
+                    id="bio"
+                    name="bio"
+                    value={formData.bio}
+                    className="h-full"
+                    onChange={handleInputChange}
+                    placeholder="Something about yourself or your work"
+                  />
+                </div>
               </div>
             </CardContent>
           </>
         );
+      case 4:
+        return <Success />;
     }
   };
 
   return (
-    <Card className="mx-auto w-full max-w-lg">
+    <main className="mx-auto h-[550px] w-2/3 ">
       {renderStep()}
-      <CardFooter className="flex justify-between">
+      <div className="flex justify-between">
         {step > 1 && (
           <Button onClick={handlePrev} variant="outline">
             Previous
           </Button>
         )}
         {step < 3 ? (
-          <Button onClick={handleNext} className="ml-auto">
+          <Button
+            // disabled={!urls.length}
+            onClick={handleNext}
+            className="ml-auto"
+          >
             Next
           </Button>
         ) : (
-          <Button onClick={() => console.log(formData)} className="ml-auto">
+          <Button onClick={() => onboardUserHandler()} className="ml-auto">
             Finish
           </Button>
         )}
-      </CardFooter>
-    </Card>
+      </div>
+    </main>
   );
 }
