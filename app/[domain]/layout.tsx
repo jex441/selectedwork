@@ -4,6 +4,11 @@ import { getUserByUsername } from '../lib/requests';
 import Home from '../home/page';
 import { getCollectionDataForSite } from '../lib/requests';
 import NavPage from './nav/page';
+import localFont from 'next/font/local';
+
+const myFont = localFont({
+  src: 'HKGrotesk-Regular.otf',
+});
 
 export default async function SiteLayout({
   params,
@@ -38,7 +43,7 @@ export default async function SiteLayout({
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col">
+    <div className={`flex min-h-screen w-full flex-col ${myFont.className}`}>
       <NavPage params={params} />
       <main className="mt-[70px] lg:mt-0">{children}</main>
     </div>
