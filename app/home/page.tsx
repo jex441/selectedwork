@@ -25,7 +25,7 @@ export default function page() {
           </Link>
         </div>
       </header>
-      <main className="flex flex-1 flex-col items-center bg-gray-100/50 px-4 py-12 text-center md:px-6 ">
+      <main className="flex flex-1 flex-col items-center justify-center bg-gray-100/50 px-4 text-center md:px-6 ">
         {/* <div className="max-w-3xl space-y-4">
           <h1 className="text-2xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Selected Work

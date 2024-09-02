@@ -7,8 +7,8 @@ export default function Component() {
   const deployedUrl = 'https://camdenross.selected-work.com';
 
   return (
-    <div className="container mx-auto max-w-7xl px-4 py-8">
-      <Card className="p-6">
+    <div className="container mx-auto h-[600px] max-w-7xl px-4 py-8">
+      <div className="">
         <div className="grid gap-6 md:grid-cols-2">
           <div className="space-y-6">
             <div className="space-y-2">
@@ -60,7 +60,7 @@ export default function Component() {
             />
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

@@ -113,7 +113,7 @@ export default function Component() {
     switch (step) {
       case 1:
         return (
-          <section className="h-[500px] w-full">
+          <section className="h-[550px] w-full">
             {/* <CardTitle>Step 1: Add Images</CardTitle> */}
             <MultiDropzone
               formDataFiles={formData.images}
@@ -130,56 +130,50 @@ export default function Component() {
       case 2:
         return (
           <>
-            <main className=" flex h-5/6 flex-col gap-4">
-              <div className="flex w-full flex-row gap-4">
-                <div className="relative h-[180px] w-1/2">
-                  <MultiDropzone
-                    formDataFiles={formData.images}
-                    createCollectionWithMediaHandler={
-                      createCollectionWithMediaHandler
-                    }
-                    handleFileChange={handleFileChange}
-                    userId={userId}
-                    urls={urls}
-                    name="photo"
+            <main className="flex h-[550px] flex-col gap-4">
+              <div className="flex w-full flex-row justify-around gap-2">
+                <div className="relative h-[180px] w-1/3">
+                  <Label htmlFor="photo">Your photo</Label>
+                  <UploadDropzone
+                    className=""
+                    endpoint="imageUploader"
+                    onDrop={(files) => handleFileChange(files, 'photo')}
                   />
                 </div>
-                <div className="flex w-1/2 flex-col">
-                  <span>
-                    <Label htmlFor="name">Your Name</Label>
+                <div className="flex w-1/2 flex-col gap-2 space-y-2 text-left">
+                  <Label className="" htmlFor="name">
+                    Your Name
+                  </Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="John Doe"
+                  />
+                  <div className="flex w-full flex-row items-center justify-start gap-2">
                     <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
+                      id="username"
+                      name="username"
+                      maxLength={18}
+                      value={formData.username}
+                      defaultValue={formData.name
+                        .split(' ')
+                        .join('')
+                        .toLowerCase()}
                       onChange={handleInputChange}
-                      placeholder="John Doe"
+                      placeholder="johndoe"
+                      className="w-1/3 border-0 border-b-2 p-0 text-sm"
                     />
-                  </span>
-                  <div className="mt-4 flex w-full flex-row items-center justify-between">
-                    <span className="w-1/2">
-                      <Input
-                        id="username"
-                        name="username"
-                        maxLength={18}
-                        value={formData.username}
-                        defaultValue={formData.name
-                          .split(' ')
-                          .join('')
-                          .toLowerCase()}
-                        onChange={handleInputChange}
-                        placeholder="johndoe"
-                        className="border-0 border-b-2 p-0 text-sm"
-                      />
-                    </span>
-                    <span className="w-1/2 text-sm text-mediumGray">
+                    <span className="w-1/3 text-sm text-mediumGray">
                       .selected-work.com
                     </span>
+                    <span className="block w-1/3 text-sm text-red-400">
+                      {invalidUsername && 'Username not available'}
+                    </span>
                   </div>
-                  <span className="my-1 block flex h-4 w-full justify-start text-sm text-red-400">
-                    {invalidUsername && 'Username not available'}
-                  </span>
-                  <div className="space-y-4">
-                    <div>
+                  <div className="flex flex-row gap-6">
+                    <div className="grid gap-3 text-left">
                       <Label htmlFor="email">Email</Label>
                       <Input
                         id="email"
@@ -190,18 +184,7 @@ export default function Component() {
                         placeholder="you@example.com"
                       />
                     </div>
-                    <div className="h-40">
-                      <Label htmlFor="bio">Brief Bio</Label>
-                      <Textarea
-                        id="bio"
-                        name="bio"
-                        value={formData.bio}
-                        className="h-full"
-                        onChange={handleInputChange}
-                        placeholder="Something about yourself or your work"
-                      />
-                    </div>
-                    <div>
+                    <div className="grid gap-3">
                       <Label htmlFor="instagram">Instagram Handle</Label>
                       <Input
                         id="instagram"
@@ -211,6 +194,17 @@ export default function Component() {
                         placeholder="@yourusername"
                       />
                     </div>
+                  </div>
+                  <div className="grid gap-3">
+                    <Label htmlFor="bio">Brief Bio</Label>
+                    <Textarea
+                      id="bio"
+                      name="bio"
+                      value={formData.bio}
+                      className="h-[180px]"
+                      onChange={handleInputChange}
+                      placeholder="Something about yourself or your work"
+                    />
                   </div>
                 </div>
               </div>
@@ -223,7 +217,10 @@ export default function Component() {
   };
 
   return (
-    <main className="mx-auto w-2/3 bg-white">
+    <main className="mx-auto h-full w-3/4 rounded-lg bg-white p-4">
+      <div className="mb-2 flex h-14 items-start justify-between text-sm">
+        Step 1: Upload Images --- Step 2: Personal Info --- Step: 3 Finish
+      </div>
       {renderStep()}
       <div className="mt-2 flex justify-between p-4">
         {step > 1 && (
