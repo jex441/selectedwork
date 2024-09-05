@@ -22,6 +22,7 @@ import {
 } from '../../../lib/data';
 import { ICVPage } from '../../../interfaces/ICVPage';
 import { set } from 'zod';
+import { PlusCircle } from 'lucide-react';
 
 import PDF from './PDF';
 export default function Component({ data }: { data: ICVPage }) {
@@ -164,8 +165,8 @@ export default function Component({ data }: { data: ICVPage }) {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <Button onClick={handleAddWorkExperience}>
-                Add Work Experience
+              <Button>
+                <PlusCircle onClick={handleAddWorkExperience} />
               </Button>
               <PDF data={data} />
               <Button onClick={handleSaveSection}>Save</Button>

@@ -28,9 +28,6 @@ export default function AboutForm({ data }: { data: IAboutPage }) {
       <div className="mb-6 flex items-center justify-between">
         <div className="flex flex-row items-center gap-8"></div>
         <div className="flex w-full items-center justify-end space-x-4">
-          <div className="mx-5 italic text-gray-500">
-            Do not forget to save your changes before leaving this page.
-          </div>
           <Button
             type="submit"
             className="bg-primary text-primary-foreground hover:bg-primary/90"
