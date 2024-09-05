@@ -9,20 +9,20 @@ export default function page() {
           <span className="ml-2 text-lg font-semibold">Selected Work</span>
         </Link>
         <div className="flex items-center gap-4">
-          <Link
-            href="/sign-in"
+          <a
+            href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/sign-in`}
             className="text-sm font-medium underline-offset-4 hover:underline"
-            prefetch={false}
+            // prefetch={false}
           >
             Login
-          </Link>
-          <Link
-            href="/sign-up"
+          </a>
+          <a
+            href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/sign-up`}
             className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-            prefetch={false}
+            // prefetch={false}
           >
             Sign Up
-          </Link>
+          </a>
         </div>
       </header>
       <main className="flex flex-1 flex-col items-center justify-center px-4 py-12 text-center md:px-6 md:py-24 lg:py-32">
