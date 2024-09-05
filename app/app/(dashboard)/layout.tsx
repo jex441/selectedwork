@@ -7,7 +7,20 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card';
-
+import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+  Home,
+  FolderHeart,
+  Info,
+  Mail,
+  FileText,
+  Settings,
+  Globe,
+  LogOut,
+  ArrowUpRight,
+  ArrowRightFromLine,
+  GalleryThumbnails,
+} from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -17,104 +30,90 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { Toaster } from 'react-hot-toast';
-import { UserButton } from '@clerk/nextjs';
+import { UserButton, SignOutButton } from '@clerk/nextjs';
 import { getUserData } from '@/app/lib/data';
-
+import { useClerk } from '@clerk/nextjs';
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const user = await getUserData();
-
   return (
     <div className="flex min-h-screen w-full flex-row">
       <Toaster position="top-right" />
-      <div className="border-r bg-gray-100/40 dark:bg-gray-800/40">
-        <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex h-[60px] items-center border-b px-6">
+      <div className="fixed flex h-screen w-1/5 flex-col items-stretch border-r bg-gray-100/40 dark:bg-gray-800/40">
+        <div className="flex h-14 border-b px-4">
+          <Link className="flex items-center gap-2 font-semibold" href="#">
+            <span>Selected Work</span>
+          </Link>
+        </div>
+        <ScrollArea className="flex-1">
+          <nav className="flex flex-col gap-2 p-4">
+            {/* <Link
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+              href="/"
+            >
+              <Home className="h-4 w-4" />
+              Home
+            </Link> */}
             <Link
-              href="#"
-              className="flex items-center gap-2 font-semibold"
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+              href="/collections"
+            >
+              <GalleryThumbnails className="h-4 w-4" />
+              Collections
+            </Link>
+            <Link
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+              href="/about"
+            >
+              <Info className="h-4 w-4" />
+              About
+            </Link>
+            <Link
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+              href="/contact"
+            >
+              <Mail className="h-4 w-4" />
+              Contact
+            </Link>
+            <Link
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+              href="/cv"
+            >
+              <FileText className="h-4 w-4" />
+              CV
+            </Link>
+          </nav>
+        </ScrollArea>
+        <div className="mt-auto p-4">
+          <nav className="flex flex-col gap-2">
+            <Link
+              href={`http${process.env.NODE_ENV !== 'development' ? 's' : ''}://${user.username}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+              target="_blank"
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
               prefetch={false}
             >
-              <span>Selected Work</span>
+              <Globe className="h-4 w-4" />
+              View Live Site
+              <ArrowUpRight className="h-4 w-4" />
             </Link>
-          </div>
-          <div className="flex-1 overflow-auto py-2">
-            <div className="flex h-full w-64 flex-col  p-4">
-              <div className="flex flex-col space-y-4">
-                <nav className="flex flex-col space-y-2">
-                  <Link
-                    href=""
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
-                    prefetch={false}
-                  >
-                    Home
-                  </Link>
-                  <Link
-                    href="/collections"
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
-                    prefetch={false}
-                  >
-                    My Collections
-                  </Link>
-                  <Link
-                    href="/about"
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
-                    prefetch={false}
-                  >
-                    About
-                  </Link>
-                  <Link
-                    href="/cv"
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
-                    prefetch={false}
-                  >
-                    CV
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground"
-                    prefetch={false}
-                  >
-                    Contact
-                  </Link>
-                </nav>
-              </div>
+            <Link
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+              href="/account"
+            >
+              <Settings className="h-4 w-4" />
+              Settings
+            </Link>
+            <div className="flex items-center gap-3 rounded-lg border-t-2 px-3 py-2 pt-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
+              <UserButton />
+              {user.displayName}
             </div>
-          </div>
-          <div className="mt-auto p-4">
-            <div className="flex items-center gap-4">
-              <Link
-                href="/account"
-                className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                prefetch={false}
-              >
-                <span>Account Settings</span>
-              </Link>
-            </div>
-          </div>
+          </nav>
         </div>
       </div>
-      <div className="flex w-full flex-col">
-        <header className="flex h-14 items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40 lg:h-[60px]">
-          <div className="flex flex-1 flex-row gap-6">
-            {user && (
-              <Link
-                href={`http${process.env.NODE_ENV !== 'development' ? 's' : ''}://${user.username}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
-                target="_blank"
-                className="inline-flex h-8 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                prefetch={false}
-              >
-                View Live Site
-              </Link>
-            )}
-          </div>
-          <UserButton />
-        </header>
-        {children}
-      </div>
+      <div className="ml-[20%] flex min-h-screen w-full">{children}</div>
     </div>
   );
 }

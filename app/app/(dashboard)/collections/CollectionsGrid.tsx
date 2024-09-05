@@ -76,7 +76,7 @@ export default function CollectionsGrid({ data }: { data: ICollection[] }) {
   if (!items.length) return null;
 
   return (
-    <div className="flex justify-start rounded-lg bg-gray-100">
+    <div className="flex flex-1 justify-start rounded-lg">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

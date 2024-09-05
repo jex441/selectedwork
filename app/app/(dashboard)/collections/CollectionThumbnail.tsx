@@ -41,7 +41,11 @@ export default function CollectionThumbnail({
   };
   //
   return (
-    <div ref={setNodeRef} style={style}>
+    <div
+      className="border-1 rounded-md border py-1 shadow-sm"
+      ref={setNodeRef}
+      style={style}
+    >
       <Box>
         <button
           className="p-1 text-right text-sm text-gray-500"
@@ -64,10 +68,12 @@ export default function CollectionThumbnail({
             />
           </div>
           <div className="bg-white p-2 dark:bg-gray-950">
-            <h3 className="font-semibold">{collection.title}</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              {collection.visibility}
-            </p>
+            <span className="flex justify-between">
+              <h3 className="font-semibold">{collection.title}</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {collection.visibility}
+              </p>
+            </span>
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-500 dark:text-gray-400">
                 {collection.works.length} items

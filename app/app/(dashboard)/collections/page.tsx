@@ -8,21 +8,15 @@ import CreateButton from './createbutton';
 import placeholder from '../../../assets/placeholder.png';
 import Collection from './[slug]/page';
 import CollectionsGrid from './CollectionsGrid';
-
 export default async function Invoices() {
   const data = await getUserCollections();
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-      <header className="flex h-10 w-full items-center justify-between bg-background px-4 md:px-6">
-        My Collections
+    <main className="flex w-full flex-1 flex-col gap-2 p-4">
+      <header className="flex flex-col items-center justify-between space-y-4 bg-background p-4 sm:flex-row sm:space-y-0 sm:p-6">
+        <h1 className="text-3xl font-bold tracking-tight">Collections</h1>
+        <CreateButton />
       </header>
       {data && <CollectionsGrid data={data} />}
-
-      <footer className="flex h-20 w-full items-center justify-end bg-background px-4 md:px-6">
-        <div className="border- flex items-center gap-4">
-          <CreateButton />
-        </div>
-      </footer>
     </main>
   );
 }
