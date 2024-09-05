@@ -14,12 +14,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ImagePlus, User, Instagram, Mail } from 'lucide-react';
-import { createCollectionWithMedia, onboardUser } from '../lib/data';
+import { ImagePlus, User, Instagram, Mail, Upload } from 'lucide-react';
+import { createCollectionWithMedia, onboardUser } from '../../../lib/data';
 import { set } from 'zod';
-import MultiDropzone from './MultiDropzone';
-import { checkUsername } from '../lib/data';
-import Success from './Success';
+import MultiDropzone from '../../../home/MultiDropzone';
+import { checkUsername } from '../../../lib/data';
+import Success from '../../../home/Success';
 
 export default function Component() {
   const [step, setStep] = useState(1);
@@ -113,7 +113,7 @@ export default function Component() {
     switch (step) {
       case 1:
         return (
-          <section className="h-[550px] w-full">
+          <section className="flex h-[550px] w-full justify-center">
             {/* <CardTitle>Step 1: Add Images</CardTitle> */}
             <MultiDropzone
               formDataFiles={formData.images}
@@ -134,11 +134,25 @@ export default function Component() {
               <div className="flex w-full flex-row justify-around gap-2">
                 <div className="relative h-[180px] w-1/3">
                   <Label htmlFor="photo">Your photo</Label>
-                  <UploadDropzone
-                    className=""
-                    endpoint="imageUploader"
-                    onDrop={(files) => handleFileChange(files, 'photo')}
-                  />
+                  {formData.photo.length ? (
+                    <img
+                      src={URL.createObjectURL(formData.photo[0])}
+                      className="m-2 w-full object-cover"
+                    />
+                  ) : (
+                    <UploadDropzone
+                      className=""
+                      endpoint="imageUploader"
+                      // onDrop={(files) => handleFileChange(files, 'photo')}
+                    />
+                  )}
+                  {formData.photo.length && (
+                    <UploadButton
+                      className=""
+                      endpoint="imageUploader"
+                      // onBeforeUploadBegin={}
+                    />
+                  )}
                 </div>
                 <div className="flex w-1/2 flex-col gap-2 space-y-2 text-left">
                   <Label className="" htmlFor="name">

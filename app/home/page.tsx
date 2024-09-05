@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import Onboard from './OnBoard';
+import Onboard from '../app/(dashboard)/welcome/page';
 export default function page() {
   return (
     <div className="flex min-h-[100dvh] flex-col">
@@ -26,15 +26,14 @@ export default function page() {
         </div>
       </header>
       <main className="flex flex-1 flex-col items-center justify-center bg-gray-100/50 px-4 text-center md:px-6 ">
-        {/* <div className="max-w-3xl space-y-4">
+        <div className="max-w-3xl space-y-4">
           <h1 className="text-2xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Selected Work
           </h1>
           <p className="text-muted-foreground md:text-xl">
             A platform for showcasing your best work.
           </p>
-        </div> */}
-        <Onboard />
+        </div>
       </main>
       <footer className="flex w-full shrink-0 flex-col items-center gap-2 border-t px-4 py-6 sm:flex-row md:px-6">
         <p className="text-xs text-muted-foreground">

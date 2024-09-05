@@ -16,7 +16,7 @@ export default function MultiDropzone({
 }: {
   formDataFiles: File[];
   userId: number | null;
-  handleFileChange: (urls: File[]) => void;
+  handleFileChange: (urls: File[], name: string) => void;
   createCollectionWithMediaHandler: (
     urls: string[],
     userId: number | null,
@@ -60,7 +60,7 @@ export default function MultiDropzone({
   console.log('files', files);
   return (
     <div
-      className="relative h-full rounded-lg bg-gray-200/50"
+      className="relative h-full w-5/6 rounded-lg bg-gray-200/50"
       {...getRootProps()}
     >
       <input {...getInputProps()} name="images" />
@@ -83,10 +83,8 @@ export default function MultiDropzone({
           </div>
         )}
         {!files.length && (
-          <div className="absolute left-[300px] top-[300px] mx-auto self-center">
-            {loading
-              ? `Uploading ${files.length} files...`
-              : 'Drag and drop a few images of your work here to get started'}
+          <div className="absolute left-[180px] top-[200px] mx-auto cursor-pointer self-center text-lg">
+            Drag and drop a few images of your work here to get started
           </div>
         )}
       </div>
