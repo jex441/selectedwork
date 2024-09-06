@@ -4,7 +4,7 @@ import CvForm from './cvform';
 export default async function Component() {
   const data = await getCVPageData('CV');
   return (
-    <div className="flex h-full flex-row ">
+    <div className="flex h-full w-full flex-row">
       {data && <CvForm data={data} />}
     </div>
   );

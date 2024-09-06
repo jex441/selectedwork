@@ -37,7 +37,7 @@ export default function settingsform({
     }
   }
   return (
-    <form action={formAction}>
+    <form className="w-full p-6" action={formAction}>
       <div className="mb-6 flex items-center justify-between">
         <div className="flex flex-row items-center gap-8">
           <Link
@@ -50,25 +50,6 @@ export default function settingsform({
           <h1 className="text-2xl font-bold">Back</h1>
         </div>
         <div className="flex w-full items-center justify-end space-x-4">
-          {/* <Link
-      href="#"
-      target="_blank"
-      className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-      prefetch={false}
-    >
-      <EyeIcon className="mr-2 h-4 w-4" />
-      Preview
-    </Link> */}
-
-          {/* <Button
-      variant="outline"
-      className="text-muted-foreground hover:bg-muted hover:text-muted-foreground"
-    >
-      Discard Changes
-    </Button> */}
-          <div className="mx-5 italic text-gray-500">
-            Do not forget to save your changes before leaving this page.
-          </div>
           <Button
             type="submit"
             className="bg-primary text-primary-foreground hover:bg-primary/90"
@@ -142,7 +123,7 @@ export default function settingsform({
               id="text"
               name="description"
               placeholder="Collection Description"
-              className="min-h-[320px]"
+              className="min-h-[100px]"
               defaultValue={collection.description ?? ''}
             />
           </div>

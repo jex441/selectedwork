@@ -22,6 +22,7 @@ import {
 } from '../../../lib/data';
 import { ICVPage } from '../../../interfaces/ICVPage';
 import { set } from 'zod';
+import { PlusCircle } from 'lucide-react';
 
 import PDF from './PDF';
 export default function Component({ data }: { data: ICVPage }) {
@@ -138,14 +139,18 @@ export default function Component({ data }: { data: ICVPage }) {
   };
 
   return (
-    <div className="flex h-full w-full flex-row">
-      <div className="grid flex-1 grid-cols-12 gap-6 bg-gray-100/40 p-6">
+    <div className="flex h-full w-full flex-row justify-center">
+      <div className="grid flex-1 grid-cols-12 gap-6 p-6">
         <div className="col-span-12">
           <div>
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-4 flex items-center justify-start gap-4">
               <Select onValueChange={(val) => setSelectedSection(val)}>
+                <h1 className="text-xl font-bold">CV</h1>
                 <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Select a category" />
+                  <SelectValue
+                    placeholder="Select a category"
+                    defaultValue={'Education'}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -165,7 +170,8 @@ export default function Component({ data }: { data: ICVPage }) {
                 </SelectContent>
               </Select>
               <Button onClick={handleAddWorkExperience}>
-                Add Work Experience
+                <PlusCircle className="mr-2" />
+                Add experience
               </Button>
               <PDF data={data} />
               <Button onClick={handleSaveSection}>Save</Button>
@@ -174,7 +180,7 @@ export default function Component({ data }: { data: ICVPage }) {
               {workExperience.map((experience, index) => (
                 <div
                   key={index}
-                  className="rounded-lg bg-background p-4 pb-0 shadow"
+                  className="border-1 rounded-lg border bg-background p-4 pb-0 shadow-md"
                 >
                   <div className="mb-2 flex items-center gap-2">
                     <Input

@@ -2,6 +2,7 @@
 import React from 'react';
 import { getUserCollections, createCollection } from '../../../lib/data';
 import { Button } from '@/components/ui/button';
+import { PlusCircle } from 'lucide-react';
 
 export default function createbutton() {
   const createCollectionHandler = async () => {
@@ -9,7 +10,8 @@ export default function createbutton() {
   };
   return (
     <Button className="m-8" size="lg" onClick={() => createCollectionHandler()}>
-      + Create New Collection
+      <PlusCircle className="mr-2 h-4 w-4" />
+      Create New Collection
     </Button>
   );
 }
