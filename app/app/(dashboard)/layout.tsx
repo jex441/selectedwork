@@ -13,15 +13,18 @@ import {
   FolderHeart,
   Info,
   Mail,
+  File,
   FileText,
   Settings,
   Globe,
+  SquareUser,
   LogOut,
   ArrowUpRight,
   ArrowRightFromLine,
   GalleryThumbnails,
   CircleUserRound,
   LayoutGrid,
+  SendHorizonal,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -73,21 +76,21 @@ export default async function Layout({
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-bold text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
               href="/about"
             >
-              <CircleUserRound className="h-4 w-4" />
+              <SquareUser className="h-4 w-4" />
               About
             </Link>
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-bold text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
               href="/contact"
             >
-              <Mail className="h-4 w-4" />
+              <SendHorizonal className="h-4 w-4" />
               Contact
             </Link>
             <Link
               className="t font-boldransition-all flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sm font-bold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
               href="/cv"
             >
-              <FileText className="h-4 w-4" />
+              <File className="h-4 w-4" />
               CV
             </Link>
           </nav>
