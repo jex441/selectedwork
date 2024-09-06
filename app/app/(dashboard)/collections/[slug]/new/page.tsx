@@ -45,6 +45,7 @@ export default function NewPieceForm({
   const [work, setWork] = useState<IWork>({
     id: null,
     collectionId: null,
+    collectionSlug: params.slug,
     index: null,
     idx: 99,
     title: '',
@@ -65,64 +66,96 @@ export default function NewPieceForm({
     media: [],
   });
 
-  const createWorkWithId = work.id !== null && createWork.bind(null, work.id);
-
-  const addMediaHandler = async (id: number, url: string) => {
-    const newMedia = { url: url, type: 'image', main: 'false' };
-    const res = await addMedia(id, newMedia, params.slug);
+  const addMediaHandler = async (url: string) => {
+    const newMedia = {
+      id: null,
+      url: url,
+      type: 'image',
+      main: work.media.length ? 'false' : 'true',
+    };
+    // const res = await addMedia(id, newMedia, params.slug);
     setWork({
       ...work,
-      media: [...work.media, { ...newMedia, id: res.id }],
+      media: [...work.media, newMedia],
     });
   };
-  const makeMainMediaHandler = async (workId: number, mediaId: number) => {
-    work.collectionId && (await makeMainMedia(workId, mediaId, params.slug));
+
+  const makeMainMediaHandler = async (index: number) => {
+    const newMedia = work.media.map((m, idx) => {
+      if (idx === index) {
+        return { ...m, main: 'true' };
+      } else {
+        return { ...m, main: 'false' };
+      }
+    });
+    setWork({ ...work, media: newMedia });
   };
-  const createWorkWithMediaHandler = async (slug: string, url: string) => {
-    const newMedia = { url: url, type: 'image', main: 'true' };
-    const newWork = await createWorkWithMedia(slug, newMedia);
-    newWork && setWork(newWork);
-  };
+  // const createWorkWithMediaHandler = async (slug: string, url: string) => {
+  //   const newMedia = { id: null, url: url, type: 'image', main: 'true' };
+  //   // const newWork = await createWorkWithMedia(slug, newMedia);
+  //   // newWork && setWork(newWork);
+  //   newMedia && setWork({ ...work, media: [...work.media, newMedia] });
+  // };
   const deleteWorkHandler = async (workId: number, collectionId: number) => {
-    work && (await deleteWork(workId, collectionId));
+    work &&
+      (await deleteWork(workId, collectionId).then(() => {
+        window.location.href = `/collections/${params.slug}`;
+      }));
   };
 
-  const deleteMediaHandler = async (mediaId: number) => {
-    work && (await deleteMedia(mediaId, params.slug));
+  const deleteMediaHandler = async (index: number) => {
+    const newMedia = work.media.filter((m, idx) => idx !== index);
+    setWork({ ...work, media: newMedia });
   };
 
   const mainMedia = work.media.filter((m) => m.main === 'true');
+  // create work without id, array of media urls
+  // then update work with id, array of media objects
 
+  const changeHandler = (value: string, name: string) => {
+    setWork({ ...work, [name]: value });
+  };
+  const createWorkHandler = async () => {
+    if (work.media.length === 0) {
+      alert('Please add an image');
+      return;
+    }
+    await createWork(work).then((res) => {
+      window.location.href = `/collections/${params.slug}`;
+    });
+  };
   return (
     <form
-      action={createWorkWithId || ''}
-      className="mx-auto grid h-full items-center gap-6 md:grid-cols-2"
+      // action={createWork}
+      onSubmit={createWorkHandler}
+      className="grid h-full w-full items-center gap-6 px-6 md:grid-cols-2"
     >
-      <div className="flex flex-col items-center">
-        {mainMedia[0]?.url ? (
-          <Image
-            src={mainMedia[0]?.url}
-            alt="Product Image"
-            width={500}
-            height={300}
-            className="border border-gray-200 dark:border-gray-800"
-          />
-        ) : (
-          <UploadDropzone
-            className="h-full w-full"
-            endpoint="imageUploader"
-            onClientUploadComplete={(res) => {
-              if (!work.id) {
-                createWorkWithMediaHandler(params.slug, res[0].url);
-              } else {
-                addMediaHandler(work.id, res[0].url);
-              }
-            }}
-            onUploadError={(error: Error) => {
-              alert(`ERROR! ${error.message}`);
-            }}
-          />
-        )}
+      <div className="mx-auto flex w-5/6 flex-col items-center">
+        <div className="relative flex h-[300px] w-full flex-col items-center">
+          {mainMedia[0]?.url ? (
+            <Image
+              src={mainMedia[0]?.url}
+              alt="Product Image"
+              width={0}
+              height={0}
+              fill={true}
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+              className="object-fit border border-gray-200 dark:border-gray-800"
+            />
+          ) : (
+            <UploadDropzone
+              className="h-full "
+              config={{ mode: 'auto' }}
+              endpoint="imageUploader"
+              onClientUploadComplete={(res) => {
+                addMediaHandler(res[0].url);
+              }}
+              onUploadError={(error: Error) => {
+                alert(`ERROR! ${error.message}`);
+              }}
+            />
+          )}
+        </div>
         <div className="m-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
           {work?.media
             .filter((w) => w.main === 'false')
@@ -141,11 +174,7 @@ export default function NewPieceForm({
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem
-                    onClick={() =>
-                      work.id && makeMainMediaHandler(work.id, media.id)
-                    }
-                  >
+                  <DropdownMenuItem onClick={() => makeMainMediaHandler(index)}>
                     Make Main Image
                   </DropdownMenuItem>
                   <DropdownMenuItem
@@ -157,11 +186,19 @@ export default function NewPieceForm({
               </DropdownMenu>
             ))}
         </div>
+        {work.media.map((media, idx) => (
+          <input
+            type="text"
+            name={`media-${idx}`}
+            defaultValue={media.url ?? ''}
+            className="hidden"
+          />
+        ))}
         <UploadButton
           className="self-start"
           endpoint="imageUploader"
           onClientUploadComplete={(res) => {
-            work.id && addMediaHandler(work.id, res[0].url);
+            addMediaHandler(res[0].url);
           }}
           onUploadError={(error: Error) => {
             alert(`ERROR! ${error.message}`);
@@ -169,29 +206,33 @@ export default function NewPieceForm({
         />
       </div>
 
-      <div className="mx-auto grid w-5/6 gap-2 px-2 py-8">
-        <div className="grid gap-2">
+      <div className="mx-auto grid w-5/6">
+        <div className="grid gap-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2.5">
               <Label htmlFor="title">Title</Label>
-              <Input
+              {/* <Input
+                value={work.title ?? ''}
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="userCollection"
                 defaultValue={params.slug}
                 className="hidden"
-              />
+              /> */}
               <Input
+                value={work.title ?? ''}
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="title"
                 placeholder="Title"
-                defaultValue={work.title ?? ''}
               />
             </div>
             <div className="grid w-20 gap-2.5">
               <Label htmlFor="year">Year</Label>
               <Input
+                value={work.year ?? ''}
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="year"
                 type="number"
                 placeholder="Year"
-                defaultValue={work.year ?? ''}
               />
             </div>
           </div>
@@ -199,9 +240,10 @@ export default function NewPieceForm({
             <div className="grid gap-2.5">
               <Label htmlFor="medium">Medium</Label>
               <Input
+                value={work.medium ?? ''}
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="medium"
                 placeholder="Medium"
-                defaultValue={work.medium ?? ''}
               />
             </div>
           </div>
@@ -210,33 +252,36 @@ export default function NewPieceForm({
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="height">Height</Label>
               <Input
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="height"
                 type="number"
                 placeholder="height"
-                defaultValue={work.height ?? ''}
               />
             </div>
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="width">Width</Label>
               <Input
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="width"
                 type="number"
                 placeholder="width"
-                defaultValue={work.width ?? ''}
               />
             </div>
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="depth">Depth</Label>
               <Input
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="depth"
                 type="number"
                 placeholder="depth"
-                defaultValue={work.depth ?? ''}
               />
             </div>
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="unit">Unit</Label>
-              <Select name="unit" defaultValue={work.unit ?? ''}>
+              <Select
+                name="unit"
+                onValueChange={(value) => changeHandler(value, 'unit')}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="select" />
                 </SelectTrigger>
@@ -255,15 +300,15 @@ export default function NewPieceForm({
             <Textarea
               name="description"
               placeholder="Description"
-              defaultValue={work.description ?? ''}
+              onChange={(e) => changeHandler(e.target.value, e.target.name)}
             />
           </div>
           <div className="grid gap-2.5">
             <Label htmlFor="location">Location</Label>
             <Input
+              onChange={(e) => changeHandler(e.target.value, e.target.name)}
               name="location"
               placeholder="Artwork location or collection"
-              defaultValue={work.location ?? ''}
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -273,17 +318,21 @@ export default function NewPieceForm({
                 name="price"
                 type="number"
                 placeholder="Price"
-                defaultValue={work.price ?? ''}
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
               />
             </div>
             <div className="grid gap-2.5">
               <Label htmlFor="sold">Mark as Sold</Label>
-              <Checkbox name="sold" />
+              {/* <Checkbox
+                name="sold"
+                checked={work.sold}
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
+              /> */}
             </div>
           </div>
 
           <div className="my-4 flex justify-between gap-2">
-            <Button>Save Changes</Button>
+            <Button type="submit">Save Changes</Button>
             {/* <Button variant="outline">Discard Changes</Button> */}
             <Button
               variant="outline"

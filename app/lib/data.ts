@@ -684,7 +684,6 @@ export const deleteCVSection = async (id: number) => {
 
 export const deleteCollection = async (id: number) => {
   await db.delete(collection).where(eq(collection.id, id));
-  redirect('/collections');
 };
 
 export const deleteCVSectionBulletPoint = async (
@@ -855,8 +854,105 @@ const CreateWorkSchema = z.object({
     .max(3, { message: 'Must be fewer than 3 characters.' })
     .nullish(),
 });
+// convert to server action with object not formData?
+export const createWork = async (data: IWork) => {
+  const user = await getUserData();
+  // const validatedFields = CreateWorkSchema.safeParse({
+  //   userCollection: formData.get('userCollection'),
+  //   title: formData.get('title') || '',
+  //   medium: formData.get('medium') || '',
+  //   year: formData.get('year') || '',
+  //   description: formData.get('description') || '',
+  //   height: formData.get('height') || '',
+  //   width: formData.get('width') || '',
+  //   depth: formData.get('depth') || '',
+  //   unit: formData.get('unit') || '',
+  //   price: formData.get('price') || '',
+  //   currency: formData.get('currency') || '',
+  //   location: formData.get('location') || '',
+  //   sold: formData.get('sold') === 'on' ? 'true' : 'false',
+  // });
+  // if (!validatedFields.success) {
+  //   console.log('error!', validatedFields.error.flatten().fieldErrors);
+  //   return {
+  //     errors: validatedFields.error.flatten().fieldErrors,
+  //     message: 'Missing Fields. Failed to Create Work.',
+  //   };
+  // }
+  const {
+    // userCollection,
+    title,
+    medium,
+    year,
+    collectionSlug,
+    description,
+    height,
+    width,
+    depth,
+    unit,
+    price,
+    currency,
+    location,
+    sold,
+  } = data;
 
-export const createWork = async (id: number, formData: FormData) => {
+  console.log('work', work);
+  const userCollectionData =
+    user &&
+    user.id !== null &&
+    collectionSlug !== null &&
+    (await db
+      .select()
+      .from(collection)
+      .where(
+        and(
+          eq(collection.slug, collectionSlug),
+          eq(collection.userId, user.id),
+        ),
+      ));
+  const newWork =
+    user &&
+    user.id !== null &&
+    userCollectionData &&
+    userCollectionData[0].id !== null &&
+    (await db
+      .insert(work)
+      .values({
+        collectionId: userCollectionData[0].id,
+        title: title,
+        medium: medium,
+        year: year,
+        description: description,
+        height: height,
+        width: width,
+        depth: depth,
+        unit: unit,
+        price: price,
+        currency: currency,
+        location: location,
+        sold: sold,
+        hidden: 'false',
+      })
+      .returning({ id: work.id }));
+
+  // // figure this out:
+  newWork &&
+    newWork[0].id &&
+    data.media.map(async (m) => {
+      await db.insert(media).values({
+        workId: newWork[0].id,
+        url: m.url || '',
+        main: m.main || 'false',
+        type: m.type || 'image',
+      });
+    });
+  // revalidatePath(`/collections/${collection.slug}`);
+  // revalidatePath(`/${collection.slug}`);
+  // revalidatePath('/');
+  // redirect(`/collections/${userCollectionData[0].slug}`);
+};
+
+export const updateWork = async (id: number, formData: FormData) => {
   const user = await getUserData();
   const validatedFields = CreateWorkSchema.safeParse({
     userCollection: formData.get('userCollection'),
@@ -1012,7 +1108,7 @@ export const deleteWork = async (workId: number, collectionId: number) => {
   await db.delete(work).where(eq(work.id, workId));
 
   revalidatePath(`/collections/${userCollection[0].slug}`);
-  redirect(`/dashboard/collections/${userCollection[0].slug}`);
+  redirect(`/collections/${userCollection[0].slug}`);
 };
 
 export const deleteMedia = async (mediaId: number, slug: string) => {

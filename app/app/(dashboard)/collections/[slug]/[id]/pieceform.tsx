@@ -25,7 +25,7 @@ import {
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { IWork, IMedia } from '@/app/interfaces/IWork';
-import { createWork } from '../../../../../lib/data';
+import { updateWork } from '../../../../../lib/data';
 import { useFormState } from 'react-dom';
 import {
   WorkState,
@@ -43,7 +43,7 @@ export default function PieceForm({
   slug: string;
 }) {
   const initialState: WorkState = { message: null, errors: {} };
-  const createWorkWithId = work.id && createWork.bind(null, work.id);
+  const createWorkWithId = work.id && updateWork.bind(null, work.id);
 
   const addMediaHandler = async (id: number, url: string) => {
     const newMedia = { url: url, type: 'image', main: 'false' };
