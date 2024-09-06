@@ -104,7 +104,7 @@ export default async function Layout({
               prefetch={false}
             >
               <Globe className="h-4 w-4" />
-              View Live Site
+              View Your Site
               <ArrowUpRight className="h-4 w-4" />
             </Link>
             <Link
