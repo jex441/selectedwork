@@ -22,7 +22,7 @@ export default function Component({ data }: { data: any }) {
   };
 
   return (
-    <nav className="w-80">
+    <nav className="w-40 rounded-md px-1">
       <div className="flex h-16 items-center justify-between">
         <div className="flex items-center space-x-4">
           {currentCV ? (
@@ -38,6 +38,7 @@ export default function Component({ data }: { data: any }) {
                 size="icon"
                 onClick={handleDelete}
                 aria-label="Delete CV"
+                className="h-8 w-8"
               >
                 <Trash2Icon className="h-4 w-4" />
               </Button>

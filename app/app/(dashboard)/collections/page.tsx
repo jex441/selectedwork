@@ -11,9 +11,9 @@ import CollectionsGrid from './CollectionsGrid';
 export default async function Invoices() {
   const data = await getUserCollections();
   return (
-    <main className="flex w-full flex-1 flex-col gap-2 p-4">
-      <header className="flex flex-col items-center justify-between space-y-4 bg-background p-4 sm:flex-row sm:space-y-0 sm:p-6">
-        <h1 className="text-3xl font-bold tracking-tight">Collections</h1>
+    <main className="flex w-full flex-1 flex-col p-4">
+      <header className="flex w-full items-center justify-between space-x-4">
+        <h1 className="text-lg font-bold">My Collections</h1>
         <CreateButton />
       </header>
       {data && <CollectionsGrid data={data} />}

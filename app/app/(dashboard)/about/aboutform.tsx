@@ -25,8 +25,8 @@ export default function AboutForm({ data }: { data: IAboutPage }) {
 
   return (
     <form action={formAction}>
-      <div className="mb-6 flex items-center justify-between">
-        <div className="flex flex-row items-center gap-8"></div>
+      <header className="mb-4 flex w-full items-center justify-between space-x-4">
+        <h1 className="text-lg font-bold">About</h1>
         <div className="flex w-full items-center justify-end space-x-4">
           <Button
             type="submit"
@@ -35,7 +35,7 @@ export default function AboutForm({ data }: { data: IAboutPage }) {
             Save Changes
           </Button>
         </div>
-      </div>
+      </header>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <div className="space-y-6">
           <div>

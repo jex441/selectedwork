@@ -42,7 +42,7 @@ export default function CollectionThumbnail({
   //
   return (
     <div
-      className="border-1 rounded-md border py-1 shadow-sm"
+      className="border-1 rounded-md border py-1 shadow-md"
       ref={setNodeRef}
       style={style}
     >

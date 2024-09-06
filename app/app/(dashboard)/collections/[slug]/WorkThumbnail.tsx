@@ -41,7 +41,7 @@ export default function WorkThumbnail({
   };
   //
   return (
-    <div ref={setNodeRef} style={style}>
+    <div className="border-1 border shadow-md" ref={setNodeRef} style={style}>
       <Box>
         <button
           className="p-1 text-right text-sm text-gray-500"
@@ -72,9 +72,9 @@ export default function WorkThumbnail({
               <div className="text-sm text-gray-500 dark:text-gray-400">
                 {work.year}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+              {/* <div className="text-sm text-gray-500 dark:text-gray-400">
                 {work.height} {work.width} {work.unit}
-              </div>
+              </div> */}
             </div>
           </div>
         </Link>
