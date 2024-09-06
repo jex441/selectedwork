@@ -34,6 +34,7 @@ import { IWork } from '../interfaces/IWork';
 import { get } from 'http';
 import { IContactPage } from '../interfaces/IContactPage';
 import { getCVPageDataForSite } from './requests';
+import { title } from 'process';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -163,7 +164,6 @@ export async function updateAbout(
     .returning({ id: about.id });
 
   revalidatePath('/about');
-  // revalidatePath(`/${userData?.username}/about`); ?
   return { success: true };
 }
 
@@ -322,7 +322,7 @@ export async function updateContactPage(
       })
       .where(eq(users.id, userData?.id)));
 
-  revalidatePath('/dashboard/contact');
+  revalidatePath('/contact');
   revalidatePath(`/contact`);
   return { success: true };
 }
@@ -408,7 +408,7 @@ export const updateUser = async (
     .where(eq(users.id, id))
     .returning({ id: users.id });
 
-  revalidatePath('/dashboard/account');
+  revalidatePath('/account');
   revalidatePath(`/${username}`);
 
   return { success: true };
@@ -479,7 +479,7 @@ export const updateUserCustomDomain = async (
     .where(eq(users.id, id))
     .returning({ id: users.id });
 
-  revalidatePath('/dashboard/account');
+  revalidatePath('/account');
   return { success: true, message: '76.76.21.21' };
 };
 //
@@ -649,7 +649,7 @@ export const createCollection = async () => {
       .from(collection)
       .where(eq(collection.userId, userData?.id)));
 
-  const userCollection =
+  let userCollection =
     userCollections &&
     (await db
       .insert(collection)
@@ -659,12 +659,17 @@ export const createCollection = async () => {
         title: 'New Collection' + ' ' + String(userCollections.length + 1),
         userId: userData?.id,
       })
-      .returning({ id: collection.id }));
-
-  revalidatePath('/dashboard/collections/');
+      .returning({
+        id: collection.id,
+        title: collection.title,
+        slug: collection.slug,
+        visibility: collection.visibility,
+        idx: collection.idx,
+      }));
+  revalidatePath('/collections');
 
   if (userCollection) {
-    return userCollection[0].id;
+    return userCollection[0] as ICollection;
   }
 };
 
@@ -672,15 +677,14 @@ export const deleteCVSection = async (id: number) => {
   const userData = await user();
 
   await db.delete(cvSection).where(eq(cvSection.id, id));
-  revalidatePath('/dashboard/cv');
-  revalidatePath(`/${userData?.username}/cv`);
+  revalidatePath('/cv');
   const res = await getCVPageData('CV');
   return res;
 };
 
 export const deleteCollection = async (id: number) => {
   await db.delete(collection).where(eq(collection.id, id));
-  redirect('/dashboard/collections');
+  redirect('/collections');
 };
 
 export const deleteCVSectionBulletPoint = async (
@@ -690,8 +694,7 @@ export const deleteCVSectionBulletPoint = async (
   const userData = await user();
   const bulletPointKey = `bulletPoint${bulletPointIndex + 1}`;
 
-  revalidatePath('/dashboard/cv');
-  revalidatePath(`/${userData?.username}/cv`);
+  revalidatePath('/cv');
 
   return await db
     .update(cvSection)
@@ -780,7 +783,7 @@ export const saveCVSections = async (
     }
   });
 
-  revalidatePath('/dashboard/cv');
+  revalidatePath('/cv');
   revalidatePath(`/cv`);
   const res = await getCVPageData('cv');
   return res;
@@ -993,8 +996,8 @@ export const addMedia = async (
       type: newMedia.type,
     })
     .returning({ id: media.id });
-  revalidatePath(`/dashboard/collections/${slug}/piece/${id}`);
-  revalidatePath(`/dashboard/collections/${slug}/new`);
+  revalidatePath(`/collections/${slug}/piece/${id}`);
+  revalidatePath(`/collections/${slug}/new`);
   revalidatePath(`/${slug}`);
   revalidatePath('/');
   return newMediaEntry[0];
@@ -1008,14 +1011,14 @@ export const deleteWork = async (workId: number, collectionId: number) => {
 
   await db.delete(work).where(eq(work.id, workId));
 
-  revalidatePath(`/dashboard/collections/${userCollection[0].slug}`);
+  revalidatePath(`/collections/${userCollection[0].slug}`);
   redirect(`/dashboard/collections/${userCollection[0].slug}`);
 };
 
 export const deleteMedia = async (mediaId: number, slug: string) => {
   await db.delete(media).where(eq(media.id, mediaId));
 
-  revalidatePath(`/dashboard/collections/${slug}`);
+  revalidatePath(`/collections/${slug}`);
 };
 
 export const makeMainMedia = async (
@@ -1027,8 +1030,8 @@ export const makeMainMedia = async (
   // need idx property on media, fetch them in order
   await db.update(media).set({ main: 'false' }).where(eq(media.workId, workId));
   await db.update(media).set({ main: 'true' }).where(eq(media.id, mediaId));
-  revalidatePath(`/dashboard/collections/${slug}/piece/${workId}`);
-  revalidatePath(`/dashboard/collections/${slug}/new`);
+  revalidatePath(`/collections/${slug}/piece/${workId}`);
+  revalidatePath(`/collections/${slug}/new`);
   revalidatePath(`/${slug}`);
   revalidatePath('/');
 };
@@ -1068,9 +1071,11 @@ export const getUserCollection = async (slug: string) => {
     }, {} as ICollection);
 
   if (result) {
-    revalidatePath(`/dashboard/${result.slug}`);
     revalidatePath(`/${result.slug}`);
-    const sorted = result.works.sort((a, b) => a.idx - b.idx);
+    revalidatePath(`/${result.slug}`);
+    const sorted = result.works
+      ? result.works.sort((a, b) => a.idx - b.idx)
+      : result.works;
 
     return { ...result, works: sorted };
   } else {
@@ -1225,8 +1230,7 @@ export const reorderWorks = async (updatedWorks: IWork[]) => {
       .where(eq(work.id, Number(updatedWorks[i].id)))
       .returning({ id: work.id });
   }
-  // revalidatePath(`/dashboard/collections/${userData?.username}`);
-  // revalidatePath(`/${userData?.username}/${userData?.username}`);
+  // revalidatePath(`/collections/${userData?.username}`);
 };
 
 export const reorderCollections = async (updatedCollections: ICollection[]) => {
@@ -1240,8 +1244,7 @@ export const reorderCollections = async (updatedCollections: ICollection[]) => {
       .where(eq(collection.id, Number(updatedCollections[i].id)))
       .returning({ id: collection.id });
   }
-  // revalidatePath(`/dashboard/collections/${userData?.username}`);
-  // revalidatePath(`/${userData?.username}/${userData?.username}`);
+  // revalidatePath(`/collections/${userData?.username}`);
 };
 
 export const updateCollection = async (
@@ -1306,7 +1309,7 @@ export const updateCollection = async (
     .where(eq(collection.id, id))
     .returning({ id: collection.id });
 
-  revalidatePath(`/dashboard/collections/${slug}`);
+  revalidatePath(`/collections/${slug}`);
   revalidatePath(`/${slug}`);
   revalidatePath(`/`);
 
@@ -1329,8 +1332,7 @@ export const updateCollectionVisibility = async (
     .set({ visibility: visibility })
     .where(eq(collection.id, collectionId));
 
-  collectionData &&
-    revalidatePath(`/dashboard/collections/${collectionData.slug}`);
+  collectionData && revalidatePath(`/collections/${collectionData.slug}`);
 };
 
 export const getUserWork = async (id: number) => {

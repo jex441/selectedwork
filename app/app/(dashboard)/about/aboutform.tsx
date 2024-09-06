@@ -78,7 +78,7 @@ export default function AboutForm({ data }: { data: IAboutPage }) {
               id="text"
               name="text"
               placeholder="About you"
-              className="min-h-[320px]"
+              className="min-h-[220px]"
               defaultValue={data.text ?? ''}
             />
           </div>
