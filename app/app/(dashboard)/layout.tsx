@@ -41,6 +41,9 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const user = await getUserData();
+  if (user === null) {
+    return 'Error';
+  }
   return (
     <div className="flex min-h-screen w-full flex-row">
       <Toaster position="top-right" />
