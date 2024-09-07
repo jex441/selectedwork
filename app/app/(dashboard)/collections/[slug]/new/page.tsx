@@ -34,6 +34,7 @@ import {
   deleteMedia,
   createWorkWithMedia,
 } from '@/app/lib/data';
+import { toast } from 'react-hot-toast';
 
 export default function NewPieceForm({
   params,
@@ -106,17 +107,19 @@ export default function NewPieceForm({
     }
 
     await createWork(work).then((res) => {
-      window.location.href = `/collections/${params.slug}`;
+      toast.success('Success!');
+      setTimeout(() => {
+        window.location.href = `/collections/${params.slug}`;
+      }, 800);
     });
   };
-  console.log(params.slug);
 
   return (
     <form
       action={createWorkHandler}
       className="grid h-full w-full items-center gap-6 px-6 md:grid-cols-2"
     >
-      <div className="mx-auto flex w-5/6 flex-col items-center">
+      <div className="mx-auto flex w-5/6 flex-col">
         <div className="relative flex h-[300px] w-full flex-col items-center">
           {work.media.length ? (
             <Image
@@ -142,46 +145,57 @@ export default function NewPieceForm({
             />
           )}
         </div>
-        <div className="m-10 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
-          {work?.media
-            .filter((w) => w.main === 'false')
-            .map((media, index) => (
-              <DropdownMenu key={media.url}>
-                <DropdownMenuTrigger asChild>
-                  <div className="group relative">
-                    <Image
-                      src={media.url ?? ''}
-                      alt="Thumbnail"
-                      width={150}
-                      height={150}
-                      className="aspect-square  object-cover"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem
-                    onClick={() => changeMainMediaHandler(media.url)}
-                  >
-                    Make Main Image
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => deleteMediaHandler(index)}>
-                    Delete
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ))}
-        </div>
-        <UploadButton
-          className="self-start"
-          endpoint="imageUploader"
-          onClientUploadComplete={(res) => {
-            addMediaHandler(res[0].url);
-          }}
-          onUploadError={(error: Error) => {
-            alert(`ERROR! ${error.message}`);
-          }}
-        />
+        {work.media.length ? (
+          <div className="flex  w-full flex-col p-2 text-sm dark:border-gray-800">
+            <div className="grid h-[60px] w-full grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
+              {work?.media
+                .filter((w) => w.main === 'false')
+                .map((media, index) => (
+                  <DropdownMenu key={media.url}>
+                    <DropdownMenuTrigger asChild>
+                      <div className="group relative">
+                        <Image
+                          src={media.url ?? ''}
+                          alt="Thumbnail"
+                          width={150}
+                          height={150}
+                          className="aspect-square  object-cover"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                      </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem
+                        onClick={() => changeMainMediaHandler(media.url)}
+                      >
+                        Make Main Image
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => deleteMediaHandler(index)}
+                      >
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ))}
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <span className="m-2 text-xs">Add more images of this piece</span>
+              <span>
+                <UploadButton
+                  className="self-start"
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    addMediaHandler(res[0].url);
+                  }}
+                  onUploadError={(error: Error) => {
+                    alert(`ERROR! ${error.message}`);
+                  }}
+                />
+              </span>
+            </div>
+          </div>
+        ) : null}
       </div>
 
       <div className="mx-auto grid w-5/6">
