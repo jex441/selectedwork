@@ -98,19 +98,19 @@ export default function PieceForm({
       className="grid h-full w-full items-center gap-6 px-6 md:grid-cols-2"
     >
       <div className="mx-auto flex w-5/6 flex-col">
-        <div className="relative flex h-[400px] w-full flex-col items-center">
+        <div className="relative mb-2 flex h-[400px] w-full flex-col items-center">
           <Image
-            src={curWork.media.filter((m) => m.main === 'true')[0].url ?? ''}
+            src={curWork.media.filter((m) => m.main === 'true')[0]?.url ?? ''}
             alt="Product Image"
             width={0}
             height={0}
             fill={true}
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-            className="border border-gray-200 object-contain dark:border-gray-800"
+            className="object-contain"
           />
         </div>
         {curWork.media.length ? (
-          <div className="flex  w-full flex-col p-2 text-sm dark:border-gray-800">
+          <div className="flex  w-full flex-col p-2 text-sm">
             <div className="grid h-[60px] w-full grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
               {work?.media
                 .filter((w) => w.main === 'false')
