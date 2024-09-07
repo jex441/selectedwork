@@ -930,11 +930,11 @@ export const createWork = async (data: IWork) => {
         price: price,
         currency: currency,
         location: location,
-        sold: sold,
+        sold: sold ? 'true' : 'false',
         hidden: 'false',
       })
       .returning({ id: work.id }));
-
+  console.log('data::', data);
   // // figure this out:
   newWork &&
     newWork[0].id &&

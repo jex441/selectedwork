@@ -60,7 +60,7 @@ export default function NewPieceForm({
     location: '',
     price: '',
     currency: '',
-    sold: '',
+    sold: false,
     hidden: '',
     displayHeight: '',
     displayWidth: '',
@@ -120,7 +120,7 @@ export default function NewPieceForm({
       className="grid h-full w-full items-center gap-6 px-6 md:grid-cols-2"
     >
       <div className="mx-auto flex w-5/6 flex-col">
-        <div className="relative flex h-[300px] w-full flex-col items-center">
+        <div className="relative flex h-[400px] w-full flex-col items-center">
           {work.media.length ? (
             <Image
               src={work.media.filter((m) => m.main === 'true')[0].url ?? ''}
@@ -129,7 +129,7 @@ export default function NewPieceForm({
               height={0}
               fill={true}
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-              className="object-fit border border-gray-200 dark:border-gray-800"
+              className="border border-gray-200 object-contain dark:border-gray-800"
             />
           ) : (
             <UploadDropzone
@@ -166,7 +166,9 @@ export default function NewPieceForm({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
-                        onClick={() => changeMainMediaHandler(media.url)}
+                        onClick={() =>
+                          changeMainMediaHandler(media.url as string)
+                        }
                       >
                         Make Main Image
                       </DropdownMenuItem>
@@ -308,11 +310,13 @@ export default function NewPieceForm({
             </div>
             <div className="grid gap-2.5">
               <Label htmlFor="sold">Mark as Sold</Label>
-              {/* <Checkbox
+              <Checkbox
                 name="sold"
-                checked={work.sold}
-                onChange={(e) => changeHandler(e.target.value, e.target.name)}
-              /> */}
+                defaultChecked={work.sold}
+                onCheckedChange={(checked) =>
+                  setWork({ ...work, sold: checked as boolean })
+                }
+              />
             </div>
           </div>
 
