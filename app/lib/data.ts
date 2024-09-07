@@ -952,32 +952,11 @@ export const createWork = async (data: IWork) => {
   // redirect(`/collections/${userCollectionData[0].slug}`);
 };
 
-export const updateWork = async (id: number, formData: FormData) => {
+export const updateWork = async (data: IWork) => {
   const user = await getUserData();
-  const validatedFields = CreateWorkSchema.safeParse({
-    userCollection: formData.get('userCollection'),
-    title: formData.get('title') || '',
-    medium: formData.get('medium') || '',
-    year: formData.get('year') || '',
-    description: formData.get('description') || '',
-    height: formData.get('height') || '',
-    width: formData.get('width') || '',
-    depth: formData.get('depth') || '',
-    unit: formData.get('unit') || '',
-    price: formData.get('price') || '',
-    currency: formData.get('currency') || '',
-    location: formData.get('location') || '',
-    sold: formData.get('sold') === 'on' ? 'true' : 'false',
-  });
-  if (!validatedFields.success) {
-    console.log('error!', validatedFields.error.flatten().fieldErrors);
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Work.',
-    };
-  }
+
   const {
-    userCollection,
+    collectionSlug,
     title,
     medium,
     year,
@@ -990,29 +969,14 @@ export const updateWork = async (id: number, formData: FormData) => {
     currency,
     location,
     sold,
-  } = validatedFields.data;
-
-  const userCollectionData =
+  } = data;
+  console.log('data::', data);
+  const updatedWork =
     user &&
     user.id !== null &&
-    (await db
-      .select()
-      .from(collection)
-      .where(
-        and(
-          eq(collection.slug, userCollection),
-          eq(collection.userId, user.id),
-        ),
-      ));
-  const newWork =
-    user &&
-    user.id !== null &&
-    userCollectionData &&
-    userCollectionData[0].id !== null &&
     (await db
       .update(work)
       .set({
-        collectionId: userCollectionData[0].id,
         title: title,
         medium: medium,
         year: year,
@@ -1024,10 +988,10 @@ export const updateWork = async (id: number, formData: FormData) => {
         price: price,
         currency: currency,
         location: location,
-        sold: sold,
+        sold: sold ? 'true' : 'false',
         hidden: 'false',
       })
-      .where(eq(work.id, id)));
+      .where(eq(work.id, data.id as number)));
 
   revalidatePath(`/collections/${collection.slug}`);
   revalidatePath(`/${collection.slug}`);
@@ -1099,16 +1063,14 @@ export const addMedia = async (
   return newMediaEntry[0];
 };
 
-export const deleteWork = async (workId: number, collectionId: number) => {
-  const userCollection = await db
-    .select()
-    .from(collection)
-    .where(eq(collection.id, collectionId));
-
+export const deleteWork = async (workId: number, collectionSlug: string) => {
   await db.delete(work).where(eq(work.id, workId));
 
-  revalidatePath(`/collections/${userCollection[0].slug}`);
-  redirect(`/collections/${userCollection[0].slug}`);
+  revalidatePath(`/collections/${collectionSlug}`);
+  revalidatePath(`/${collectionSlug}`);
+  revalidatePath(`/`);
+
+  // redirect(`/collections/${collectionSlug}`);
 };
 
 export const deleteMedia = async (mediaId: number, slug: string) => {

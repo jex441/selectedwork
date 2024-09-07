@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -36,14 +37,21 @@ import {
 } from '@/app/lib/data';
 
 export default function PieceForm({
-  work,
   slug,
+  work,
 }: {
-  work: IWork;
   slug: string;
+  work: IWork;
 }) {
+  const [curWork, setCurWork] = useState<IWork>(work);
+
   const initialState: WorkState = { message: null, errors: {} };
-  const createWorkWithId = work.id && updateWork.bind(null, work.id);
+
+  const updateWorkHandler = async () => {
+    await updateWork(curWork).then((res) => {
+      toast.success('Work Updated!');
+    });
+  };
 
   const addMediaHandler = async (id: number, url: string) => {
     const newMedia = { url: url, type: 'image', main: 'false' };
@@ -52,15 +60,11 @@ export default function PieceForm({
     });
   };
 
-  const makeMainMediaHandler = async (workId: number, mediaId: number) => {
-    work.collectionId &&
-      (await makeMainMedia(workId, mediaId, slug).then((res) => {
-        toast.success('Main Image Updated!');
+  const deleteWorkHandler = async (workId: number, collectionSlug: string) => {
+    work &&
+      (await deleteWork(workId, collectionSlug).then((res) => {
+        window.location.href = `/collections/${slug}`;
       }));
-  };
-
-  const deleteWorkHandler = async (workId: number, collectionId: number) => {
-    work && (await deleteWork(workId, collectionId));
   };
 
   const deleteMediaHandler = async (mediaId: number) => {
@@ -70,93 +74,113 @@ export default function PieceForm({
       }));
   };
 
-  const mainMedia = work.media.filter((m) => m.main === 'true');
+  const changeMainMediaHandler = async (url: string) => {
+    const newMedia = curWork.media.map((m, idx) => {
+      if (m.url === url) {
+        return { ...m, main: 'true' };
+      } else {
+        return { ...m, main: 'false' };
+      }
+    });
+    setCurWork({ ...work, media: newMedia });
+  };
+
+  const changeHandler = (value: string, name: string) => {
+    setCurWork({ ...curWork, [name]: value });
+  };
 
   return (
     <form
-      action={createWorkWithId || ''}
-      className="mx-auto grid  max-w-6xl items-center  justify-start gap-6 py-10 md:grid-cols-2"
+      action={updateWorkHandler}
+      className="grid h-full w-full items-center gap-6 px-6 md:grid-cols-2"
     >
-      <div className="relative flex h-[550px] flex-col items-center">
-        {/* <Link href="/collections/piece/scale"> */}
-        <Image
-          src={mainMedia[0]?.url ?? placeholder}
-          alt="Product Image"
-          width={0}
-          height={0}
-          sizes="100vw"
-          className="max-h-[620px] w-full self-center object-contain lg:h-[400px] lg:max-w-[500px]"
-        />
-        {/* </Link> */}
-        <div className="my-4 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
-          {work?.media
-            .filter((w) => w.main === 'false')
-            .map((media, index) => (
-              <DropdownMenu key={media.url}>
-                <DropdownMenuTrigger asChild>
-                  <div className="group relative">
-                    <Image
-                      src={media.url ?? ''}
-                      alt="Thumbnail"
-                      width={150}
-                      height={150}
-                      className="aspect-square  object-cover"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem
-                    onClick={() =>
-                      work.id && makeMainMediaHandler(work.id, media.id)
-                    }
-                  >
-                    Make Main Image
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => deleteMediaHandler(media.id)}
-                  >
-                    Delete
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ))}
+      <div className="mx-auto flex w-5/6 flex-col">
+        <div className="relative flex h-[400px] w-full flex-col items-center">
+          <Image
+            src={curWork.media.filter((m) => m.main === 'true')[0].url ?? ''}
+            alt="Product Image"
+            width={0}
+            height={0}
+            fill={true}
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+            className="border border-gray-200 object-contain dark:border-gray-800"
+          />
         </div>
-        <UploadButton
-          className="self-start"
-          endpoint="imageUploader"
-          onClientUploadComplete={(res) => {
-            work.id && addMediaHandler(work.id, res[0].url);
-          }}
-          onUploadError={(error: Error) => {
-            alert(`ERROR! ${error.message}`);
-          }}
-        />
+        {curWork.media.length ? (
+          <div className="flex  w-full flex-col p-2 text-sm dark:border-gray-800">
+            <div className="grid h-[60px] w-full grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8">
+              {work?.media
+                .filter((w) => w.main === 'false')
+                .map((media, index) => (
+                  <DropdownMenu key={media.url}>
+                    <DropdownMenuTrigger asChild>
+                      <div className="group relative">
+                        <Image
+                          src={media.url ?? ''}
+                          alt="Thumbnail"
+                          width={150}
+                          height={150}
+                          className="aspect-square  object-cover"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                      </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem
+                        onClick={() =>
+                          changeMainMediaHandler(media.url as string)
+                        }
+                      >
+                        Make Main Image
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => deleteMediaHandler(media.id as number)}
+                      >
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ))}
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <span className="m-2 text-xs">Add more images of this piece</span>
+              <span>
+                <UploadButton
+                  className="self-start"
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    addMediaHandler(curWork.id, res[0].url);
+                  }}
+                  onUploadError={(error: Error) => {
+                    alert(`ERROR! ${error.message}`);
+                  }}
+                />
+              </span>
+            </div>
+          </div>
+        ) : null}
       </div>
 
-      <div className="mx-auto grid h-[550px] w-5/6 gap-2">
-        <div className="grid gap-2">
+      <div className="mx-auto grid w-5/6">
+        <div className="grid gap-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2.5">
               <Label htmlFor="title">Title</Label>
               <Input
-                name="userCollection"
-                defaultValue={slug}
-                className="hidden"
-              />
-              <Input
+                value={curWork.title ?? ''}
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="title"
                 placeholder="Title"
-                defaultValue={work.title ?? ''}
               />
             </div>
             <div className="grid w-20 gap-2.5">
               <Label htmlFor="year">Year</Label>
               <Input
+                value={curWork.year ?? ''}
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="year"
                 type="number"
                 placeholder="Year"
-                defaultValue={work.year ?? ''}
               />
             </div>
           </div>
@@ -164,9 +188,10 @@ export default function PieceForm({
             <div className="grid gap-2.5">
               <Label htmlFor="medium">Medium</Label>
               <Input
+                value={curWork.medium ?? ''}
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="medium"
                 placeholder="Medium"
-                defaultValue={work.medium ?? ''}
               />
             </div>
           </div>
@@ -175,33 +200,36 @@ export default function PieceForm({
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="height">Height</Label>
               <Input
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="height"
                 type="number"
                 placeholder="height"
-                defaultValue={work.height ?? ''}
               />
             </div>
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="width">Width</Label>
               <Input
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="width"
                 type="number"
                 placeholder="width"
-                defaultValue={work.width ?? ''}
               />
             </div>
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="depth">Depth</Label>
               <Input
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="depth"
                 type="number"
                 placeholder="depth"
-                defaultValue={work.depth ?? ''}
               />
             </div>
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="unit">Unit</Label>
-              <Select name="unit" defaultValue={work.unit ?? ''}>
+              <Select
+                name="unit"
+                onValueChange={(value) => changeHandler(value, 'unit')}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="select" />
                 </SelectTrigger>
@@ -220,45 +248,45 @@ export default function PieceForm({
             <Textarea
               name="description"
               placeholder="Description"
-              defaultValue={work.description ?? ''}
+              onChange={(e) => changeHandler(e.target.value, e.target.name)}
             />
           </div>
           <div className="grid gap-2.5">
             <Label htmlFor="location">Location</Label>
             <Input
+              onChange={(e) => changeHandler(e.target.value, e.target.name)}
               name="location"
               placeholder="Artwork location or collection"
-              defaultValue={work.location ?? ''}
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2.5">
-              <Label htmlFor="price">Price in USD</Label>
+              <Label htmlFor="price">Price</Label>
               <Input
                 name="price"
                 type="number"
                 placeholder="Price"
-                defaultValue={work.price ?? ''}
+                onChange={(e) => changeHandler(e.target.value, e.target.name)}
               />
             </div>
             <div className="grid gap-2.5">
               <Label htmlFor="sold">Mark as Sold</Label>
-              <Checkbox name="sold" defaultChecked={work.sold === 'true'} />
+              <Checkbox
+                name="sold"
+                defaultChecked={curWork.sold}
+                onCheckedChange={(checked) =>
+                  setCurWork({ ...curWork, sold: checked as boolean })
+                }
+              />
             </div>
           </div>
 
           <div className="my-4 flex justify-between gap-2">
-            <Button>Save Changes</Button>
-            {/* <Button variant="outline">Discard Changes</Button> */}
+            <Button type="submit">Submit</Button>
             <Button
-              variant="outline"
-              className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-              onClick={() => {
-                work &&
-                  work.id !== null &&
-                  work.collectionId !== null &&
-                  deleteWorkHandler(work.id, work.collectionId);
-              }}
+              type="button"
+              className="bg-red-500"
+              onClick={() => deleteWorkHandler(curWork.id as number, slug)}
             >
               Delete Work
             </Button>
