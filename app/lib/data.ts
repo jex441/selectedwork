@@ -946,9 +946,9 @@ export const createWork = async (data: IWork) => {
         type: m.type || 'image',
       });
     });
-  // revalidatePath(`/collections/${collection.slug}`);
-  // revalidatePath(`/${collection.slug}`);
-  // revalidatePath('/');
+  revalidatePath(`/collections/${collection.slug}`);
+  revalidatePath(`/${collection.slug}`);
+  revalidatePath('/');
   // redirect(`/collections/${userCollectionData[0].slug}`);
 };
 

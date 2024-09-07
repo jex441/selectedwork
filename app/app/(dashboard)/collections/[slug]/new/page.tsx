@@ -109,11 +109,11 @@ export default function NewPieceForm({
       window.location.href = `/collections/${params.slug}`;
     });
   };
+  console.log(params.slug);
 
   return (
     <form
-      // action={createWork}
-      onSubmit={createWorkHandler}
+      action={createWorkHandler}
       className="grid h-full w-full items-center gap-6 px-6 md:grid-cols-2"
     >
       <div className="mx-auto flex w-5/6 flex-col items-center">
