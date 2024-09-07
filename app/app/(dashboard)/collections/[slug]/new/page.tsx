@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -73,16 +73,15 @@ export default function NewPieceForm({
       type: 'image',
       main: work.media.length ? 'false' : 'true',
     };
-    // const res = await addMedia(id, newMedia, params.slug);
     setWork({
       ...work,
       media: [...work.media, newMedia],
     });
   };
 
-  const makeMainMediaHandler = async (index: number) => {
+  const changeMainMediaHandler = async (url: string) => {
     const newMedia = work.media.map((m, idx) => {
-      if (idx === index) {
+      if (m.url === url) {
         return { ...m, main: 'true' };
       } else {
         return { ...m, main: 'false' };
@@ -90,40 +89,27 @@ export default function NewPieceForm({
     });
     setWork({ ...work, media: newMedia });
   };
-  // const createWorkWithMediaHandler = async (slug: string, url: string) => {
-  //   const newMedia = { id: null, url: url, type: 'image', main: 'true' };
-  //   // const newWork = await createWorkWithMedia(slug, newMedia);
-  //   // newWork && setWork(newWork);
-  //   newMedia && setWork({ ...work, media: [...work.media, newMedia] });
-  // };
-  const deleteWorkHandler = async (workId: number, collectionId: number) => {
-    work &&
-      (await deleteWork(workId, collectionId).then(() => {
-        window.location.href = `/collections/${params.slug}`;
-      }));
-  };
 
   const deleteMediaHandler = async (index: number) => {
     const newMedia = work.media.filter((m, idx) => idx !== index);
     setWork({ ...work, media: newMedia });
   };
 
-  const mainMedia = work.media.filter((m) => m.main === 'true');
-  // create work without id, array of media urls
-  // then update work with id, array of media objects
-
   const changeHandler = (value: string, name: string) => {
     setWork({ ...work, [name]: value });
   };
+
   const createWorkHandler = async () => {
     if (work.media.length === 0) {
       alert('Please add an image');
       return;
     }
+
     await createWork(work).then((res) => {
       window.location.href = `/collections/${params.slug}`;
     });
   };
+
   return (
     <form
       // action={createWork}
@@ -132,9 +118,9 @@ export default function NewPieceForm({
     >
       <div className="mx-auto flex w-5/6 flex-col items-center">
         <div className="relative flex h-[300px] w-full flex-col items-center">
-          {mainMedia[0]?.url ? (
+          {work.media.length ? (
             <Image
-              src={mainMedia[0]?.url}
+              src={work.media.filter((m) => m.main === 'true')[0].url ?? ''}
               alt="Product Image"
               width={0}
               height={0}
@@ -174,26 +160,18 @@ export default function NewPieceForm({
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => makeMainMediaHandler(index)}>
+                  <DropdownMenuItem
+                    onClick={() => changeMainMediaHandler(media.url)}
+                  >
                     Make Main Image
                   </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => deleteMediaHandler(media.id)}
-                  >
+                  <DropdownMenuItem onClick={() => deleteMediaHandler(index)}>
                     Delete
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ))}
         </div>
-        {work.media.map((media, idx) => (
-          <input
-            type="text"
-            name={`media-${idx}`}
-            defaultValue={media.url ?? ''}
-            className="hidden"
-          />
-        ))}
         <UploadButton
           className="self-start"
           endpoint="imageUploader"
@@ -211,13 +189,6 @@ export default function NewPieceForm({
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2.5">
               <Label htmlFor="title">Title</Label>
-              {/* <Input
-                value={work.title ?? ''}
-                onChange={(e) => changeHandler(e.target.value, e.target.name)}
-                name="userCollection"
-                defaultValue={params.slug}
-                className="hidden"
-              /> */}
               <Input
                 value={work.title ?? ''}
                 onChange={(e) => changeHandler(e.target.value, e.target.name)}
@@ -332,20 +303,7 @@ export default function NewPieceForm({
           </div>
 
           <div className="my-4 flex justify-between gap-2">
-            <Button type="submit">Save Changes</Button>
-            {/* <Button variant="outline">Discard Changes</Button> */}
-            <Button
-              variant="outline"
-              className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-              onClick={() => {
-                work &&
-                  work.id !== null &&
-                  work.collectionId !== null &&
-                  deleteWorkHandler(work.id, work.collectionId);
-              }}
-            >
-              Delete Work
-            </Button>
+            <Button type="submit">Submit</Button>
           </div>
         </div>
       </div>
