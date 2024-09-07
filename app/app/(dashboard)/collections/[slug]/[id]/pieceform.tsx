@@ -74,15 +74,18 @@ export default function PieceForm({
       }));
   };
 
-  const changeMainMediaHandler = async (url: string) => {
-    const newMedia = curWork.media.map((m, idx) => {
-      if (m.url === url) {
-        return { ...m, main: 'true' };
-      } else {
-        return { ...m, main: 'false' };
-      }
+  const changeMainMediaHandler = async (url: string, mediaId: number) => {
+    await makeMainMedia(curWork.id as number, mediaId, slug).then((res) => {
+      const newMedia = curWork.media.map((m, idx) => {
+        if (m.url === url) {
+          return { ...m, main: 'true' };
+        } else {
+          return { ...m, main: 'false' };
+        }
+      });
+      setCurWork({ ...work, media: newMedia });
+      toast.success('Main Image Updated!');
     });
-    setCurWork({ ...work, media: newMedia });
   };
 
   const changeHandler = (value: string, name: string) => {
@@ -128,7 +131,10 @@ export default function PieceForm({
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
                         onClick={() =>
-                          changeMainMediaHandler(media.url as string)
+                          changeMainMediaHandler(
+                            media.url as string,
+                            media.id as number,
+                          )
                         }
                       >
                         Make Main Image
@@ -149,7 +155,7 @@ export default function PieceForm({
                   className="self-start"
                   endpoint="imageUploader"
                   onClientUploadComplete={(res) => {
-                    addMediaHandler(curWork.id, res[0].url);
+                    curWork.id && addMediaHandler(curWork.id, res[0].url);
                   }}
                   onUploadError={(error: Error) => {
                     alert(`ERROR! ${error.message}`);
