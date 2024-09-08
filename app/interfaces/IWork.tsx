@@ -1,5 +1,5 @@
 export interface IMedia {
-  id: number;
+  id: number | null;
   type: string | null;
   main: string | null;
   url: string | null;
@@ -20,7 +20,7 @@ export interface IWork {
   location: string | null;
   price: string | null;
   currency: string | null;
-  sold: string | null;
+  sold: boolean | string | null;
   hidden: string | null;
   displayHeight: string | null;
   displayWidth: string | null;

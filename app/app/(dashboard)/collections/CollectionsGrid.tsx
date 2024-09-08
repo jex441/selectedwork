@@ -21,7 +21,7 @@ import {
   sortableKeyboardCoordinates,
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
-
+import CreateButton from './createbutton';
 import { reorderCollections } from '@/app/lib/data';
 import { ICollection } from '@/app/interfaces/ICollection';
 import { IWork } from '@/app/interfaces/IWork';
@@ -29,11 +29,14 @@ import Collection from './[slug]/page';
 import placeholder from '../../../assets/placeholder.png';
 
 export default function CollectionsGrid({ data }: { data: ICollection[] }) {
+  const [collections, setCollections] = useState<ICollection[]>(data);
   const [activeId, setActiveId] = useState<string | number | null>(null);
   const [items, setItems] = useState<number[]>(
-    data.map((collection) => collection.idx),
+    collections.map((collection) => collection.idx),
   );
-
+  useEffect(() => {
+    setItems(collections.map((collection) => collection.idx));
+  }, [collections]);
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -76,46 +79,49 @@ export default function CollectionsGrid({ data }: { data: ICollection[] }) {
   if (!items.length) return null;
 
   return (
-    <div className="flex flex-1 justify-start">
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-        onDragStart={handleDragStart}
-      >
-        <Box flex={true} wrap={true} direction="row">
-          <SortableContext items={items} strategy={rectSortingStrategy}>
-            {items.map((idx) => {
-              const collection = data.find(
-                (collection) => collection.idx === idx,
-              );
-              if (!collection) return null;
-              if (!collection.slug) return null;
-              return (
-                <CollectionThumbnail
-                  key={idx}
-                  idx={idx}
-                  handle={true}
-                  slug={collection.slug}
-                  collection={collection}
-                />
-              );
-            })}
-            <DragOverlay>
-              {activeId ? (
-                <div
-                  style={{
-                    width: '250px',
-                    height: '200px',
-                    backgroundColor: '#ccc',
-                    borderRadius: '5px',
-                  }}
-                ></div>
-              ) : null}
-            </DragOverlay>
-          </SortableContext>
-        </Box>
-      </DndContext>
-    </div>
+    <>
+      <div className="block flex h-full w-full flex-1 justify-start ">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+          onDragStart={handleDragStart}
+        >
+          <Box flex={true} wrap={true} direction="row">
+            <SortableContext items={items} strategy={rectSortingStrategy}>
+              {items.map((idx) => {
+                const collection = collections.find(
+                  (collection) => collection.idx === idx,
+                );
+                if (!collection) return null;
+                if (!collection.slug) return null;
+                return (
+                  <CollectionThumbnail
+                    key={idx}
+                    idx={idx}
+                    handle={true}
+                    slug={collection.slug}
+                    collection={collection}
+                  />
+                );
+              })}
+              <DragOverlay>
+                {activeId ? (
+                  <div
+                    style={{
+                      width: '250px',
+                      height: '200px',
+                      backgroundColor: '#ccc',
+                      borderRadius: '5px',
+                    }}
+                  ></div>
+                ) : null}
+              </DragOverlay>
+            </SortableContext>
+          </Box>
+        </DndContext>
+      </div>
+      <CreateButton collections={collections} setCollections={setCollections} />
+    </>
   );
 }

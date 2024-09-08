@@ -33,7 +33,9 @@ export default function settingsform({
 
   async function deleteCollectionHandler() {
     if (confirm('Are you sure you want to delete this collection?')) {
-      await deleteCollection(collection.id);
+      await deleteCollection(collection.id).then(() => {
+        window.location.href = '/collections';
+      });
     }
   }
   return (

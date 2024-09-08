@@ -34,6 +34,7 @@ import { IWork } from '../interfaces/IWork';
 import { get } from 'http';
 import { IContactPage } from '../interfaces/IContactPage';
 import { getCVPageDataForSite } from './requests';
+import { title } from 'process';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -163,7 +164,6 @@ export async function updateAbout(
     .returning({ id: about.id });
 
   revalidatePath('/about');
-  // revalidatePath(`/${userData?.username}/about`); ?
   return { success: true };
 }
 
@@ -322,7 +322,7 @@ export async function updateContactPage(
       })
       .where(eq(users.id, userData?.id)));
 
-  revalidatePath('/dashboard/contact');
+  revalidatePath('/contact');
   revalidatePath(`/contact`);
   return { success: true };
 }
@@ -408,7 +408,7 @@ export const updateUser = async (
     .where(eq(users.id, id))
     .returning({ id: users.id });
 
-  revalidatePath('/dashboard/account');
+  revalidatePath('/account');
   revalidatePath(`/${username}`);
 
   return { success: true };
@@ -479,7 +479,7 @@ export const updateUserCustomDomain = async (
     .where(eq(users.id, id))
     .returning({ id: users.id });
 
-  revalidatePath('/dashboard/account');
+  revalidatePath('/account');
   return { success: true, message: '76.76.21.21' };
 };
 //
@@ -649,7 +649,7 @@ export const createCollection = async () => {
       .from(collection)
       .where(eq(collection.userId, userData?.id)));
 
-  const userCollection =
+  let userCollection =
     userCollections &&
     (await db
       .insert(collection)
@@ -659,12 +659,17 @@ export const createCollection = async () => {
         title: 'New Collection' + ' ' + String(userCollections.length + 1),
         userId: userData?.id,
       })
-      .returning({ id: collection.id }));
-
-  revalidatePath('/dashboard/collections/');
+      .returning({
+        id: collection.id,
+        title: collection.title,
+        slug: collection.slug,
+        visibility: collection.visibility,
+        idx: collection.idx,
+      }));
+  revalidatePath('/collections');
 
   if (userCollection) {
-    return userCollection[0].id;
+    return userCollection[0] as ICollection;
   }
 };
 
@@ -672,15 +677,13 @@ export const deleteCVSection = async (id: number) => {
   const userData = await user();
 
   await db.delete(cvSection).where(eq(cvSection.id, id));
-  revalidatePath('/dashboard/cv');
-  revalidatePath(`/${userData?.username}/cv`);
+  revalidatePath('/cv');
   const res = await getCVPageData('CV');
   return res;
 };
 
 export const deleteCollection = async (id: number) => {
   await db.delete(collection).where(eq(collection.id, id));
-  redirect('/dashboard/collections');
 };
 
 export const deleteCVSectionBulletPoint = async (
@@ -690,8 +693,7 @@ export const deleteCVSectionBulletPoint = async (
   const userData = await user();
   const bulletPointKey = `bulletPoint${bulletPointIndex + 1}`;
 
-  revalidatePath('/dashboard/cv');
-  revalidatePath(`/${userData?.username}/cv`);
+  revalidatePath('/cv');
 
   return await db
     .update(cvSection)
@@ -780,7 +782,7 @@ export const saveCVSections = async (
     }
   });
 
-  revalidatePath('/dashboard/cv');
+  revalidatePath('/cv');
   revalidatePath(`/cv`);
   const res = await getCVPageData('cv');
   return res;
@@ -852,33 +854,33 @@ const CreateWorkSchema = z.object({
     .max(3, { message: 'Must be fewer than 3 characters.' })
     .nullish(),
 });
-
-export const createWork = async (id: number, formData: FormData) => {
+// convert to server action with object not formData?
+export const createWork = async (data: IWork, slug: string) => {
   const user = await getUserData();
-  const validatedFields = CreateWorkSchema.safeParse({
-    userCollection: formData.get('userCollection'),
-    title: formData.get('title') || '',
-    medium: formData.get('medium') || '',
-    year: formData.get('year') || '',
-    description: formData.get('description') || '',
-    height: formData.get('height') || '',
-    width: formData.get('width') || '',
-    depth: formData.get('depth') || '',
-    unit: formData.get('unit') || '',
-    price: formData.get('price') || '',
-    currency: formData.get('currency') || '',
-    location: formData.get('location') || '',
-    sold: formData.get('sold') === 'on' ? 'true' : 'false',
-  });
-  if (!validatedFields.success) {
-    console.log('error!', validatedFields.error.flatten().fieldErrors);
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Work.',
-    };
-  }
+  // const validatedFields = CreateWorkSchema.safeParse({
+  //   userCollection: formData.get('userCollection'),
+  //   title: formData.get('title') || '',
+  //   medium: formData.get('medium') || '',
+  //   year: formData.get('year') || '',
+  //   description: formData.get('description') || '',
+  //   height: formData.get('height') || '',
+  //   width: formData.get('width') || '',
+  //   depth: formData.get('depth') || '',
+  //   unit: formData.get('unit') || '',
+  //   price: formData.get('price') || '',
+  //   currency: formData.get('currency') || '',
+  //   location: formData.get('location') || '',
+  //   sold: formData.get('sold') === 'on' ? 'true' : 'false',
+  // });
+  // if (!validatedFields.success) {
+  //   console.log('error!', validatedFields.error.flatten().fieldErrors);
+  //   return {
+  //     errors: validatedFields.error.flatten().fieldErrors,
+  //     message: 'Missing Fields. Failed to Create Work.',
+  //   };
+  // }
   const {
-    userCollection,
+    // userCollection,
     title,
     medium,
     year,
@@ -891,28 +893,24 @@ export const createWork = async (id: number, formData: FormData) => {
     currency,
     location,
     sold,
-  } = validatedFields.data;
+  } = data;
 
+  console.log('work', work);
   const userCollectionData =
     user &&
     user.id !== null &&
     (await db
       .select()
       .from(collection)
-      .where(
-        and(
-          eq(collection.slug, userCollection),
-          eq(collection.userId, user.id),
-        ),
-      ));
+      .where(and(eq(collection.slug, slug), eq(collection.userId, user.id))));
   const newWork =
     user &&
     user.id !== null &&
     userCollectionData &&
     userCollectionData[0].id !== null &&
     (await db
-      .update(work)
-      .set({
+      .insert(work)
+      .values({
         collectionId: userCollectionData[0].id,
         title: title,
         medium: medium,
@@ -925,13 +923,69 @@ export const createWork = async (id: number, formData: FormData) => {
         price: price,
         currency: currency,
         location: location,
-        sold: sold,
+        sold: sold ? 'true' : 'false',
         hidden: 'false',
       })
-      .where(eq(work.id, id)));
+      .returning({ id: work.id }));
 
+  newWork &&
+    newWork[0].id &&
+    data.media.map(async (m) => {
+      await db.insert(media).values({
+        workId: newWork[0].id,
+        url: m.url || '',
+        main: m.main || 'false',
+        type: m.type || 'image',
+      });
+    });
   revalidatePath(`/collections/${collection.slug}`);
   revalidatePath(`/${collection.slug}`);
+  revalidatePath('/');
+  // redirect(`/collections/${userCollectionData[0].slug}`);
+};
+
+export const updateWork = async (data: IWork, collectionSlug: string) => {
+  const user = await getUserData();
+
+  const {
+    title,
+    medium,
+    year,
+    description,
+    height,
+    width,
+    depth,
+    unit,
+    price,
+    currency,
+    location,
+    sold,
+  } = data;
+  console.log('data::', data);
+  const updatedWork =
+    user &&
+    user.id !== null &&
+    (await db
+      .update(work)
+      .set({
+        title: title,
+        medium: medium,
+        year: year,
+        description: description,
+        height: height,
+        width: width,
+        depth: depth,
+        unit: unit,
+        price: price,
+        currency: currency,
+        location: location,
+        sold: sold ? 'true' : 'false',
+        hidden: 'false',
+      })
+      .where(eq(work.id, data.id as number)));
+
+  revalidatePath(`/collections/${collectionSlug}`);
+  revalidatePath(`/${collectionSlug}`);
   revalidatePath('/');
   // redirect(`/collections/${userCollectionData[0].slug}`);
 };
@@ -993,29 +1047,27 @@ export const addMedia = async (
       type: newMedia.type,
     })
     .returning({ id: media.id });
-  revalidatePath(`/dashboard/collections/${slug}/piece/${id}`);
-  revalidatePath(`/dashboard/collections/${slug}/new`);
+  revalidatePath(`/collections/${slug}/piece/${id}`);
+  revalidatePath(`/collections/${slug}/new`);
   revalidatePath(`/${slug}`);
   revalidatePath('/');
   return newMediaEntry[0];
 };
 
-export const deleteWork = async (workId: number, collectionId: number) => {
-  const userCollection = await db
-    .select()
-    .from(collection)
-    .where(eq(collection.id, collectionId));
-
+export const deleteWork = async (workId: number, collectionSlug: string) => {
   await db.delete(work).where(eq(work.id, workId));
 
-  revalidatePath(`/dashboard/collections/${userCollection[0].slug}`);
-  redirect(`/dashboard/collections/${userCollection[0].slug}`);
+  revalidatePath(`/collections/${collectionSlug}`);
+  revalidatePath(`/${collectionSlug}`);
+  revalidatePath(`/`);
+
+  // redirect(`/collections/${collectionSlug}`);
 };
 
 export const deleteMedia = async (mediaId: number, slug: string) => {
   await db.delete(media).where(eq(media.id, mediaId));
 
-  revalidatePath(`/dashboard/collections/${slug}`);
+  revalidatePath(`/collections/${slug}`);
 };
 
 export const makeMainMedia = async (
@@ -1027,8 +1079,9 @@ export const makeMainMedia = async (
   // need idx property on media, fetch them in order
   await db.update(media).set({ main: 'false' }).where(eq(media.workId, workId));
   await db.update(media).set({ main: 'true' }).where(eq(media.id, mediaId));
-  revalidatePath(`/dashboard/collections/${slug}/piece/${workId}`);
-  revalidatePath(`/dashboard/collections/${slug}/new`);
+  revalidatePath(`/collections/${slug}/piece/${workId}`);
+  revalidatePath(`/collections/${slug}/new`);
+  revalidatePath(`/collections/${slug}`);
   revalidatePath(`/${slug}`);
   revalidatePath('/');
 };
@@ -1058,7 +1111,11 @@ export const getUserCollection = async (slug: string) => {
       }
       if (work) {
         const isNew = acc.works.find((w) => w.id === work.id);
-        !isNew && acc.works.push({ ...work, media: [] });
+        !isNew &&
+          acc.works.push({
+            ...work,
+            media: [],
+          });
       }
       if (media) {
         acc.works.find((w) => w.id === media.workId)?.media.push(media);
@@ -1068,9 +1125,11 @@ export const getUserCollection = async (slug: string) => {
     }, {} as ICollection);
 
   if (result) {
-    revalidatePath(`/dashboard/${result.slug}`);
     revalidatePath(`/${result.slug}`);
-    const sorted = result.works.sort((a, b) => a.idx - b.idx);
+    revalidatePath(`/${result.slug}`);
+    const sorted = result.works
+      ? result.works.sort((a, b) => a.idx - b.idx)
+      : result.works;
 
     return { ...result, works: sorted };
   } else {
@@ -1225,8 +1284,7 @@ export const reorderWorks = async (updatedWorks: IWork[]) => {
       .where(eq(work.id, Number(updatedWorks[i].id)))
       .returning({ id: work.id });
   }
-  // revalidatePath(`/dashboard/collections/${userData?.username}`);
-  // revalidatePath(`/${userData?.username}/${userData?.username}`);
+  // revalidatePath(`/collections/${userData?.username}`);
 };
 
 export const reorderCollections = async (updatedCollections: ICollection[]) => {
@@ -1240,8 +1298,7 @@ export const reorderCollections = async (updatedCollections: ICollection[]) => {
       .where(eq(collection.id, Number(updatedCollections[i].id)))
       .returning({ id: collection.id });
   }
-  // revalidatePath(`/dashboard/collections/${userData?.username}`);
-  // revalidatePath(`/${userData?.username}/${userData?.username}`);
+  // revalidatePath(`/collections/${userData?.username}`);
 };
 
 export const updateCollection = async (
@@ -1306,7 +1363,7 @@ export const updateCollection = async (
     .where(eq(collection.id, id))
     .returning({ id: collection.id });
 
-  revalidatePath(`/dashboard/collections/${slug}`);
+  revalidatePath(`/collections/${slug}`);
   revalidatePath(`/${slug}`);
   revalidatePath(`/`);
 
@@ -1329,8 +1386,7 @@ export const updateCollectionVisibility = async (
     .set({ visibility: visibility })
     .where(eq(collection.id, collectionId));
 
-  collectionData &&
-    revalidatePath(`/dashboard/collections/${collectionData.slug}`);
+  collectionData && revalidatePath(`/collections/${collectionData.slug}`);
 };
 
 export const getUserWork = async (id: number) => {
