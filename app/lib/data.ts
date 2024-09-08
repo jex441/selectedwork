@@ -855,7 +855,7 @@ const CreateWorkSchema = z.object({
     .nullish(),
 });
 // convert to server action with object not formData?
-export const createWork = async (data: IWork) => {
+export const createWork = async (data: IWork, slug: string) => {
   const user = await getUserData();
   // const validatedFields = CreateWorkSchema.safeParse({
   //   userCollection: formData.get('userCollection'),
@@ -884,7 +884,6 @@ export const createWork = async (data: IWork) => {
     title,
     medium,
     year,
-    collectionSlug,
     description,
     height,
     width,
@@ -900,16 +899,10 @@ export const createWork = async (data: IWork) => {
   const userCollectionData =
     user &&
     user.id !== null &&
-    collectionSlug !== null &&
     (await db
       .select()
       .from(collection)
-      .where(
-        and(
-          eq(collection.slug, collectionSlug),
-          eq(collection.userId, user.id),
-        ),
-      ));
+      .where(and(eq(collection.slug, slug), eq(collection.userId, user.id))));
   const newWork =
     user &&
     user.id !== null &&
@@ -934,8 +927,7 @@ export const createWork = async (data: IWork) => {
         hidden: 'false',
       })
       .returning({ id: work.id }));
-  console.log('data::', data);
-  // // figure this out:
+
   newWork &&
     newWork[0].id &&
     data.media.map(async (m) => {
@@ -952,11 +944,10 @@ export const createWork = async (data: IWork) => {
   // redirect(`/collections/${userCollectionData[0].slug}`);
 };
 
-export const updateWork = async (data: IWork) => {
+export const updateWork = async (data: IWork, collectionSlug: string) => {
   const user = await getUserData();
 
   const {
-    collectionSlug,
     title,
     medium,
     year,
@@ -993,8 +984,8 @@ export const updateWork = async (data: IWork) => {
       })
       .where(eq(work.id, data.id as number)));
 
-  revalidatePath(`/collections/${collection.slug}`);
-  revalidatePath(`/${collection.slug}`);
+  revalidatePath(`/collections/${collectionSlug}`);
+  revalidatePath(`/${collectionSlug}`);
   revalidatePath('/');
   // redirect(`/collections/${userCollectionData[0].slug}`);
 };
@@ -1090,6 +1081,7 @@ export const makeMainMedia = async (
   await db.update(media).set({ main: 'true' }).where(eq(media.id, mediaId));
   revalidatePath(`/collections/${slug}/piece/${workId}`);
   revalidatePath(`/collections/${slug}/new`);
+  revalidatePath(`/collections/${slug}`);
   revalidatePath(`/${slug}`);
   revalidatePath('/');
 };
@@ -1119,7 +1111,11 @@ export const getUserCollection = async (slug: string) => {
       }
       if (work) {
         const isNew = acc.works.find((w) => w.id === work.id);
-        !isNew && acc.works.push({ ...work, media: [] });
+        !isNew &&
+          acc.works.push({
+            ...work,
+            media: [],
+          });
       }
       if (media) {
         acc.works.find((w) => w.id === media.workId)?.media.push(media);

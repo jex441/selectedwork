@@ -48,7 +48,7 @@ export default function PieceForm({
   const initialState: WorkState = { message: null, errors: {} };
 
   const updateWorkHandler = async () => {
-    await updateWork(curWork).then((res) => {
+    await updateWork(curWork, slug).then((res) => {
       toast.success('Work Updated!');
     });
   };
@@ -206,6 +206,7 @@ export default function PieceForm({
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="height">Height</Label>
               <Input
+                value={curWork.height ?? ''}
                 onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="height"
                 type="number"
@@ -215,6 +216,7 @@ export default function PieceForm({
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="width">Width</Label>
               <Input
+                value={curWork.width ?? ''}
                 onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="width"
                 type="number"
@@ -224,6 +226,7 @@ export default function PieceForm({
             <div className="grid w-24 gap-2.5">
               <Label htmlFor="depth">Depth</Label>
               <Input
+                value={curWork.depth ?? ''}
                 onChange={(e) => changeHandler(e.target.value, e.target.name)}
                 name="depth"
                 type="number"
@@ -237,7 +240,10 @@ export default function PieceForm({
                 onValueChange={(value) => changeHandler(value, 'unit')}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="select" />
+                  <SelectValue
+                    defaultValue={curWork.unit || 'inches'}
+                    placeholder="select"
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="inches">inches</SelectItem>
@@ -252,6 +258,7 @@ export default function PieceForm({
           <div className="grid gap-2.5">
             <Label htmlFor="description">Description</Label>
             <Textarea
+              value={curWork.description ?? ''}
               name="description"
               placeholder="Description"
               onChange={(e) => changeHandler(e.target.value, e.target.name)}
@@ -260,6 +267,7 @@ export default function PieceForm({
           <div className="grid gap-2.5">
             <Label htmlFor="location">Location</Label>
             <Input
+              value={curWork.location ?? ''}
               onChange={(e) => changeHandler(e.target.value, e.target.name)}
               name="location"
               placeholder="Artwork location or collection"
@@ -269,6 +277,7 @@ export default function PieceForm({
             <div className="grid gap-2.5">
               <Label htmlFor="price">Price</Label>
               <Input
+                value={curWork.price ?? ''}
                 name="price"
                 type="number"
                 placeholder="Price"
@@ -279,7 +288,9 @@ export default function PieceForm({
               <Label htmlFor="sold">Mark as Sold</Label>
               <Checkbox
                 name="sold"
-                defaultChecked={curWork.sold}
+                checked={
+                  typeof curWork.sold === 'boolean' ? curWork.sold : false
+                }
                 onCheckedChange={(checked) =>
                   setCurWork({ ...curWork, sold: checked as boolean })
                 }

@@ -9,7 +9,6 @@ export interface IWork {
   idx: number;
   index: number | null;
   collectionId: number | null;
-  collectionSlug: string | null;
   title: string | null;
   year: string | null;
   medium: string | null;
@@ -21,7 +20,7 @@ export interface IWork {
   location: string | null;
   price: string | null;
   currency: string | null;
-  sold: boolean;
+  sold: boolean | string | null;
   hidden: string | null;
   displayHeight: string | null;
   displayWidth: string | null;

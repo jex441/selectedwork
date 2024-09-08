@@ -46,7 +46,6 @@ export default function NewPieceForm({
   const [work, setWork] = useState<IWork>({
     id: null,
     collectionId: null,
-    collectionSlug: params.slug,
     index: null,
     idx: 99,
     title: '',
@@ -106,7 +105,7 @@ export default function NewPieceForm({
       return;
     }
 
-    await createWork(work).then((res) => {
+    await createWork(work, params.slug).then((res) => {
       toast.success('Success!');
       setTimeout(() => {
         window.location.href = `/collections/${params.slug}`;
@@ -312,7 +311,7 @@ export default function NewPieceForm({
               <Label htmlFor="sold">Mark as Sold</Label>
               <Checkbox
                 name="sold"
-                defaultChecked={work.sold}
+                defaultChecked={(work.sold as boolean) || false}
                 onCheckedChange={(checked) =>
                   setWork({ ...work, sold: checked as boolean })
                 }

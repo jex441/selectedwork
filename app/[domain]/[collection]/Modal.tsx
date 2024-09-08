@@ -102,7 +102,7 @@ export default function Modal({
             <span className="mb-2 flex w-full items-center justify-between">
               <span className="flex items-center text-xl font-light italic text-lightGray">
                 {work.title}
-                {work.sold === 'true' && (
+                {work.sold && (
                   <span className="mx-4 inline-block h-2 w-2 rounded-lg bg-red-400"></span>
                 )}
               </span>
