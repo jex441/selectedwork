@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function page() {
   return (
-    <div className="flex min-h-[100dvh] flex-col">
+    <div className="flex min-h-[100dvh] flex-col bg-[#F3FFCE]">
       <header className="flex h-14 items-center justify-between px-4 lg:px-6">
         <Link href="#" className="flex items-center" prefetch={false}>
           <span className="ml-2 text-lg font-semibold">Selected Work</span>
@@ -25,13 +26,13 @@ export default function page() {
           </a>
         </div>
       </header>
-      <main className="flex flex-1 flex-col items-center justify-center px-4 py-12 text-center md:px-6 md:py-24 lg:py-32">
-        <div className="max-w-3xl space-y-4">
-          <h1 className="text-2xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
+      <main className="flex flex-1 flex-row items-center justify-between text-center ">
+        <div className="mx-auto flex max-w-3xl flex-col items-start justify-end space-y-4">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Selected Work
           </h1>
-          <p className="text-muted-foreground md:text-xl">
-            A platform for showcasing your best work.
+          <p className="md:text-2xl">
+            Simply the best website creator for artists.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <a
@@ -42,13 +43,22 @@ export default function page() {
               Get Started
             </a>
             <a
-              href={`http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
-              className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              href={`http://camdenross.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+              className="inline-flex h-10 items-center justify-center rounded-md border  bg-transparent px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
               // prefetch={false}
+              target="_blank"
             >
-              Dashboard
+              View Demo Site
             </a>
           </div>
+        </div>
+        <div>
+          <Image
+            src="/landing.png"
+            alt="Selected Work"
+            width={640}
+            height={640}
+          />
         </div>
       </main>
       <footer className="flex w-full shrink-0 flex-col items-center gap-2 border-t px-4 py-6 sm:flex-row md:px-6">
