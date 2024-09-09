@@ -14,8 +14,8 @@ import { SignUp } from '@clerk/nextjs';
 import { SignIn } from '@clerk/nextjs';
 export default function Page() {
   return (
-    <div className="mx-auto flex min-h-[100dvh] w-full flex-col">
-      <main className="flex bg-gray-100 dark:bg-gray-950">
+    <div className="mx-auto flex h-screen w-full flex-col bg-gray-100">
+      <main className="flex dark:bg-gray-950">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-4 py-12  md:gap-24 md:px-6 lg:py-24">
           <div className="grid gap-6">
             <SignIn />
@@ -23,7 +23,7 @@ export default function Page() {
         </div>
       </main>
 
-      <footer className="bg-gray-100 py-6 dark:bg-gray-800">
+      {/* <footer className="bg-gray-100 py-6 dark:bg-gray-800">
         <div className="container mx-auto flex max-w-6xl items-center justify-between px-4 md:px-6">
           <p className="text-sm text-gray-500 dark:text-gray-400">
             &copy; 2024 Acme Inc. All rights reserved.
@@ -45,7 +45,7 @@ export default function Page() {
             </Link>
           </nav>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }
