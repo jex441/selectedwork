@@ -50,16 +50,16 @@ export default function page() {
           <p className="md:text-xl">
             Create a professional portfolio website in minutes.
           </p>
-          <div className="mt-4 flex flex-col gap-10 sm:flex-row sm:justify-center">
+          <div className="mt-4 flex w-full flex-row justify-center gap-6 sm:flex-row lg:justify-start lg:gap-10">
             <a
               href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/sign-up`}
-              className="inline-flex h-12 items-center justify-center bg-[#1F4287] px-8 text-xl font-medium text-[#E4EDDB] transition-colors hover:bg-primary"
+              className="inline-flex h-12 items-center justify-center bg-[#1F4287] px-4 text-lg font-medium text-[#E4EDDB] transition-colors hover:bg-primary lg:px-8 lg:text-xl"
             >
               Get Started
             </a>
             <a
               href={`http://camdenross.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
-              className="inline-flex h-10 items-center border-b-2 border-[#1F4287] bg-transparent px-2 text-xl font-medium transition-colors hover:border-primary hover:text-primary"
+              className="inline-flex h-10 items-center border-b-2 border-[#1F4287] bg-transparent px-1 text-lg font-medium transition-colors hover:border-primary hover:text-primary lg:px-2 lg:text-xl"
               target="_blank"
             >
               View Demo Site <ArrowUpRight size={26} className="ml-2" />
