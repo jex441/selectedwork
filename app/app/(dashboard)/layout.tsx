@@ -34,6 +34,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
+import Image from 'next/image';
 import { Toaster } from 'react-hot-toast';
 import { UserButton, SignOutButton } from '@clerk/nextjs';
 import { getUserData } from '@/app/lib/data';
@@ -53,7 +54,7 @@ export default async function Layout({
       <div className="fixed flex h-screen w-1/6 flex-col items-stretch border-r bg-gray-100/40 dark:bg-gray-800/40">
         <div className="flex h-14 px-4">
           <Link className="flex items-center gap-2 font-semibold" href="#">
-            Selected Work
+            <Image src="/logo.png" alt="Selected Work" width={22} height={22} />
           </Link>
         </div>
         <ScrollArea className="flex-1">
