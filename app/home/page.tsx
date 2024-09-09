@@ -3,9 +3,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { Arrow } from '@radix-ui/react-dropdown-menu';
+import localFont from 'next/font/local';
+
+const regular = localFont({
+  src: 'HKGrotesk-Medium.otf',
+});
 export default function page() {
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-[#E4EDDB]">
+    <div
+      className={`flex min-h-[100dvh] flex-col bg-[#E4EDDB] ${regular.className}`}
+    >
       <header className="flex h-16 w-full items-center justify-between px-4 text-[#1F4287] lg:px-12">
         <Link href="#" className="flex items-center" prefetch={false}>
           <Image
@@ -32,7 +39,7 @@ export default function page() {
         </div>
       </header>
       <main className="flex flex-1 flex-col-reverse items-center justify-center gap-10 text-[#1F4287] lg:flex-row lg:justify-between ">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center lg:ml-10 lg:items-start lg:space-y-6 lg:text-left">
+        <div className="flex flex-col items-center justify-center space-y-4 text-center lg:ml-14 lg:items-start lg:space-y-6 lg:text-left">
           <span className="flex w-full flex-row items-center justify-center text-center lg:justify-start lg:text-left">
             <Image
               src="/landinglogo.png"
@@ -42,7 +49,7 @@ export default function page() {
               height={35}
             />
             <span>
-              <h1 className="text-center text-3xl font-semibold tracking-tighter sm:text-5xl md:text-6xl lg:text-left">
+              <h1 className="text-center text-3xl font-semibold sm:text-5xl md:text-6xl lg:text-left">
                 Selected Work
               </h1>
             </span>
@@ -71,7 +78,7 @@ export default function page() {
             className=""
             src="/landinglarge.png"
             alt="Selected Work"
-            width={900}
+            width={800}
             height={500}
           />
         </div>
