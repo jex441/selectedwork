@@ -991,8 +991,9 @@ export const updateWork = async (data: IWork, collectionSlug: string) => {
 };
 
 export const createWorkWithMedia = async (
-  slug: string,
   newMedia: { url: string; main: string; type: string },
+  slug: string,
+  index: number,
 ) => {
   const user = await getUserData();
   const userCollectionData =
@@ -1011,8 +1012,31 @@ export const createWorkWithMedia = async (
       .insert(work)
       .values({
         collectionId: userCollectionData[0].id,
+        idx: index,
       })
-      .returning());
+      .returning({
+        id: work.id,
+        idx: work.idx,
+        collectionId: work.collectionId,
+        hidden: work.hidden,
+        title: work.title,
+        medium: work.medium,
+        year: work.year,
+        description: work.description,
+        height: work.height,
+        width: work.width,
+        depth: work.depth,
+        unit: work.unit,
+        price: work.price,
+        currency: work.currency,
+        location: work.location,
+        sold: work.sold,
+        createdAt: work.createdAt,
+        updatedAt: work.updatedAt,
+        index: work.index,
+        displayHeight: work.displayHeight,
+        displayWidth: work.displayWidth,
+      }));
 
   const newMediaEntry =
     newWorkEntry &&
@@ -1025,7 +1049,14 @@ export const createWorkWithMedia = async (
         main: newMedia.main,
         type: newMedia.type,
       })
-      .returning());
+      .returning({
+        idx: media.idx,
+        id: media.id,
+        workId: media.workId,
+        url: media.url,
+        main: media.main,
+        type: media.type,
+      }));
 
   const newWork = newWorkEntry &&
     newMediaEntry && { ...newWorkEntry[0], media: newMediaEntry };
@@ -1277,6 +1308,7 @@ const UpdateCollection = CollectionFormSchema.omit({
 export const reorderWorks = async (updatedWorks: IWork[]) => {
   // need collection slug for revalidate path
   // const userData = await user();
+  if (!Number(updatedWorks[0].id)) return;
   for (let i = 0; i < updatedWorks.length; i++) {
     const query = await db
       .update(work)

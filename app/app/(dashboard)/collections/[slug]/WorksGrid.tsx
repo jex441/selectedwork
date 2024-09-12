@@ -22,17 +22,71 @@ import {
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
 
+import { useDropzone } from '@uploadthing/react';
+import { generateClientDropzoneAccept } from 'uploadthing/client';
+import { useCallback } from 'react';
+import { useUploadThing } from '@/app/api/uploadthing/uploadThing';
+import { createWorkWithMedia } from '@/app/lib/data';
+
 import { reorderWorks } from '@/app/lib/data';
 import { ICollection } from '@/app/interfaces/ICollection';
 import { IWork } from '@/app/interfaces/IWork';
-
+import MultiDropZone from './MultiDropZone';
+import { set } from 'zod';
 //
 
 export default function WorksGrid({ collection }: { collection: ICollection }) {
+  const [works, setWorks] = useState<IWork[]>(collection.works);
+  const [loading, setLoading] = useState(false);
+  const [files, setFiles] = useState<File[]>([]);
+
   const [activeId, setActiveId] = useState<string | number | null>(null);
   const [items, setItems] = useState<number[]>(
     collection.works.map((work) => work.idx),
   );
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    setFiles(acceptedFiles);
+    startUpload(acceptedFiles);
+    setItems((items) => {
+      return [...items, items.length + 1];
+    });
+  }, []);
+
+  const { startUpload, permittedFileInfo } = useUploadThing('imageUploader', {
+    onClientUploadComplete: async (res) => {
+      console.log(res);
+      setLoading(false);
+      res.map(
+        async (r) =>
+          collection.slug &&
+          (await createWorkWithMedia(
+            { url: r.url, main: 'true', type: 'image' },
+            collection.slug,
+            works.length + 1,
+          ).then((w) => {
+            if (w) {
+              setWorks([...works, w]);
+            }
+          })),
+      );
+    },
+    onUploadError: () => {
+      setLoading(false);
+      alert('error occurred while uploading');
+    },
+    onUploadBegin: () => {
+      setLoading(true);
+    },
+  });
+
+  const fileTypes = permittedFileInfo?.config
+    ? Object.keys(permittedFileInfo?.config)
+    : [];
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
+  });
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -73,10 +127,17 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
       reorderWorksHandler();
     }, 2000);
   }, [items]);
-  if (!items.length) return null;
+
+  useEffect(() => {
+    setItems(works.map((work) => work.idx));
+
+    console.log('works', works);
+    console.log('items', items);
+  }, [works]);
 
   return (
-    <div className="flex justify-start">
+    <div className="relative flex h-full w-full flex-1" {...getRootProps()}>
+      <input {...getInputProps()} />
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -86,8 +147,13 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
         <Box flex={true} wrap={true} direction="row">
           <SortableContext items={items} strategy={rectSortingStrategy}>
             {items.map((idx) => {
-              const work = collection.works.find((work) => work.idx === idx);
-              if (!work) return null;
+              const work = works.find((work) => work.idx === idx);
+              if (!work) {
+                console.log('idx', idx, 'works', works, 'work', work);
+                return (
+                  <div className="m-1 block h-[270px] w-[250px] rounded-md bg-gray-300"></div>
+                );
+              }
               if (!collection.slug) return null;
               return (
                 <WorkThumbnail
