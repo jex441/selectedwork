@@ -993,7 +993,6 @@ export const updateWork = async (data: IWork, collectionSlug: string) => {
 export const createWorkWithMedia = async (
   newMedia: { url: string; main: string; type: string },
   slug: string,
-  index: number,
 ) => {
   const user = await getUserData();
   const userCollectionData =
@@ -1004,15 +1003,34 @@ export const createWorkWithMedia = async (
       .from(collection)
       .where(and(eq(collection.slug, slug), eq(collection.userId, user.id))));
 
+  const userCollectionDataWithWork =
+    user &&
+    user.id !== null &&
+    (await db
+      .select()
+      .from(collection)
+      .where(and(eq(collection.slug, slug), eq(collection.userId, user.id)))
+      .leftJoin(work, eq(collection.id, work.collectionId)));
+
+  const newWorkIndex =
+    userCollectionDataWithWork &&
+    userCollectionDataWithWork.reduce((acc, cur) => {
+      if (cur.work_table) {
+        acc += 1;
+      }
+      return acc;
+    }, 0);
+
   const newWorkEntry =
     userCollectionData &&
     userCollectionData[0].id !== null &&
     user.id !== null &&
+    newWorkIndex &&
     (await db
       .insert(work)
       .values({
         collectionId: userCollectionData[0].id,
-        idx: index,
+        idx: newWorkIndex,
       })
       .returning({
         id: work.id,
@@ -1308,6 +1326,7 @@ const UpdateCollection = CollectionFormSchema.omit({
 export const reorderWorks = async (updatedWorks: IWork[]) => {
   // need collection slug for revalidate path
   // const userData = await user();
+  if (updatedWorks.length === 0) return;
   if (!Number(updatedWorks[0].id)) return;
   for (let i = 0; i < updatedWorks.length; i++) {
     const query = await db

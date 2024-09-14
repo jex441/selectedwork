@@ -39,36 +39,36 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
   const [works, setWorks] = useState<IWork[]>(collection.works);
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
-
   const [activeId, setActiveId] = useState<string | number | null>(null);
   const [items, setItems] = useState<number[]>(
     collection.works.map((work) => work.idx),
   );
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles(acceptedFiles);
-    startUpload(acceptedFiles);
-    setItems((items) => {
-      return [...items, items.length + 1];
-    });
-  }, []);
+
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      setFiles(acceptedFiles);
+      startUpload(acceptedFiles);
+      const newWorks = acceptedFiles.map((file, idx) => works.length + idx + 1);
+      setItems((items) => {
+        return [...items, ...newWorks];
+      });
+    },
+    [works],
+  );
 
   const { startUpload, permittedFileInfo } = useUploadThing('imageUploader', {
     onClientUploadComplete: async (res) => {
-      console.log(res);
       setLoading(false);
-      res.map(
-        async (r) =>
-          collection.slug &&
-          (await createWorkWithMedia(
+      const news = res.map(async (r, idx) => {
+        if (collection.slug) {
+          const work = await createWorkWithMedia(
             { url: r.url, main: 'true', type: 'image' },
             collection.slug,
-            works.length + 1,
-          ).then((w) => {
-            if (w) {
-              setWorks([...works, w]);
-            }
-          })),
-      );
+          );
+          return work;
+        }
+        setWorks((prev) => [...prev, ...news]);
+      });
     },
     onUploadError: () => {
       setLoading(false);
@@ -78,7 +78,6 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
       setLoading(true);
     },
   });
-
   const fileTypes = permittedFileInfo?.config
     ? Object.keys(permittedFileInfo?.config)
     : [];
@@ -98,7 +97,6 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
   const handleDragStart = (event: DragStartEvent) => {
     setActiveId(event.active.id);
   };
-
   const handleDragEnd = async (event: { active: any; over: any }) => {
     setActiveId(null);
     const { active, over } = event;
@@ -124,16 +122,16 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
 
   useEffect(() => {
     setTimeout(() => {
-      reorderWorksHandler();
+      // reorderWorksHandler();
     }, 2000);
   }, [items]);
 
-  useEffect(() => {
-    setItems(works.map((work) => work.idx));
+  // useEffect(() => {
+  //   setItems(works.map((work) => work.idx));
 
-    console.log('works', works);
-    console.log('items', items);
-  }, [works]);
+  //   console.log('works', works);
+  //   console.log('items', items);
+  // }, [works]);
 
   return (
     <div className="relative flex h-full w-full flex-1" {...getRootProps()}>
@@ -149,9 +147,9 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
             {items.map((idx) => {
               const work = works.find((work) => work.idx === idx);
               if (!work) {
-                console.log('idx', idx, 'works', works, 'work', work);
+                console.log('idx', idx, 'items', items, 'works', works);
                 return (
-                  <div className="m-1 block h-[270px] w-[250px] rounded-md bg-gray-300"></div>
+                  <div className="m-1 block h-[270px] w-[250px] animate-pulse rounded-md bg-gray-300"></div>
                 );
               }
               if (!collection.slug) return null;
