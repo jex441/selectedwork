@@ -67,10 +67,9 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
             collection.slug,
           );
           console.log('work', work);
+          work && setWorks((prev) => [...prev, work]);
           return work;
         }
-        console.log('n', news);
-        setWorks([...works, ...news]);
       });
     },
     onUploadError: () => {
