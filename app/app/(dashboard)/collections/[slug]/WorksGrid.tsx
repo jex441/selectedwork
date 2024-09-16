@@ -59,15 +59,18 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
   const { startUpload, permittedFileInfo } = useUploadThing('imageUploader', {
     onClientUploadComplete: async (res) => {
       setLoading(false);
+      console.log('res', res);
       const news = res.map(async (r, idx) => {
         if (collection.slug) {
           const work = await createWorkWithMedia(
             { url: r.url, main: 'true', type: 'image' },
             collection.slug,
           );
+          console.log('work', work);
           return work;
         }
-        setWorks((prev) => [...prev, ...news]);
+        console.log('n', news);
+        setWorks([...works, ...news]);
       });
     },
     onUploadError: () => {

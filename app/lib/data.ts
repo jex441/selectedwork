@@ -1019,7 +1019,7 @@ export const createWorkWithMedia = async (
         acc += 1;
       }
       return acc;
-    }, 0);
+    }, 1);
 
   const newWorkEntry =
     userCollectionData &&
