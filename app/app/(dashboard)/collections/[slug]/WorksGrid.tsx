@@ -59,14 +59,12 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
   const { startUpload, permittedFileInfo } = useUploadThing('imageUploader', {
     onClientUploadComplete: async (res) => {
       setLoading(false);
-      console.log('res', res);
       const news = res.map(async (r, idx) => {
         if (collection.slug) {
           const work = await createWorkWithMedia(
             { url: r.url, main: 'true', type: 'image' },
             collection.slug,
           );
-          console.log('work', work);
           work && setWorks((prev) => [...prev, work]);
           return work;
         }
@@ -114,30 +112,31 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
   };
 
   const reorderWorksHandler = async () => {
+    let reorder = true;
     const newWorksOrder = items.map((item) => {
       let work = collection.works.find((work) => work.idx === item);
       if (work) return work;
-      else return collection.works[0];
+      reorder = false;
     });
-    newWorksOrder && (await reorderWorks(newWorksOrder));
+    reorder && (await reorderWorks(newWorksOrder));
   };
 
   useEffect(() => {
     setTimeout(() => {
-      // reorderWorksHandler();
+      reorderWorksHandler();
     }, 2000);
   }, [items]);
 
-  // useEffect(() => {
-  //   setItems(works.map((work) => work.idx));
-
-  //   console.log('works', works);
-  //   console.log('items', items);
-  // }, [works]);
-
-  return (
-    <div className="relative flex h-full w-full flex-1" {...getRootProps()}>
-      <input {...getInputProps()} />
+  return items.length === 0 ? (
+    <div
+      className="relative flex h-full w-full flex-1 items-center justify-center border-2 border-dashed border-gray-300 text-xl text-gray-400"
+      {...getRootProps()}
+    >
+      <input className="" {...getInputProps()} />
+      Drop your images or click here to get started
+    </div>
+  ) : (
+    <div className="relative flex w-full">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -149,7 +148,6 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
             {items.map((idx) => {
               const work = works.find((work) => work.idx === idx);
               if (!work) {
-                console.log('idx', idx, 'items', items, 'works', works);
                 return (
                   <div className="m-1 block h-[270px] w-[250px] animate-pulse rounded-md bg-gray-300"></div>
                 );
