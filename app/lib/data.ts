@@ -1341,7 +1341,6 @@ export const reorderWorks = async (updatedWorks: IWork[]) => {
 export const reorderCollections = async (updatedCollections: ICollection[]) => {
   // need collection slug for revalidate path
   // const userData = await user();
-  console.log(updatedCollections);
   for (let i = 0; i < updatedCollections.length; i++) {
     const query = await db
       .update(collection)

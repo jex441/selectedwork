@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import WorkThumbnail from './WorkThumbnail';
-//
+
 import { Box } from 'grommet';
 import {
   DndContext,
@@ -31,9 +31,6 @@ import { createWorkWithMedia } from '@/app/lib/data';
 import { reorderWorks } from '@/app/lib/data';
 import { ICollection } from '@/app/interfaces/ICollection';
 import { IWork } from '@/app/interfaces/IWork';
-import MultiDropZone from './MultiDropZone';
-import { set } from 'zod';
-//
 
 export default function WorksGrid({ collection }: { collection: ICollection }) {
   const [works, setWorks] = useState<IWork[]>(collection.works);
@@ -116,7 +113,10 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
     const newWorksOrder = items.map((item) => {
       let work = collection.works.find((work) => work.idx === item);
       if (work) return work;
-      reorder = false;
+      else {
+        reorder = false;
+        return works[0];
+      }
     });
     reorder && (await reorderWorks(newWorksOrder));
   };
