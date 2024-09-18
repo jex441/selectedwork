@@ -961,7 +961,6 @@ export const updateWork = async (data: IWork, collectionSlug: string) => {
     location,
     sold,
   } = data;
-  console.log('data::', data);
   const updatedWork =
     user &&
     user.id !== null &&
