@@ -39,9 +39,12 @@ export default function WorkThumbnail({
     zIndex: isDragging ? '100' : 'auto',
     opacity: isDragging ? 0.3 : 1,
   };
-  //
   return (
-    <div className="border-1 border shadow-md" ref={setNodeRef} style={style}>
+    <div
+      className="border-1 relative border shadow-md"
+      ref={setNodeRef}
+      style={style}
+    >
       <Box>
         <button
           className="p-1 text-right text-sm text-gray-500"
