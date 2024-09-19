@@ -9,14 +9,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { UploadButton } from '../../../lib/uploadthing';
 import { useFormState } from 'react-dom';
 import { IAboutPage } from '../../../interfaces/IAboutPage';
-import Link from 'next/link';
 
 import { updateAbout } from '@/app/lib/data';
 import LinkInput from './linkinput';
-import AboutTemplates from './abouttemplates';
 import Image from 'next/image';
 import { State } from '@/app/lib/data';
-import { ArrowLeftIcon } from '../../../assets/svgs';
+
 export default function AboutForm({ data }: { data: IAboutPage }) {
   const initialState: State = { message: null, errors: {} };
   const updateAboutWithId = updateAbout.bind(null, data.id);
