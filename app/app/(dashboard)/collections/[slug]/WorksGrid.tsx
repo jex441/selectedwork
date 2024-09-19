@@ -53,7 +53,7 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
     [works],
   );
 
-  const { startUpload, permittedFileInfo } = useUploadThing('imageUploader', {
+  const { startUpload } = useUploadThing('imageUploader', {
     onClientUploadComplete: async (res) => {
       setLoading(false);
       const news = res.map(async (r, idx) => {
@@ -75,13 +75,9 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
       setLoading(true);
     },
   });
-  const fileTypes = permittedFileInfo?.config
-    ? Object.keys(permittedFileInfo?.config)
-    : [];
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
   });
 
   const sensors = useSensors(
