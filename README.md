@@ -32,6 +32,6 @@ It is in a state of rapid development.
 ### Dashboard Preview with drag and drop:
 ![ScreenRecording2024-08-02at3 59 10PM-ezgif com-optimize](https://github.com/user-attachments/assets/7933391f-2eea-49d2-9ab4-83974085df72)
 
-An example site generated using Selected Work is found [here](https://camdenross.selected-work.com)
+An example site generated using Selected Work is found [here](https://camdenross.selectedwork.net)
 
 
