@@ -1,8 +1,6 @@
 import { ReactNode } from 'react';
-import Nav from './nav/Nav';
 import { getUserByUsername } from '../lib/requests';
 import Home from '../home/page';
-import { getCollectionDataForSite } from '../lib/requests';
 import NavPage from './nav/page';
 
 export default async function SiteLayout({
