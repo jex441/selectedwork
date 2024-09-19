@@ -8,8 +8,6 @@ import { redirect } from 'next/navigation';
 import Stripe from 'stripe';
 const stripe =
   process.env.STRIPE_SECRET_KEY && new Stripe(process.env.STRIPE_SECRET_KEY);
-import type { NextApiResponse, NextApiRequest } from 'next';
-import { NextResponse } from 'next/server';
 
 import {
   users,
