@@ -49,6 +49,13 @@ export async function POST(req: Request) {
   }
 
   if (msg.type === 'user.created') {
+    const findUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, msg.data.email_addresses[0].email_address));
+    if (findUser.length > 0) {
+      return;
+    }
     const insertUser = async (user: NewUser) => {
       let userId: number;
       let res = await db.insert(users).values(user).returning({ id: users.id });
@@ -63,7 +70,7 @@ export async function POST(req: Request) {
           slug: 'work',
           title: 'Selected Work',
           userId: userId,
-          Visibility: 'public',
+          visibility: 'public',
         },
         { template: 'h1', slug: 'home', title: 'Home', userId: userId },
       ];
