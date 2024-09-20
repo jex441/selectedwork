@@ -327,7 +327,7 @@ export async function updateContactPage(
 
 export const getUserData = async () => {
   const auth = await currentUser();
-
+  console.log('auth', auth);
   if (auth !== null) {
     const rows = await db
       .select()

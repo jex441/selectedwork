@@ -1,14 +1,17 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { Arrow } from '@radix-ui/react-dropdown-menu';
 import localFont from 'next/font/local';
-
+import { useState } from 'react';
 const regular = localFont({
   src: 'HKGrotesk-Medium.otf',
 });
 export default function page() {
+  const [demo, setDemo] = useState(true);
   return (
     <div
       className={`flex min-h-[100dvh] flex-col bg-[#E4EDDB] ${regular.className}`}
@@ -82,6 +85,28 @@ export default function page() {
             height={500}
           />
         </div>
+        {demo && (
+          <div className="fade-in-simple h-22 absolute bottom-10 flex w-auto items-start justify-between rounded-2xl bg-white px-4 py-2 shadow-lg lg:left-40 lg:w-4/6">
+            <div className="flex flex-col">
+              <span className="lg:text-3xl">
+                Watch the demo video:
+                <a
+                  target="_blank"
+                  className="ml-5 underline"
+                  href="https://youtu.be/gzs0o8G1rTg"
+                >
+                  https://youtu.be/gzs0o8G1rTg
+                </a>
+              </span>
+            </div>
+            <div
+              className="cursor-pointer hover:text-black"
+              onClick={() => setDemo(false)}
+            >
+              X
+            </div>
+          </div>
+        )}
       </main>
       <footer className="flex w-full shrink-0 flex-col items-center gap-2 px-4 py-2 text-[#1F4287] sm:flex-row md:px-6">
         {/* <p className="text-sm">
