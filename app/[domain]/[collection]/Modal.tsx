@@ -98,31 +98,33 @@ export default function Modal({
                 )}
               </div>
             )}
-            <p className="text-lg text-darkGray">{artist}</p>
-            <span className="mb-2 flex w-full items-center justify-between">
-              <span className="flex items-center text-xl font-light italic text-lightGray">
-                {work.title}
-                {/* {work.sold && (
-                  <span className="mx-4 inline-block h-2 w-2 rounded-lg bg-red-400"></span>
-                )} */}
+            <p className="text-lightGray">{artist}</p>
+            <span className="flex w-full items-center justify-between">
+              <span className="flex w-1/2 items-center justify-between italic text-darkGray">
+                <span>{work.title}</span>
+                {work.sold && (
+                  <span className="my-1 inline-block h-2 w-2 rounded-lg bg-red-400"></span>
+                )}
               </span>
             </span>
             <p className="text-sm text-lightGray">{work.year}</p>
             <p className="text-sm text-lightGray">{work.medium}</p>
-            <div className="text-sm text-mediumGray">
-              <span className="">{work.height && `${work.height}`}</span>
-              <span className="text-lightGray"> x </span>
-              <span className="">{work.width && work.width}</span>
-              {work.depth && (
-                <span className="">
-                  <span className="text-lightGray"> x </span>
-                  `${work.depth}`
+            {work.height && work.width ? (
+              <div className="text-sm text-lightGray">
+                <span className="">{work.height && `${work.height}`}</span>
+                <span className="text-lightGray"> x </span>
+                <span className="">{work.width && work.width}</span>
+                {work.depth && (
+                  <span className="">
+                    <span className="text-lightGray"> x </span>
+                    {work.depth}
+                  </span>
+                )}
+                <span className="text-xs text-lightGray">
+                  {work.unit && ` ${unit}`}
                 </span>
-              )}
-              <span className="text-xs text-lightGray">
-                {work.unit && ` ${unit}`}
-              </span>
-            </div>
+              </div>
+            ) : null}
             <p className="my-2 text-xs leading-7 text-mediumGray ">
               {work.description}
             </p>

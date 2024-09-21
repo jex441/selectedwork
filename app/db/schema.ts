@@ -174,7 +174,7 @@ export const work = pgTable('work_table', {
   unit: text('unit'),
   price: text('price'),
   currency: text('currency'),
-  sold: text('sold').default('false'),
+  sold: boolean('sold').default(false),
   location: text('location'),
   displayHeight: text('displayHeight'),
   displayWidth: text('displayWidth'),
