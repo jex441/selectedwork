@@ -62,7 +62,11 @@ export default async function SiteHomePage({
         )}
 
         <div className="fade-in-right-simple mx-1 my-5 flex-1 lg:m-5 lg:w-1/2">
-          <h1 className="text-xl leading-9 text-mediumGray">{title}</h1>
+          <h1 className="text-xl leading-9 text-mediumGray">
+            {imgSrc || subheading || linkSrc1 || linkSrc2 || description
+              ? title
+              : null}
+          </h1>
           <h3 className="text-sm leading-9 text-mediumGray">{subheading}</h3>
           <div className="text-xs leading-7 text-mediumGray">
             {description &&
