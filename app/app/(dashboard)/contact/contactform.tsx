@@ -142,7 +142,7 @@ export default function ContactForm({ data }: { data: IContactPage }) {
               <Input name="imgSrc" type="hidden" value={imgSrc ?? ''} />
             </div>
             <UploadButton
-              className="self-start"
+              className="transform-color self-start ut-button:bg-gray-700 ut-button:text-white ut-button:hover:bg-gray-600 ut-allowed-content:hidden"
               endpoint="imageUploader"
               onClientUploadComplete={(res) => {
                 setImgSrc(res[0].url);
