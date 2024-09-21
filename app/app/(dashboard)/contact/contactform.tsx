@@ -26,8 +26,8 @@ export default function ContactForm({ data }: { data: IContactPage }) {
 
   return (
     <form action={formAction}>
-      <div className="mb-6 flex items-center justify-between">
-        <header className="mb-4 flex w-full items-center justify-between space-x-4">
+      <div className="mb-4 flex items-center justify-between">
+        <header className="mb-2 flex w-full items-center justify-between space-x-4 pb-4">
           <h1 className="text-lg font-bold">Contact</h1>
           <div className="flex w-full items-center justify-end space-x-4">
             <Button

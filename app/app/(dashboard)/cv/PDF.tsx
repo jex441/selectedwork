@@ -46,7 +46,7 @@ export default function Component({ data }: { data: any }) {
           ) : (
             <div className="flex w-80 flex-row items-center gap-4">
               <span className="text-sm text-gray-500">
-                Upload a PDF (optional)
+                Add a PDF (optional)
               </span>
               <span>
                 <label htmlFor="cv-upload">
