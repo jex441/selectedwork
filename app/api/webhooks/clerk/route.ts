@@ -68,7 +68,7 @@ export async function POST(req: Request) {
         {
           template: 'g1',
           slug: 'work',
-          title: 'Selected Work',
+          title: 'Work',
           userId: userId,
           visibility: 'public',
         },
