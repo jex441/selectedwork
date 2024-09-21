@@ -36,7 +36,7 @@ export default async function SiteLayout({
         {res.plan === 'free' && (
           <div>
             <a
-              href={`http://${process.env.NODE_ENV === 'production' ? 's' : ''}${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+              href={`${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
               className="transition-colors hover:text-darkGray hover:underline"
             >
               selectedwork.net
