@@ -23,6 +23,7 @@ import {
 import { ICVPage } from '../../../interfaces/ICVPage';
 import { set } from 'zod';
 import { PlusCircle } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 import PDF from './PDF';
 export default function Component({ data }: { data: ICVPage }) {
@@ -74,6 +75,7 @@ export default function Component({ data }: { data: ICVPage }) {
     if (id) {
       const res = await deleteCVSection(id);
       res && setWorkExperience(res[selectedSection]);
+      toast.success('Experience deleted successfully');
     }
   };
 
@@ -136,47 +138,50 @@ export default function Component({ data }: { data: ICVPage }) {
     );
     const res = await saveCVSections(data);
     res && setWorkExperience(res[selectedSection]);
+    toast.success('Success!');
   };
 
   return (
     <div className="flex h-full w-full flex-row justify-center">
-      <div className="grid flex-1 grid-cols-12 gap-6 p-6">
+      <div className="grid flex-1 grid-cols-12 gap-6 px-6">
         <div className="col-span-12">
           <div>
-            <div className="mb-4 flex items-center justify-start gap-4">
-              <Select onValueChange={(val) => setSelectedSection(val)}>
-                <h1 className="text-xl font-bold">CV</h1>
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue
-                    placeholder="Select a category"
-                    defaultValue={'Education'}
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>CV Categories</SelectLabel>
-                    <SelectItem value="education">Education</SelectItem>
+            <div className="sticky right-0 top-0 flex h-20 items-center justify-between gap-4 border-b-2 bg-white/90 bg-blend-overlay">
+              <div className="flex items-center gap-4">
+                <Select
+                  value={selectedSection}
+                  onValueChange={(val) => setSelectedSection(val)}
+                >
+                  <h1 className="text-xl font-bold">CV</h1>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue defaultValue={'Education'} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>CV Categories</SelectLabel>
+                      <SelectItem value="education">Education</SelectItem>
 
-                    <SelectItem value="soloExhibitions">
-                      Solo Exhibitions
-                    </SelectItem>
-                    <SelectItem value="groupExhibitions">
-                      Group Exhibitions
-                    </SelectItem>
-                    <SelectItem value="awards">Awards</SelectItem>
-                    <SelectItem value="press">Press</SelectItem>
-                    <SelectItem value="Teaching">Teaching</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              <Button onClick={handleAddWorkExperience}>
-                <PlusCircle className="mr-2" />
-                Add experience
-              </Button>
+                      <SelectItem value="soloExhibitions">
+                        Solo Exhibitions
+                      </SelectItem>
+                      <SelectItem value="groupExhibitions">
+                        Group Exhibitions
+                      </SelectItem>
+                      <SelectItem value="awards">Awards</SelectItem>
+                      <SelectItem value="press">Press</SelectItem>
+                      <SelectItem value="Teaching">Teaching</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <Button onClick={handleAddWorkExperience}>
+                  <PlusCircle className="mr-2" />
+                  Add experience
+                </Button>
+              </div>
               <PDF data={data} />
               <Button onClick={handleSaveSection}>Save</Button>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-4 pt-6">
               {workExperience.map((experience, index) => (
                 <div
                   key={index}

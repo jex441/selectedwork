@@ -44,19 +44,24 @@ export default function Component({ data }: { data: any }) {
               </Button>
             </>
           ) : (
-            <div className="flex items-center">
-              <label htmlFor="cv-upload">
-                <UploadButton
-                  className="self-start"
-                  endpoint="pdfUploader"
-                  onClientUploadComplete={(res: { url: string }[]) => {
-                    addCVPDFHandler(res[0].url);
-                  }}
-                  onUploadError={(error: Error) => {
-                    alert(`ERROR! ${error.message}`);
-                  }}
-                />
-              </label>
+            <div className="flex w-80 flex-row items-center gap-4">
+              <span className="text-sm text-gray-500">
+                Upload a PDF (optional)
+              </span>
+              <span>
+                <label htmlFor="cv-upload">
+                  <UploadButton
+                    className="ut-button:border-1 self-start ut-button:rounded-md ut-button:border ut-button:bg-white ut-button:text-gray-500 ut-button:hover:bg-gray-600 ut-button:hover:text-white ut-allowed-content:hidden"
+                    endpoint="pdfUploader"
+                    onClientUploadComplete={(res: { url: string }[]) => {
+                      addCVPDFHandler(res[0].url);
+                    }}
+                    onUploadError={(error: Error) => {
+                      alert(`ERROR! ${error.message}`);
+                    }}
+                  />
+                </label>
+              </span>
             </div>
           )}
         </div>
