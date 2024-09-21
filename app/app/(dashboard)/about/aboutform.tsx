@@ -23,7 +23,7 @@ export default function AboutForm({ data }: { data: IAboutPage }) {
 
   return (
     <form action={formAction}>
-      <header className="mb-4 flex w-full items-center justify-between space-x-4">
+      <header className="mb-4 flex w-full items-center justify-between space-x-4 pb-4">
         <h1 className="text-lg font-bold">About</h1>
         <div className="flex w-full items-center justify-end space-x-4">
           <Button
@@ -118,7 +118,7 @@ export default function AboutForm({ data }: { data: IAboutPage }) {
         </div>
         <div className="space-y-6">
           <div className="flex flex-col justify-start space-y-4">
-            <Label>Image</Label>
+            <Label>Your photo</Label>
             <div className="relative my-4 flex h-[300px] w-[500px] items-center justify-center">
               {imgSrc ? (
                 <Image
@@ -136,7 +136,7 @@ export default function AboutForm({ data }: { data: IAboutPage }) {
               <Input name="imgSrc" type="hidden" value={imgSrc ?? ''} />
             </div>
             <UploadButton
-              className="self-start"
+              className="transform-color self-start ut-button:bg-gray-700 ut-button:text-white ut-button:hover:bg-gray-600 ut-allowed-content:hidden"
               endpoint="imageUploader"
               onClientUploadComplete={(res) => {
                 setImgSrc(res[0].url);
