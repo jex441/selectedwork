@@ -39,7 +39,7 @@ export default async function SiteLayout({
               href={`http://${process.env.NODE_ENV === 'production' ? 's' : ''}${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
               className="transition-colors hover:text-darkGray hover:underline"
             >
-              selected-work.com
+              selectedwork.net
             </a>
           </div>
         )}
