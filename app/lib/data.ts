@@ -826,7 +826,7 @@ const CreateWorkSchema = z.object({
     .string()
     .max(50, { message: 'Must be fewer than 50 characters.' })
     .nullish(),
-  sold: z.string().nullish(),
+  sold: z.boolean().nullish(),
   height: z
     .string()
     .max(10, { message: 'Must be fewer than 10 characters.' })
@@ -921,7 +921,7 @@ export const createWork = async (data: IWork, slug: string) => {
         price: price,
         currency: currency,
         location: location,
-        sold: sold ? 'true' : 'false',
+        sold: sold,
         hidden: 'false',
       })
       .returning({ id: work.id }));
@@ -976,7 +976,7 @@ export const updateWork = async (data: IWork, collectionSlug: string) => {
         price: price,
         currency: currency,
         location: location,
-        sold: sold ? 'true' : 'false',
+        sold: sold,
         hidden: 'false',
       })
       .where(eq(work.id, data.id as number)));

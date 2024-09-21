@@ -20,7 +20,7 @@ export interface IWork {
   location: string | null;
   price: string | null;
   currency: string | null;
-  sold: boolean | string | null;
+  sold: boolean | null;
   hidden: string | null;
   displayHeight: string | null;
   displayWidth: string | null;
