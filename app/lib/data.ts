@@ -636,20 +636,22 @@ export const getCVPageData = async (title: string) => {
     return result;
   }
 };
-
-export const createCollection = async () => {
-  const userData = await user();
-
-  const userCollections =
-    userData &&
-    (await db
+export const createCollection = async (): Promise<ICollection | undefined> => {
+  try {
+    const userData = await user();
+    if (!userData) {
+      return;
+    }
+    const userCollections = await db
       .select()
       .from(collection)
-      .where(eq(collection.userId, userData?.id)));
+      .where(eq(collection.userId, userData?.id));
 
-  let userCollection =
-    userCollections &&
-    (await db
+    if (!userCollections) {
+      return;
+    }
+
+    let [userCollection] = await db
       .insert(collection)
       .values({
         template: 'g1',
@@ -663,11 +665,13 @@ export const createCollection = async () => {
         slug: collection.slug,
         visibility: collection.visibility,
         idx: collection.idx,
-      }));
-  revalidatePath('/collections');
+      });
 
-  if (userCollection) {
-    return userCollection[0] as ICollection;
+    revalidatePath('/collections');
+
+    return userCollection as ICollection;
+  } catch (error) {
+    console.error(error);
   }
 };
 
