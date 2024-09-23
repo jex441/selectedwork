@@ -856,64 +856,40 @@ const CreateWorkSchema = z.object({
     .max(3, { message: 'Must be fewer than 3 characters.' })
     .nullish(),
 });
-// convert to server action with object not formData?
-export const createWork = async (data: IWork, slug: string) => {
-  const user = await getUserData();
-  // const validatedFields = CreateWorkSchema.safeParse({
-  //   userCollection: formData.get('userCollection'),
-  //   title: formData.get('title') || '',
-  //   medium: formData.get('medium') || '',
-  //   year: formData.get('year') || '',
-  //   description: formData.get('description') || '',
-  //   height: formData.get('height') || '',
-  //   width: formData.get('width') || '',
-  //   depth: formData.get('depth') || '',
-  //   unit: formData.get('unit') || '',
-  //   price: formData.get('price') || '',
-  //   currency: formData.get('currency') || '',
-  //   location: formData.get('location') || '',
-  //   sold: formData.get('sold') === 'on' ? 'true' : 'false',
-  // });
-  // if (!validatedFields.success) {
-  //   console.log('error!', validatedFields.error.flatten().fieldErrors);
-  //   return {
-  //     errors: validatedFields.error.flatten().fieldErrors,
-  //     message: 'Missing Fields. Failed to Create Work.',
-  //   };
-  // }
-  const {
-    // userCollection,
-    title,
-    medium,
-    year,
-    description,
-    height,
-    width,
-    depth,
-    unit,
-    price,
-    currency,
-    location,
-    sold,
-  } = data;
 
-  console.log('work', work);
-  const userCollectionData =
-    user &&
-    user.id !== null &&
-    (await db
+// For creating a work by filling out the form and adding an image
+export const createWork = async (data: IWork, slug: string) => {
+  try {
+    const user = await getUserData();
+
+    if (!user) return;
+
+    const {
+      title,
+      medium,
+      year,
+      description,
+      height,
+      width,
+      depth,
+      unit,
+      price,
+      currency,
+      location,
+      sold,
+    } = data;
+
+    const [userCollectionData] = await db
       .select()
       .from(collection)
-      .where(and(eq(collection.slug, slug), eq(collection.userId, user.id))));
-  const newWork =
-    user &&
-    user.id !== null &&
-    userCollectionData &&
-    userCollectionData[0].id !== null &&
-    (await db
+      .where(and(eq(collection.slug, slug), eq(collection.userId, user.id)));
+
+    if (!userCollectionData) return;
+
+    const [newWork] = await db
       .insert(work)
       .values({
-        collectionId: userCollectionData[0].id,
+        collectionId: userCollectionData.id,
         title: title,
         medium: medium,
         year: year,
@@ -928,22 +904,27 @@ export const createWork = async (data: IWork, slug: string) => {
         sold: sold,
         hidden: 'false',
       })
-      .returning({ id: work.id }));
+      .returning({ id: work.id });
 
-  newWork &&
-    newWork[0].id &&
+    if (!newWork) return;
+
     data.media.map(async (m) => {
       await db.insert(media).values({
-        workId: newWork[0].id,
+        workId: newWork.id,
         url: m.url || '',
         main: m.main || 'false',
         type: m.type || 'image',
       });
     });
-  revalidatePath(`/collections/${collection.slug}`);
-  revalidatePath(`/${collection.slug}`);
-  revalidatePath('/');
-  // redirect(`/collections/${userCollectionData[0].slug}`);
+
+    revalidatePath(`/collections/${collection.slug}`);
+    revalidatePath(`/${collection.slug}`);
+    revalidatePath('/');
+    return { status: 200 };
+  } catch (error) {
+    console.log(error);
+    return { status: 500 };
+  }
 };
 
 export const updateWork = async (data: IWork, collectionSlug: string) => {
@@ -991,6 +972,7 @@ export const updateWork = async (data: IWork, collectionSlug: string) => {
   // redirect(`/collections/${userCollectionData[0].slug}`);
 };
 
+// For creating a work by dragging and dropping an image to the collection
 export const createWorkWithMedia = async (
   newMedia: { url: string; main: string; type: string },
   slug: string,
