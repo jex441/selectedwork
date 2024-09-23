@@ -557,19 +557,20 @@ export const getContactPageData = async (title: string) => {
   if (rows) return rows[0];
 };
 
-export const getCVPageData = async (title: string) => {
-  const userData = await user();
-  const rows =
-    userData &&
-    userData.id !== null &&
-    (await db
+export const getCVPageData = async (): Promise<ICVPage | undefined> => {
+  try {
+    const userData = await user();
+    if (!userData) return;
+
+    const rows = await db
       .select()
       .from(cv)
       .where(eq(cv.userId, userData?.id))
-      .leftJoin(cvSection, eq(cvSection.cvId, cv.id)));
-  const result =
-    rows &&
-    rows.reduce<ICVPage>((acc, row) => {
+      .leftJoin(cvSection, eq(cvSection.cvId, cv.id));
+
+    if (!rows) return;
+
+    const result = rows.reduce<ICVPage>((acc, row) => {
       const cv = row.cv_table;
       const section = row.cv_section_table;
       if (!acc.id && cv.id) {
@@ -597,7 +598,9 @@ export const getCVPageData = async (title: string) => {
       }
       return acc;
     }, {} as ICVPage);
-  if (result) {
+
+    if (!result) return;
+
     type Line = {
       id: number;
       categoryId: string | null;
@@ -615,6 +618,7 @@ export const getCVPageData = async (title: string) => {
       bulletPoints: string[];
     };
 
+    // For ordering cv entries by start date
     const compareFn = (a: Line, b: Line) =>
       a.startDate !== null && b.startDate !== null && a.startDate > b.startDate
         ? -1
@@ -634,9 +638,14 @@ export const getCVPageData = async (title: string) => {
     result.press = orderedPress;
     result.teaching = orderedTeaching;
     result.education = orderedEducation;
+
     return result;
+  } catch (error) {
+    console.log(error);
+    return undefined;
   }
 };
+
 export const createCollection = async (): Promise<ICollection | undefined> => {
   try {
     const userData = await user();
@@ -684,7 +693,7 @@ export const deleteCVSection = async (
     if (!userData) return;
     await db.delete(cvSection).where(eq(cvSection.id, id));
     revalidatePath('/cv');
-    const res = await getCVPageData('CV');
+    const res = await getCVPageData();
     return res;
   } catch (error) {
     console.log(error);
@@ -796,7 +805,7 @@ export const saveCVSections = async (
 
     revalidatePath('/cv');
     revalidatePath(`/cv`);
-    const res = await getCVPageData('cv');
+    const res = await getCVPageData();
     return res;
   } catch (error) {
     console.log(error);
@@ -1354,7 +1363,7 @@ export const updateCollection = async (
   formData: FormData,
 ) => {
   const user = await getUserData();
-  if (!user) return;
+  // if (!user) return;
 
   const validatedFields = UpdateCollection.safeParse({
     template: formData.get('template') || '',
