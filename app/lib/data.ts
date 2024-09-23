@@ -29,6 +29,7 @@ import { ICVPage } from '../interfaces/ICVPage';
 import { revalidatePath } from 'next/cache';
 import { ICollection } from '../interfaces/ICollection';
 import { IWork } from '../interfaces/IWork';
+
 import { get } from 'http';
 import { IContactPage } from '../interfaces/IContactPage';
 import { getCVPageDataForSite } from './requests';
@@ -675,13 +676,20 @@ export const createCollection = async (): Promise<ICollection | undefined> => {
   }
 };
 
-export const deleteCVSection = async (id: number) => {
-  const userData = await user();
-
-  await db.delete(cvSection).where(eq(cvSection.id, id));
-  revalidatePath('/cv');
-  const res = await getCVPageData('CV');
-  return res;
+export const deleteCVSection = async (
+  id: number,
+): Promise<ICVPage | undefined> => {
+  try {
+    const userData = await user();
+    if (!userData) return;
+    await db.delete(cvSection).where(eq(cvSection.id, id));
+    revalidatePath('/cv');
+    const res = await getCVPageData('CV');
+    return res;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
 };
 
 export const deleteCollection = async (id: number) => {
@@ -692,7 +700,7 @@ export const deleteCVSectionBulletPoint = async (
   id: number,
   bulletPointIndex: number,
 ) => {
-  const userData = await user();
+  // const userData = await user();
   const bulletPointKey = `bulletPoint${bulletPointIndex + 1}`;
 
   revalidatePath('/cv');
@@ -746,48 +754,54 @@ export const saveCVSections = async (
     endDate: string;
     bulletPoints: string[];
   }[],
-) => {
-  const userData = await user();
-  const userCV =
-    userData && (await db.select().from(cv).where(eq(cv.userId, userData?.id)));
+): Promise<ICVPage | undefined> => {
+  try {
+    const userData = await user();
+    const userCV =
+      userData &&
+      (await db.select().from(cv).where(eq(cv.userId, userData?.id)));
 
-  sections.map(async (section) => {
-    if (section.id !== null) {
-      await db
-        .update(cvSection)
-        .set({
-          title: section.title,
-          organization: section.organization,
-          location: section.location,
-          startDate: section.startDate,
-          endDate: section.endDate,
-          bulletPoint1: section.bulletPoints[0],
-          bulletPoint2: section.bulletPoints[1],
-          bulletPoint3: section.bulletPoints[2],
-        })
-        .where(eq(cvSection.id, section.id));
-    } else {
-      userCV &&
-        (await db.insert(cvSection).values({
-          categoryId: section.categoryId,
-          category: section.category,
-          title: section.title,
-          organization: section.organization,
-          location: section.location,
-          startDate: section.startDate,
-          endDate: section.endDate,
-          bulletPoint1: section.bulletPoints[0],
-          bulletPoint2: section.bulletPoints[1],
-          bulletPoint3: section.bulletPoints[2],
-          cvId: userCV[0].id,
-        }));
-    }
-  });
+    sections.map(async (section) => {
+      if (section.id !== null) {
+        await db
+          .update(cvSection)
+          .set({
+            title: section.title,
+            organization: section.organization,
+            location: section.location,
+            startDate: section.startDate,
+            endDate: section.endDate,
+            bulletPoint1: section.bulletPoints[0],
+            bulletPoint2: section.bulletPoints[1],
+            bulletPoint3: section.bulletPoints[2],
+          })
+          .where(eq(cvSection.id, section.id));
+      } else {
+        userCV &&
+          (await db.insert(cvSection).values({
+            categoryId: section.categoryId,
+            category: section.category,
+            title: section.title,
+            organization: section.organization,
+            location: section.location,
+            startDate: section.startDate,
+            endDate: section.endDate,
+            bulletPoint1: section.bulletPoints[0],
+            bulletPoint2: section.bulletPoints[1],
+            bulletPoint3: section.bulletPoints[2],
+            cvId: userCV[0].id,
+          }));
+      }
+    });
 
-  revalidatePath('/cv');
-  revalidatePath(`/cv`);
-  const res = await getCVPageData('cv');
-  return res;
+    revalidatePath('/cv');
+    revalidatePath(`/cv`);
+    const res = await getCVPageData('cv');
+    return res;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
 };
 
 export type WorkState = {
@@ -858,7 +872,10 @@ const CreateWorkSchema = z.object({
 });
 
 // For creating a work by filling out the form and adding an image
-export const createWork = async (data: IWork, slug: string) => {
+export const createWork = async (
+  data: IWork,
+  slug: string,
+): Promise<{ status: number } | undefined> => {
   try {
     const user = await getUserData();
 
@@ -1071,21 +1088,28 @@ export const addMedia = async (
   id: number,
   newMedia: { url: string; type: string; main: string },
   slug: string,
-) => {
-  const newMediaEntry = await db
-    .insert(media)
-    .values({
-      workId: id,
-      url: newMedia.url,
-      main: newMedia.main,
-      type: newMedia.type,
-    })
-    .returning({ id: media.id });
-  revalidatePath(`/collections/${slug}/piece/${id}`);
-  revalidatePath(`/collections/${slug}/new`);
-  revalidatePath(`/${slug}`);
-  revalidatePath('/');
-  return newMediaEntry[0];
+): Promise<{ id: number } | undefined> => {
+  try {
+    const newMediaEntry = await db
+      .insert(media)
+      .values({
+        workId: id,
+        url: newMedia.url,
+        main: newMedia.main,
+        type: newMedia.type,
+      })
+      .returning({ id: media.id });
+
+    revalidatePath(`/collections/${slug}/piece/${id}`);
+    revalidatePath(`/collections/${slug}/new`);
+    revalidatePath(`/${slug}`);
+    revalidatePath('/');
+
+    return newMediaEntry[0];
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
 };
 
 export const deleteWork = async (workId: number, collectionSlug: string) => {
@@ -1120,22 +1144,22 @@ export const makeMainMedia = async (
   revalidatePath('/');
 };
 
-export const getUserCollection = async (slug: string) => {
-  const user = await getUserData();
+export const getUserCollection = async (
+  slug: string,
+): Promise<ICollection | undefined> => {
+  try {
+    const user = await getUserData();
 
-  const rows =
-    user &&
-    user.id !== null &&
-    (await db
+    if (!user) return;
+    const rows = await db
       .select()
       .from(collection)
       .where(and(eq(collection.userId, user.id), eq(collection.slug, slug)))
       .leftJoin(work, eq(collection.id, work.collectionId))
-      .leftJoin(media, eq(work.id, media.workId)));
+      .leftJoin(media, eq(work.id, media.workId));
 
-  let result =
-    rows &&
-    rows.reduce<ICollection>((acc, row) => {
+    if (!rows) return;
+    let result = rows.reduce<ICollection>((acc, row) => {
       const collection = row.collection_table;
       const work = row.work_table;
       const media = row.media_table;
@@ -1158,7 +1182,8 @@ export const getUserCollection = async (slug: string) => {
       return acc;
     }, {} as ICollection);
 
-  if (result) {
+    if (!result) return;
+
     revalidatePath(`/${result.slug}`);
     revalidatePath(`/${result.slug}`);
     const sorted = result.works
@@ -1166,85 +1191,72 @@ export const getUserCollection = async (slug: string) => {
       : result.works;
 
     return { ...result, works: sorted };
-  } else {
-    return {
-      id: 0,
-      title: '',
-      index: 0,
-      idx: 0,
-      slug: '',
-      description: '',
-      linkSrc1: '',
-      linkText1: '',
-      linkSrc2: '',
-      linkText2: '',
-      template: '',
-      heading: '',
-      subheading: '',
-      imgSrc: '',
-      imgCaption: '',
-      visibility: '',
-      userId: 0,
-      works: [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+  } catch (error) {
+    console.log(error);
+    return undefined;
   }
 };
 
-export const getUserCollections = async () => {
-  const user = await getUserData();
-  const rows =
-    user &&
-    user.id !== null &&
-    (await db
+export const getUserCollections = async (): Promise<
+  ICollection[] | undefined
+> => {
+  try {
+    const user = await getUserData();
+    if (!user) return;
+    const rows = await db
       .select()
       .from(collection)
       .where(eq(collection.userId, user.id))
       .leftJoin(work, eq(work.collectionId, collection.id))
-      .leftJoin(media, eq(media.workId, work.id)));
+      .leftJoin(media, eq(media.workId, work.id));
 
-  const result =
-    rows &&
-    rows.reduce<ICollection[]>((acc, row) => {
-      const collection = row.collection_table;
-      const work = row.work_table;
-      const media = row.media_table;
+    const result =
+      rows &&
+      rows.reduce<ICollection[]>((acc, row) => {
+        const collection = row.collection_table;
+        const work = row.work_table;
+        const media = row.media_table;
 
-      if (collection) {
-        // Find or create the collection
-        let collectionEntry = acc.find((col) => col.id === collection.id);
-        if (!collectionEntry) {
-          collectionEntry = { ...collection, works: [] };
-          acc.push(collectionEntry);
-        }
-
-        if (work) {
-          // Ensure the work is added to the correct collection
-          let workEntry = collectionEntry.works.find((w) => w.id === work.id);
-          if (!workEntry) {
-            workEntry = { ...work, media: [] };
-            collectionEntry.works.push(workEntry);
+        if (collection) {
+          // Find or create the collection
+          let collectionEntry = acc.find((col) => col.id === collection.id);
+          if (!collectionEntry) {
+            collectionEntry = { ...collection, works: [] };
+            acc.push(collectionEntry);
           }
 
-          if (media) {
-            // Ensure the media is added to the correct work in the correct collection
-            const workToUpdate = collectionEntry.works.find(
-              (w) => w.id === media.workId,
-            );
-            if (workToUpdate) {
-              workToUpdate.media.push(media);
+          if (work) {
+            // Ensure the work is added to the correct collection
+            let workEntry = collectionEntry.works.find((w) => w.id === work.id);
+            if (!workEntry) {
+              workEntry = { ...work, media: [] };
+              collectionEntry.works.push(workEntry);
+            }
+
+            if (media) {
+              // Ensure the media is added to the correct work in the correct collection
+              const workToUpdate = collectionEntry.works.find(
+                (w) => w.id === media.workId,
+              );
+              if (workToUpdate) {
+                workToUpdate.media.push(media);
+              }
             }
           }
         }
-      }
 
-      return acc;
-    }, [] as ICollection[]);
+        return acc;
+      }, [] as ICollection[]);
 
-  if (result) {
+    if (!result) {
+      return undefined;
+    }
+
     const sorted = result.sort((a, b) => a.idx - b.idx);
     return sorted;
+  } catch (error) {
+    console.log(error);
+    return undefined;
   }
 };
 
@@ -1342,6 +1354,7 @@ export const updateCollection = async (
   formData: FormData,
 ) => {
   const user = await getUserData();
+  if (!user) return;
 
   const validatedFields = UpdateCollection.safeParse({
     template: formData.get('template') || '',
@@ -1361,7 +1374,7 @@ export const updateCollection = async (
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Invoice.',
+      message: 'Missing Fields. Failed to update collection.',
     };
   }
 
@@ -1424,35 +1437,35 @@ export const updateCollectionVisibility = async (
   collectionData && revalidatePath(`/collections/${collectionData.slug}`);
 };
 
-export const getUserWork = async (id: number) => {
-  const user = await getUserData();
-  const rows =
-    user &&
-    user.id !== null &&
-    (await db
+export const getUserWork = async (id: number): Promise<IWork | undefined> => {
+  try {
+    const user = await getUserData();
+    if (!user) return;
+
+    const rows = await db
       .select()
       .from(work)
       .where(eq(work.id, id))
-      .leftJoin(media, eq(work.id, media.workId)));
+      .leftJoin(media, eq(work.id, media.workId));
 
-  const result =
-    rows &&
-    rows.reduce<IWork>((acc, row) => {
-      const work = row.work_table;
-      const media = row.media_table;
+    const result =
+      rows &&
+      rows.reduce<IWork>((acc, row) => {
+        const work = row.work_table;
+        const media = row.media_table;
 
-      if (!acc.id && work.id) {
-        acc = { ...work, media: [] };
-      }
-      if (media) {
-        acc.media.push(media);
-      }
-      return acc;
-    }, {} as IWork);
+        if (!acc.id && work.id) {
+          acc = { ...work, media: [] };
+        }
+        if (media) {
+          acc.media.push(media);
+        }
+        return acc;
+      }, {} as IWork);
 
-  return result;
-};
-
-export const getPagesData = async (userId: number) => {
-  return await db.select().from(pages).where(eq(pages.userId, userId));
+    return result;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
 };
