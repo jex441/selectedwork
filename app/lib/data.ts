@@ -994,48 +994,50 @@ export const updateWork = async (data: IWork, collectionSlug: string) => {
 export const createWorkWithMedia = async (
   newMedia: { url: string; main: string; type: string },
   slug: string,
-) => {
-  const user = await getUserData();
-  const userCollectionData =
-    user &&
-    user.id !== null &&
-    (await db
-      .select()
-      .from(collection)
-      .where(and(eq(collection.slug, slug), eq(collection.userId, user.id))));
+): Promise<IWork | undefined> => {
+  try {
+    const user = await getUserData();
+    if (!user) {
+      return;
+    }
 
-  const userCollectionDataWithWork =
-    user &&
-    user.id !== null &&
-    (await db
+    const userCollectionDataWithWork = await db
       .select()
       .from(collection)
       .where(and(eq(collection.slug, slug), eq(collection.userId, user.id)))
-      .leftJoin(work, eq(collection.id, work.collectionId)));
+      .leftJoin(work, eq(collection.id, work.collectionId));
 
-  const newWorkIndex =
-    userCollectionDataWithWork &&
-    userCollectionDataWithWork.reduce((acc, cur) => {
+    if (
+      !userCollectionDataWithWork ||
+      userCollectionDataWithWork.length === 0
+    ) {
+      return;
+    }
+
+    let collectionId: number | undefined;
+
+    const newWorkIndex = userCollectionDataWithWork.reduce((acc, cur) => {
       if (cur.work_table) {
         acc += 1;
+      }
+      if (cur.collection_table) {
+        collectionId = cur.collection_table.id;
       }
       return acc;
     }, 1);
 
-  const newWorkEntry =
-    userCollectionData &&
-    userCollectionData[0].id !== null &&
-    user.id !== null &&
-    newWorkIndex &&
-    (await db
+    if (!collectionId) return;
+
+    const [newWorkEntry] = await db
       .insert(work)
       .values({
-        collectionId: userCollectionData[0].id,
+        collectionId: collectionId,
         idx: newWorkIndex,
       })
       .returning({
         id: work.id,
         idx: work.idx,
+        index: work.index,
         collectionId: work.collectionId,
         hidden: work.hidden,
         title: work.title,
@@ -1050,20 +1052,16 @@ export const createWorkWithMedia = async (
         currency: work.currency,
         location: work.location,
         sold: work.sold,
-        createdAt: work.createdAt,
-        updatedAt: work.updatedAt,
-        index: work.index,
         displayHeight: work.displayHeight,
         displayWidth: work.displayWidth,
-      }));
+      });
 
-  const newMediaEntry =
-    newWorkEntry &&
-    newWorkEntry[0].id !== null &&
-    (await db
+    if (!newWorkEntry) return;
+
+    const [newMediaEntry] = await db
       .insert(media)
       .values({
-        workId: newWorkEntry[0].id,
+        workId: newWorkEntry.id,
         url: newMedia.url,
         main: newMedia.main,
         type: newMedia.type,
@@ -1075,12 +1073,16 @@ export const createWorkWithMedia = async (
         url: media.url,
         main: media.main,
         type: media.type,
-      }));
+      });
 
-  const newWork = newWorkEntry &&
-    newMediaEntry && { ...newWorkEntry[0], media: newMediaEntry };
+    if (!newMediaEntry) return;
 
-  return newWork;
+    const newWork = { ...newWorkEntry, media: [newMediaEntry] };
+
+    return newWork;
+  } catch (error) {
+    return undefined;
+  }
 };
 
 export const addMedia = async (
