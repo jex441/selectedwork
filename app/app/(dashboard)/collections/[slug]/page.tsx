@@ -14,9 +14,11 @@ export default async function Collection({
 }: {
   params: { slug: string };
 }) {
-  const collection: ICollection = await getUserCollection(params.slug);
+  const collection: ICollection | undefined = await getUserCollection(
+    params.slug,
+  );
 
-  if (collection === null) {
+  if (!collection) {
     return <div>Collection not found</div>;
   }
 
