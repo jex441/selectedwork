@@ -22,7 +22,7 @@ export default function Component({ data }: { data: any }) {
   };
 
   return (
-    <nav className="w-40 rounded-md px-1">
+    <nav className="hidden w-40 rounded-md px-1 md:inline-block">
       <div className="flex h-16 items-center justify-between">
         <div className="flex items-center space-x-4">
           {currentCV ? (
