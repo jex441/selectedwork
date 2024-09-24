@@ -23,7 +23,7 @@ export default function AboutForm({ data }: { data: IAboutPage }) {
 
   return (
     <form action={formAction}>
-      <header className="mb-4 flex w-full items-center justify-between space-x-4 pb-4">
+      <header className="mb-4 flex w-full items-center justify-between pb-4 md:space-x-4">
         <h1 className="text-lg font-bold">About</h1>
         <div className="flex w-full items-center justify-end space-x-4">
           <Button
