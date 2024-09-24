@@ -20,11 +20,10 @@ export default function createbutton({
   };
   return (
     <Button
-      className="absolute bottom-10 right-10 rounded-2xl"
-      size="lg"
+      className="fixed bottom-10 right-5 h-12 w-12 rounded-full text-lg lg:right-10"
       onClick={() => createCollectionHandler()}
     >
-      <PlusCircle className="mr-2 h-4 w-4" />
+      +
     </Button>
   );
 }

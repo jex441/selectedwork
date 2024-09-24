@@ -173,9 +173,11 @@ export default function Component({ data }: { data: ICVPage }) {
                     </SelectGroup>
                   </SelectContent>
                 </Select>
-                <Button onClick={handleAddWorkExperience}>
-                  <PlusCircle className="mr-2" />
-                  Add experience
+                <Button
+                  className="fixed bottom-10 right-5 h-12 w-12 rounded-full text-lg lg:right-10"
+                  onClick={handleAddWorkExperience}
+                >
+                  +
                 </Button>
               </div>
               <PDF data={data} />
