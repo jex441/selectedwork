@@ -37,7 +37,7 @@ export default function Nav({ user }: { user: IUser }) {
         <MenuIcon />
       </div>
       <div
-        className={`${nav} fixed z-30 h-screen transform flex-col items-stretch border-r bg-gray-100 transition-all dark:bg-gray-800/40 md:flex md:w-1/6 md:bg-gray-100/40`}
+        className={`${nav} fixed z-30 h-screen transform flex-col items-stretch border-r bg-gray-100 transition-all dark:bg-gray-800/40 md:flex md:w-1/6 md:translate-x-0 md:bg-gray-100/40`}
       >
         <div className="flex h-full flex-1 flex-col gap-2">
           <div className="flex h-14 px-7">

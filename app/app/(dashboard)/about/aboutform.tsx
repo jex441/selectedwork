@@ -35,7 +35,7 @@ export default function AboutForm({ data }: { data: IAboutPage }) {
         </div>
       </header>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-        <div className="space-y-6">
+        <div className="order-2 space-y-6">
           <div>
             <Label htmlFor="heading">
               Heading
@@ -116,10 +116,10 @@ export default function AboutForm({ data }: { data: IAboutPage }) {
             </div>
           </div>
         </div>
-        <div className="space-y-6">
+        <div className="order-1 space-y-6">
           <div className="flex flex-col justify-start space-y-4">
             <Label>Your photo</Label>
-            <div className="relative my-4 flex h-[300px] w-[500px] items-center justify-center">
+            <div className="relative my-4 flex h-[200px] w-[300px] items-center justify-center md:h-[300px] md:w-[500px]">
               {imgSrc ? (
                 <Image
                   src={imgSrc ?? ''}
