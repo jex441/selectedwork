@@ -149,7 +149,7 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
               const work = works.find((work) => work.idx === idx);
               if (!work) {
                 return (
-                  <div className="m-1 block h-[270px] w-[250px] animate-pulse rounded-md bg-gray-300"></div>
+                  <div className="border-1 h-[100px] w-[100px] animate-pulse rounded-md rounded-md border bg-gray-300 py-1 shadow-md lg:h-[250px] lg:w-[270px]"></div>
                 );
               }
               if (!collection.slug) return null;
@@ -165,14 +165,7 @@ export default function WorksGrid({ collection }: { collection: ICollection }) {
             })}
             <DragOverlay>
               {activeId ? (
-                <div
-                  style={{
-                    width: '250px',
-                    height: '200px',
-                    backgroundColor: '#ccc',
-                    borderRadius: '5px',
-                  }}
-                ></div>
+                <div className="border-1 m-1 h-[100px] w-[110px] rounded-md border bg-gray-200 py-1 shadow-md lg:h-[250px] lg:w-[270px]"></div>
               ) : null}
             </DragOverlay>
           </SortableContext>

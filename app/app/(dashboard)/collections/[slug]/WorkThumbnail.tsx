@@ -31,23 +31,24 @@ export default function WorkThumbnail({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    width: '250px',
-    height: '270px',
+    // width: '250px',
+    // height: '270px',
     borderRadius: '5px',
     backgroundColor: 'white',
     margin: '5px',
     zIndex: isDragging ? '100' : 'auto',
     opacity: isDragging ? 0.3 : 1,
+    'touch-action': 'none',
   };
   return (
     <div
-      className="border-1 relative border shadow-md"
+      className="border-1 h-[100px] w-[100px] rounded-md border shadow-md lg:h-[250px] lg:w-[270px] lg:py-1"
       ref={setNodeRef}
       style={style}
     >
       <Box>
         <button
-          className="p-1 text-right text-sm text-gray-500"
+          className="px-1 text-right text-xs text-gray-500 md:text-sm"
           {...listeners}
           {...attributes}
         >
@@ -58,7 +59,7 @@ export default function WorkThumbnail({
           className="h-full w-full"
           prefetch={false}
         >
-          <div className="relative h-40 w-full bg-gray-100">
+          <div className="relative h-16 w-full bg-gray-100 lg:h-40">
             <Image
               fill
               src={work.media[0]?.url ?? placeholder}
@@ -67,14 +68,18 @@ export default function WorkThumbnail({
             />
           </div>
           <div className="bg-white p-2 dark:bg-gray-950">
-            <h3 className="font-semibold">{work.title}</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <div className="flex w-full items-center justify-between">
+              <h3 className="hidden truncate font-semibold lg:block">
+                {work.title}
+              </h3>
+              <div className="hidden text-sm text-gray-500 dark:text-gray-400 lg:block">
+                {work.year}
+              </div>
+            </div>
+            <p className="hidden truncate text-sm text-gray-500 dark:text-gray-400 lg:block">
               {work.medium}
             </p>
             <div className="flex items-center justify-between">
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                {work.year}
-              </div>
               {/* <div className="text-sm text-gray-500 dark:text-gray-400">
                 {work.height} {work.width} {work.unit}
               </div> */}

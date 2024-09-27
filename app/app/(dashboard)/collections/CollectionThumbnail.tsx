@@ -70,7 +70,7 @@ export default function CollectionThumbnail({
           </div>
           <div className="bg-white p-1 dark:bg-gray-950 lg:p-2">
             <span className="flex justify-between">
-              <p className="lg:text-md overflow-hidden truncate text-xs md:font-semibold">
+              <p className="lg:text-md overflow-hidden truncate text-sm md:font-semibold">
                 {collection.title}
               </p>
               <p className="hidden text-xs text-gray-500 dark:text-gray-400 md:block lg:text-sm">
