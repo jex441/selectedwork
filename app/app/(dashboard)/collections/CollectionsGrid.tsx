@@ -20,6 +20,7 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
   rectSortingStrategy,
+  verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import CreateButton from './createbutton';
 import { reorderCollections } from '@/app/lib/data';
@@ -34,9 +35,11 @@ export default function CollectionsGrid({ data }: { data: ICollection[] }) {
   const [items, setItems] = useState<number[]>(
     collections.map((collection) => collection.idx),
   );
+
   useEffect(() => {
     setItems(collections.map((collection) => collection.idx));
   }, [collections]);
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -80,7 +83,7 @@ export default function CollectionsGrid({ data }: { data: ICollection[] }) {
 
   return (
     <>
-      <div className="block flex h-full w-full flex-1 justify-start ">
+      <div className="block flex w-full justify-start md:p-4">
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -108,12 +111,13 @@ export default function CollectionsGrid({ data }: { data: ICollection[] }) {
               <DragOverlay>
                 {activeId ? (
                   <div
-                    style={{
-                      width: '250px',
-                      height: '200px',
-                      backgroundColor: '#ccc',
-                      borderRadius: '5px',
-                    }}
+                    className="border-1 m-1 h-[100px] w-[110px] rounded-md border bg-gray-200 py-1 shadow-md lg:h-[250px] lg:w-[270px]"
+                    // style={{
+                    //   width: '250px',
+                    //   height: '200px',
+                    //   backgroundColor: '#ccc',
+                    //   borderRadius: '5px',
+                    // }}
                   ></div>
                 ) : null}
               </DragOverlay>
