@@ -31,10 +31,10 @@ export default function Nav({
     <>
       <main
         onMouseLeave={() => setDropDown('hidden')}
-        className="fixed z-20 flex h-[70px] w-full bg-white text-darkGray lg:static lg:flex-row lg:items-center lg:justify-between lg:p-10"
+        className="fixed z-20 flex h-[70px] w-full bg-white text-darkGray lg:static  lg:flex-row lg:items-center lg:justify-between lg:p-12 lg:px-12"
       >
         <div className="fixed z-20 flex lg:static lg:flex-row lg:items-center">
-          <header className="m-5 tracking-wide lg:m-0 lg:my-0 lg:mr-6 lg:text-xl">
+          <header className="m-5 tracking-wide lg:m-0 lg:my-0 lg:mr-6 lg:text-2xl">
             <Link
               onMouseEnter={() => setDropDown('hidden')}
               onClick={() => clickHandler()}
@@ -60,7 +60,7 @@ export default function Nav({
                 onMouseEnter={() => setDropDown('flex')}
               >
                 <Link
-                  className="text-mediumGray hover:text-darkGray"
+                  className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
                   href={`/${collections[0].slug}`}
                 >
                   Selected Work
@@ -70,7 +70,7 @@ export default function Nav({
               collections.map((collection) => (
                 <span key={collection.id}>
                   <Link
-                    className="text-mediumGray hover:text-darkGray"
+                    className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
                     onClick={() => clickHandler()}
                     href={`/${collection.slug}`}
                   >
@@ -96,7 +96,7 @@ export default function Nav({
             </section>
             <span>
               <Link
-                className="text-mediumGray hover:text-darkGray"
+                className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
                 onMouseEnter={() => setDropDown('hidden')}
                 onClick={() => clickHandler()}
                 href={`/about`}
@@ -106,7 +106,7 @@ export default function Nav({
             </span>
             <span>
               <Link
-                className="text-mediumGray hover:text-darkGray"
+                className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
                 onClick={() => clickHandler()}
                 href={`/cv`}
               >
@@ -115,7 +115,7 @@ export default function Nav({
             </span>
             <span>
               <Link
-                className="text-mediumGray hover:text-darkGray"
+                className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
                 onClick={() => clickHandler()}
                 href={`/contact`}
               >
