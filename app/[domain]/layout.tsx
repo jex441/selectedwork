@@ -26,12 +26,21 @@ export default async function SiteLayout({
   ) {
     return <div>Not found</div>;
   }
-
   return (
     <div className="flex min-h-screen w-full flex-col">
+      {/* Nav */}
       <NavPage params={params} />
-      <main className="mt-[70px] min-h-screen lg:mt-0">{children}</main>
-      <div className="mt-10 flex h-20 w-[90%] flex-row justify-between self-center border-t border-gray-200 p-4 text-xs text-lightGray">
+
+      {/* Layout */}
+
+      {/* sideNav */}
+      {/* <main className="mt-[70px] min-h-screen lg:mt-0">{children}</main> */}
+
+      {/* !sideNav */}
+      <main className="ml-0 min-h-screen lg:ml-[160px]">{children}</main>
+
+      {/* Footer SideNav */}
+      <div className="mt-10 flex h-20 w-full flex-row justify-between border-t border-gray-200 py-4 pl-[250px] text-xs text-lightGray">
         <div>{res.displayName} 2024</div>
         {res.plan === 'free' && (
           <div>
@@ -44,6 +53,21 @@ export default async function SiteLayout({
           </div>
         )}
       </div>
+
+      {/* Footer */}
+      {/* <div className="mt-10 flex h-20 w-[90%] flex-row justify-between self-center border-t border-gray-200 p-4 text-xs text-lightGray">
+        <div>{res.displayName} 2024</div>
+        {res.plan === 'free' && (
+          <div>
+            <a
+              href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+              className="transition-colors hover:text-darkGray hover:underline"
+            >
+              selectedwork.net
+            </a>
+          </div>
+        )}
+      </div> */}
     </div>
   );
 }
