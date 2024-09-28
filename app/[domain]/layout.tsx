@@ -37,10 +37,12 @@ export default async function SiteLayout({
       {/* <main className="mt-[70px] min-h-screen lg:mt-0">{children}</main> */}
 
       {/* !sideNav */}
-      <main className="ml-0 min-h-screen lg:ml-[160px]">{children}</main>
+      <main className="ml-0 flex min-h-screen lg:ml-[160px] lg:items-center">
+        {children}
+      </main>
 
       {/* Footer SideNav */}
-      <div className="mt-10 flex h-20 w-full flex-row justify-between border-t border-gray-200 py-4 pl-[250px] text-xs text-lightGray">
+      <div className="mt-10 flex h-20 flex-row justify-between border-t border-gray-200 py-4 pl-[250px] text-xs text-lightGray">
         <div>{res.displayName} 2024</div>
         {res.plan === 'free' && (
           <div>
