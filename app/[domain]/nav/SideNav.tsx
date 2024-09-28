@@ -31,7 +31,7 @@ export default function Nav({
     <>
       <main
         onMouseLeave={() => setDropDown('hidden')}
-        className="fixed z-20 flex h-screen w-[230px] flex-col bg-white text-darkGray lg:p-10"
+        className="fixed z-20 flex h-screen flex-col bg-white text-darkGray lg:w-[230px] lg:p-10"
       >
         <div className="max-w-inherit fixed z-20">
           <header className="text-wrap m-5 w-full max-w-[200px] tracking-wide lg:m-0 lg:my-0 lg:text-2xl">
@@ -52,7 +52,7 @@ export default function Nav({
           </div>
 
           <nav
-            className={`${open ? 'flex' : 'hidden'} fixed z-10 h-full w-full flex-col gap-4 bg-white px-5 pl-10 pt-20 text-[32px] lg:flex lg:w-auto lg:gap-4 lg:px-0 lg:pl-0 lg:text-sm`}
+            className={`${open ? 'flex' : 'hidden'} fixed top-11 z-10 h-full w-full flex-col gap-4 bg-white px-5 pl-10 pt-20 text-[32px] lg:top-auto lg:flex lg:w-auto lg:gap-4 lg:px-0 lg:pl-0 lg:text-sm`}
           >
             {collections.length > 3 ? (
               <span
