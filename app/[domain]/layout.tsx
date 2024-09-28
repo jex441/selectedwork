@@ -32,44 +32,43 @@ export default async function SiteLayout({
       <NavPage params={params} />
 
       {/* Layout */}
-
-      {/* sideNav */}
-      {/* <main className="mt-[70px] min-h-screen lg:mt-0">{children}</main> */}
-
-      {/* !sideNav */}
-      <main className="ml-0 flex min-h-screen lg:ml-[160px] lg:items-center">
-        {children}
-      </main>
-
-      {/* Footer SideNav */}
-      <div className="mt-10 flex h-20 flex-row justify-between border-t border-gray-200 py-4 pl-[250px] text-xs text-lightGray">
-        <div>{res.displayName} 2024</div>
-        {res.plan === 'free' && (
-          <div>
-            <a
-              href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
-              className="transition-colors hover:text-darkGray hover:underline"
-            >
-              selectedwork.net
-            </a>
+      {res.sideNav ? (
+        <>
+          <main className="ml-0 flex min-h-screen lg:ml-[160px] lg:items-center">
+            {children}
+          </main>
+          <div className="mt-10 flex h-20 flex-row justify-between border-t border-gray-200 py-4 pl-[250px] text-xs text-lightGray">
+            <div>{res.displayName} 2024</div>
+            {res.plan === 'free' && (
+              <div>
+                <a
+                  href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+                  className="transition-colors hover:text-darkGray hover:underline"
+                >
+                  selectedwork.net
+                </a>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-
-      {/* Footer */}
-      {/* <div className="mt-10 flex h-20 w-[90%] flex-row justify-between self-center border-t border-gray-200 p-4 text-xs text-lightGray">
-        <div>{res.displayName} 2024</div>
-        {res.plan === 'free' && (
-          <div>
-            <a
-              href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
-              className="transition-colors hover:text-darkGray hover:underline"
-            >
-              selectedwork.net
-            </a>
+        </>
+      ) : (
+        <>
+          <main className="mt-[70px] min-h-screen lg:mt-0">{children}</main>
+          <div className="mt-10 flex h-20 w-5/6 flex-row justify-between self-center border-t border-gray-200 p-4  text-xs text-lightGray">
+            <div>{res.displayName} 2024</div>
+            {res.plan === 'free' && (
+              <div>
+                <a
+                  href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+                  className="transition-colors hover:text-darkGray hover:underline"
+                >
+                  selectedwork.net
+                </a>
+              </div>
+            )}
           </div>
-        )}
-      </div> */}
+        </>
+      )}
     </div>
   );
 }

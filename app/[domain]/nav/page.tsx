@@ -14,22 +14,21 @@ export default async function page({ params }: { params: { domain: string } }) {
   if (res === null) {
     notFound();
   }
-  // if (res.sideNav) {
-  return (
-    <SideNav
-      collections={res.collections ?? []}
-      displayName={res.displayName}
-      instagram={res.instagram}
-    />
-  );
-  // }
-  // if (res !== null) {
-  //   return (
-  //     <Nav
-  //       collections={res.collections ?? []}
-  //       displayName={res.displayName}
-  //       instagram={res.instagram}
-  //     />
-  //   );
-  // }
+  if (res.sideNav) {
+    return (
+      <SideNav
+        collections={res.collections ?? []}
+        displayName={res.displayName}
+        instagram={res.instagram}
+      />
+    );
+  } else {
+    return (
+      <Nav
+        collections={res.collections ?? []}
+        displayName={res.displayName}
+        instagram={res.instagram}
+      />
+    );
+  }
 }
