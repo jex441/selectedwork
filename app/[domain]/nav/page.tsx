@@ -4,6 +4,8 @@ import Nav from './Nav';
 import SideNav from './SideNav';
 import { notFound } from 'next/navigation';
 
+// This can be removed and use only the client components in same dir
+// Unless this is needed for custom domains?
 export default async function page({ params }: { params: { domain: string } }) {
   const domain = decodeURIComponent(params.domain);
   const res = await getUserByUsername(domain);

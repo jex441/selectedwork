@@ -1,10 +1,9 @@
-import Image from 'next/image';
 import React from 'react';
 
-import { IContactPage } from '@/app/interfaces/IContactPage';
 import { getContactPageDataForSite } from '@/app/lib/requests';
-import ContactPage from './ContactPage';
-import { get } from 'http';
+import ContactPage1 from './_templates/1/page';
+import ContactPage2 from './_templates/2/page';
+
 export default async function Contact({
   params,
 }: {
@@ -17,5 +16,10 @@ export default async function Contact({
   if (res.data === null) {
     return 'loading';
   }
-  return <ContactPage data={res.data} />;
+  if (res.data.template === 'c1') {
+    return <ContactPage1 data={res.data} />;
+  }
+  if (res.data.template === 'c2') {
+    return <ContactPage2 data={res.data} />;
+  }
 }

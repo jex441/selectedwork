@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ICVPage } from '../../interfaces/ICVPage';
+import { ICVPage } from '../../../../interfaces/ICVPage';
 import CVSection from './CVSection';
 import { Divide } from 'lucide-react';
 

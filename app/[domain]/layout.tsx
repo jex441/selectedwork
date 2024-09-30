@@ -28,22 +28,23 @@ export default async function SiteLayout({
   ) {
     return <div>Not found</div>;
   }
+  //if template === 1
+  //if template === 2 etc
   return (
     <div className="flex min-h-screen w-full flex-col">
-      {/* Nav */}
-      {/* <NavPage params={params} /> */}
-
       {/* Layout */}
-      {res.sideNav ? (
+      {!res.sideNav ? (
         <>
           <SideNav
             collections={res.collections ?? []}
             displayName={res.displayName}
             instagram={res.instagram}
           />
+          {/* Main content */}
           <main className="ml-0 flex min-h-screen lg:ml-[160px] lg:items-center">
             {children}
           </main>
+          {/* Footer */}
           <div className="mt-10 flex h-20 flex-row justify-between border-t border-gray-200 py-4 pl-[250px] text-xs text-lightGray">
             <div>{res.displayName} 2024</div>
             {res.plan === 'free' && (
@@ -65,7 +66,9 @@ export default async function SiteLayout({
             displayName={res.displayName}
             instagram={res.instagram}
           />
+          {/* Main content */}
           <main className="mt-[70px] min-h-screen lg:mt-0">{children}</main>
+          {/* Footer for side nav */}
           <div className="mt-10 flex h-20 w-5/6 flex-row justify-between self-center border-t border-gray-200 p-4  text-xs text-lightGray">
             <div>{res.displayName} 2024</div>
             {res.plan === 'free' && (

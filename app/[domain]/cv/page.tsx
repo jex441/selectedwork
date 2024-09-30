@@ -1,9 +1,8 @@
 import React from 'react';
 import { Suspense } from 'react';
 import { getCVPageDataForSite } from '../../lib/requests';
-import { ICVPage } from '../../interfaces/ICVPage';
-import CVSection from './CVSection';
-import CVPage from './CVPage';
+import CVPage1 from './_templates/1/page';
+import CVPage2 from './_templates/2/page';
 
 export default async function page({ params }: { params: { domain: string } }) {
   const domain = decodeURIComponent(params.domain);
@@ -12,11 +11,22 @@ export default async function page({ params }: { params: { domain: string } }) {
   if (res.data === null) {
     return 'loading';
   }
-  return (
-    <Suspense
-      fallback={<div className="flex h-full w-full justify-center">...</div>}
-    >
-      <CVPage data={res.data} />
-    </Suspense>
-  );
+  if (res.data.template === 'r1') {
+    return (
+      <Suspense
+        fallback={<div className="flex h-full w-full justify-center">...</div>}
+      >
+        <CVPage1 data={res.data} />
+      </Suspense>
+    );
+  }
+  if (res.data.template === 'r2') {
+    return (
+      <Suspense
+        fallback={<div className="flex h-full w-full justify-center">...</div>}
+      >
+        <CVPage2 data={res.data} />
+      </Suspense>
+    );
+  }
 }
