@@ -24,8 +24,8 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
   }
 
   return (
-    <main className="mt-20 flex w-full flex-wrap justify-center">
-      <section className="fade-in-up-simple flex flex-col justify-between lg:w-5/6 lg:flex-row lg:gap-5">
+    <main className="flex w-full flex-wrap justify-center">
+      <section className="fade-in-up-simple flex flex-col justify-center lg:w-4/5 lg:flex-row lg:gap-10">
         {imgSrc && (
           <>
             <div className="mx-1 flex flex-col lg:m-5 lg:mx-0 lg:h-[400px] lg:w-1/2 lg:w-[500px]">
@@ -48,7 +48,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
           </>
         )}
 
-        <div className="fade-in-right-simple mx-1 my-5 flex-1 bg-red-100 lg:mx-0 lg:w-auto">
+        <div className="fade-in-right-simple mx-1 my-5 flex-1 lg:m-5 lg:w-1/2">
           <h1 className="text-xl leading-9 text-mediumGray">
             {imgSrc || subheading || linkSrc1 || linkSrc2 || description
               ? title
@@ -91,11 +91,11 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
       </section>
       <section className="mg:grid-cols-2 mb-10 grid w-full grid-cols-1 gap-x-2 gap-y-16 lg:grid-cols-4 lg:px-20">
         {works &&
-          works.map((work: IWork, index: number) => (
+          data.works.map((work: IWork, index: number) => (
             <Piece
               index={index}
               works={works}
-              artist={user.displayName}
+              artist={user ? user.displayName : ''}
               key={work.id}
               data={work}
             />

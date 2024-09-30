@@ -23,10 +23,10 @@ export default async function SiteHomePage({
     return 'loading';
   }
 
-  if (res.data.template === 'xg1') {
+  if (res.data.template === 'g1') {
     return <Collection1 data={res.data} user={res.user} />;
   }
-  if (res.data.template !== 'g2') {
+  if (res.data.template === 'g2') {
     return <Collection2 data={res.data} user={res.user} />;
   }
 }

@@ -62,8 +62,7 @@ export default function Piece({
         ref={domRef}
         key={data.id}
         onClick={() => setModal(true)}
-        // fade-in-from-bottom
-        className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'}  relative col-span-1 mx-2 flex cursor-pointer flex-row justify-between gap-8 bg-red-100/60 lg:mx-0 lg:h-[500px]`}
+        className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} fade-in-from-bottom relative col-span-1 mx-2 flex cursor-pointer flex-row justify-between gap-8 bg-red-100/60 lg:mx-0 lg:h-[500px]`}
       >
         <Image
           width={0}

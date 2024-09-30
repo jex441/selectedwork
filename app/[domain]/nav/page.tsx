@@ -1,9 +1,11 @@
 import React from 'react';
-import { getUserByUsername } from '../../lib/requests';
-import Nav from './Nav';
-import SideNav from './SideNav';
-import { notFound } from 'next/navigation';
 
+import { getUserByUsername } from '../../lib/requests';
+import { notFound } from 'next/navigation';
+import Nav1 from './_templates/1/page';
+import Nav2 from './_templates/2/page';
+
+import { ICollection } from '@/app/interfaces/ICollection';
 // This can be removed and use only the client components in same dir
 // Unless this is needed for custom domains?
 export default async function page({ params }: { params: { domain: string } }) {
@@ -16,17 +18,18 @@ export default async function page({ params }: { params: { domain: string } }) {
   if (res === null) {
     notFound();
   }
-  if (res.sideNav) {
+  if (res.template === 1) {
     return (
-      <SideNav
+      <Nav1
         collections={res.collections ?? []}
         displayName={res.displayName}
         instagram={res.instagram}
       />
     );
-  } else {
+  }
+  if (res.template === 2) {
     return (
-      <Nav
+      <Nav2
         collections={res.collections ?? []}
         displayName={res.displayName}
         instagram={res.instagram}
