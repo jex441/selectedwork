@@ -328,7 +328,6 @@ export async function updateContactPage(
 
 export const getUserData = async () => {
   const auth = await currentUser();
-  console.log('auth', auth);
   if (auth !== null) {
     const rows = await db
       .select()
@@ -413,7 +412,23 @@ export const updateUser = async (
   return { success: true };
 };
 
-//
+export const updateUserTemplate = async (templateId: string) => {
+  const user = await getUserData();
+  if (!user) return;
+  const update = await db
+    .update(users)
+    .set({
+      template: Number(templateId),
+    })
+    .where(eq(users.id, user.id))
+    .returning({ id: users.id });
+
+  revalidatePath('/account');
+  revalidatePath(`/`);
+
+  return { success: true };
+};
+
 const UserCustomDomainSchema = z.object({
   id: z.number(),
   domain: z.string().nullish(),
