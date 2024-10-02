@@ -328,8 +328,10 @@ export const getCollectionDataForSite = async (
     }, {} as ICollection);
 
   if (result && user) {
-    result.template = `g${String(user.template)}`;
+    console.log('userdata', user.template);
 
+    result.template = `g${String(user.template)}`;
+    console.log('temp', result.template);
     return {
       status: 200,
       user: {

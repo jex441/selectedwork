@@ -1,5 +1,5 @@
 import React from 'react';
-import { IAboutPage } from '@/app/interfaces/IAboutPage';
+import { IAboutPage } from '../../../../interfaces/IAboutPage';
 import Image from 'next/image';
 
 export default function page({ data }: { data: IAboutPage }) {

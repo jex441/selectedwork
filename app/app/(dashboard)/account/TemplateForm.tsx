@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup } from '@/components/ui/radio-group';
+import { toast } from 'react-hot-toast';
 
 import { useFormState } from 'react-dom';
 import { IUser } from '@/app/interfaces/IUser';
@@ -46,7 +47,13 @@ export default function TemplateForm({ data }: { data: IUser }) {
   );
 
   const updateUserTemplateHandler = async () => {
-    await updateUserTemplate(selectedTemplate);
+    await updateUserTemplate(selectedTemplate).then((res) => {
+      if (!res || res.status === 500) {
+        return toast.error('Error updating template.');
+      } else if (res.status === 200) {
+        toast.success('Template updated successfully.');
+      }
+    });
   };
 
   return (

@@ -36,7 +36,7 @@ export default async function SiteLayout({
           {/* Main content */}
           <main className="mt-[70px] min-h-screen lg:mt-0">{children}</main>
           {/* Footer */}
-          <div className="mt-10 flex h-20 flex-row justify-between border-t border-gray-200 py-4 pl-[250px] text-xs text-lightGray">
+          <div className="mt-10 flex h-20 w-[90%] flex-row justify-between self-center border-t border-gray-200 py-4 text-xs text-lightGray">
             <div>{res.displayName} 2024</div>
             {res.plan === 'free' && (
               <div>

@@ -413,20 +413,29 @@ export const updateUser = async (
 };
 
 export const updateUserTemplate = async (templateId: string) => {
-  const user = await getUserData();
-  if (!user) return;
-  const update = await db
-    .update(users)
-    .set({
-      template: Number(templateId),
-    })
-    .where(eq(users.id, user.id))
-    .returning({ id: users.id });
+  try {
+    const user = await getUserData();
+    if (!user) return;
 
-  revalidatePath('/account');
-  revalidatePath(`/`);
+    const update = await db
+      .update(users)
+      .set({
+        template: Number(templateId),
+      })
+      .where(eq(users.id, user.id))
+      .returning({ id: users.id, template: users.template });
 
-  return { success: true };
+    revalidatePath(`/`);
+    revalidatePath(`/work`);
+    revalidatePath(`/about`);
+    revalidatePath(`/cv`);
+    revalidatePath(`/contact`);
+
+    return { status: 200 };
+  } catch (error) {
+    console.log(error);
+    return { status: 500 };
+  }
 };
 
 const UserCustomDomainSchema = z.object({
