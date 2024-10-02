@@ -24,19 +24,19 @@ export default function TemplateForm({ data }: { data: IUser }) {
   interface Template {
     id: string;
     title: string;
-    imageUrl: string;
+    imageUrl: any;
   }
 
   const templates: Template[] = [
     {
       id: '1',
       title: 'Grid Layout',
-      imageUrl: template1.toString(),
+      imageUrl: template1,
     },
     {
       id: '2',
       title: 'Side Nav Layout',
-      imageUrl: template2.toString(),
+      imageUrl: template2,
     },
   ];
 
