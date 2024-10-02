@@ -1,8 +1,8 @@
 import React from 'react';
 import { Suspense } from 'react';
 import { getCVPageDataForSite } from '../../lib/requests';
-import CVPage1 from './_templates/1/CV2';
-import CVPage2 from './_templates/2/CV1';
+import CVPage1 from './_templates/1/CV1';
+import CVPage2 from './_templates/2/CV2';
 
 export default async function page({ params }: { params: { domain: string } }) {
   const domain = decodeURIComponent(params.domain);

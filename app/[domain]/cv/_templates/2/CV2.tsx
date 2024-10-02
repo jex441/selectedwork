@@ -7,7 +7,7 @@ import { Divide } from 'lucide-react';
 
 export default function CVPage({ data }: { data: ICVPage }) {
   return (
-    <main className="flex w-full flex-col items-center justify-center px-2 lg:mt-10">
+    <main className="mt-20 flex w-full flex-col items-center justify-center self-start px-2">
       {data.pdf && (
         <section className="flex w-full flex-col items-end justify-center lg:w-2/3">
           <a

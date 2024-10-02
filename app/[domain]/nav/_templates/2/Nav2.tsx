@@ -31,9 +31,9 @@ export default function Nav({
     <>
       <main
         onMouseLeave={() => setDropDown('hidden')}
-        className="fixed z-20 flex h-screen flex-col bg-white text-darkGray lg:w-[230px] lg:p-10"
+        className="fixed z-20 flex h-[70px] w-full bg-white text-darkGray lg:h-screen lg:w-[230px] lg:px-5 lg:py-10"
       >
-        <div className="max-w-inherit fixed z-20">
+        <div className="max-w-inherit z-20">
           <header className="text-wrap m-5 w-full max-w-[200px] tracking-wide lg:m-0 lg:my-0 lg:text-2xl">
             <Link
               onMouseEnter={() => setDropDown('hidden')}

@@ -24,8 +24,8 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
   }
 
   return (
-    <main className="mt-20 flex w-full flex-wrap justify-center">
-      <section className="fade-in-up-simple flex flex-col items-start justify-between lg:w-5/6 lg:flex-row lg:gap-5">
+    <main className="mx-2 mt-20 flex w-full flex-wrap justify-center self-start lg:mx-0">
+      <section className="fade-in-up-simple flex w-full flex-col items-start justify-between lg:w-5/6 lg:flex-row lg:gap-5">
         {imgSrc && (
           <>
             <div className="mx-1 flex flex-col lg:mx-0 lg:h-[500px] lg:w-1/2 lg:max-w-[700px]">
@@ -48,7 +48,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
           </>
         )}
 
-        <div className="fade-in-right-simple flex-1 px-4 lg:mx-0 lg:w-auto">
+        <div className="fade-in-right-simple flex-1 lg:mx-0 lg:w-auto lg:px-4">
           <h1 className="text-xl leading-9 text-mediumGray">
             {imgSrc || subheading || linkSrc1 || linkSrc2 || description
               ? title
@@ -89,7 +89,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
           </p>
         </div>
       </section>
-      <section className="mg:grid-cols-2 mb-10 grid w-full grid-cols-1 gap-x-2 gap-y-16 lg:grid-cols-1 lg:px-20">
+      <section className="mb-10 flex w-full flex-col gap-x-2 gap-y-16 lg:grid-cols-1 lg:px-20">
         {works &&
           works.map((work: IWork, index: number) => (
             <Piece
