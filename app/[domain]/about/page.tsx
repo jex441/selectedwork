@@ -1,7 +1,8 @@
 import { getAboutPageDataForSite } from '@/app/lib/requests';
 import React from 'react';
-import About1 from './_templates/1/page';
-import About2 from './_templates/2/page';
+import About1 from './_templates/1/About1';
+import About2 from './_templates/2/About2';
+import { IAboutPage } from '../../interfaces/IAboutPage';
 
 export default async function About({
   params,

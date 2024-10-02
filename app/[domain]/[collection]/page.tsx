@@ -2,8 +2,8 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 
 import { getCollectionDataForSite } from '@/app/lib/requests';
-import Collection1 from './_templates/1/page';
-import Collection2 from './_templates/2/page';
+import Collection1 from './_templates/1/Gallery1';
+import Collection2 from './_templates/2/Gallery2';
 
 export default async function SiteHomePage({
   params,

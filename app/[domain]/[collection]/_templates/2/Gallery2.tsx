@@ -48,7 +48,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
           </>
         )}
 
-        <div className="fade-in-right-simple flex-1 bg-red-100 px-4 lg:mx-0 lg:w-auto">
+        <div className="fade-in-right-simple flex-1 px-4 lg:mx-0 lg:w-auto">
           <h1 className="text-xl leading-9 text-mediumGray">
             {imgSrc || subheading || linkSrc1 || linkSrc2 || description
               ? title

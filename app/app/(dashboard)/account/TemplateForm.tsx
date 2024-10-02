@@ -15,10 +15,8 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup } from '@/components/ui/radio-group';
 import { toast } from 'react-hot-toast';
 
-import { useFormState } from 'react-dom';
 import { IUser } from '@/app/interfaces/IUser';
 import { updateUserTemplate } from '@/app/lib/data';
-import { UserState } from '@/app/lib/data';
 import template1 from '/public/template1.png';
 import template2 from '/public/template2.png';
 
@@ -33,12 +31,12 @@ export default function TemplateForm({ data }: { data: IUser }) {
     {
       id: '1',
       title: 'Grid Layout',
-      imageUrl: template1 as string,
+      imageUrl: template1.toString(),
     },
     {
       id: '2',
       title: 'Side Nav Layout',
-      imageUrl: template2 as string,
+      imageUrl: template2.toString(),
     },
   ];
 

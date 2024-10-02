@@ -2,7 +2,7 @@ import React from 'react';
 import { IAboutPage } from '../../../../interfaces/IAboutPage';
 import Image from 'next/image';
 
-export default function page({ data }: { data: IAboutPage }) {
+export default function About1({ data }: { data: IAboutPage }) {
   const {
     imgSrc,
     imgCaption,

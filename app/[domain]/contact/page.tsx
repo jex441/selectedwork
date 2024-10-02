@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { getContactPageDataForSite } from '@/app/lib/requests';
-import ContactPage1 from './_templates/1/page';
-import ContactPage2 from './_templates/2/page';
+import ContactPage1 from './_templates/1/Contact1';
+import ContactPage2 from './_templates/2/Contact1';
 
 export default async function Contact({
   params,
