@@ -2,8 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 
 import { IContactPage } from '@/app/interfaces/IContactPage';
-import ContactForm from '@/app/[domain]/contact/ContactForm';
-export default function ContactPage({ data }: { data: IContactPage }) {
+import ContactForm from './ContactForm';
+
+export default function page({ data }: { data: IContactPage }) {
   const {
     imgSrc,
     imgCaption,
@@ -18,7 +19,7 @@ export default function ContactPage({ data }: { data: IContactPage }) {
   } = data || {};
 
   return (
-    <main className="mb-20 flex w-full flex-col items-start justify-center px-4 lg:flex-row lg:gap-14 lg:px-20 lg:pt-10">
+    <main className="mb-20 mt-20 flex w-full flex-col items-start justify-center px-4 lg:mt-0 lg:flex-row lg:gap-14 lg:px-20">
       <section className="fade-in-up-simple relative flex max-h-[520px] w-full flex-col object-contain lg:h-[490px] lg:w-1/2">
         <div className="relative h-auto w-full lg:max-h-[480px] ">
           {imgSrc && (

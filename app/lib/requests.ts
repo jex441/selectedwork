@@ -47,7 +47,6 @@ export const getUserByUsername = async (username: string) => {
       collection.visibility === 'public' &&
         acc.collections.push({ ...collection, works: [] });
     }
-
     return acc;
   }, {} as IUser);
 
@@ -80,8 +79,11 @@ export const getAboutPageDataForSite = async (
     userData &&
     userData.id !== null &&
     (await db.select().from(about).where(eq(about.userId, userData?.id)));
-  const responseData = rows && (rows[0] as IAboutPage);
+  let responseData = rows && (rows[0] as IAboutPage);
+
   if (responseData) {
+    responseData.template = `a${String(userData.template)}`;
+
     return {
       status: 200,
       user: { username: userData.username },
@@ -117,6 +119,7 @@ export const getContactPageDataForSite = async (
 
   let responseData = rows && (rows[0] as IContactPage);
   if (responseData) {
+    responseData.template = `c${String(userData.template)}`;
     responseData.email = userData.email as string;
     return {
       status: 200,
@@ -242,6 +245,8 @@ export const getCVPageDataForSite = async (
     result.teaching = orderedTeaching;
     result.education = orderedEducation;
 
+    result.template = `r${String(userData.template)}`;
+
     return {
       status: 200,
       user: { username: userData.username },
@@ -323,6 +328,10 @@ export const getCollectionDataForSite = async (
     }, {} as ICollection);
 
   if (result && user) {
+    console.log('userdata', user.template);
+
+    result.template = `g${String(user.template)}`;
+    console.log('temp', result.template);
     return {
       status: 200,
       user: {

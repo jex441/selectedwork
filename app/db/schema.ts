@@ -24,6 +24,8 @@ export const users = pgTable('users_table', {
   subscriptionId: text('subscriptionId'),
   hibernate: boolean('hibernate').default(false).notNull(),
   instagram: text('instagram'),
+  sideNav: boolean('sideNav').default(false).notNull(),
+  template: integer('template').default(1).notNull(),
 });
 
 export const pages = pgTable('pages_table', {
