@@ -29,19 +29,10 @@ export default function Nav({
 
   return (
     <>
-      <main
-        onMouseLeave={() => setDropDown('hidden')}
-        className="fixed z-20 flex h-[70px] w-full bg-white text-darkGray lg:h-screen lg:w-[230px] lg:px-5 lg:py-10"
-      >
+      <main className="fixed z-20 flex h-[70px] w-full bg-white text-darkGray lg:h-screen lg:w-[230px] lg:px-8 lg:py-10">
         <div className="max-w-inherit z-20">
-          <header className="text-wrap m-5 w-full max-w-[200px] tracking-wide lg:m-0 lg:my-0 lg:text-2xl">
-            <Link
-              onMouseEnter={() => setDropDown('hidden')}
-              onClick={() => clickHandler()}
-              href={'/'}
-            >
-              {displayName}
-            </Link>
+          <header className="text-wrap m-5 w-full max-w-[200px] tracking-wide lg:m-5 lg:my-0 lg:text-lg">
+            <Link href={'/'}>{displayName}</Link>
           </header>
 
           <div
@@ -52,22 +43,12 @@ export default function Nav({
           </div>
 
           <nav
-            className={`${open ? 'flex' : 'hidden'} fixed top-11 z-10 h-full w-full flex-col gap-4 bg-white px-5 pl-10 pt-20 text-[32px] lg:top-auto lg:flex lg:w-auto lg:gap-4 lg:px-0 lg:pl-0 lg:text-sm`}
+            className={`${open ? 'flex' : 'hidden'} fixed top-11 z-10 h-full w-full flex-col gap-4 bg-white px-5 pl-10 pt-14 text-[32px] lg:top-auto lg:flex lg:w-auto lg:gap-1 lg:px-0 lg:pl-5 lg:text-sm`}
           >
-            {collections.length > 3 ? (
-              <span
-                onClick={() => clickHandler()}
-                onMouseEnter={() => setDropDown('flex')}
-              >
-                <Link
-                  className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
-                  href={`/${collections[0].slug}`}
-                >
-                  Selected Work
-                </Link>
-              </span>
-            ) : (
-              collections.map((collection) => (
+            <span
+              className={`${collections.length > 1 ? 'mb-5' : ''} flex flex-col gap-1`}
+            >
+              {collections.map((collection) => (
                 <span key={collection.id}>
                   <Link
                     className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
@@ -77,26 +58,11 @@ export default function Nav({
                     {collection.title}
                   </Link>
                 </span>
-              ))
-            )}
-            <section
-              className={`${dropDown} left-0 top-[60px] h-[200px] w-full flex-col gap-2 bg-white lg:absolute lg:p-5 lg:pl-60`}
-            >
-              {collections.length > 1 &&
-                collections.map((collection) => (
-                  <span key={collection.id}>
-                    <Link
-                      onClick={() => clickHandler()}
-                      href={`/${collection.slug}`}
-                    >
-                      {collection.title}
-                    </Link>
-                  </span>
-                ))}
-            </section>
+              ))}
+            </span>
             <span>
               <Link
-                className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
+                className={`${collections.length > 1 ? 'lg:text-xs' : ''} tracking-wide text-mediumGray transition-all hover:text-darkGray`}
                 onMouseEnter={() => setDropDown('hidden')}
                 onClick={() => clickHandler()}
                 href={`/about`}
@@ -106,7 +72,7 @@ export default function Nav({
             </span>
             <span>
               <Link
-                className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
+                className={`${collections.length > 1 ? 'lg:text-xs' : ''} tracking-wide text-mediumGray transition-all hover:text-darkGray`}
                 onClick={() => clickHandler()}
                 href={`/cv`}
               >
@@ -115,7 +81,7 @@ export default function Nav({
             </span>
             <span>
               <Link
-                className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
+                className={`${collections.length > 1 ? 'lg:text-xs' : ''} tracking-wide text-mediumGray transition-all hover:text-darkGray`}
                 onClick={() => clickHandler()}
                 href={`/contact`}
               >
@@ -123,12 +89,12 @@ export default function Nav({
               </Link>
             </span>
             {instagram && (
-              <span className="">
+              <span className="mt-5">
                 <a href={instagram} target="_blank" rel="noreferrer">
                   <Image
                     className=""
-                    height={20}
-                    width={20}
+                    height={18}
+                    width={18}
                     alt="instagram"
                     src={instagramLogo}
                   />

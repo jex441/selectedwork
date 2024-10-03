@@ -72,17 +72,15 @@ export default function Piece({
           className="max-h-[620px] w-full self-center object-contain lg:h-[500px] lg:max-w-[700px]"
           src={src}
         />
-        <div className="flex w-full flex-row self-start self-end text-xs tracking-wide lg:mt-0 lg:w-auto lg:flex-col">
-          <span className="text-xs italic text-mediumGray lg:text-sm">
-            {data.title}
-          </span>
-          <span className="mx-2 block text-xs text-lightGray lg:mx-0 lg:text-sm">
+        <div className="flex w-full flex-row gap-1 self-start self-end text-xs tracking-wide lg:mt-0 lg:w-auto lg:flex-col">
+          <span className="text-xs italic text-mediumGray">{data.title}</span>
+          <span className="mx-2 block text-xs text-lightGray lg:mx-0">
             {data.year && `${data.year}`}
           </span>
-          <span className="hidden text-xs text-lightGray lg:block lg:text-sm">
+          <span className="hidden text-xs text-lightGray lg:block">
             {data.medium && `${data.medium}`}
           </span>
-          <span className="hidden text-xs text-lightGray lg:block lg:text-sm">
+          <span className="hidden text-xs text-lightGray lg:block">
             {data.height && `${data.height}`}
             {data.width && ` x ${data.width}`}{' '}
             {data.depth && ` x ${data.depth}`}
