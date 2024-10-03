@@ -1451,6 +1451,19 @@ export const updateCollection = async (
   return { success: true };
 };
 
+export const removeCollectionTitleImage = async (collectionId: number) => {
+  try {
+    await db
+      .update(collection)
+      .set({ imgSrc: null, imgCaption: null })
+      .where(eq(collection.id, collectionId));
+    return { status: 200 };
+  } catch (error) {
+    console.log(error);
+    return { status: 500 };
+  }
+};
+
 export const updateCollectionVisibility = async (
   collectionId: number,
   visibility: string,

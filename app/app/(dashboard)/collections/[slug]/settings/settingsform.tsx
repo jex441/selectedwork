@@ -13,10 +13,12 @@ import Image from 'next/image';
 import { UploadButton } from '../../../../../lib/uploadthing';
 import { useFormState } from 'react-dom';
 import { ICollection } from '../../../../../interfaces/ICollection';
-import { updateCollection } from '@/app/lib/data';
+import { updateCollection, removeCollectionTitleImage } from '@/app/lib/data';
 import LinkInput from './linkinput';
 import AboutTemplates from './abouttemplates';
 import { CollectionState } from '@/app/lib/data';
+import { Trash } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 export default function settingsform({
   collection,
@@ -38,6 +40,12 @@ export default function settingsform({
       });
     }
   }
+  const removeCollectionTitleImageHandler = async () => {
+    await removeCollectionTitleImage(collection.id).then((res) => {
+      toast.success('Image removed');
+      setImgSrc('');
+    });
+  };
   return (
     <form className="w-full p-6" action={formAction}>
       <div className="mb-6 flex items-center justify-between">
@@ -181,16 +189,24 @@ export default function settingsform({
               )}
               <Input name="imgSrc" type="hidden" value={imgSrc ?? ''} />
             </div>
-            <UploadButton
-              className="self-start"
-              endpoint="imageUploader"
-              onClientUploadComplete={(res) => {
-                setImgSrc(res[0].url);
-              }}
-              onUploadError={(error: Error) => {
-                alert(`ERROR! ${error.message}`);
-              }}
-            />
+            <div className="flex items-center justify-between space-x-4">
+              <UploadButton
+                className="transform-color self-start ut-button:bg-gray-700 ut-button:text-white ut-button:hover:bg-gray-600 ut-allowed-content:hidden"
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                  setImgSrc(res[0].url);
+                }}
+                onUploadError={(error: Error) => {
+                  alert(`ERROR! ${error.message}`);
+                }}
+              />
+              <span onClick={() => removeCollectionTitleImageHandler()}>
+                <Trash
+                  size={20}
+                  className="mx-2 cursor-pointer opacity-60 transition-all hover:opacity-100"
+                />
+              </span>
+            </div>
             <div className="space-y-2">
               <Label htmlFor="image-caption">Caption</Label>
               <Input
