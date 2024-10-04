@@ -62,25 +62,25 @@ export default function Piece({
         ref={domRef}
         key={data.id}
         onClick={() => setModal(true)}
-        className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} fade-in-from-bottom relative flex cursor-pointer flex-col justify-between gap-3 lg:mx-0 lg:h-[500px] lg:flex-row`}
+        className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} /fade-in-from-bottom relative flex cursor-pointer flex-col justify-between gap-3 lg:mx-0 lg:h-[500px] lg:flex-row lg:items-end lg:gap-0`}
       >
         <Image
           width={0}
           height={0}
           alt="work"
           sizes="100vw"
-          className="max-h-[620px] w-full self-center object-contain lg:h-[500px] lg:max-w-[700px]"
+          className="lg:max-w-[700px]/ max-h-[620px] w-full object-contain lg:max-h-[500px] lg:max-w-[600px]"
           src={src}
         />
-        <div className="flex w-full flex-row gap-1 self-start self-end text-xs tracking-wide lg:mt-0 lg:w-auto lg:flex-col">
-          <span className="text-xs italic text-mediumGray">{data.title}</span>
-          <span className="mx-2 block text-xs text-lightGray lg:mx-0">
+        <div className="flex w-full flex-row gap-1 self-end text-xs tracking-wide lg:mt-0 lg:w-auto lg:flex-col">
+          <span className="text-[12px] text-mediumGray">{data.title}</span>
+          <span className="mx-2 block text-[12px] text-lightGray lg:mx-0">
             {data.year && `${data.year}`}
           </span>
-          <span className="hidden text-xs text-lightGray lg:block">
+          <span className="hidden text-[12px] text-lightGray lg:block">
             {data.medium && `${data.medium}`}
           </span>
-          <span className="hidden text-xs text-lightGray lg:block">
+          <span className="hidden text-[12px] text-lightGray lg:block">
             {data.height && `${data.height}`}
             {data.width && ` x ${data.width}`}{' '}
             {data.depth && ` x ${data.depth}`}
