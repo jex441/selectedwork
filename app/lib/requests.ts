@@ -282,7 +282,8 @@ export const getCollectionDataForSite = async (
       .where(
         and(
           eq(collection.userId, user.id),
-          eq(collection.visibility, 'public'),
+          // eq(collection.visibility, 'public'),
+          eq(collection.idx, 1),
         ),
       );
 
