@@ -51,23 +51,23 @@ export default function Modal({
   return (
     <>
       <div className="fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
-        <nav className="flex w-full justify-end p-2 lg:fixed lg:p-10">
+        <nav className="flex w-full justify-end p-2 lg:fixed lg:p-4">
           <span
             className="fade-in-simple cursor-pointer cursor-pointer opacity-50 hover:opacity-100"
             onClick={() => closeHandler()}
           >
-            <Image src={close} alt="close" height={30} width={30} />
+            <Image src={close} alt="close" height={18} width={18} />
           </span>
         </nav>
 
-        <section className="animDelay flex h-full w-full flex-col px-2 pt-1 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:p-0">
+        <section className="animDelay flex h-full w-full flex-col px-2 pt-1 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:px-4 lg:py-0">
           <Image
             src={previous}
             alt="previous"
-            height={25}
-            width={25}
+            height={18}
+            width={18}
             onClick={() => navigateHandler('previous')}
-            className="hidden cursor-pointer opacity-50 hover:opacity-100 lg:block"
+            className="hidden cursor-pointer opacity-30 transition-all hover:opacity-80 lg:block"
           />
           <div className="relative flex max-h-[520px] w-full items-center justify-center lg:w-2/3">
             <Image
@@ -98,19 +98,19 @@ export default function Modal({
                 )}
               </div>
             )}
-            <p className="text-lightGray">{artist}</p>
+            <p className="text-[14px] text-lightGray">{artist}</p>
             <span className="flex w-full items-center justify-between">
-              <span className="flex w-1/2 items-center justify-between italic text-darkGray">
+              <span className="flex w-1/2 items-center justify-between text-[14px] text-darkGray">
                 <span>{work.title}</span>
                 {work.sold && (
                   <span className="my-1 inline-block h-2 w-2 rounded-lg bg-red-400"></span>
                 )}
               </span>
             </span>
-            <p className="text-sm text-lightGray">{work.year}</p>
-            <p className="text-sm text-lightGray">{work.medium}</p>
+            <p className="text-[12px] text-lightGray">{work.year}</p>
+            <p className="text-[12px] text-lightGray">{work.medium}</p>
             {work.height && work.width ? (
-              <div className="text-sm text-lightGray">
+              <div className="text-[12px] text-lightGray">
                 <span className="">{work.height && `${work.height}`}</span>
                 <span className="text-lightGray"> x </span>
                 <span className="">{work.width && work.width}</span>
@@ -120,15 +120,15 @@ export default function Modal({
                     {work.depth}
                   </span>
                 )}
-                <span className="text-xs text-lightGray">
+                <span className="text-[12px] text-lightGray">
                   {work.unit && ` ${unit}`}
                 </span>
               </div>
             ) : null}
-            <p className="my-2 text-xs leading-7 text-mediumGray ">
+            <p className="my-2 text-[12px] leading-6 text-mediumGray ">
               {work.description}
             </p>
-            <p className="text-sm italic leading-7 text-mediumGray">
+            <p className="text-[12px] italic leading-6 text-mediumGray">
               {work.location}
             </p>
             <p className="text-gray-primary my-1 leading-7 text-lightGray">
@@ -155,10 +155,10 @@ export default function Modal({
           <Image
             src={next}
             alt="previous"
-            height={25}
-            width={25}
+            height={18}
+            width={18}
             onClick={() => navigateHandler('next')}
-            className="hidden cursor-pointer opacity-50 hover:opacity-100 lg:block"
+            className="hidden cursor-pointer opacity-30 transition-all hover:opacity-80 lg:block"
           />
         </section>
       </div>

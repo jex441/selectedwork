@@ -11,8 +11,10 @@ export default function CVSection({
   categoryId: string;
 }) {
   return (
-    <section className="fade-in-up-simple mb-6 flex w-full flex-col lg:w-2/3">
-      <h1 className="mb-1 uppercase text-lightGray lg:text-lg">{heading}</h1>
+    <section className="fade-in-up-simple mb-6 flex w-full flex-col justify-start lg:w-5/6">
+      <h1 className="mb-1 text-sm uppercase text-lightGray lg:text-[16px]">
+        {heading}
+      </h1>
       {data &&
         data[categoryId] &&
         data[categoryId].map(

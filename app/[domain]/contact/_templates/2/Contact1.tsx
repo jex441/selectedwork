@@ -33,29 +33,31 @@ export default function page({ data }: { data: IContactPage }) {
             />
           )}
         </div>
-        <div className="mt-2 text-sm italic text-darkGray">{imgCaption}</div>
+        <div className="mt-2 text-[12px] italic text-mediumGray">
+          {imgCaption}
+        </div>
       </section>
       <section className="fade-in-right-simple mt-2 w-full lg:mt-0 lg:w-1/2 lg:pr-20">
-        <h1 className="text-xl text-darkGray">{heading}</h1>
-        <h3 className="text-sm leading-9 text-mediumGray">{subheading}</h3>
+        <h1 className="text-[18px] text-darkGray">{heading}</h1>
+        <h3 className="text-[14px] leading-9 text-mediumGray">{subheading}</h3>
         {text &&
           text
             .split('\r\n')
             .map((paragraph) => (
-              <p className="my-2 text-xs leading-7 text-mediumGray">
+              <p className="my-2 text-xs leading-6 text-mediumGray">
                 {paragraph}
               </p>
             ))}
 
         {linkSrc1 && (
-          <p className="my-2 text-sm leading-7 text-mediumGray underline hover:text-black">
+          <p className="my-2 text-[12px] leading-6 text-lightGray underline transition-all hover:text-black">
             <a href={linkSrc1} target="_blank">
               {linkText1}
             </a>
           </p>
         )}
         {linkSrc2 && (
-          <p className="my-2 text-sm leading-7 text-mediumGray underline hover:text-black">
+          <p className="my-2 text-[12px] leading-6 text-lightGray underline transition-all hover:text-black">
             <a href={linkSrc2} target="_blank">
               {linkText2}
             </a>

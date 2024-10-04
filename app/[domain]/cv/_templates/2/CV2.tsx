@@ -7,12 +7,12 @@ import { Divide } from 'lucide-react';
 
 export default function CVPage({ data }: { data: ICVPage }) {
   return (
-    <main className="mt-20 flex w-full flex-col items-center justify-center self-start px-2">
+    <main className="mt-20 flex w-full flex-col items-start justify-center self-start px-2 lg:pl-[100px]">
       {data.pdf && (
         <section className="flex w-full flex-col items-end justify-center lg:w-2/3">
           <a
             href={data.pdf}
-            className="text-sm text-lightGray hover:text-mediumGray hover:underline"
+            className="fade-in-up-simple text-[12px] text-lightGray hover:text-mediumGray hover:underline"
             target="_blank"
           >
             View as PDF
