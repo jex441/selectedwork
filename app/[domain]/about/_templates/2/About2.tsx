@@ -17,7 +17,7 @@ export default function page({ data }: { data: IAboutPage }) {
   } = data || {};
 
   return (
-    <main className="mb-20 mt-20 flex w-full flex-col items-start justify-center px-4 lg:flex-row lg:gap-14 lg:px-20">
+    <main className="mb-20 mt-20 flex w-full flex-col items-start justify-center px-4 lg:mt-0 lg:flex-row lg:gap-14 lg:px-20">
       <section className="fade-in-up-simple relative flex max-h-[520px] w-full flex-col object-contain lg:h-[490px] lg:w-1/2">
         <div className="relative h-auto w-full lg:max-h-[480px] ">
           {imgSrc && (
@@ -31,29 +31,31 @@ export default function page({ data }: { data: IAboutPage }) {
             />
           )}
         </div>
-        <div className="mt-2 text-sm italic text-darkGray">{imgCaption}</div>
+        <div className="mt-2 text-[12px] italic text-darkGray">
+          {imgCaption}
+        </div>
       </section>
       <section className="fade-in-right-simple mt-2 w-full lg:mt-0 lg:w-1/2">
-        <h1 className="text-xl leading-9 text-darkGray">{heading}</h1>
-        <h3 className="text-sm leading-9 text-mediumGray">{subheading}</h3>
+        <h1 className="text-[18px] leading-9 text-darkGray">{heading}</h1>
+        <h3 className="text-[14px] leading-9 text-mediumGray">{subheading}</h3>
         {text &&
           text
             .split('\r\n')
             .map((paragraph: string) => (
-              <p className="my-2 text-xs leading-7 text-mediumGray">
+              <p className="my-2 text-[12px] leading-6 text-mediumGray">
                 {paragraph}
               </p>
             ))}
 
         {linkSrc1 && (
-          <p className="my-2 text-sm leading-7 text-mediumGray underline hover:text-darkGray">
+          <p className="my-2 text-[12px] leading-6 text-lightGray underline transition-all hover:text-darkGray">
             <a href={linkSrc1} target="_blank">
               {linkText1}
             </a>
           </p>
         )}
         {linkSrc2 && (
-          <p className="my-2 text-sm leading-7 text-mediumGray underline hover:text-darkGray">
+          <p className="my-2 text-[12px] leading-6 text-lightGray underline transition-all hover:text-darkGray">
             <a href={linkSrc2} target="_blank">
               {linkText2}
             </a>

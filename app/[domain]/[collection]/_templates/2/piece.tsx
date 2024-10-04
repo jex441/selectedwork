@@ -62,7 +62,7 @@ export default function Piece({
         ref={domRef}
         key={data.id}
         onClick={() => setModal(true)}
-        className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} /fade-in-from-bottom relative flex cursor-pointer flex-col justify-between gap-3 lg:mx-0 lg:h-[500px] lg:flex-row lg:items-end lg:gap-0`}
+        className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} fade-in-from-bottom relative flex cursor-pointer flex-col justify-between gap-3 lg:mx-0 lg:h-[500px] lg:flex-row lg:items-end lg:gap-0`}
       >
         <Image
           width={0}

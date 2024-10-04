@@ -24,7 +24,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
   }
 
   return (
-    <main className="mx-6 mt-20 flex w-full flex-wrap justify-start self-start lg:mx-0 lg:w-5/6 lg:pl-[100px]">
+    <main className="mx-6 mt-20 flex w-full flex-wrap justify-start self-start lg:mx-0 lg:mt-0 lg:w-5/6 lg:pl-[100px]">
       <section className="fade-in-up-simple flex w-full flex-col items-start justify-between lg:w-5/6 lg:flex-row lg:gap-5">
         {imgSrc && (
           <>
