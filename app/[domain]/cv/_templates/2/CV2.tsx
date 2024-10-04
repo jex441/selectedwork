@@ -9,7 +9,7 @@ export default function CVPage({ data }: { data: ICVPage }) {
   return (
     <main className="mt-20 flex w-full flex-col items-start justify-center self-start px-2 lg:pl-[100px]">
       {data.pdf && (
-        <section className="flex w-full flex-col items-end justify-center lg:w-2/3">
+        <section className="flex w-full flex-col items-end justify-center lg:w-5/6">
           <a
             href={data.pdf}
             className="fade-in-up-simple text-[12px] text-lightGray hover:text-mediumGray hover:underline"
