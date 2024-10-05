@@ -62,14 +62,14 @@ export default function Piece({
         ref={domRef}
         key={data.id}
         onClick={() => setModal(true)}
-        className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} fade-in-from-bottom relative flex cursor-pointer flex-col justify-between gap-3 lg:mx-0 lg:h-[500px] lg:flex-row lg:items-end lg:gap-0`}
+        className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} fade-in-from-bottom relative flex cursor-pointer flex-col justify-between gap-3 lg:mx-0 lg:max-h-[500px] lg:flex-row lg:items-end lg:gap-0`}
       >
         <Image
           width={0}
           height={0}
           alt="work"
           sizes="100vw"
-          className="lg:max-w-[700px]/ max-h-[620px] w-full object-contain lg:max-h-[500px] lg:max-w-[600px]"
+          className="max-h-[620px] w-full object-contain lg:max-h-[500px] lg:max-w-[600px] lg:max-w-[700px]"
           src={src}
         />
         <div className="flex w-full flex-row gap-1 self-end text-xs tracking-wide lg:mt-0 lg:w-auto lg:flex-col">
