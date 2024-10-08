@@ -1,17 +1,15 @@
 'use client';
 
-import React, { ReactHTMLElement } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { UploadButton } from '../../../lib/uploadthing';
-import { useFormState } from 'react-dom';
 import { ILandingPage } from '../../../interfaces/ILandingPage';
 import { Trash } from 'lucide-react';
 import { updateLanding } from '@/app/lib/data';
 import Image from 'next/image';
-import { State } from '@/app/lib/data';
 import { toast } from 'react-hot-toast';
 
 export default function AboutForm({
@@ -20,8 +18,6 @@ export default function AboutForm({
   data: ILandingPage | undefined;
 }) {
   if (!data) return null;
-
-  const initialState: State = { message: null, errors: {} };
   const [imgSrc, setImgSrc] = useState(data.imgSrc);
   const [state, setState] = useState(data);
 
@@ -47,7 +43,6 @@ export default function AboutForm({
     }
   };
 
-  console.log(imgSrc);
   return (
     <form onSubmit={submitHandler}>
       <header className="mb-4 flex w-full items-center justify-between pb-4 md:space-x-4">
