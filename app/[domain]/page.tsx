@@ -29,13 +29,13 @@ export default async function SiteHomePage({
             width={500}
             src={landingData.imgSrc}
             sizes="100vw"
-            className="w-full object-contain"
+            className="fade-in-simple w-full object-contain"
           />
         </div>
-        <div className="mt-6 text-center text-[24px] leading-10 text-darkGray">
+        <div className="fade-in-up-simple mt-6 text-center text-[24px] leading-10 text-darkGray">
           {landingData.heading}
         </div>
-        <div className="text-center text-[16px] leading-10 text-darkGray">
+        <div className="animDelay fade-in-up-simple text-center text-[16px] leading-10 text-darkGray">
           {landingData.subHeading}
         </div>
       </div>
