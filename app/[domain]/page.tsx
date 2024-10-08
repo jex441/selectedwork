@@ -21,8 +21,8 @@ export default async function SiteHomePage({
 
   if (landingData && landingData.imgSrc) {
     return (
-      <div className="flex w-[90%] flex-col items-center justify-center">
-        <div className="relative block max-h-[600px] max-w-[800px]">
+      <div className="flex flex-col items-center justify-center px-4 lg:w-full lg:justify-start">
+        <div className="relative flex w-full justify-center lg:max-h-[600px] lg:max-w-[800px]">
           <Image
             alt="text"
             height={400}
@@ -32,10 +32,10 @@ export default async function SiteHomePage({
             className="w-full object-contain"
           />
         </div>
-        <div className="mt-6 text-[24px] leading-10 text-darkGray">
+        <div className="mt-6 text-center text-[24px] leading-10 text-darkGray">
           {landingData.heading}
         </div>
-        <div className="text-[16px] leading-10 text-darkGray">
+        <div className="text-center text-[16px] leading-10 text-darkGray">
           {landingData.subHeading}
         </div>
       </div>
