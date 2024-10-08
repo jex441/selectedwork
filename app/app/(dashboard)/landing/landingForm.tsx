@@ -12,6 +12,7 @@ import { Trash } from 'lucide-react';
 import { updateLanding } from '@/app/lib/data';
 import Image from 'next/image';
 import { State } from '@/app/lib/data';
+import { toast } from 'react-hot-toast';
 
 export default function AboutForm({
   data,
@@ -40,10 +41,12 @@ export default function AboutForm({
 
   const submitHandler = async () => {
     const res = await updateLanding(state);
-    if (res) {
-      setState(res);
+    if (!res) return;
+    if (res.status === 200) {
+      toast.success('Experience deleted successfully');
     }
   };
+
   console.log(imgSrc);
   return (
     <form onSubmit={submitHandler}>
@@ -71,7 +74,7 @@ export default function AboutForm({
             />
           </div>
           <div>
-            <Label htmlFor="subheading">Subhead</Label>
+            <Label htmlFor="subheading">Text</Label>
             <Input
               onChange={(e) => updateLandingHandler(e)}
               id="subheading"

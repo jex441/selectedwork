@@ -1520,7 +1520,6 @@ export const getLandingPageData = async (): Promise<
         createdAt: landing.createdAt,
         updatedAt: landing.updatedAt,
       });
-  console.log('::', data);
   return data[0];
 };
 
@@ -1535,18 +1534,26 @@ export const updateLanding = async ({
   heading: string | null;
   subHeading: string | null;
 }) => {
-  const userData = await getUserData();
-  if (!userData) return;
+  try {
+    const userData = await getUserData();
+    if (!userData) return;
 
-  await db
-    .update(landing)
-    .set({
-      visibility: visibility,
-      imgSrc: imgSrc,
-      heading: heading,
-      subHeading: subHeading,
-    })
-    .where(eq(landing.userId, userData.id));
+    await db
+      .update(landing)
+      .set({
+        visibility: visibility,
+        imgSrc: imgSrc,
+        heading: heading,
+        subHeading: subHeading,
+      })
+      .where(eq(landing.userId, userData.id));
+
+    revalidatePath('/');
+    return { status: 200 };
+  } catch (error) {
+    console.log(error);
+    return { status: 500 };
+  }
 };
 
 export const getUserWork = async (id: number): Promise<IWork | undefined> => {
