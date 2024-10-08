@@ -13,6 +13,8 @@ import {
   LayoutGrid,
   SendHorizonal,
   MenuIcon,
+  ImageIcon,
+  Eye,
 } from 'lucide-react';
 
 import Image from 'next/image';
@@ -52,6 +54,14 @@ export default function Nav({ user }: { user: IUser }) {
             </Link>
           </div>
           <nav className="flex flex-col p-4">
+            <Link
+              onClick={() => toggleNav()}
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-bold text-gray-500 transition-all hover:bg-stone-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+              href="/landing"
+            >
+              <ImageIcon className="h-4 w-4" />
+              Cover Page
+            </Link>
             <Link
               onClick={() => toggleNav()}
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-bold text-gray-500 transition-all hover:bg-stone-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"

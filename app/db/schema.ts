@@ -7,6 +7,7 @@ import {
   timestamp,
 } from 'drizzle-orm/pg-core';
 import { title } from 'process';
+import { user } from '../lib/data';
 
 export const users = pgTable('users_table', {
   id: serial('id').primaryKey(),
@@ -184,6 +185,22 @@ export const work = pgTable('work_table', {
   collectionId: integer('collection_id')
     .notNull()
     .references(() => collection.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
+export const landing = pgTable('landing_table', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  visibility: boolean('visibility').default(false).notNull(),
+  heading: text('heading'),
+  subHeading: text('subHeading'),
+  imgSrc: text('imgSrc'),
+  template: integer('template').default(1).notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
     .notNull()

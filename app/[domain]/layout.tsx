@@ -26,7 +26,6 @@ export default async function SiteLayout({
   ) {
     return <div>Not found</div>;
   }
-
   if (res.template === 1) {
     return (
       <div className="flex min-h-screen w-full flex-col">

@@ -10,6 +10,7 @@ import {
   work,
   collection,
   media,
+  landing,
 } from '../db/schema';
 
 import { IUser } from '../interfaces/IUser';
@@ -18,6 +19,7 @@ import { ICVPage } from '../interfaces/ICVPage';
 import { revalidatePath } from 'next/cache';
 import { ICollection } from '../interfaces/ICollection';
 import { IContactPage } from '../interfaces/IContactPage';
+import { ILandingPage } from '../interfaces/ILandingPage';
 
 // functions for generating site:
 export const getUserByUsername = async (username: string) => {
@@ -60,6 +62,20 @@ export const getUserByUsername = async (username: string) => {
   } else {
     return null;
   }
+};
+
+export const getLandingPageDataForSite = async (
+  username: string,
+): Promise<ILandingPage | undefined> => {
+  const userData = await getUserByUsername(username);
+  if (!userData) return;
+
+  const data = await db
+    .select()
+    .from(landing)
+    .where(eq(landing.userId, userData?.id));
+
+  return data[0] as ILandingPage;
 };
 
 export const getAboutPageDataForSite = async (
