@@ -22,6 +22,7 @@ import {
   InsertWork,
   media,
   collection,
+  landing,
 } from '../db/schema';
 import { IUser } from '../interfaces/IUser';
 import { IAboutPage } from '../interfaces/IAboutPage';
@@ -34,6 +35,7 @@ import { get } from 'http';
 import { IContactPage } from '../interfaces/IContactPage';
 import { getCVPageDataForSite } from './requests';
 import { title } from 'process';
+import { ILandingPage } from '../interfaces/ILandingPage';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -1481,6 +1483,70 @@ export const updateCollectionVisibility = async (
     .where(eq(collection.id, collectionId));
 
   collectionData && revalidatePath(`/collections/${collectionData.slug}`);
+};
+
+export const getLandingPageData = async (): Promise<
+  ILandingPage | undefined
+> => {
+  const userData = await getUserData();
+  if (!userData) return;
+
+  let data = await db
+    .select()
+    .from(landing)
+    .where(eq(landing.userId, userData.id));
+
+  if (!data.length)
+    data = await db
+      .insert(landing)
+      .values({
+        userId: userData.id,
+        template: 1,
+        heading: '',
+        subHeading: '',
+        imgSrc: '',
+        visibility: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning({
+        id: landing.id,
+        userId: landing.userId,
+        template: landing.template,
+        heading: landing.heading,
+        subHeading: landing.subHeading,
+        imgSrc: landing.imgSrc,
+        visibility: landing.visibility,
+        createdAt: landing.createdAt,
+        updatedAt: landing.updatedAt,
+      });
+  console.log('::', data);
+  return data[0];
+};
+
+export const updateLanding = async ({
+  visibility,
+  imgSrc,
+  heading,
+  subHeading,
+}: {
+  visibility: boolean;
+  imgSrc: string | null;
+  heading: string | null;
+  subHeading: string | null;
+}) => {
+  const userData = await getUserData();
+  if (!userData) return;
+
+  await db
+    .update(landing)
+    .set({
+      visibility: visibility,
+      imgSrc: imgSrc,
+      heading: heading,
+      subHeading: subHeading,
+    })
+    .where(eq(landing.userId, userData.id));
 };
 
 export const getUserWork = async (id: number): Promise<IWork | undefined> => {
