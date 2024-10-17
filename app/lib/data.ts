@@ -23,6 +23,8 @@ import {
   media,
   collection,
   landing,
+  newsPost,
+  news,
 } from '../db/schema';
 import { IUser } from '../interfaces/IUser';
 import { IAboutPage } from '../interfaces/IAboutPage';
@@ -36,6 +38,8 @@ import { IContactPage } from '../interfaces/IContactPage';
 import { getCVPageDataForSite } from './requests';
 import { title } from 'process';
 import { ILandingPage } from '../interfaces/ILandingPage';
+import { INewsPost } from '../interfaces/INewsPost';
+import { INewsPage } from '../interfaces/INewsPage';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -706,6 +710,205 @@ export const createCollection = async (): Promise<ICollection | undefined> => {
     revalidatePath('/collections');
 
     return userCollection as ICollection;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getNewsPageData = async (): Promise<INewsPage | undefined> => {
+  try {
+    const userData = await user();
+    if (!userData) {
+      return;
+    }
+    let rows = await db
+      .select()
+      .from(news)
+      .leftJoin(newsPost, eq(newsPost.newsId, news.id))
+      .where(eq(news.userId, userData?.id));
+
+    if (!rows) {
+      let [newNewsPage] = (await db
+        .insert(news)
+        .values({
+          template: 'n1',
+          heading: 'News',
+          subHeading: '',
+          body: '',
+          imgSrc: '',
+          slug: 'news',
+          visibility: false,
+          userId: userData?.id,
+        })
+        .returning({
+          id: news.id,
+          template: news.template,
+          heading: news.heading,
+          subHeading: news.subHeading,
+          body: news.body,
+          imgSrc: news.imgSrc,
+          slug: news.slug,
+          visibility: news.visibility,
+          userId: news.userId,
+        })) as INewsPage[];
+
+      newNewsPage.posts = [];
+      return newNewsPage;
+    }
+
+    const result = rows.reduce<INewsPage>((acc, row) => {
+      const news = row.news_table;
+      const post = row.news_post_table;
+
+      if (!acc.id && news.id) {
+        acc = {
+          id: news.id,
+          template: news.template,
+          heading: news.heading,
+          subHeading: news.subHeading,
+          body: news.body,
+          imgSrc: news.imgSrc,
+          slug: news.slug,
+          visibility: news.visibility,
+          userId: news.userId,
+          posts: [],
+        };
+      }
+
+      if (post) {
+        const postData: INewsPost = {
+          id: post.id,
+          newsId: post.newsId,
+          heading: post.heading,
+          subHeading: post.subHeading,
+          body: post.body,
+          linkSrc1: post.linkSrc1,
+          linkText1: post.linkText1,
+          date: post.date,
+          location: post.location,
+          userId: post.userId,
+        };
+
+        acc.posts.push(postData as never);
+      }
+
+      return acc;
+    }, {} as INewsPage);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const createNewsPost = async (
+  content: INewsPost,
+): Promise<{ status: number } | undefined> => {
+  try {
+    const userData = await user();
+    if (!userData) {
+      return;
+    }
+    const [userNews] = await db
+      .select()
+      .from(news)
+      .where(eq(news.userId, userData?.id));
+
+    if (!userNews) {
+      return;
+    }
+
+    let [newNewsPost] = await db
+      .insert(newsPost)
+      .values({
+        // template: 'g1',
+        newsId: userNews.id,
+        heading: content.heading,
+        subHeading: content.heading,
+        body: content.heading,
+        linkSrc1: content.heading,
+        linkText1: content.heading,
+        date: content.date,
+        location: content.location,
+        userId: userData?.id,
+      })
+      .returning({
+        id: newsPost.id,
+      });
+
+    revalidatePath(userNews.slug);
+    return { status: 200 };
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateNewsPost = async (
+  content: INewsPost,
+): Promise<{ status: number } | undefined> => {
+  try {
+    const userData = await user();
+    if (!userData) {
+      return;
+    }
+    const [userNews] = await db
+      .select()
+      .from(news)
+      .where(eq(news.userId, userData?.id));
+
+    if (!userNews) {
+      return;
+    }
+    if (!content.id) return;
+
+    await db
+      .update(newsPost)
+      .set({
+        // template: 'g1',
+        newsId: userNews.id,
+        heading: content.heading,
+        subHeading: content.heading,
+        body: content.heading,
+        linkSrc1: content.heading,
+        linkText1: content.heading,
+        date: content.date,
+        location: content.location,
+        userId: userData?.id,
+      })
+      .where(eq(newsPost.id, content.id))
+      .returning({
+        id: newsPost.id,
+      });
+
+    revalidatePath(userNews.slug);
+    return { status: 200 };
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteNewsPost = async (
+  content: INewsPost,
+): Promise<{ status: number } | undefined> => {
+  try {
+    const userData = await user();
+    if (!userData) {
+      return;
+    }
+    const [userNews] = await db
+      .select()
+      .from(news)
+      .where(eq(news.userId, userData?.id));
+
+    if (!userNews) {
+      return;
+    }
+    if (!content.id) return;
+
+    await db.delete(newsPost).where(eq(newsPost.id, content.id));
+
+    revalidatePath(userNews.slug);
+    return { status: 200 };
   } catch (error) {
     console.error(error);
   }

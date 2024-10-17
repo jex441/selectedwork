@@ -8,6 +8,7 @@ import {
 } from 'drizzle-orm/pg-core';
 import { title } from 'process';
 import { user } from '../lib/data';
+import { link } from 'fs';
 
 export const users = pgTable('users_table', {
   id: serial('id').primaryKey(),
@@ -205,6 +206,40 @@ export const landing = pgTable('landing_table', {
   updatedAt: timestamp('updated_at')
     .notNull()
     .$onUpdate(() => new Date()),
+});
+
+export const news = pgTable('news_table', {
+  id: serial('id').primaryKey(),
+  userId: integer('userid')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  slug: text('slug').default('news').notNull(),
+  visibility: boolean('visibility').default(false).notNull(),
+  heading: text('heading'),
+  subHeading: text('subHeading'),
+  body: text('body'),
+  imgSrc: text('imgSrc'),
+  template: text('template').default('n1').notNull(),
+});
+
+export const newsPost = pgTable('news_post_table', {
+  id: serial('id').primaryKey(),
+  userId: integer('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  visibility: boolean('visibility').default(false).notNull(),
+  newsId: integer('newsId')
+    .notNull()
+    .references(() => news.id, { onDelete: 'cascade' }),
+  heading: text('heading'),
+  subHeading: text('subHeading'),
+  imgSrc: text('imgSrc'),
+  body: text('body'),
+  date: text('date'),
+  location: text('location'),
+  linkSrc1: text('linkSrc1'),
+  linkText1: text('linkText1'),
+  inquire: boolean('inquire').default(false).notNull(),
 });
 
 export const media = pgTable('media_table', {
