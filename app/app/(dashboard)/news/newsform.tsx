@@ -2,42 +2,87 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Calendar, Edit } from 'lucide-react';
+import Image from 'next/image';
+
 import {
-  Select,
-  SelectItem,
-  SelectTrigger,
-  SelectContent,
-  SelectGroup,
-  SelectLabel,
-  SelectSeparator,
-  SelectValue,
-} from '@/components/ui/select';
-import { Trash2Icon, PlusIcon } from '../../../assets/svgs';
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+
 import {
   getNewsPageData,
   saveCVSections,
   deleteNewsPost,
+  createNewsPost,
 } from '../../../lib/data';
 import { INewsPage } from '../../../interfaces/INewsPage';
 import { set } from 'zod';
 import { PlusCircle } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
+// need to navigate to edit page [id] and do CRUD operations
 export default function Component({ data }: { data: INewsPage }) {
+  console.log(data);
+  const createNewsPostHandler = async () => {
+    const newPost = await createNewsPost();
+  };
   return (
     <div className="flex h-full w-full flex-row justify-center">
       <h1 className="text-lg font-bold">News</h1>
-
       <header className="flex w-full items-center justify-between space-x-4"></header>
       <div className="grid flex-1 grid-cols-12 gap-6 px-6">
         <div className="col-span-12">
           <div>
             {data.posts &&
-              data.posts.map((post, index) => <div key={index}>post</div>)}
+              data.posts.map((post, index) => (
+                <Card className="max-w-sm overflow-hidden">
+                  <CardHeader className="p-0">
+                    {post.imgSrc ? (
+                      <Image
+                        src={post.imgSrc}
+                        alt={'oof'}
+                        width={384}
+                        height={200}
+                        className="h-48 w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-48 w-full items-center justify-center bg-gray-200 text-gray-400">
+                        no image
+                      </div>
+                    )}
+                  </CardHeader>
+                  <CardContent className="p-4">
+                    <CardTitle className="line-clamp-1 text-xl">
+                      {post.heading}
+                    </CardTitle>
+                    <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
+                      {post.subHeading}
+                    </p>
+                    <div className="mt-4 flex items-center text-sm text-muted-foreground">
+                      <Calendar className="mr-1 h-4 w-4" />
+                      {post.date}
+                    </div>
+                  </CardContent>
+                  <CardFooter className="p-4">
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => onViewEdit(id)}
+                    >
+                      <Edit className="mr-2 h-4 w-4" />
+                      View and Edit
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))}
+
             <Button
               className="fixed bottom-10 right-5 h-12 w-12 rounded-full text-lg lg:right-10"
-              //   onClick={handleAddWorkExperience}
+              onClick={() => createNewsPostHandler()}
             >
               +
             </Button>

@@ -210,7 +210,7 @@ export const landing = pgTable('landing_table', {
 
 export const news = pgTable('news_table', {
   id: serial('id').primaryKey(),
-  userId: integer('userid')
+  userId: integer('userId')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   slug: text('slug').default('news').notNull(),

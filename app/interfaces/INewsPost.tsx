@@ -9,4 +9,5 @@ export interface INewsPost {
   date: string | null;
   location: string | null;
   userId: number | null;
+  imgSrc: string | null;
 }

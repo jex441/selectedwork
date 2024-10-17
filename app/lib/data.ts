@@ -726,8 +726,7 @@ export const getNewsPageData = async (): Promise<INewsPage | undefined> => {
       .from(news)
       .leftJoin(newsPost, eq(newsPost.newsId, news.id))
       .where(eq(news.userId, userData?.id));
-
-    if (!rows) {
+    if (rows.length === 0) {
       let [newNewsPage] = (await db
         .insert(news)
         .values({
@@ -755,7 +754,6 @@ export const getNewsPageData = async (): Promise<INewsPage | undefined> => {
       newNewsPage.posts = [];
       return newNewsPage;
     }
-
     const result = rows.reduce<INewsPage>((acc, row) => {
       const news = row.news_table;
       const post = row.news_post_table;
@@ -788,7 +786,7 @@ export const getNewsPageData = async (): Promise<INewsPage | undefined> => {
           location: post.location,
           userId: post.userId,
         };
-
+        console.log('postData', postData);
         acc.posts.push(postData as never);
       }
 
@@ -801,9 +799,9 @@ export const getNewsPageData = async (): Promise<INewsPage | undefined> => {
   }
 };
 
-export const createNewsPost = async (
-  content: INewsPost,
-): Promise<{ status: number } | undefined> => {
+export const createNewsPost = async (): Promise<
+  { status: number } | undefined
+> => {
   try {
     const userData = await user();
     if (!userData) {
@@ -823,13 +821,14 @@ export const createNewsPost = async (
       .values({
         // template: 'g1',
         newsId: userNews.id,
-        heading: content.heading,
-        subHeading: content.heading,
-        body: content.heading,
-        linkSrc1: content.heading,
-        linkText1: content.heading,
-        date: content.date,
-        location: content.location,
+        heading: 'New Post',
+        subHeading: 'new post',
+        body: '',
+        linkSrc1: '',
+        linkText1: '',
+        date: '',
+        location: '',
+        slug: 'new-post',
         userId: userData?.id,
       })
       .returning({
