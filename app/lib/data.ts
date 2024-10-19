@@ -799,6 +799,36 @@ export const getNewsPageData = async (): Promise<INewsPage | undefined> => {
   }
 };
 
+export const getNewsPostData = async (
+  id: number,
+): Promise<INewsPost | undefined> => {
+  try {
+    const userData = await user();
+    if (!userData) {
+      return;
+    }
+    const [userNews] = await db
+      .select()
+      .from(news)
+      .where(eq(news.userId, userData?.id));
+
+    if (!userNews) {
+      return;
+    }
+
+    const [userNewsPost] = await db
+      .select()
+      .from(newsPost)
+      .where(eq(newsPost.id, id));
+
+    revalidatePath(`${userNews.slug}/id`);
+    console.log('userNewsPost', userNewsPost);
+    return userNewsPost;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const createNewsPost = async (): Promise<
   { status: number } | undefined
 > => {
@@ -816,19 +846,26 @@ export const createNewsPost = async (): Promise<
       return;
     }
 
+    const userPosts = await db
+      .select()
+      .from(newsPost)
+      .where(eq(newsPost.newsId, userNews.id));
+
+    const count = userPosts.length;
+
     let [newNewsPost] = await db
       .insert(newsPost)
       .values({
         // template: 'g1',
         newsId: userNews.id,
-        heading: 'New Post',
-        subHeading: 'new post',
+        heading: `${'New Post ' + count}`,
+        subHeading: '',
         body: '',
         linkSrc1: '',
         linkText1: '',
         date: '',
         location: '',
-        slug: 'new-post',
+        slug: `${'new-post-' + count}`,
         userId: userData?.id,
       })
       .returning({
@@ -866,10 +903,11 @@ export const updateNewsPost = async (
         // template: 'g1',
         newsId: userNews.id,
         heading: content.heading,
-        subHeading: content.heading,
-        body: content.heading,
-        linkSrc1: content.heading,
-        linkText1: content.heading,
+        subHeading: content.subHeading,
+        body: content.body,
+        imgSrc: content.imgSrc,
+        linkSrc1: content.linkSrc1,
+        // linkText1: content.heading,
         date: content.date,
         location: content.location,
         userId: userData?.id,
@@ -880,6 +918,8 @@ export const updateNewsPost = async (
       });
 
     revalidatePath(userNews.slug);
+    revalidatePath(`news/${userNews.id}`);
+
     return { status: 200 };
   } catch (error) {
     console.error(error);
