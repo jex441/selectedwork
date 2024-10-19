@@ -30,10 +30,10 @@ export default function Visibility({
       >
         <TabsList className="flex items-center space-x-4">
           <TabsTrigger name="visibility" value="true">
-            Publish
+            Public
           </TabsTrigger>
           <TabsTrigger name="visibility" value="false">
-            Hidden
+            Private
           </TabsTrigger>
         </TabsList>
       </Tabs>

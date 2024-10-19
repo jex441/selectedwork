@@ -81,7 +81,10 @@ export default function page({ data }: { data: INewsPost }) {
               <UploadButton
                 className="transform-color self-start ut-button:bg-gray-700 ut-button:text-white ut-button:hover:bg-gray-600 ut-allowed-content:hidden"
                 endpoint="imageUploader"
-                onClientUploadComplete={(res) => {
+                onClientUploadComplete={async (res) => {
+                  await updateNewsPost({ ...state, imgSrc: res[0].url }).then(
+                    () => toast.success('Image uploaded'),
+                  );
                   setState((prev) => ({ ...prev, imgSrc: res[0].url }));
                 }}
                 onUploadError={(error: Error) => {
