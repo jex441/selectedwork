@@ -4,6 +4,7 @@ export interface INewsPost {
   heading: string | null;
   subHeading: string | null;
   body: string | null;
+  visibility: boolean | null;
   linkSrc1: string | null;
   linkText1: string | null;
   date: string | null;

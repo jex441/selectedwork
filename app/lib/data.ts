@@ -906,6 +906,7 @@ export const updateNewsPost = async (
         subHeading: content.subHeading,
         body: content.body,
         imgSrc: content.imgSrc,
+        visibility: content.visibility || false,
         linkSrc1: content.linkSrc1,
         // linkText1: content.heading,
         date: content.date,
