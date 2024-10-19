@@ -12,13 +12,11 @@ export default function Visibility({
   setState,
 }: {
   state: INewsPost;
-  setState: (newState: INewsPost) => void;
+  setState: (newState: any) => void;
 }) {
   const visibilityHandler = async (value: boolean) => {
     await updateNewsPost({ ...state, visibility: value }).then(() => {
-      setState(
-        (prev: INewsPost) => ({ ...prev, visibility: value }) as INewsPost,
-      ); // Change the type of the parameter to INewsPost
+      setState((prev: any) => ({ ...prev, visibility: value }));
       toast.success('Visibility updated');
     });
   };

@@ -30,22 +30,22 @@ export default function page({ data }: { data: INewsPost }) {
     setState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const submitHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await updateNewsPost(state).then((res) => {
       toast.success('Changes Saved!');
     });
   };
 
-  const removeImageHandler = () => {
-    updateNewsPost({ ...state, imgSrc: null }).then(() => {
+  const removeImageHandler = async () => {
+    await updateNewsPost({ ...state, imgSrc: null }).then(() => {
       setState((prev) => ({ ...prev, imgSrc: null }));
       toast.success('Image removed');
     });
   };
 
   return (
-    <form onSubmit={(e) => submitHandler(e)}>
+    <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => submitHandler(e)}>
       <header className="mb-4 flex w-full items-center justify-between pb-4 md:space-x-4">
         <h1 className="text-lg font-bold">News</h1>
         <div className="flex w-full items-center justify-end space-x-4">
