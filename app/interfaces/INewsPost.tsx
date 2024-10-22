@@ -11,4 +11,5 @@ export interface INewsPost {
   location: string | null;
   userId: number | null;
   imgSrc: string | null;
+  inquire: boolean | null;
 }

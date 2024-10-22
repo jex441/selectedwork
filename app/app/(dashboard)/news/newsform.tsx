@@ -26,7 +26,6 @@ import { toast } from 'react-hot-toast';
 
 // need to navigate to edit page [id] and do CRUD operations
 export default function Component({ data }: { data: INewsPage }) {
-  console.log(data);
   const createNewsPostHandler = async () => {
     const newPost = await createNewsPost();
   };

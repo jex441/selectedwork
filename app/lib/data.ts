@@ -1007,6 +1007,8 @@ export const updateNewsPost = async (
       });
 
     revalidatePath(userNews.slug);
+    revalidatePath('/news');
+
     revalidatePath(`/news/${userNews.id}`);
 
     return { status: 200 };

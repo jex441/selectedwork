@@ -12,6 +12,7 @@ import {
   media,
   landing,
   news,
+  newsPost,
 } from '../db/schema';
 
 import { IUser } from '../interfaces/IUser';
@@ -21,6 +22,7 @@ import { revalidatePath } from 'next/cache';
 import { ICollection } from '../interfaces/ICollection';
 import { IContactPage } from '../interfaces/IContactPage';
 import { ILandingPage } from '../interfaces/ILandingPage';
+import { INewsPage } from '../interfaces/INewsPage';
 
 // functions for generating site:
 export const getUserByUsername = async (username: string) => {
@@ -124,6 +126,63 @@ export const getAboutPageDataForSite = async (
 
   if (responseData) {
     responseData.template = `a${String(userData.template)}`;
+
+    return {
+      status: 200,
+      user: { username: userData.username },
+      data: responseData,
+    };
+  } else {
+    return {
+      status: 404,
+      user: { username: userData.username },
+      data: null,
+    };
+  }
+};
+
+export const getNewsPageDataForSite = async (
+  username: string,
+): Promise<{
+  status: number;
+  user: { username: string } | null;
+  data: INewsPage | null;
+}> => {
+  const userData = await getUserByUsername(username);
+  if (!userData || userData.firstName === null || userData.lastName === null) {
+    return { status: 200, user: null, data: null };
+  }
+  if (!userData) return { status: 404, user: null, data: null };
+
+  // (await db.select().from(contact).where(eq(contact.userId, userData?.id)));
+
+  const rows = await db
+    .select()
+    .from(news)
+    .where(eq(news.userId, userData?.id))
+    .leftJoin(newsPost, eq(newsPost.newsId, news.id));
+
+  const responseData =
+    rows &&
+    rows.reduce<INewsPage>((acc, row) => {
+      const news = row.news_table;
+      const post = row.news_post_table;
+
+      acc.posts = [];
+      if (!acc.id && news.id) {
+        acc = {
+          ...news,
+          posts: [],
+        };
+      }
+      if (post) {
+        acc.posts.push(post as never);
+      }
+      return acc;
+    }, {} as INewsPage);
+
+  if (responseData) {
+    responseData.template = `n${String(userData.template)}`;
 
     return {
       status: 200,
