@@ -11,7 +11,7 @@ import { ICollection } from '@/app/interfaces/ICollection';
 export default async function page({ params }: { params: { domain: string } }) {
   const domain = decodeURIComponent(params.domain);
   const res = await getUserByUsername(domain);
-
+  console.log('res:', res);
   if (res !== null && res.hibernate) {
     notFound();
   }
@@ -24,6 +24,7 @@ export default async function page({ params }: { params: { domain: string } }) {
         collections={res.collections ?? []}
         displayName={res.displayName}
         instagram={res.instagram}
+        pages={res.pages}
       />
     );
   }

@@ -37,7 +37,7 @@ import {
 import Image from 'next/image';
 import { Toaster } from 'react-hot-toast';
 import { UserButton, SignOutButton } from '@clerk/nextjs';
-import { getUserData } from '@/app/lib/data';
+import { getUserData, togglePageVisibility } from '@/app/lib/data';
 import { useClerk } from '@clerk/nextjs';
 import Nav from './Nav';
 export default async function Layout({
@@ -46,6 +46,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const user = await getUserData();
+
   if (user === null) {
     return 'Error';
   }

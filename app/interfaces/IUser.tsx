@@ -20,4 +20,9 @@ export interface IUser {
   instagram: string | null;
   sideNav: boolean | null;
   template: number | null;
+  home?: IPage | null;
+  about?: IPage | null;
+  news?: IPage | null;
+  cv?: IPage | null;
+  contact?: IPage | null;
 }

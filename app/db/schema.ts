@@ -47,6 +47,7 @@ export const pages = pgTable('pages_table', {
 export const about = pgTable('about_table', {
   id: serial('id').primaryKey(),
   title: text('title').notNull(),
+  visibility: boolean('visibility').default(false).notNull(),
   slug: text('slug').notNull(),
   template: text('template').notNull(),
   heading: text('heading'),
@@ -72,6 +73,7 @@ export const about = pgTable('about_table', {
 export const contact = pgTable('contact_table', {
   id: serial('id').primaryKey(),
   title: text('title').notNull(),
+  visibility: boolean('visibility').default(false).notNull(),
   slug: text('slug').notNull(),
   template: text('template').notNull(),
   heading: text('heading'),
@@ -104,6 +106,7 @@ export const cv = pgTable('cv_table', {
   id: serial('id').primaryKey(),
   title: text('title').notNull(),
   slug: text('slug').notNull(),
+  visibility: boolean('visibility').default(false).notNull(),
   template: text('template').notNull(),
   heading: text('heading'),
   subheading: text('subheading'),

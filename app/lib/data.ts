@@ -339,27 +339,115 @@ export const getUserData = async () => {
       .select()
       .from(users)
       .where(eq(users.authId, auth.id))
-      .leftJoin(pages, eq(users.id, pages.userId));
+      .leftJoin(about, eq(users.id, about.userId))
+      .leftJoin(news, eq(users.id, news.userId))
+      .leftJoin(contact, eq(users.id, contact.userId))
+      .leftJoin(cv, eq(users.id, cv.userId))
+      .leftJoin(landing, eq(users.id, landing.userId));
 
     const result = rows.reduce<IUser>((acc, row) => {
       const user = row.users_table;
-      const page = row.pages_table;
+      const about = row.about_table;
+      const news = row.news_table;
+      const contact = row.contact_table;
+      const cv = row.cv_table;
+      const landing = row.landing_table;
 
       if (!acc.id && user.id) {
-        acc = { ...user, pages: [], collections: [] };
+        acc = {
+          ...user,
+          pages: [],
+          collections: [],
+        };
       }
-      if (page) {
-        if (!acc.pages) {
-          acc.pages = [];
-        }
-        acc.pages.push(page);
+
+      if (about) {
+        acc.about = {
+          id: about.id,
+          title: 'about',
+          userId: about.userId,
+          template: about.template,
+          visibility: about.visibility,
+        };
       }
+      if (news) {
+        acc.news = {
+          id: news.id,
+          title: 'news',
+          userId: news.userId,
+          template: news.template,
+          visibility: news.visibility,
+        };
+      }
+      if (cv) {
+        acc.cv = {
+          id: cv.id,
+          title: 'cv',
+          userId: cv.userId,
+          template: cv.template,
+          visibility: cv.visibility,
+        };
+      }
+      if (contact) {
+        acc.contact = {
+          id: contact.id,
+          title: 'contact',
+          userId: contact.userId,
+          template: contact.template,
+          visibility: contact.visibility,
+        };
+      }
+      if (landing) {
+        acc.home = {
+          id: landing.id,
+          title: 'landing',
+          userId: landing.userId,
+          template: '1', // landing.template,
+          visibility: landing.visibility,
+        };
+      }
+
       return acc;
     }, {} as IUser);
+
     return result;
   }
 
   return null;
+};
+
+export const togglePageVisibility = async (
+  title: string,
+  visibility: boolean,
+) => {
+  const userData = await getUserData();
+  if (userData === null) return;
+
+  if (title === 'about') {
+    await db
+      .update(about)
+      .set({ visibility: visibility })
+      .where(eq(about.userId, userData.id));
+  }
+  if (title === 'news') {
+    await db
+      .update(news)
+      .set({ visibility: visibility })
+      .where(eq(news.userId, userData.id));
+  }
+  if (title === 'cv') {
+    await db
+      .update(cv)
+      .set({ visibility: visibility })
+      .where(eq(cv.userId, userData.id));
+  }
+  if (title === 'contact') {
+    await db
+      .update(contact)
+      .set({ visibility: visibility })
+      .where(eq(contact.userId, userData.id));
+  }
+  revalidatePath(`/${userData.username}`);
 };
 
 export type UserState = {

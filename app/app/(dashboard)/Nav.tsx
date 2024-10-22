@@ -15,7 +15,12 @@ import {
   MenuIcon,
   ImageIcon,
   Eye,
+  EyeOffIcon,
+  HomeIcon,
+  Newspaper,
 } from 'lucide-react';
+
+import { togglePageVisibility } from '@/app/lib/data';
 
 import Image from 'next/image';
 import { UserButton, SignOutButton } from '@clerk/nextjs';
@@ -30,6 +35,11 @@ export default function Nav({ user }: { user: IUser }) {
         : 'w-full translate-x-0',
     );
   };
+
+  const togglePageVisibilityHandler = async (title: string, value: boolean) => {
+    await togglePageVisibility(title, value);
+  };
+  console.log('user:', user);
   return (
     <>
       <div
@@ -54,14 +64,29 @@ export default function Nav({ user }: { user: IUser }) {
             </Link>
           </div>
           <nav className="flex flex-col p-4">
-            <Link
-              onClick={() => toggleNav()}
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-bold text-gray-500 transition-all hover:bg-stone-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="/landing"
-            >
-              <ImageIcon className="h-4 w-4" />
-              Cover Page
-            </Link>
+            <div className="flex flex flex-row items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm font-bold text-gray-500 transition-all hover:bg-stone-200 hover:text-gray-900 active:text-stone-200 dark:text-gray-400 dark:hover:text-gray-50">
+              <span className="flex flex-row gap-3">
+                <HomeIcon className="h-4 w-4" />
+
+                <Link onClick={() => toggleNav()} href="/home">
+                  Home
+                </Link>
+              </span>
+              <span>
+                {user.home.visibility ? (
+                  <Eye
+                    onClick={() => togglePageVisibilityHandler('home', false)}
+                    className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
+                  />
+                ) : (
+                  <EyeOffIcon
+                    onClick={() => togglePageVisibilityHandler('home', true)}
+                    className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
+                  />
+                )}
+              </span>
+            </div>
+
             <Link
               onClick={() => toggleNav()}
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-bold text-gray-500 transition-all hover:bg-stone-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
@@ -70,30 +95,100 @@ export default function Nav({ user }: { user: IUser }) {
               <LayoutGrid className="h-4 w-4" />
               Collections
             </Link>
-            <Link
-              onClick={() => toggleNav()}
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-bold text-gray-500 transition-all hover:bg-stone-200 hover:text-gray-900 active:text-stone-200 dark:text-gray-400 dark:hover:text-gray-50"
-              href="/about"
-            >
-              <SquareUser className="h-4 w-4" />
-              About
-            </Link>
-            <Link
-              onClick={() => toggleNav()}
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-bold text-gray-500 transition-all hover:bg-stone-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="/contact"
-            >
-              <SendHorizonal className="h-4 w-4" />
-              Contact
-            </Link>
-            <Link
-              onClick={() => toggleNav()}
-              className="t font-boldransition-all flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sm font-bold text-gray-500 hover:bg-stone-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="/cv"
-            >
-              <File className="h-4 w-4" />
-              CV
-            </Link>
+
+            <div className="flex flex flex-row items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm font-bold text-gray-500 transition-all hover:bg-stone-200 hover:text-gray-900 active:text-stone-200 dark:text-gray-400 dark:hover:text-gray-50">
+              <span className="flex flex-row gap-3">
+                <SquareUser className="h-4 w-4" />
+
+                <Link onClick={() => toggleNav()} href="/about">
+                  About
+                </Link>
+              </span>
+              <span>
+                {user.about.visibility ? (
+                  <Eye
+                    onClick={() => togglePageVisibilityHandler('about', false)}
+                    className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
+                  />
+                ) : (
+                  <EyeOffIcon
+                    onClick={() => togglePageVisibilityHandler('about', true)}
+                    className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
+                  />
+                )}
+              </span>
+            </div>
+
+            <div className="flex flex flex-row items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm font-bold text-gray-500 transition-all hover:bg-stone-200 hover:text-gray-900 active:text-stone-200 dark:text-gray-400 dark:hover:text-gray-50">
+              <span className="flex flex-row gap-3">
+                <Newspaper className="h-4 w-4" />
+
+                <Link onClick={() => toggleNav()} href="/news">
+                  News
+                </Link>
+              </span>
+              <span>
+                {user.news.visibility ? (
+                  <Eye
+                    onClick={() => togglePageVisibilityHandler('news', false)}
+                    className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
+                  />
+                ) : (
+                  <EyeOffIcon
+                    onClick={() => togglePageVisibilityHandler('news', true)}
+                    className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
+                  />
+                )}
+              </span>
+            </div>
+
+            <div className="flex flex flex-row items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm font-bold text-gray-500 transition-all hover:bg-stone-200 hover:text-gray-900 active:text-stone-200 dark:text-gray-400 dark:hover:text-gray-50">
+              <span className="flex flex-row gap-3">
+                <SendHorizonal className="h-4 w-4" />
+
+                <Link onClick={() => toggleNav()} href="/contact">
+                  Contact
+                </Link>
+              </span>
+              <span>
+                {user.contact.visibility ? (
+                  <Eye
+                    onClick={() =>
+                      togglePageVisibilityHandler('contact', false)
+                    }
+                    className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
+                  />
+                ) : (
+                  <EyeOffIcon
+                    onClick={() => togglePageVisibilityHandler('contact', true)}
+                    className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
+                  />
+                )}
+              </span>
+            </div>
+
+            <div className="flex flex flex-row items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm font-bold text-gray-500 transition-all hover:bg-stone-200 hover:text-gray-900 active:text-stone-200 dark:text-gray-400 dark:hover:text-gray-50">
+              <span className="flex flex-row gap-3">
+                <File className="h-4 w-4" />
+
+                <Link onClick={() => toggleNav()} href="/cv">
+                  CV
+                </Link>
+              </span>
+              <span>
+                {user.cv.visibility ? (
+                  <Eye
+                    onClick={() => togglePageVisibilityHandler('cv', false)}
+                    className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
+                  />
+                ) : (
+                  <EyeOffIcon
+                    onClick={() => togglePageVisibilityHandler('cv', true)}
+                    className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
+                  />
+                )}
+              </span>
+            </div>
           </nav>
           <div className="mt-auto p-4">
             <nav className="flex flex-col gap-2">

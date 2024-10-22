@@ -11,6 +11,7 @@ import {
   collection,
   media,
   landing,
+  news,
 } from '../db/schema';
 
 import { IUser } from '../interfaces/IUser';
@@ -33,21 +34,45 @@ export const getUserByUsername = async (username: string) => {
     .select()
     .from(users)
     .where(eq(users[key], value))
-    .leftJoin(collection, eq(collection.userId, users.id));
+    .leftJoin(collection, eq(collection.userId, users.id))
+    .leftJoin(landing, eq(landing.userId, users.id))
+    .leftJoin(about, eq(about.userId, users.id))
+    .leftJoin(contact, eq(contact.userId, users.id))
+    .leftJoin(cv, eq(cv.userId, users.id))
+    .leftJoin(news, eq(news.userId, users.id));
 
   let result = rows.reduce<IUser>((acc, row) => {
     const user = row.users_table;
     const collection = row.collection_table;
+    const landing = row.landing_table;
+    const about = row.about_table;
+    const contact = row.contact_table;
+    const cv = row.cv_table;
+    const news = row.news_table;
 
     if (!acc.id && user.id) {
-      acc = { ...user, pages: [], collections: [] };
+      acc = { ...user, ...acc };
     }
+    acc.collections = [];
+    acc.pages = [];
     if (collection) {
       if (!acc.collections) {
         acc.collections = [];
       }
       collection.visibility === 'public' &&
         acc.collections.push({ ...collection, works: [] });
+    }
+    if (about?.visibility === true) {
+      acc.pages.push({ title: 'About', slug: 'about' });
+    }
+    if (news?.visibility === true) {
+      acc.pages.push({ title: 'News', slug: 'news' });
+    }
+    if (cv?.visibility === true) {
+      acc.pages.push({ title: 'CV', slug: 'cv' });
+    }
+    if (contact?.visibility === true) {
+      acc.pages.push({ title: 'Contact', slug: 'contact' });
     }
     return acc;
   }, {} as IUser);
