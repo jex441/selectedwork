@@ -53,14 +53,12 @@ export default function News1({ data }: { data: INewsPage }) {
                 <a href={post.linkSrc1}>{post.linkSrc1}</a>
               </p>
             )}
-            {!post.inquire && (
-              <button
-                onClick={() => inquireHandler(post)}
-                className="my-2 border-2 px-4 py-1 text-sm leading-6 tracking-wide text-mediumGray"
-              >
-                Inquire
-              </button>
-            )}
+            <button
+              onClick={() => inquireHandler(post)}
+              className="my-2 border-2 px-4 py-1 text-sm leading-6 tracking-wide text-mediumGray"
+            >
+              Inquire
+            </button>
           </div>
         </div>
       ))}
