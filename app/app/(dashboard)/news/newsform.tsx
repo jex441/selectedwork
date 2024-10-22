@@ -27,7 +27,7 @@ import { toast } from 'react-hot-toast';
 // need to navigate to edit page [id] and do CRUD operations
 export default function Component({ data }: { data: INewsPage }) {
   const createNewsPostHandler = async () => {
-    const newPost = await createNewsPost();
+    await createNewsPost();
   };
   return (
     <div className="flex h-full w-full flex-col">
@@ -74,7 +74,6 @@ export default function Component({ data }: { data: INewsPage }) {
               </CardFooter>
             </Card>
           ))}
-
         <Button
           className="fixed bottom-10 right-5 h-12 w-12 rounded-full text-lg lg:right-10"
           onClick={() => createNewsPostHandler()}

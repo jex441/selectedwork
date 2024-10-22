@@ -35,21 +35,17 @@ export default function News1({ data }: { data: INewsPage }) {
             )}
           </div>
           <div className="flex-1 gap-4">
-            <div className="flex w-full flex-row items-center justify-between">
-              <span>
-                <h2 className="text-lg leading-9 text-darkGray">
-                  {post.heading}
-                </h2>
-              </span>
-              <span>
-                <p className="text-sm leading-6 text-mediumGray">{post.date}</p>
-              </span>
-            </div>
+            <h2 className="text-lg leading-9 text-darkGray">{post.heading}</h2>
             <p className="text-sm leading-6 text-mediumGray">
               {post.subHeading}
             </p>
-            <p className="text-sm leading-6 text-mediumGray">{post.location}</p>
-            <p className="my-2 w-full text-sm leading-6 text-mediumGray lg:w-3/4">
+            <div className="my-2">
+              <p className="text-sm leading-6 text-mediumGray">{post.date}</p>
+              <p className="text-sm leading-6 text-mediumGray">
+                {post.location}
+              </p>
+            </div>
+            <p className="my-2 w-full text-sm leading-6 text-mediumGray">
               {post.body}
             </p>
             {post.linkSrc1 && (

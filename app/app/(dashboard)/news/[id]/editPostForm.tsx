@@ -101,29 +101,17 @@ export default function page({ data }: { data: INewsPost }) {
           </div>
         </div>
         <div className="order-2 col-span-3 space-y-6 md:ml-20">
-          <div className="grid w-full grid-cols-4 flex-row gap-6">
-            <div className="col-span-3">
-              <Label htmlFor="heading">Title</Label>
-              <Input
-                onChange={(e) => changeHandler(e)}
-                id="heading"
-                name="heading"
-                placeholder="Enter heading"
-                defaultValue={state.heading ?? ''}
-              />
-            </div>
-            <div className="col-span-1">
-              <Label htmlFor="date">Date</Label>
-              <Input
-                onChange={(e) => changeHandler(e)}
-                id="date"
-                name="date"
-                placeholder=""
-                defaultValue={state.date ?? ''}
-              />
-            </div>
-          </div>
           <div>
+            <Label htmlFor="heading">Title</Label>
+            <Input
+              onChange={(e) => changeHandler(e)}
+              id="heading"
+              name="heading"
+              placeholder="Enter heading"
+              defaultValue={state.heading ?? ''}
+            />
+          </div>
+          {/* <div>
             <Label htmlFor="subheading">Line 2</Label>
             <Input
               onChange={(e) => changeHandler(e)}
@@ -131,6 +119,16 @@ export default function page({ data }: { data: INewsPost }) {
               name="subHeading"
               placeholder=""
               defaultValue={state.subHeading ?? ''}
+            />
+          </div> */}
+          <div>
+            <Label htmlFor="date">Date/Time</Label>
+            <Input
+              onChange={(e) => changeHandler(e)}
+              id="date"
+              name="date"
+              placeholder=""
+              defaultValue={state.date ?? ''}
             />
           </div>
           <div>
@@ -143,9 +141,8 @@ export default function page({ data }: { data: INewsPost }) {
               defaultValue={state.location ?? ''}
             />
           </div>
-
           <div>
-            <Label htmlFor="page-description">Body</Label>
+            <Label htmlFor="page-description">Description</Label>
             <Textarea
               onChange={(e) => changeHandler(e)}
               id="text"
