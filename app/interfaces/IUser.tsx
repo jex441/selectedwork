@@ -22,7 +22,7 @@ export interface IUser {
   template: number | null;
   home?: IPage | null;
   about?: IPage | null;
-  news?: IPage | null;
+  workshops?: IPage | null;
   cv?: IPage | null;
   contact?: IPage | null;
 }

@@ -211,12 +211,12 @@ export const landing = pgTable('landing_table', {
     .$onUpdate(() => new Date()),
 });
 
-export const news = pgTable('news_table', {
+export const workshops = pgTable('workshops_table', {
   id: serial('id').primaryKey(),
   userId: integer('userId')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
-  slug: text('slug').default('news').notNull(),
+  slug: text('slug').default('classes').notNull(),
   visibility: boolean('visibility').default(false).notNull(),
   heading: text('heading'),
   subHeading: text('subHeading'),
@@ -225,20 +225,21 @@ export const news = pgTable('news_table', {
   template: text('template').default('n1').notNull(),
 });
 
-export const newsPost = pgTable('news_post_table', {
+export const workshop = pgTable('workshop_table', {
   id: serial('id').primaryKey(),
   userId: integer('userId')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   visibility: boolean('visibility').default(false).notNull(),
-  newsId: integer('newsId')
+  workshopsId: integer('workshopsId')
     .notNull()
-    .references(() => news.id, { onDelete: 'cascade' }),
+    .references(() => workshops.id, { onDelete: 'cascade' }),
   heading: text('heading'),
   subHeading: text('subHeading'),
   imgSrc: text('imgSrc'),
   body: text('body'),
   date: text('date'),
+  slug: text('slug').notNull(),
   location: text('location'),
   linkSrc1: text('linkSrc1'),
   linkText1: text('linkText1'),

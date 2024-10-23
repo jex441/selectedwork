@@ -1,60 +1,66 @@
 'use client';
 
 import React, { useState } from 'react';
-import { INewsPage } from '../../../../interfaces/INewsPage';
-import { INewsPost } from '../../../../interfaces/INewsPost';
+import { IWorkshopsPage } from '../../../../interfaces/IWorkshopsPage';
+import { IWorkshop } from '../../../../interfaces/IWorkshop';
 import Image from 'next/image';
 import InquireForm from './InquireForm';
 import close from '@/public/close.png';
 
-export default function News1({ data }: { data: INewsPage }) {
-  const { imgSrc, posts, heading, subHeading, body } = data || {};
+export default function Workshops1({ data }: { data: IWorkshopsPage }) {
+  const { imgSrc, workshops, heading, subHeading, body } = data || {};
   const [inquireModalOpen, setInquireModalOpen] = useState(false);
-  const [currentPost, setCurrentPost] = useState<INewsPost | null>(null);
+  const [currentWorkshop, setCurrentWorkshop] = useState<IWorkshop | null>(
+    null,
+  );
 
-  const inquireHandler = (post: INewsPost) => {
-    setCurrentPost(post);
+  const inquireHandler = (workshop: IWorkshop) => {
+    setCurrentWorkshop(workshop);
     setInquireModalOpen(true);
   };
-
+  console.log('workshops:', workshops);
   return (
     <main className="mb-20 flex w-full flex-col items-start justify-center px-4 lg:flex-row lg:gap-14 lg:px-20 lg:pt-10">
-      {posts.map((post) => (
+      {workshops.map((workshop) => (
         <div
-          key={post.id}
+          key={workshop.id}
           className="my-2 flex w-full flex-col items-start justify-start gap-4 lg:flex-row lg:gap-10"
         >
           <div>
-            {post.imgSrc && (
+            {workshop.imgSrc && (
               <Image
-                src={post.imgSrc}
-                alt={'News image'}
+                src={workshop.imgSrc}
+                alt={'Workshops image'}
                 width={400}
                 height={400}
               />
             )}
           </div>
           <div className="flex-1 gap-4">
-            <h2 className="text-lg leading-9 text-darkGray">{post.heading}</h2>
+            <h2 className="text-lg leading-9 text-darkGray">
+              {workshop.heading}
+            </h2>
             <p className="text-sm leading-6 text-mediumGray">
-              {post.subHeading}
+              {workshop.subHeading}
             </p>
             <div className="my-2">
-              <p className="text-sm leading-6 text-mediumGray">{post.date}</p>
               <p className="text-sm leading-6 text-mediumGray">
-                {post.location}
+                {workshop.date}
+              </p>
+              <p className="text-sm leading-6 text-mediumGray">
+                {workshop.location}
               </p>
             </div>
             <p className="my-2 w-full text-sm leading-6 text-mediumGray">
-              {post.body}
+              {workshop.body}
             </p>
-            {post.linkSrc1 && (
+            {workshop.linkSrc1 && (
               <p className="text-sm leading-6 text-mediumGray">
-                <a href={post.linkSrc1}>{post.linkSrc1}</a>
+                <a href={workshop.linkSrc1}>{workshop.linkSrc1}</a>
               </p>
             )}
             <button
-              onClick={() => inquireHandler(post)}
+              onClick={() => inquireHandler(workshop)}
               className="my-2 border-2 px-4 py-1 text-sm leading-6 tracking-wide text-mediumGray"
             >
               Inquire
@@ -77,29 +83,29 @@ export default function News1({ data }: { data: INewsPage }) {
             </button>
             <div className="flex w-full flex-col">
               <div className="flex w-full flex-row p-4">
-                {currentPost.imgSrc && (
+                {currentWorkshop.imgSrc && (
                   <Image
-                    src={currentPost.imgSrc}
-                    alt={'News image'}
+                    src={currentWorkshop.imgSrc}
+                    alt={'Workshops image'}
                     width={150}
                     height={150}
                   />
                 )}
                 <div className="flex flex-col gap-2 px-4">
                   <h2 className="leading-9 text-darkGray">
-                    {currentPost?.heading}
+                    {currentWorkshop?.heading}
                   </h2>
                   <p className="text-xs leading-6 text-mediumGray">
-                    {currentPost?.subHeading}
+                    {currentWorkshop?.subHeading}
                   </p>
                   <p className="text-xs leading-6 text-mediumGray">
-                    {currentPost?.location}
+                    {currentWorkshop?.location}
                   </p>
                 </div>
               </div>
               <div className="flex flex-1 flex-col">
-                {currentPost !== null && (
-                  <InquireForm subject={currentPost.heading} />
+                {currentWorkshop !== null && (
+                  <InquireForm subject={currentWorkshop.heading} />
                 )}
               </div>
             </div>

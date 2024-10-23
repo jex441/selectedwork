@@ -23,8 +23,8 @@ import {
   media,
   collection,
   landing,
-  newsPost,
-  news,
+  workshop,
+  workshops,
 } from '../db/schema';
 import { IUser } from '../interfaces/IUser';
 import { IAboutPage } from '../interfaces/IAboutPage';
@@ -38,8 +38,8 @@ import { IContactPage } from '../interfaces/IContactPage';
 import { getCVPageDataForSite } from './requests';
 import { title } from 'process';
 import { ILandingPage } from '../interfaces/ILandingPage';
-import { INewsPost } from '../interfaces/INewsPost';
-import { INewsPage } from '../interfaces/INewsPage';
+import { IWorkshop } from '../interfaces/IWorkshop';
+import { IWorkshopsPage } from '../interfaces/IWorkshopsPage';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -340,7 +340,7 @@ export const getUserData = async () => {
       .from(users)
       .where(eq(users.authId, auth.id))
       .leftJoin(about, eq(users.id, about.userId))
-      .leftJoin(news, eq(users.id, news.userId))
+      .leftJoin(workshops, eq(users.id, workshops.userId))
       .leftJoin(contact, eq(users.id, contact.userId))
       .leftJoin(cv, eq(users.id, cv.userId))
       .leftJoin(landing, eq(users.id, landing.userId));
@@ -348,7 +348,7 @@ export const getUserData = async () => {
     const result = rows.reduce<IUser>((acc, row) => {
       const user = row.users_table;
       const about = row.about_table;
-      const news = row.news_table;
+      const workshops = row.workshops_table;
       const contact = row.contact_table;
       const cv = row.cv_table;
       const landing = row.landing_table;
@@ -370,13 +370,13 @@ export const getUserData = async () => {
           visibility: about.visibility,
         };
       }
-      if (news) {
-        acc.news = {
-          id: news.id,
-          title: 'news',
-          userId: news.userId,
-          template: news.template,
-          visibility: news.visibility,
+      if (workshops) {
+        acc.workshops = {
+          id: workshops.id,
+          title: 'workshops',
+          userId: workshops.userId,
+          template: workshops.template,
+          visibility: workshops.visibility,
         };
       }
       if (cv) {
@@ -429,11 +429,11 @@ export const togglePageVisibility = async (
       .set({ visibility: visibility })
       .where(eq(about.userId, userData.id));
   }
-  if (title === 'news') {
+  if (title === 'workshops') {
     await db
-      .update(news)
+      .update(workshops)
       .set({ visibility: visibility })
-      .where(eq(news.userId, userData.id));
+      .where(eq(workshops.userId, userData.id));
   }
   if (title === 'cv') {
     await db
@@ -803,7 +803,9 @@ export const createCollection = async (): Promise<ICollection | undefined> => {
   }
 };
 
-export const getNewsPageData = async (): Promise<INewsPage | undefined> => {
+export const getWorkshopsPageData = async (): Promise<
+  IWorkshopsPage | undefined
+> => {
   try {
     const userData = await user();
     if (!userData) {
@@ -811,75 +813,77 @@ export const getNewsPageData = async (): Promise<INewsPage | undefined> => {
     }
     let rows = await db
       .select()
-      .from(news)
-      .leftJoin(newsPost, eq(newsPost.newsId, news.id))
-      .where(eq(news.userId, userData?.id));
+      .from(workshops)
+      .leftJoin(workshop, eq(workshop.workshopsId, workshops.id))
+      .where(eq(workshops.userId, userData?.id));
     if (rows.length === 0) {
-      let [newNewsPage] = (await db
-        .insert(news)
+      let [newWorkshopsPage] = (await db
+        .insert(workshops)
         .values({
-          template: 'n1',
-          heading: 'News',
+          template: 'w1',
+          heading: 'Classes',
           subHeading: '',
           body: '',
           imgSrc: '',
-          slug: 'news',
+          slug: 'classes',
           visibility: false,
           userId: userData?.id,
         })
         .returning({
-          id: news.id,
-          template: news.template,
-          heading: news.heading,
-          subHeading: news.subHeading,
-          body: news.body,
-          imgSrc: news.imgSrc,
-          slug: news.slug,
-          visibility: news.visibility,
-          userId: news.userId,
-        })) as INewsPage[];
+          id: workshops.id,
+          template: workshops.template,
+          heading: workshops.heading,
+          subHeading: workshops.subHeading,
+          body: workshops.body,
+          imgSrc: workshops.imgSrc,
+          slug: workshops.slug,
+          visibility: workshops.visibility,
+          userId: workshops.userId,
+        })) as IWorkshopsPage[];
 
-      newNewsPage.posts = [];
-      return newNewsPage;
+      newWorkshopsPage.workshops = [];
+      return newWorkshopsPage;
     }
-    const result = rows.reduce<INewsPage>((acc, row) => {
-      const news = row.news_table;
-      const post = row.news_post_table;
+    const result = rows.reduce<IWorkshopsPage>((acc, row) => {
+      const workshops = row.workshops_table;
+      const workshop = row.workshop_table;
 
-      if (!acc.id && news.id) {
+      if (!acc.id && workshops.id) {
         acc = {
-          id: news.id,
-          template: news.template,
-          heading: news.heading,
-          subHeading: news.subHeading,
-          body: news.body,
-          imgSrc: news.imgSrc,
-          slug: news.slug,
-          visibility: news.visibility,
-          userId: news.userId,
-          posts: [],
+          id: workshops.id,
+          template: workshops.template,
+          heading: workshops.heading,
+          subHeading: workshops.subHeading,
+          body: workshops.body,
+          imgSrc: workshops.imgSrc,
+          slug: workshops.slug,
+          visibility: workshops.visibility,
+          userId: workshops.userId,
+          workshops: [],
         };
       }
 
-      if (post) {
-        const postData: INewsPost = {
-          id: post.id,
-          newsId: post.newsId,
-          heading: post.heading,
-          subHeading: post.subHeading,
-          body: post.body,
-          linkSrc1: post.linkSrc1,
-          linkText1: post.linkText1,
-          date: post.date,
-          location: post.location,
-          userId: post.userId,
+      if (workshop) {
+        const workshopData: IWorkshop = {
+          id: workshop.id,
+          workshopsId: workshop.workshopsId,
+          heading: workshop.heading,
+          subHeading: workshop.subHeading,
+          body: workshop.body,
+          linkSrc1: workshop.linkSrc1,
+          linkText1: workshop.linkText1,
+          date: workshop.date,
+          location: workshop.location,
+          userId: workshop.userId,
+          visibility: workshop.visibility,
+          imgSrc: workshop.imgSrc,
+          inquire: workshop.inquire,
         };
-        console.log('postData', postData);
-        acc.posts.push(postData as never);
+        acc.workshops.push(workshopData as never);
       }
 
       return acc;
-    }, {} as INewsPage);
+    }, {} as IWorkshopsPage);
 
     return result;
   } catch (error) {
@@ -887,37 +891,36 @@ export const getNewsPageData = async (): Promise<INewsPage | undefined> => {
   }
 };
 
-export const getNewsPostData = async (
+export const getWorkshopData = async (
   id: number,
-): Promise<INewsPost | undefined> => {
+): Promise<IWorkshop | undefined> => {
   try {
     const userData = await user();
     if (!userData) {
       return;
     }
-    const [userNews] = await db
+    const [userWorkshops] = await db
       .select()
-      .from(news)
-      .where(eq(news.userId, userData?.id));
+      .from(workshops)
+      .where(eq(workshops.userId, userData?.id));
 
-    if (!userNews) {
+    if (!userWorkshops) {
       return;
     }
 
-    const [userNewsPost] = await db
+    const [userWorkshop] = await db
       .select()
-      .from(newsPost)
-      .where(eq(newsPost.id, id));
+      .from(workshop)
+      .where(eq(workshop.id, id));
 
-    revalidatePath(`${userNews.slug}/id`);
-    console.log('userNewsPost', userNewsPost);
-    return userNewsPost;
+    revalidatePath(`${userWorkshops.slug}/id`);
+    return userWorkshop;
   } catch (error) {
     console.error(error);
   }
 };
 
-export const createNewsPost = async (): Promise<
+export const createWorkshop = async (): Promise<
   { status: number } | undefined
 > => {
   try {
@@ -925,71 +928,71 @@ export const createNewsPost = async (): Promise<
     if (!userData) {
       return;
     }
-    const [userNews] = await db
+    const [userWorkshopsPage] = await db
       .select()
-      .from(news)
-      .where(eq(news.userId, userData?.id));
+      .from(workshops)
+      .where(eq(workshops.userId, userData?.id));
 
-    if (!userNews) {
+    if (!userWorkshopsPage) {
       return;
     }
 
-    const userPosts = await db
+    const userWorkshops = await db
       .select()
-      .from(newsPost)
-      .where(eq(newsPost.newsId, userNews.id));
+      .from(workshop)
+      .where(eq(workshop.workshopsId, userWorkshopsPage.id));
 
-    const count = userPosts.length;
+    const count = userWorkshops.length;
 
-    let [newNewsPost] = await db
-      .insert(newsPost)
+    let [newWorkshop] = await db
+      .insert(workshop)
       .values({
         // template: 'g1',
-        newsId: userNews.id,
-        heading: `${'New Post ' + count}`,
+        workshopsId: userWorkshopsPage.id,
+        heading: `${'New Class ' + count}`,
         subHeading: '',
         body: '',
         linkSrc1: '',
         linkText1: '',
         date: '',
         location: '',
-        slug: `${'new-post-' + count}`,
+        slug: `${'new-class-' + count}`,
         userId: userData?.id,
       })
       .returning({
-        id: newsPost.id,
+        id: workshop.id,
       });
 
-    revalidatePath(userNews.slug);
+    revalidatePath(userWorkshopsPage.slug);
     return { status: 200 };
   } catch (error) {
     console.error(error);
   }
 };
 
-export const updateNewsPost = async (
-  content: INewsPost,
+export const updateWorkshop = async (
+  content: IWorkshop,
 ): Promise<{ status: number } | undefined> => {
   try {
     const userData = await user();
     if (!userData) {
       return;
     }
-    const [userNews] = await db
+    const [userWorkshopsPage] = await db
       .select()
-      .from(news)
-      .where(eq(news.userId, userData?.id));
+      .from(workshops)
+      .where(eq(workshops.userId, userData?.id));
 
-    if (!userNews) {
+    if (!userWorkshopsPage) {
       return;
     }
     if (!content.id) return;
 
     await db
-      .update(newsPost)
+      .update(workshop)
       .set({
         // template: 'g1',
-        newsId: userNews.id,
+        workshopsId: userWorkshopsPage.id,
         heading: content.heading,
         subHeading: content.subHeading,
         body: content.body,
@@ -1001,15 +1004,15 @@ export const updateNewsPost = async (
         location: content.location,
         userId: userData?.id,
       })
-      .where(eq(newsPost.id, content.id))
+      .where(eq(workshop.id, content.id))
       .returning({
-        id: newsPost.id,
+        id: workshop.id,
       });
 
-    revalidatePath(userNews.slug);
-    revalidatePath('/news');
+    revalidatePath(userWorkshopsPage.slug);
+    revalidatePath('/classes');
 
-    revalidatePath(`/news/${userNews.id}`);
+    revalidatePath(`/classes/${userWorkshopsPage.id}`);
 
     return { status: 200 };
   } catch (error) {
@@ -1017,27 +1020,27 @@ export const updateNewsPost = async (
   }
 };
 
-export const deleteNewsPost = async (
-  content: INewsPost,
+export const deleteWorkshop = async (
+  content: IWorkshop,
 ): Promise<{ status: number } | undefined> => {
   try {
     const userData = await user();
     if (!userData) {
       return;
     }
-    const [userNews] = await db
+    const [userWorkshopsPage] = await db
       .select()
-      .from(news)
-      .where(eq(news.userId, userData?.id));
+      .from(workshops)
+      .where(eq(workshops.userId, userData?.id));
 
-    if (!userNews) {
+    if (!userWorkshopsPage) {
       return;
     }
     if (!content.id) return;
 
-    await db.delete(newsPost).where(eq(newsPost.id, content.id));
+    await db.delete(workshop).where(eq(workshop.id, content.id));
 
-    revalidatePath(userNews.slug);
+    revalidatePath(userWorkshopsPage.slug);
     return { status: 200 };
   } catch (error) {
     console.error(error);

@@ -1,6 +1,6 @@
 export interface IWorkshop {
   id: number | null;
-  workshopId: number | null;
+  workshopsId: number | null;
   heading: string | null;
   subHeading: string | null;
   body: string | null;

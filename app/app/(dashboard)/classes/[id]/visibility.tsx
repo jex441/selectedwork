@@ -3,19 +3,19 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { INewsPost } from '@/app/interfaces/INewsPost';
-import { updateNewsPost } from '../../../../lib/data';
+import { IWorkshop } from '@/app/interfaces/IWorkshop';
+import { updateWorkshop } from '../../../../lib/data';
 import { toast } from 'react-hot-toast';
 
 export default function Visibility({
   state,
   setState,
 }: {
-  state: INewsPost;
+  state: IWorkshop;
   setState: (newState: any) => void;
 }) {
   const visibilityHandler = async (value: boolean) => {
-    await updateNewsPost({ ...state, visibility: value }).then(() => {
+    await updateWorkshop({ ...state, visibility: value }).then(() => {
       setState((prev: any) => ({ ...prev, visibility: value }));
       toast.success('Visibility updated');
     });

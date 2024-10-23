@@ -6,19 +6,19 @@ export default function menuItem() {
       <span className="flex flex-row gap-3">
         <Newspaper className="h-4 w-4" />
 
-        <Link onClick={() => toggleNav()} href="/news">
-          News
+        <Link onClick={() => toggleNav()} href="/workshops">
+          Workshops
         </Link>
       </span>
       <span>
-        {user.news.visibility ? (
+        {user.workshops.visibility ? (
           <EyeOffIcon
-            onClick={() => togglePageVisibilityHandler('news', false)}
+            onClick={() => togglePageVisibilityHandler('workshops', false)}
             className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
           />
         ) : (
           <Eye
-            onClick={() => togglePageVisibilityHandler('news', true)}
+            onClick={() => togglePageVisibilityHandler('workshops', true)}
             className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
           />
         )}

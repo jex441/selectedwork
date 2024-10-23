@@ -8,17 +8,17 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { UploadButton } from '../../../../lib/uploadthing';
 import { useFormState } from 'react-dom';
-import { INewsPost } from '../../../../interfaces/INewsPost';
+import { IWorkshop } from '../../../../interfaces/IWorkshop';
 import { Trash } from 'lucide-react';
 
-import { updateNewsPost } from '@/app/lib/data';
+import { updateWorkshop } from '@/app/lib/data';
 import Image from 'next/image';
 import { State } from '@/app/lib/data';
 import { Link } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import Visibility from './visibility';
 
-export default function page({ data }: { data: INewsPost }) {
+export default function page({ data }: { data: IWorkshop }) {
   const [state, setState] = useState(data);
 
   const changeHandler = (
@@ -32,13 +32,13 @@ export default function page({ data }: { data: INewsPost }) {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await updateNewsPost(state).then((res) => {
+    await updateWorkshop(state).then((res) => {
       toast.success('Changes Saved!');
     });
   };
 
   const removeImageHandler = async () => {
-    await updateNewsPost({ ...state, imgSrc: null }).then(() => {
+    await updateWorkshop({ ...state, imgSrc: null }).then(() => {
       setState((prev) => ({ ...prev, imgSrc: null }));
       toast.success('Image removed');
     });
@@ -47,7 +47,7 @@ export default function page({ data }: { data: INewsPost }) {
   return (
     <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => submitHandler(e)}>
       <header className="mb-4 flex w-full items-center justify-between pb-4 md:space-x-4">
-        <h1 className="text-lg font-bold">News</h1>
+        <h1 className="text-lg font-bold">Workshops</h1>
         <div className="flex w-full items-center justify-end space-x-4">
           <Visibility state={state} setState={setState} />
           <Button
@@ -82,7 +82,7 @@ export default function page({ data }: { data: INewsPost }) {
                 className="transform-color self-start ut-button:bg-gray-700 ut-button:text-white ut-button:hover:bg-gray-600 ut-allowed-content:hidden"
                 endpoint="imageUploader"
                 onClientUploadComplete={async (res) => {
-                  await updateNewsPost({ ...state, imgSrc: res[0].url }).then(
+                  await updateWorkshop({ ...state, imgSrc: res[0].url }).then(
                     () => toast.success('Image uploaded'),
                   );
                   setState((prev) => ({ ...prev, imgSrc: res[0].url }));

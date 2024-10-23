@@ -14,34 +14,34 @@ import {
 } from '@/components/ui/card';
 
 import {
-  getNewsPageData,
+  getWorkshopsPageData,
   saveCVSections,
-  deleteNewsPost,
-  createNewsPost,
+  deleteWorkshop,
+  createWorkshop,
 } from '../../../lib/data';
-import { INewsPage } from '../../../interfaces/INewsPage';
+import { IWorkshopsPage } from '../../../interfaces/IWorkshopsPage';
 import { set } from 'zod';
 import { PlusCircle } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 // need to navigate to edit page [id] and do CRUD operations
-export default function Component({ data }: { data: INewsPage }) {
-  const createNewsPostHandler = async () => {
-    await createNewsPost();
+export default function Component({ data }: { data: IWorkshopsPage }) {
+  const createWorkshopHandler = async () => {
+    await createWorkshop();
   };
   return (
     <div className="flex h-full w-full flex-col">
       <header>
-        <h1 className="text-lg font-bold">News</h1>
+        <h1 className="text-lg font-bold">Workshops</h1>
       </header>
       <div className="flex w-full flex-1 flex-wrap gap-6 px-6">
-        {data.posts &&
-          data.posts.map((post, index) => (
+        {data.workshops &&
+          data.workshops.map((workshop, index) => (
             <Card className="h-[350px] max-w-sm overflow-hidden">
               <CardHeader className="p-0">
-                {post.imgSrc ? (
+                {workshop.imgSrc ? (
                   <Image
-                    src={post.imgSrc}
+                    src={workshop.imgSrc}
                     alt={'oof'}
                     width={384}
                     height={200}
@@ -55,17 +55,17 @@ export default function Component({ data }: { data: INewsPage }) {
               </CardHeader>
               <CardContent className="p-4">
                 <CardTitle className="line-clamp-1 text-xl">
-                  {post.heading}
+                  {workshop.heading}
                 </CardTitle>
                 <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
-                  {post.subHeading}
+                  {workshop.subHeading}
                 </p>
                 <div className="mt-4 flex items-center text-sm text-muted-foreground">
-                  {post.date}
+                  {workshop.date}
                 </div>
               </CardContent>
               <CardFooter className="p-4">
-                <Link href={`/news/${post.id}`}>
+                <Link href={`/classes/${workshop.id}`}>
                   <Button variant="outline" className="w-full">
                     <Edit className="mr-2 h-4 w-4" />
                     View and Edit
@@ -76,7 +76,7 @@ export default function Component({ data }: { data: INewsPage }) {
           ))}
         <Button
           className="fixed bottom-10 right-5 h-12 w-12 rounded-full text-lg lg:right-10"
-          onClick={() => createNewsPostHandler()}
+          onClick={() => createWorkshopHandler()}
         >
           +
         </Button>
