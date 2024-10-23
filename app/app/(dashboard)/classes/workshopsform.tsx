@@ -32,47 +32,39 @@ export default function Component({ data }: { data: IWorkshopsPage }) {
   return (
     <div className="flex h-full w-full flex-col">
       <header>
-        <h1 className="text-lg font-bold">Workshops</h1>
+        <h1 className="text-lg font-bold">Classes</h1>
       </header>
       <div className="flex w-full flex-1 flex-wrap gap-6 px-6">
         {data.workshops &&
           data.workshops.map((workshop, index) => (
-            <Card className="h-[350px] max-w-sm overflow-hidden">
-              <CardHeader className="p-0">
-                {workshop.imgSrc ? (
-                  <Image
-                    src={workshop.imgSrc}
-                    alt={'oof'}
-                    width={384}
-                    height={200}
-                    className="h-48 w-full object-cover"
-                  />
-                ) : (
-                  <div className="flex h-48 w-full items-center justify-center bg-gray-200 text-gray-400">
-                    no image
+            <Link href={`/classes/${workshop.id}`}>
+              <Card className="h-[350px] w-[250px] overflow-hidden">
+                <CardHeader className="p-0">
+                  {workshop.imgSrc ? (
+                    <Image
+                      src={workshop.imgSrc}
+                      alt={'Class Image'}
+                      width={384}
+                      height={200}
+                      className="h-48 w-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-48 w-full items-center justify-center bg-gray-200 text-gray-400">
+                      no image
+                    </div>
+                  )}
+                </CardHeader>
+                <CardContent className="h-[110px] p-4">
+                  <CardTitle className="text-lg">{workshop.heading}</CardTitle>
+                  <div className="mt-2 flex items-center text-sm text-muted-foreground">
+                    {workshop.date}
                   </div>
-                )}
-              </CardHeader>
-              <CardContent className="p-4">
-                <CardTitle className="line-clamp-1 text-xl">
-                  {workshop.heading}
-                </CardTitle>
-                <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
-                  {workshop.subHeading}
-                </p>
-                <div className="mt-4 flex items-center text-sm text-muted-foreground">
-                  {workshop.date}
-                </div>
-              </CardContent>
-              <CardFooter className="p-4">
-                <Link href={`/classes/${workshop.id}`}>
-                  <Button variant="outline" className="w-full">
-                    <Edit className="mr-2 h-4 w-4" />
-                    View and Edit
-                  </Button>
-                </Link>
-              </CardFooter>
-            </Card>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    {workshop.location}
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         <Button
           className="fixed bottom-10 right-5 h-12 w-12 rounded-full text-lg lg:right-10"

@@ -11,7 +11,7 @@ export default async function Classes({
 }) {
   const domain = decodeURIComponent(params.domain);
   const res = await getWorkshopsPageDataForSite(domain);
-  console.log('res:', res);
+
   if (!res.data) {
     return <div>error</div>;
   }

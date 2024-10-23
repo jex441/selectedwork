@@ -11,12 +11,13 @@ import { useFormState } from 'react-dom';
 import { IWorkshop } from '../../../../interfaces/IWorkshop';
 import { Trash } from 'lucide-react';
 
-import { updateWorkshop } from '@/app/lib/data';
+import { deleteWorkshop, updateWorkshop } from '@/app/lib/data';
 import Image from 'next/image';
 import { State } from '@/app/lib/data';
 import { Link } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import Visibility from './visibility';
+import { redirect } from 'next/dist/server/api-utils';
 
 export default function page({ data }: { data: IWorkshop }) {
   const [state, setState] = useState(data);
@@ -44,10 +45,18 @@ export default function page({ data }: { data: IWorkshop }) {
     });
   };
 
+  const deleteWorkshopHandler = async (state: IWorkshop) => {
+    // Implement delete functionality here
+    await deleteWorkshop(state).then(() => {
+      toast.success('Workshop deleted');
+      window.location.href = '/classes';
+    });
+  };
+
   return (
     <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => submitHandler(e)}>
       <header className="mb-4 flex w-full items-center justify-between pb-4 md:space-x-4">
-        <h1 className="text-lg font-bold">Workshops</h1>
+        <h1 className="text-lg font-bold">Class</h1>
         <div className="flex w-full items-center justify-end space-x-4">
           <Visibility state={state} setState={setState} />
           <Button
@@ -163,6 +172,13 @@ export default function page({ data }: { data: IWorkshop }) {
             />
             <div className="flex flex-col"></div>
           </div>
+          <button
+            type="button"
+            className="border-2 border-red-500 px-2 py-1 text-red-500 hover:bg-red-500 hover:text-white"
+            onClick={() => deleteWorkshopHandler(state)}
+          >
+            Delete Class
+          </button>
         </div>
       </div>
     </form>

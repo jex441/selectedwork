@@ -161,22 +161,20 @@ export const getWorkshopsPageDataForSite = async (
     .from(workshops)
     .where(eq(workshops.userId, userData?.id))
     .leftJoin(workshop, eq(workshop.workshopsId, workshops.id));
-
   const responseData =
     rows &&
     rows.reduce<IWorkshopsPage>((acc, row) => {
-      const workshops = row.workshops_table;
+      const workshopsPage = row.workshops_table;
       const workshop = row.workshop_table;
 
-      acc.workshops = [];
-      if (!acc.id && workshops.id) {
+      if (!acc.id && workshopsPage.id) {
         acc = {
-          ...workshops,
+          ...workshopsPage,
           workshops: [],
         };
       }
-      if (workshop) {
-        acc.workshops.push(workshop as never);
+      if (workshop && workshop?.visibility === true) {
+        acc.workshops = [...acc.workshops, workshop];
       }
       return acc;
     }, {} as IWorkshopsPage);
@@ -429,10 +427,7 @@ export const getCollectionDataForSite = async (
     }, {} as ICollection);
 
   if (result && user) {
-    console.log('userdata', user.template);
-
     result.template = `g${String(user.template)}`;
-    console.log('temp', result.template);
     return {
       status: 200,
       user: {

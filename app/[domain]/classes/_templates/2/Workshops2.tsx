@@ -20,7 +20,7 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
   };
 
   return (
-    <main className="mb-20 flex w-full flex-col items-start justify-center px-4 lg:flex-row lg:gap-14 lg:px-20 lg:pt-10">
+    <main className="mb-20 flex w-full flex-col items-start justify-center px-4 lg:gap-14 lg:px-20 lg:pt-10">
       {workshops.map((workshop) => (
         <div
           key={workshop.id}
@@ -61,7 +61,7 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
             )}
             <button
               onClick={() => inquireHandler(workshop)}
-              className="my-2 border-2 px-4 py-1 text-sm leading-6 tracking-wide text-mediumGray"
+              className="my-2 border-[1px] border-mediumGray px-4 py-1 text-sm leading-6 tracking-wide text-mediumGray transition-all hover:border-darkGray hover:text-darkGray"
             >
               Inquire
             </button>
@@ -69,8 +69,8 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
         </div>
       ))}
       {inquireModalOpen && (
-        <div className="absolute inset-0 top-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="flex h-[600px] w-[550px] flex-col rounded-md bg-white p-4">
+        <div className="fixed inset-0 top-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="flex h-[600px] w-[550px] flex-col bg-white p-4">
             <button
               onClick={() => setInquireModalOpen(false)}
               className="self-end text-sm leading-6 text-mediumGray"
@@ -91,14 +91,14 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
                     height={150}
                   />
                 )}
-                <div className="flex flex-col gap-2 px-4">
+                <div className="flex w-[320px] flex-col px-4">
                   <h2 className="leading-9 text-darkGray">
                     {currentWorkshop?.heading}
                   </h2>
-                  <p className="text-xs leading-6 text-mediumGray">
-                    {currentWorkshop?.subHeading}
+                  <p className="truncate text-xs leading-5 text-mediumGray">
+                    {currentWorkshop?.date}
                   </p>
-                  <p className="text-xs leading-6 text-mediumGray">
+                  <p className="truncate text-xs leading-5 text-mediumGray">
                     {currentWorkshop?.location}
                   </p>
                 </div>
