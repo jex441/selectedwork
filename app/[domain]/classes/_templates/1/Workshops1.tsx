@@ -53,7 +53,7 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
             </div>
             {workshop.body &&
               workshop.body
-                .split('\r\n')
+                .split('\n')
                 .map((paragraph: string) => (
                   <p className="my-2 text-sm leading-6 text-mediumGray">
                     {paragraph}
