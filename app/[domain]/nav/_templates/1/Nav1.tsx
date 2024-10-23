@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { ICollection } from '@/app/interfaces/ICollection';
+import { IPage } from '@/app/interfaces/IPage';
 import menu from '@/public/menu.png';
 import React from 'react';
 
@@ -14,10 +15,12 @@ export default function Nav({
   displayName,
   collections,
   instagram,
+  pages,
 }: {
   displayName: string;
   collections: ICollection[] | [];
   instagram: string | null;
+  pages: IPage[] | null;
 }) {
   const [open, setOpen] = useState(false);
   const [dropDown, setDropDown] = useState('hidden');
@@ -94,34 +97,18 @@ export default function Nav({
                   </span>
                 ))}
             </section>
-            <span>
-              <Link
-                className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
-                onMouseEnter={() => setDropDown('hidden')}
-                onClick={() => clickHandler()}
-                href={`/about`}
-              >
-                About
-              </Link>
-            </span>
-            <span>
-              <Link
-                className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
-                onClick={() => clickHandler()}
-                href={`/cv`}
-              >
-                CV
-              </Link>
-            </span>
-            <span>
-              <Link
-                className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
-                onClick={() => clickHandler()}
-                href={`/contact`}
-              >
-                Contact
-              </Link>
-            </span>
+            {pages !== null &&
+              pages.map((page) => (
+                <span key={page.title}>
+                  <Link
+                    className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
+                    onClick={() => clickHandler()}
+                    href={`/${page.slug}`}
+                  >
+                    {page.title}
+                  </Link>
+                </span>
+              ))}
             <span className="block lg:hidden">
               {instagram && (
                 <a href={instagram} target="_blank" rel="noreferrer">

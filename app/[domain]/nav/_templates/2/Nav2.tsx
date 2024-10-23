@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { ICollection } from '@/app/interfaces/ICollection';
 import menu from '@/public/menu.png';
 import React from 'react';
+import { IPage } from '@/app/interfaces/IPage';
 
 import instagramLogo from '/public/instagram.png';
 
@@ -14,10 +15,12 @@ export default function Nav({
   displayName,
   collections,
   instagram,
+  pages,
 }: {
   displayName: string;
   collections: ICollection[] | [];
   instagram: string | null;
+  pages: IPage[] | null;
 }) {
   const [open, setOpen] = useState(false);
   const [dropDown, setDropDown] = useState('hidden');
@@ -60,34 +63,18 @@ export default function Nav({
                 </span>
               ))}
             </span>
-            <span>
-              <Link
-                className={`${collections.length > 1 ? 'lg:text-xs' : ''} tracking-wide text-mediumGray transition-all hover:text-darkGray`}
-                onMouseEnter={() => setDropDown('hidden')}
-                onClick={() => clickHandler()}
-                href={`/about`}
-              >
-                About
-              </Link>
-            </span>
-            <span>
-              <Link
-                className={`${collections.length > 1 ? 'lg:text-xs' : ''} tracking-wide text-mediumGray transition-all hover:text-darkGray`}
-                onClick={() => clickHandler()}
-                href={`/cv`}
-              >
-                CV
-              </Link>
-            </span>
-            <span>
-              <Link
-                className={`${collections.length > 1 ? 'lg:text-xs' : ''} tracking-wide text-mediumGray transition-all hover:text-darkGray`}
-                onClick={() => clickHandler()}
-                href={`/contact`}
-              >
-                Contact
-              </Link>
-            </span>
+            {pages !== null &&
+              pages.map((page) => (
+                <span key={page.title}>
+                  <Link
+                    className={`${collections.length > 1 ? 'lg:text-xs' : ''} tracking-wide text-mediumGray transition-all hover:text-darkGray`}
+                    onClick={() => clickHandler()}
+                    href={`/${page.slug}`}
+                  >
+                    {page.title}
+                  </Link>
+                </span>
+              ))}
             {instagram && (
               <span className="mt-5">
                 <a href={instagram} target="_blank" rel="noreferrer">

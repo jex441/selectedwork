@@ -11,6 +11,8 @@ import {
   collection,
   media,
   landing,
+  workshops,
+  workshop,
 } from '../db/schema';
 
 import { IUser } from '../interfaces/IUser';
@@ -20,6 +22,7 @@ import { revalidatePath } from 'next/cache';
 import { ICollection } from '../interfaces/ICollection';
 import { IContactPage } from '../interfaces/IContactPage';
 import { ILandingPage } from '../interfaces/ILandingPage';
+import { IWorkshopsPage } from '../interfaces/IWorkshopsPage';
 
 // functions for generating site:
 export const getUserByUsername = async (username: string) => {
@@ -33,15 +36,26 @@ export const getUserByUsername = async (username: string) => {
     .select()
     .from(users)
     .where(eq(users[key], value))
-    .leftJoin(collection, eq(collection.userId, users.id));
+    .leftJoin(collection, eq(collection.userId, users.id))
+    .leftJoin(landing, eq(landing.userId, users.id))
+    .leftJoin(about, eq(about.userId, users.id))
+    .leftJoin(contact, eq(contact.userId, users.id))
+    .leftJoin(cv, eq(cv.userId, users.id))
+    .leftJoin(workshops, eq(workshops.userId, users.id));
 
   let result = rows.reduce<IUser>((acc, row) => {
     const user = row.users_table;
     const collection = row.collection_table;
+    const landing = row.landing_table;
+    const about = row.about_table;
+    const contact = row.contact_table;
+    const cv = row.cv_table;
+    const workshops = row.workshops_table;
 
     if (!acc.id && user.id) {
-      acc = { ...user, pages: [], collections: [] };
+      acc = { ...user, collections: [], pages: [] };
     }
+
     if (collection) {
       if (!acc.collections) {
         acc.collections = [];
@@ -49,9 +63,41 @@ export const getUserByUsername = async (username: string) => {
       collection.visibility === 'public' &&
         acc.collections.push({ ...collection, works: [] });
     }
+
+    if (!acc.pages) {
+      acc.pages = [];
+    }
+
+    if (
+      about &&
+      about.visibility === true &&
+      !acc.pages.find((p) => p.slug === 'about')
+    ) {
+      acc.pages.push({ title: 'About', slug: 'about' });
+    }
+    if (
+      workshops &&
+      workshops.visibility === true &&
+      !acc.pages.find((p) => p.slug === 'classes')
+    ) {
+      acc.pages.push({ title: 'Classes', slug: 'classes' });
+    }
+    if (
+      cv &&
+      cv.visibility === true &&
+      !acc.pages.find((p) => p.slug === 'cv')
+    ) {
+      acc.pages.push({ title: 'CV', slug: 'cv' });
+    }
+    if (
+      contact &&
+      contact.visibility === true &&
+      !acc.pages.find((p) => p.slug === 'contact')
+    ) {
+      acc.pages.push({ title: 'Contact', slug: 'contact' });
+    }
     return acc;
   }, {} as IUser);
-
   if (result) {
     const collections = result.collections;
     const sortedCollections =
@@ -99,6 +145,61 @@ export const getAboutPageDataForSite = async (
 
   if (responseData) {
     responseData.template = `a${String(userData.template)}`;
+
+    return {
+      status: 200,
+      user: { username: userData.username },
+      data: responseData,
+    };
+  } else {
+    return {
+      status: 404,
+      user: { username: userData.username },
+      data: null,
+    };
+  }
+};
+
+export const getWorkshopsPageDataForSite = async (
+  username: string,
+): Promise<{
+  status: number;
+  user: { username: string } | null;
+  data: IWorkshopsPage | null;
+}> => {
+  const userData = await getUserByUsername(username);
+  if (!userData || userData.firstName === null || userData.lastName === null) {
+    return { status: 200, user: null, data: null };
+  }
+  if (!userData) return { status: 404, user: null, data: null };
+
+  // (await db.select().from(contact).where(eq(contact.userId, userData?.id)));
+
+  const rows = await db
+    .select()
+    .from(workshops)
+    .where(eq(workshops.userId, userData?.id))
+    .leftJoin(workshop, eq(workshop.workshopsId, workshops.id));
+  const responseData =
+    rows &&
+    rows.reduce<IWorkshopsPage>((acc, row) => {
+      const workshopsPage = row.workshops_table;
+      const workshop = row.workshop_table;
+
+      if (!acc.id && workshopsPage.id) {
+        acc = {
+          ...workshopsPage,
+          workshops: [],
+        };
+      }
+      if (workshop && workshop?.visibility === true) {
+        acc.workshops = [...acc.workshops, workshop];
+      }
+      return acc;
+    }, {} as IWorkshopsPage);
+
+  if (responseData) {
+    responseData.template = `w${String(userData.template)}`;
 
     return {
       status: 200,
@@ -302,7 +403,8 @@ export const getCollectionDataForSite = async (
           eq(collection.idx, 1),
         ),
       );
-
+    if (collectionData.length === 0)
+      return { status: 404, user: null, data: null };
     rows =
       user.id !== null &&
       collectionData[0].id !== null &&
@@ -345,10 +447,7 @@ export const getCollectionDataForSite = async (
     }, {} as ICollection);
 
   if (result && user) {
-    console.log('userdata', user.template);
-
     result.template = `g${String(user.template)}`;
-    console.log('temp', result.template);
     return {
       status: 200,
       user: {

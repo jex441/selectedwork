@@ -8,6 +8,7 @@ import {
 } from 'drizzle-orm/pg-core';
 import { title } from 'process';
 import { user } from '../lib/data';
+import { link } from 'fs';
 
 export const users = pgTable('users_table', {
   id: serial('id').primaryKey(),
@@ -46,6 +47,7 @@ export const pages = pgTable('pages_table', {
 export const about = pgTable('about_table', {
   id: serial('id').primaryKey(),
   title: text('title').notNull(),
+  visibility: boolean('visibility').default(false).notNull(),
   slug: text('slug').notNull(),
   template: text('template').notNull(),
   heading: text('heading'),
@@ -71,6 +73,7 @@ export const about = pgTable('about_table', {
 export const contact = pgTable('contact_table', {
   id: serial('id').primaryKey(),
   title: text('title').notNull(),
+  visibility: boolean('visibility').default(false).notNull(),
   slug: text('slug').notNull(),
   template: text('template').notNull(),
   heading: text('heading'),
@@ -103,6 +106,7 @@ export const cv = pgTable('cv_table', {
   id: serial('id').primaryKey(),
   title: text('title').notNull(),
   slug: text('slug').notNull(),
+  visibility: boolean('visibility').default(false).notNull(),
   template: text('template').notNull(),
   heading: text('heading'),
   subheading: text('subheading'),
@@ -205,6 +209,41 @@ export const landing = pgTable('landing_table', {
   updatedAt: timestamp('updated_at')
     .notNull()
     .$onUpdate(() => new Date()),
+});
+
+export const workshops = pgTable('workshops_table', {
+  id: serial('id').primaryKey(),
+  userId: integer('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  slug: text('slug').default('classes').notNull(),
+  visibility: boolean('visibility').default(false).notNull(),
+  heading: text('heading'),
+  subHeading: text('subHeading'),
+  body: text('body'),
+  imgSrc: text('imgSrc'),
+  template: text('template').default('n1').notNull(),
+});
+
+export const workshop = pgTable('workshop_table', {
+  id: serial('id').primaryKey(),
+  userId: integer('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  visibility: boolean('visibility').default(false).notNull(),
+  workshopsId: integer('workshopsId')
+    .notNull()
+    .references(() => workshops.id, { onDelete: 'cascade' }),
+  heading: text('heading'),
+  subHeading: text('subHeading'),
+  imgSrc: text('imgSrc'),
+  body: text('body'),
+  date: text('date'),
+  slug: text('slug').notNull(),
+  location: text('location'),
+  linkSrc1: text('linkSrc1'),
+  linkText1: text('linkText1'),
+  inquire: boolean('inquire').default(false).notNull(),
 });
 
 export const media = pgTable('media_table', {

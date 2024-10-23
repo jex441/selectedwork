@@ -23,6 +23,8 @@ import {
   media,
   collection,
   landing,
+  workshop,
+  workshops,
 } from '../db/schema';
 import { IUser } from '../interfaces/IUser';
 import { IAboutPage } from '../interfaces/IAboutPage';
@@ -36,6 +38,8 @@ import { IContactPage } from '../interfaces/IContactPage';
 import { getCVPageDataForSite } from './requests';
 import { title } from 'process';
 import { ILandingPage } from '../interfaces/ILandingPage';
+import { IWorkshop } from '../interfaces/IWorkshop';
+import { IWorkshopsPage } from '../interfaces/IWorkshopsPage';
 
 const FormSchema = z.object({
   id: z.number(),
@@ -335,27 +339,121 @@ export const getUserData = async () => {
       .select()
       .from(users)
       .where(eq(users.authId, auth.id))
-      .leftJoin(pages, eq(users.id, pages.userId));
+      .leftJoin(about, eq(users.id, about.userId))
+      .leftJoin(workshops, eq(users.id, workshops.userId))
+      .leftJoin(contact, eq(users.id, contact.userId))
+      .leftJoin(cv, eq(users.id, cv.userId))
+      .leftJoin(landing, eq(users.id, landing.userId));
 
     const result = rows.reduce<IUser>((acc, row) => {
       const user = row.users_table;
-      const page = row.pages_table;
+      const about = row.about_table;
+      const workshops = row.workshops_table;
+      const contact = row.contact_table;
+      const cv = row.cv_table;
+      const landing = row.landing_table;
 
       if (!acc.id && user.id) {
-        acc = { ...user, pages: [], collections: [] };
+        acc = {
+          ...user,
+          pages: [],
+          collections: [],
+        };
       }
-      if (page) {
-        if (!acc.pages) {
-          acc.pages = [];
-        }
-        acc.pages.push(page);
+
+      if (about) {
+        acc.about = {
+          id: about.id,
+          title: 'about',
+          userId: about.userId,
+          template: about.template,
+          visibility: about.visibility,
+        };
       }
+      if (workshops) {
+        acc.workshops = {
+          id: workshops.id,
+          title: 'workshops',
+          userId: workshops.userId,
+          template: workshops.template,
+          visibility: workshops.visibility,
+        };
+      }
+      if (cv) {
+        acc.cv = {
+          id: cv.id,
+          title: 'cv',
+          userId: cv.userId,
+          template: cv.template,
+          visibility: cv.visibility,
+        };
+      }
+      if (contact) {
+        acc.contact = {
+          id: contact.id,
+          title: 'contact',
+          userId: contact.userId,
+          template: contact.template,
+          visibility: contact.visibility,
+        };
+      }
+      if (landing) {
+        acc.home = {
+          id: landing.id,
+          title: 'landing',
+          userId: landing.userId,
+          template: '1', // landing.template,
+          visibility: landing.visibility,
+        };
+      }
+
       return acc;
     }, {} as IUser);
+
     return result;
   }
 
   return null;
+};
+
+export const togglePageVisibility = async (
+  title: string,
+  visibility: boolean,
+) => {
+  const userData = await getUserData();
+  if (userData === null) return;
+
+  if (title === 'about') {
+    await db
+      .update(about)
+      .set({ visibility: visibility })
+      .where(eq(about.userId, userData.id));
+  }
+  if (title === 'workshops') {
+    await db
+      .update(workshops)
+      .set({ visibility: visibility })
+      .where(eq(workshops.userId, userData.id));
+  }
+  if (title === 'cv') {
+    await db
+      .update(cv)
+      .set({ visibility: visibility })
+      .where(eq(cv.userId, userData.id));
+  }
+  if (title === 'contact') {
+    await db
+      .update(contact)
+      .set({ visibility: visibility })
+      .where(eq(contact.userId, userData.id));
+  }
+  if (title === 'home') {
+    await db
+      .update(landing)
+      .set({ visibility: visibility })
+      .where(eq(landing.userId, userData.id));
+  }
+  revalidatePath(`/${userData.username}`);
 };
 
 export type UserState = {
@@ -706,6 +804,250 @@ export const createCollection = async (): Promise<ICollection | undefined> => {
     revalidatePath('/collections');
 
     return userCollection as ICollection;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getWorkshopsPageData = async (): Promise<
+  IWorkshopsPage | undefined
+> => {
+  try {
+    const userData = await user();
+    if (!userData) {
+      return;
+    }
+    let rows = await db
+      .select()
+      .from(workshops)
+      .leftJoin(workshop, eq(workshop.workshopsId, workshops.id))
+      .where(eq(workshops.userId, userData?.id));
+    if (rows.length === 0) {
+      let [newWorkshopsPage] = (await db
+        .insert(workshops)
+        .values({
+          template: 'w1',
+          heading: 'Classes',
+          subHeading: '',
+          body: '',
+          imgSrc: '',
+          slug: 'classes',
+          visibility: false,
+          userId: userData?.id,
+        })
+        .returning({
+          id: workshops.id,
+          template: workshops.template,
+          heading: workshops.heading,
+          subHeading: workshops.subHeading,
+          body: workshops.body,
+          imgSrc: workshops.imgSrc,
+          slug: workshops.slug,
+          visibility: workshops.visibility,
+          userId: workshops.userId,
+        })) as IWorkshopsPage[];
+
+      newWorkshopsPage.workshops = [];
+      return newWorkshopsPage;
+    }
+    const result = rows.reduce<IWorkshopsPage>((acc, row) => {
+      const workshops = row.workshops_table;
+      const workshop = row.workshop_table;
+
+      if (!acc.id && workshops.id) {
+        acc = {
+          id: workshops.id,
+          template: workshops.template,
+          heading: workshops.heading,
+          subHeading: workshops.subHeading,
+          body: workshops.body,
+          imgSrc: workshops.imgSrc,
+          slug: workshops.slug,
+          visibility: workshops.visibility,
+          userId: workshops.userId,
+          workshops: [],
+        };
+      }
+
+      if (workshop) {
+        const workshopData: IWorkshop = {
+          id: workshop.id,
+          workshopsId: workshop.workshopsId,
+          heading: workshop.heading,
+          subHeading: workshop.subHeading,
+          body: workshop.body,
+          linkSrc1: workshop.linkSrc1,
+          linkText1: workshop.linkText1,
+          date: workshop.date,
+          location: workshop.location,
+          userId: workshop.userId,
+          visibility: workshop.visibility,
+          imgSrc: workshop.imgSrc,
+          inquire: workshop.inquire,
+        };
+        acc.workshops.push(workshopData as never);
+      }
+
+      return acc;
+    }, {} as IWorkshopsPage);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getWorkshopData = async (
+  id: number,
+): Promise<IWorkshop | undefined> => {
+  try {
+    const userData = await user();
+    if (!userData) {
+      return;
+    }
+    const [userWorkshops] = await db
+      .select()
+      .from(workshops)
+      .where(eq(workshops.userId, userData?.id));
+
+    if (!userWorkshops) {
+      return;
+    }
+
+    const [userWorkshop] = await db
+      .select()
+      .from(workshop)
+      .where(eq(workshop.id, id));
+
+    revalidatePath(`${userWorkshops.slug}/id`);
+    return userWorkshop;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const createWorkshop = async (): Promise<
+  { status: number } | undefined
+> => {
+  try {
+    const userData = await user();
+    if (!userData) {
+      return;
+    }
+    const [userWorkshopsPage] = await db
+      .select()
+      .from(workshops)
+      .where(eq(workshops.userId, userData?.id));
+
+    if (!userWorkshopsPage) {
+      return;
+    }
+
+    const userWorkshops = await db
+      .select()
+      .from(workshop)
+      .where(eq(workshop.workshopsId, userWorkshopsPage.id));
+
+    const count = userWorkshops.length;
+
+    let [newWorkshop] = await db
+      .insert(workshop)
+      .values({
+        // template: 'g1',
+        workshopsId: userWorkshopsPage.id,
+        heading: `${'New Class ' + count}`,
+        subHeading: '',
+        body: '',
+        linkSrc1: '',
+        linkText1: '',
+        date: '',
+        location: '',
+        slug: `${'new-class-' + count}`,
+        userId: userData?.id,
+      })
+      .returning({
+        id: workshop.id,
+      });
+
+    revalidatePath(userWorkshopsPage.slug);
+    return { status: 200 };
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateWorkshop = async (
+  content: IWorkshop,
+): Promise<{ status: number } | undefined> => {
+  try {
+    const userData = await user();
+    if (!userData) {
+      return;
+    }
+    const [userWorkshopsPage] = await db
+      .select()
+      .from(workshops)
+      .where(eq(workshops.userId, userData?.id));
+
+    if (!userWorkshopsPage) {
+      return;
+    }
+    if (!content.id) return;
+
+    await db
+      .update(workshop)
+      .set({
+        // template: 'g1',
+        workshopsId: userWorkshopsPage.id,
+        heading: content.heading,
+        subHeading: content.subHeading,
+        body: content.body,
+        imgSrc: content.imgSrc,
+        visibility: content.visibility || false,
+        linkSrc1: content.linkSrc1,
+        // linkText1: content.heading,
+        date: content.date,
+        location: content.location,
+        userId: userData?.id,
+      })
+      .where(eq(workshop.id, content.id))
+      .returning({
+        id: workshop.id,
+      });
+
+    revalidatePath(userWorkshopsPage.slug);
+    revalidatePath('/classes');
+
+    revalidatePath(`/classes/${userWorkshopsPage.id}`);
+
+    return { status: 200 };
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteWorkshop = async (
+  content: IWorkshop,
+): Promise<{ status: number } | undefined> => {
+  try {
+    const userData = await user();
+    if (!userData) {
+      return;
+    }
+    const [userWorkshopsPage] = await db
+      .select()
+      .from(workshops)
+      .where(eq(workshops.userId, userData?.id));
+
+    if (!userWorkshopsPage) {
+      return;
+    }
+    if (!content.id) return;
+
+    await db.delete(workshop).where(eq(workshop.id, content.id));
+
+    revalidatePath(userWorkshopsPage.slug);
+    return { status: 200 };
   } catch (error) {
     console.error(error);
   }
