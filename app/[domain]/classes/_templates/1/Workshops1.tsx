@@ -31,8 +31,8 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
               <Image
                 src={workshop.imgSrc}
                 alt={'Workshops image'}
-                width={400}
-                height={400}
+                width={300}
+                height={300}
               />
             )}
           </div>
@@ -92,8 +92,8 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
                   <Image
                     src={currentWorkshop.imgSrc}
                     alt={'Workshops image'}
-                    width={150}
-                    height={150}
+                    width={100}
+                    height={200}
                   />
                 )}
                 <div className="flex w-[320px] flex-col px-4">
