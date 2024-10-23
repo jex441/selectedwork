@@ -62,9 +62,27 @@ export async function POST(req: Request) {
       userId = res[0].id;
 
       let defaultPages = [
-        { template: 'a1', slug: 'about', title: 'About', userId: userId },
-        { template: 'c1', slug: 'contact', title: 'Contact', userId: userId },
-        { template: 'r1', slug: 'cv', title: 'CV', userId: userId },
+        {
+          template: 'a1',
+          slug: 'about',
+          title: 'About',
+          userId: userId,
+          visibility: false,
+        },
+        {
+          template: 'c1',
+          slug: 'contact',
+          title: 'Contact',
+          userId: userId,
+          visibility: false,
+        },
+        {
+          template: 'r1',
+          slug: 'cv',
+          title: 'CV',
+          userId: userId,
+          visibility: false,
+        },
         {
           template: 'g1',
           slug: 'work',
@@ -72,31 +90,36 @@ export async function POST(req: Request) {
           userId: userId,
           visibility: 'public',
         },
-        { template: 'h1', slug: 'home', title: 'Home', userId: userId },
+        {
+          template: 'h1',
+          slug: 'home',
+          title: 'Home',
+          userId: userId,
+        },
       ];
 
       const insertAboutPage = async () => {
         return await db
           .insert(about)
-          .values(defaultPages[0])
+          .values({ ...defaultPages[0], visibility: false })
           .returning({ id: pages.id, title: pages.title });
       };
       const insertContactPage = async () => {
         return await db
           .insert(contact)
-          .values(defaultPages[1])
+          .values({ ...defaultPages[1], visibility: false })
           .returning({ id: pages.id, title: pages.title });
       };
       const insertCVPage = async () => {
         return await db
           .insert(cv)
-          .values(defaultPages[2])
+          .values({ ...defaultPages[2], visibility: false })
           .returning({ id: pages.id, title: pages.title });
       };
       const insertCollection = async () => {
         return await db
           .insert(collection)
-          .values(defaultPages[3])
+          .values({ ...defaultPages[3], visibility: 'public' })
           .returning({ id: pages.id, title: pages.title });
       };
       const aboutPage = await insertAboutPage();

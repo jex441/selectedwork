@@ -83,7 +83,7 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
             </button>
             <div className="flex w-full flex-col">
               <div className="flex w-full flex-row p-4">
-                {currentWorkshop.imgSrc && (
+                {currentWorkshop !== null && currentWorkshop.imgSrc && (
                   <Image
                     src={currentWorkshop.imgSrc}
                     alt={'Workshops image'}

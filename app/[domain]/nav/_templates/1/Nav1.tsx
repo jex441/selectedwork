@@ -97,17 +97,18 @@ export default function Nav({
                   </span>
                 ))}
             </section>
-            {pages.map((page) => (
-              <span key={page.title}>
-                <Link
-                  className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
-                  onClick={() => clickHandler()}
-                  href={`/${page.slug}`}
-                >
-                  {page.title}
-                </Link>
-              </span>
-            ))}
+            {pages !== null &&
+              pages.map((page) => (
+                <span key={page.title}>
+                  <Link
+                    className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
+                    onClick={() => clickHandler()}
+                    href={`/${page.slug}`}
+                  >
+                    {page.title}
+                  </Link>
+                </span>
+              ))}
             <span className="block lg:hidden">
               {instagram && (
                 <a href={instagram} target="_blank" rel="noreferrer">

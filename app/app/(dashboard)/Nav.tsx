@@ -73,7 +73,7 @@ export default function Nav({ user }: { user: IUser }) {
                 </Link>
               </span>
               <span>
-                {user.home.visibility ? (
+                {user.home && user.home.visibility ? (
                   <Eye
                     onClick={() => togglePageVisibilityHandler('home', false)}
                     className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
@@ -105,7 +105,7 @@ export default function Nav({ user }: { user: IUser }) {
                 </Link>
               </span>
               <span>
-                {user.about.visibility ? (
+                {user.about && user.about.visibility ? (
                   <Eye
                     onClick={() => togglePageVisibilityHandler('about', false)}
                     className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
@@ -128,7 +128,7 @@ export default function Nav({ user }: { user: IUser }) {
                 </Link>
               </span>
               <span>
-                {user.workshops.visibility ? (
+                {user.workshops && user.workshops.visibility ? (
                   <Eye
                     onClick={() =>
                       togglePageVisibilityHandler('workshops', false)
@@ -155,7 +155,7 @@ export default function Nav({ user }: { user: IUser }) {
                 </Link>
               </span>
               <span>
-                {user.contact.visibility ? (
+                {user.contact && user.contact.visibility ? (
                   <Eye
                     onClick={() =>
                       togglePageVisibilityHandler('contact', false)
@@ -180,7 +180,7 @@ export default function Nav({ user }: { user: IUser }) {
                 </Link>
               </span>
               <span>
-                {user.cv.visibility ? (
+                {user.cv && user.cv.visibility ? (
                   <Eye
                     onClick={() => togglePageVisibilityHandler('cv', false)}
                     className="h-4 w-4 cursor-pointer opacity-60 transition-all hover:opacity-100"
