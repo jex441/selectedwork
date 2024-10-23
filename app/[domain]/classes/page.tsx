@@ -20,6 +20,6 @@ export default async function Classes({
     return <Workshops1 data={res.data} />;
   }
   if (res.data.template === 'w2') {
-    return <Workshops2 data={res.data} />;
+    return <Workshops1 data={res.data} />;
   }
 }

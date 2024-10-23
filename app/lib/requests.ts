@@ -53,10 +53,9 @@ export const getUserByUsername = async (username: string) => {
     const workshops = row.workshops_table;
 
     if (!acc.id && user.id) {
-      acc = { ...user, ...acc };
+      acc = { ...user, collections: [], pages: [] };
     }
-    acc.collections = [];
-    acc.pages = [];
+
     if (collection) {
       if (!acc.collections) {
         acc.collections = [];
@@ -64,21 +63,41 @@ export const getUserByUsername = async (username: string) => {
       collection.visibility === 'public' &&
         acc.collections.push({ ...collection, works: [] });
     }
-    if (about?.visibility === true) {
+
+    if (!acc.pages) {
+      acc.pages = [];
+    }
+
+    if (
+      about &&
+      about.visibility === true &&
+      !acc.pages.find((p) => p.slug === 'about')
+    ) {
       acc.pages.push({ title: 'About', slug: 'about' });
     }
-    if (workshops?.visibility === true) {
+    if (
+      workshops &&
+      workshops.visibility === true &&
+      !acc.pages.find((p) => p.slug === 'classes')
+    ) {
       acc.pages.push({ title: 'Classes', slug: 'classes' });
     }
-    if (cv?.visibility === true) {
+    if (
+      cv &&
+      cv.visibility === true &&
+      !acc.pages.find((p) => p.slug === 'cv')
+    ) {
       acc.pages.push({ title: 'CV', slug: 'cv' });
     }
-    if (contact?.visibility === true) {
+    if (
+      contact &&
+      contact.visibility === true &&
+      !acc.pages.find((p) => p.slug === 'contact')
+    ) {
       acc.pages.push({ title: 'Contact', slug: 'contact' });
     }
     return acc;
   }, {} as IUser);
-
   if (result) {
     const collections = result.collections;
     const sortedCollections =
@@ -384,7 +403,8 @@ export const getCollectionDataForSite = async (
           eq(collection.idx, 1),
         ),
       );
-
+    if (collectionData.length === 0)
+      return { status: 404, user: null, data: null };
     rows =
       user.id !== null &&
       collectionData[0].id !== null &&

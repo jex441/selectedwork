@@ -39,7 +39,6 @@ export default function Nav({ user }: { user: IUser }) {
   const togglePageVisibilityHandler = async (title: string, value: boolean) => {
     await togglePageVisibility(title, value);
   };
-  console.log('user:', user);
   return (
     <>
       <div
@@ -68,7 +67,7 @@ export default function Nav({ user }: { user: IUser }) {
               <span className="flex flex-row gap-3">
                 <HomeIcon className="h-4 w-4" />
 
-                <Link onClick={() => toggleNav()} href="/home">
+                <Link onClick={() => toggleNav()} href="/landing">
                   Home
                 </Link>
               </span>

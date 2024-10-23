@@ -447,6 +447,12 @@ export const togglePageVisibility = async (
       .set({ visibility: visibility })
       .where(eq(contact.userId, userData.id));
   }
+  if (title === 'home') {
+    await db
+      .update(landing)
+      .set({ visibility: visibility })
+      .where(eq(landing.userId, userData.id));
+  }
   revalidatePath(`/${userData.username}`);
 };
 

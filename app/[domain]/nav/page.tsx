@@ -34,6 +34,7 @@ export default async function page({ params }: { params: { domain: string } }) {
         collections={res.collections ?? []}
         displayName={res.displayName}
         instagram={res.instagram}
+        pages={res.pages}
       />
     );
   }
