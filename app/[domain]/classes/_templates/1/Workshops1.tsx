@@ -37,14 +37,11 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
             )}
           </div>
           <div className="flex-1 gap-4">
-            <h2 className="text-lg leading-9 text-darkGray">
+            <h2 className="text-xl leading-9 text-darkGray">
               {workshop.heading}
             </h2>
-            <p className="text-sm leading-6 text-mediumGray">
-              {workshop.subHeading}
-            </p>
-            <div className="my-2">
-              <p className="text-sm leading-6 text-mediumGray">
+            <div className="mb-2">
+              <p className="text-sm font-bold leading-6 text-mediumGray">
                 {workshop.date}
               </p>
               <p className="text-sm leading-6 text-mediumGray">
@@ -97,10 +94,10 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
                   />
                 )}
                 <div className="flex w-[320px] flex-col px-4">
-                  <h2 className="leading-9 text-darkGray">
+                  <h2 className="mb-1 leading-5 text-darkGray">
                     {currentWorkshop?.heading}
                   </h2>
-                  <p className="truncate text-xs leading-5 text-mediumGray">
+                  <p className="truncate text-xs font-bold leading-5 text-mediumGray">
                     {currentWorkshop?.date}
                   </p>
                   <p className="truncate text-xs leading-5 text-mediumGray">
