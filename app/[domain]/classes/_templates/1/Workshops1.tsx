@@ -37,10 +37,8 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
             )}
           </div>
           <div className="flex-1 gap-4">
-            <h2 className="text-xl leading-9 text-darkGray">
-              {workshop.heading}
-            </h2>
-            <div className="mb-2">
+            <h2 className="text-xl text-darkGray">{workshop.heading}</h2>
+            <div className="mb-3 mt-1">
               <p className="text-sm font-bold leading-6 text-mediumGray">
                 {workshop.date}
               </p>
@@ -52,7 +50,7 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
               workshop.body
                 .split('\n')
                 .map((paragraph: string) => (
-                  <p className="my-2 text-sm leading-6 text-mediumGray">
+                  <p className="my-2 text-xs leading-6 text-mediumGray">
                     {paragraph}
                   </p>
                 ))}
