@@ -26,6 +26,34 @@ export default async function SiteLayout({
   ) {
     return <div>Not found</div>;
   }
+  // hard coded for now
+  if (res.template !== 3) {
+    return (
+      <div className="flex h-screen w-full flex-col">
+        {/* Layout */}
+        <>
+          <Nav params={params} />
+          {/* Main content */}
+          <main className="mt-[70px] lg:mt-0">{children}</main>
+          {/* Footer */}
+          <div className="fixed bottom-0 mt-10 flex h-8 w-full flex-row justify-between self-center px-10 py-2 text-xs text-lightGray">
+            <div>{res.displayName} 2024</div>
+            {res.plan === 'free' && (
+              <div>
+                <a
+                  href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+                  className="transition-colors hover:text-darkGray hover:underline"
+                >
+                  selectedwork.net
+                </a>
+              </div>
+            )}
+          </div>
+        </>
+      </div>
+    );
+  }
+
   if (res.template === 1) {
     return (
       <div className="flex min-h-screen w-full flex-col">
