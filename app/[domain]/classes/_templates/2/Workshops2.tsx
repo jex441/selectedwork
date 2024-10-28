@@ -31,29 +31,29 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
               <Image
                 src={workshop.imgSrc}
                 alt={'Workshops image'}
-                width={400}
-                height={400}
+                width={300}
+                height={300}
               />
             )}
           </div>
           <div className="flex-1 gap-4">
-            <h2 className="text-lg leading-9 text-darkGray">
-              {workshop.heading}
-            </h2>
-            <p className="text-sm leading-6 text-mediumGray">
-              {workshop.subHeading}
-            </p>
-            <div className="my-2">
-              <p className="text-sm leading-6 text-mediumGray">
+            <h2 className="text-xl text-darkGray">{workshop.heading}</h2>
+            <div className="mb-3 mt-1">
+              <p className="text-sm font-bold leading-6 text-mediumGray">
                 {workshop.date}
               </p>
               <p className="text-sm leading-6 text-mediumGray">
                 {workshop.location}
               </p>
             </div>
-            <p className="my-2 w-full text-sm leading-6 text-mediumGray">
-              {workshop.body}
-            </p>
+            {workshop.body &&
+              workshop.body
+                .split('\n')
+                .map((paragraph: string) => (
+                  <p className="my-2 text-xs leading-6 text-mediumGray">
+                    {paragraph}
+                  </p>
+                ))}
             {workshop.linkSrc1 && (
               <p className="text-sm leading-6 text-mediumGray">
                 <a href={workshop.linkSrc1}>{workshop.linkSrc1}</a>
@@ -87,15 +87,15 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
                   <Image
                     src={currentWorkshop.imgSrc}
                     alt={'Workshops image'}
-                    width={150}
-                    height={150}
+                    width={100}
+                    height={200}
                   />
                 )}
                 <div className="flex w-[320px] flex-col px-4">
-                  <h2 className="leading-9 text-darkGray">
+                  <h2 className="mb-1 leading-5 text-darkGray">
                     {currentWorkshop?.heading}
                   </h2>
-                  <p className="truncate text-xs leading-5 text-mediumGray">
+                  <p className="truncate text-xs font-bold leading-5 text-mediumGray">
                     {currentWorkshop?.date}
                   </p>
                   <p className="truncate text-xs leading-5 text-mediumGray">
@@ -104,8 +104,11 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
                 </div>
               </div>
               <div className="flex flex-1 flex-col">
-                {currentWorkshop !== null && (
-                  <InquireForm subject={currentWorkshop.heading} />
+                {currentWorkshop !== null && data.email && (
+                  <InquireForm
+                    email={data.email}
+                    subject={currentWorkshop.heading}
+                  />
                 )}
               </div>
             </div>

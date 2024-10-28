@@ -24,6 +24,7 @@ export default function ContactForm({ data }: { data: any }) {
           reply_to: target.reply_to.value,
           message: target.message.value,
           to_email: data.email,
+          user_email: data.email,
         },
         'user_kDFY4AFTuoji3GQqaGDsn',
       )

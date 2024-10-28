@@ -4,7 +4,13 @@ import { useState } from 'react';
 
 import emailjs from '@emailjs/browser';
 
-export default function InquireForm({ subject }: { subject: string | null }) {
+export default function InquireForm({
+  email,
+  subject,
+}: {
+  email: string | null;
+  subject: string | null;
+}) {
   const [emailSent, setEmailSent] = useState(false);
   const [error, setError] = useState(false);
   const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,11 +26,11 @@ export default function InquireForm({ subject }: { subject: string | null }) {
         'service_ej6gfo9',
         'template_v1ulh7q',
         {
-          subject: subject, // not functional
+          subject: subject,
           from_name: target.from_name.value,
           reply_to: target.reply_to.value,
           message: target.message.value,
-          // to_email: data.email, ??
+          user_email: email,
         },
         'user_kDFY4AFTuoji3GQqaGDsn',
       )

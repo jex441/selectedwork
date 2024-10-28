@@ -104,8 +104,11 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
                 </div>
               </div>
               <div className="flex flex-1 flex-col">
-                {currentWorkshop !== null && (
-                  <InquireForm subject={currentWorkshop.heading} />
+                {currentWorkshop !== null && data.email && (
+                  <InquireForm
+                    email={data.email}
+                    subject={currentWorkshop.heading}
+                  />
                 )}
               </div>
             </div>

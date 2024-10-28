@@ -12,4 +12,5 @@ export interface IWorkshopsPage {
   visibility: boolean;
   userId: number | null;
   workshops: IWorkshop[] | [];
+  email?: string | null;
 }
