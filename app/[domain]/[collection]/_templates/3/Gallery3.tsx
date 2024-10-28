@@ -89,7 +89,10 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
           </p>
         </div>
       </section> */}
-      <div className="w-screen overflow-x-auto">
+      <div
+        className="mt-4 w-screen overflow-x-auto"
+        style={{ 'scrollbar-width': 'none', '-ms-overflow-style': 'none' }}
+      >
         <div className="flex space-x-6 p-6">
           {works &&
             data.works.map((work: IWork, index: number) => (

@@ -58,21 +58,23 @@ export default function Piece({
           data={data}
         />
       )}
-      <div key={data.id} className="max-w-[900px] flex-none">
-        <div className="grid grid-cols-[500px,1fr] gap-6 rounded-lg bg-background shadow-md">
-          <div className="relative h-[500px]">
-            <Image
-              src={data.media.find((m) => m.main === 'true')?.url || ''}
-              alt={data.title ?? ''}
-              fill
-              className="rounded-l-lg object-contain"
-            />
-          </div>
-          <div className="flex flex-col justify-center p-6">
-            <h2 className="mb-4 text-2xl font-bold">{data.title}</h2>
-
-            <p className="text-muted-foreground">Year: {data.year}</p>
-          </div>
+      <div
+        key={data.id}
+        onClick={() => setModal(true)}
+        className="flex max-w-[900px] flex-row items-center"
+      >
+        <div className="relative h-[500px] w-[500px]">
+          <Image
+            src={data.media.find((m) => m.main === 'true')?.url || ''}
+            alt={data.title ?? ''}
+            fill
+            className="object-contain"
+          />
+        </div>
+        <div className="flex w-[250px] flex-col justify-start gap-1 self-end px-4 pl-12">
+          <span className="text-xs text-mediumGray">{data.title}</span>
+          <span className="text-xs text-mediumGray">{data.year}</span>
+          <span className="text-xs text-mediumGray">{data.medium}</span>
         </div>
       </div>
     </>
