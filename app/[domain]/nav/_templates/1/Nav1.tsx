@@ -73,7 +73,7 @@ export default function Nav({
               collections.map((collection) => (
                 <span key={collection.id}>
                   <Link
-                    className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
+                    className="text-xs tracking-wide text-mediumGray transition-all hover:text-darkGray"
                     onClick={() => clickHandler()}
                     href={`/${collection.slug}`}
                   >
@@ -101,7 +101,7 @@ export default function Nav({
               pages.map((page) => (
                 <span key={page.title}>
                   <Link
-                    className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
+                    className="text-xs tracking-wide text-mediumGray transition-all hover:text-darkGray"
                     onClick={() => clickHandler()}
                     href={`/${page.slug}`}
                   >
