@@ -1,4 +1,7 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import Image from 'next/image';
 
 import { IContactPage } from '@/app/interfaces/IContactPage';
@@ -17,7 +20,10 @@ export default function page({ data }: { data: IContactPage }) {
     subheading,
     instagram,
   } = data || {};
-
+  const isLargeScreen = useMediaQuery({ query: '(min-width: 700px)' });
+  const [imageWidth, setImageWidth] = useState(
+    isLargeScreen ? '260px' : '100%',
+  );
   return (
     <main className="mb-20 mt-20 flex w-full flex-col items-start justify-center px-4 lg:mt-0 lg:flex-row lg:gap-14 lg:px-20">
       <section className="fade-in-up-simple relative flex max-h-[520px] w-full flex-col object-contain lg:h-[490px] lg:w-1/2">
@@ -30,10 +36,24 @@ export default function page({ data }: { data: IContactPage }) {
               src={imgSrc}
               className="h-full w-full object-contain"
               alt={imgCaption ?? 'about the artist'}
+              onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                const { naturalWidth, naturalHeight } =
+                  e.target as HTMLImageElement;
+                console.log(naturalWidth, naturalHeight);
+                if (naturalHeight >= naturalWidth && isLargeScreen) {
+                  const int = Math.floor((naturalWidth * 490) / naturalHeight);
+                  setImageWidth(`${int}px`);
+                } else {
+                  setImageWidth('100%');
+                }
+              }}
             />
           )}
         </div>
-        <div className="mt-2 text-[12px] italic text-mediumGray">
+        <div
+          style={{ width: imageWidth }}
+          className="mt-4 self-center text-xs italic text-darkGray"
+        >
           {imgCaption}
         </div>
       </section>
