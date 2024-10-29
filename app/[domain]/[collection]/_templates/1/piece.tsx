@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { imageDimensionsFromStream } from 'image-dimensions';
 import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
 import Modal from './Modal';
