@@ -38,4 +38,14 @@ export default async function page({ params }: { params: { domain: string } }) {
       />
     );
   }
+  if (res.template === 3) {
+    return (
+      <Nav1
+        collections={res.collections ?? []}
+        displayName={res.displayName}
+        instagram={res.instagram}
+        pages={res.pages}
+      />
+    );
+  }
 }

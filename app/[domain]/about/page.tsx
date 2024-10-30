@@ -22,4 +22,7 @@ export default async function About({
   if (res.data.template === 'a2') {
     return <About2 data={res.data} />;
   }
+  if (res.data.template === 'a3') {
+    return <About1 data={res.data} />;
+  }
 }

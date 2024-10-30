@@ -19,6 +19,7 @@ import { IUser } from '@/app/interfaces/IUser';
 import { updateUserTemplate } from '@/app/lib/data';
 import template1 from '/public/template1.png';
 import template2 from '/public/template2.png';
+import template3 from '/public/template3.png';
 
 export default function TemplateForm({ data }: { data: IUser }) {
   interface Template {
@@ -37,6 +38,11 @@ export default function TemplateForm({ data }: { data: IUser }) {
       id: '2',
       title: 'Side Nav Layout',
       imageUrl: template2,
+    },
+    {
+      id: '3',
+      title: 'Carousel Layout',
+      imageUrl: template3,
     },
   ];
 

@@ -22,4 +22,7 @@ export default async function Contact({
   if (res.data.template === 'c2') {
     return <ContactPage2 data={res.data} />;
   }
+  if (res.data.template === 'c3') {
+    return <ContactPage1 data={res.data} />;
+  }
 }
