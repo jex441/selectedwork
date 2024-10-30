@@ -22,4 +22,7 @@ export default async function Classes({
   if (res.data.template === 'w2') {
     return <Workshops1 data={res.data} />;
   }
+  if (res.data.template === 'w3') {
+    return <Workshops1 data={res.data} />;
+  }
 }

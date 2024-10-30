@@ -29,4 +29,13 @@ export default async function page({ params }: { params: { domain: string } }) {
       </Suspense>
     );
   }
+  if (res.data.template === 'r3') {
+    return (
+      <Suspense
+        fallback={<div className="flex h-full w-full justify-center">...</div>}
+      >
+        <CVPage1 data={res.data} />
+      </Suspense>
+    );
+  }
 }
