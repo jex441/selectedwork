@@ -36,7 +36,8 @@ export default async function SiteLayout({
           {/* Main content */}
           <main className="mt-[70px] lg:mt-0">{children}</main>
           {/* Footer */}
-          <div className="fixed bottom-0 mt-10 flex h-8 w-full flex-row justify-between  px-10 py-2 text-xs text-lightGray">
+          <div className="mt-8 flex h-8 w-full flex-row items-center justify-between px-4 py-4 text-xs text-lightGray">
+            <div>{res.displayName} 2024</div>
             {res.plan === 'free' && (
               <div>
                 <a

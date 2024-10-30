@@ -24,7 +24,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
   }
 
   return (
-    <main className="flex w-full flex-wrap justify-center">
+    <main className="flex min-h-[80vh] flex-wrap justify-center">
       {/* <section className="fade-in-up-simple flex flex-col justify-center lg:w-4/5 lg:flex-row lg:gap-10">
         {imgSrc && (
           <>
@@ -90,10 +90,10 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
         </div>
       </section> */}
       <div
-        className="mt-10 w-screen overflow-x-auto"
+        className="w-screen overflow-x-auto md:mt-10"
         style={{ 'scrollbar-width': 'none', '-ms-overflow-style': 'none' }}
       >
-        <div className="flex space-x-6 p-6">
+        <div className="flex space-x-6 px-6">
           {works &&
             data.works.map((work: IWork, index: number) => (
               <Piece

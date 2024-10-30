@@ -24,8 +24,9 @@ export default function Piece({
   const [src, setSrc] = useState<string>(
     data.media.find((m) => m.main === 'true')?.url || '',
   );
+
   const isLargeScreen = useMediaQuery({ query: '(min-width: 700px)' });
-  const [width, setWidth] = useState(isLargeScreen ? '500px' : '100%');
+  const [width, setWidth] = useState(isLargeScreen ? '500px' : '80vw');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -64,11 +65,11 @@ export default function Piece({
       )}
       <div
         key={data.id}
-        onClick={() => setModal(true)}
-        className="flex max-w-[900px] flex-row items-center"
+        className="flex w-screen flex-col items-center md:flex-row"
       >
-        <div style={{ width: width }} className="relative h-[450px] bg-red-100">
+        <div style={{ width: width }} className="relative h-[450px]">
           <Image
+            onClick={() => setModal(true)}
             src={data.media.find((m) => m.main === 'true')?.url || ''}
             alt={data.title ?? ''}
             fill
@@ -84,7 +85,7 @@ export default function Piece({
             }}
           />
         </div>
-        <div className="flex w-[250px] flex-col justify-start gap-1 self-end px-4 pl-12">
+        <div className="mt-4 flex w-full flex-col justify-start gap-1 self-end md:mt-0 md:w-[250px] md:px-4 md:pl-12">
           <span className="text-xs text-mediumGray">{data.title}</span>
           <span className="text-xs text-mediumGray">{data.year}</span>
           <span className="text-xs text-mediumGray">{data.medium}</span>
