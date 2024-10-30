@@ -91,7 +91,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
       </section> */}
       <div
         className="w-screen overflow-x-auto md:mt-10"
-        style={{ 'scrollbar-width': 'none', '-ms-overflow-style': 'none' }}
+        style={{ scrollbarWidth: 'none' }}
       >
         <div className="flex space-x-6 px-6">
           {works &&
