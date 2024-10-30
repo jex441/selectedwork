@@ -23,15 +23,13 @@ export default async function SiteHomePage({
   if (!res.data) {
     return 'loading';
   }
-  return <Collection3 data={res.data} user={res.user} />;
-
-  // if (res.data.template === 'g1') {
-  //   return <Collection1 data={res.data} user={res.user} />;
-  // }
-  // if (res.data.template === 'g2') {
-  //   return <Collection2 data={res.data} user={res.user} />;
-  // }
-  // if (res.data.template === 'g3') {
-  //   return <Collection3 data={res.data} user={res.user} />;
-  // }
+  if (res.data.template === 'g1') {
+    return <Collection1 data={res.data} user={res.user} />;
+  }
+  if (res.data.template === 'g2') {
+    return <Collection2 data={res.data} user={res.user} />;
+  }
+  if (res.data.template === 'g3') {
+    return <Collection3 data={res.data} user={res.user} />;
+  }
 }
