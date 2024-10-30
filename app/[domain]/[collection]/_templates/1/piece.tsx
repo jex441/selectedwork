@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
 import Modal from './Modal';
-
+import { useMediaQuery } from 'react-responsive';
 export default function Piece({
   data,
   artist,
@@ -23,6 +23,10 @@ export default function Piece({
   const [src, setSrc] = useState<string>(
     data.media.find((m) => m.main === 'true')?.url || '',
   );
+
+  const isLargeScreen = useMediaQuery({ query: '(min-width: 700px)' });
+  const [ratio, setRatio] = useState(isLargeScreen ? '260px' : '100%');
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -69,11 +73,24 @@ export default function Piece({
           height={0}
           alt="work"
           sizes="100vw"
-          className="max-h-[620px] w-full self-center object-contain lg:h-[260px] lg:max-w-[260px]"
+          className="max-h-[620px] w-full justify-self-center object-contain lg:h-[260px] lg:max-w-[260px]"
           src={src}
+          onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
+            const { naturalWidth, naturalHeight } =
+              e.target as HTMLImageElement;
+            if (naturalHeight > naturalWidth && isLargeScreen) {
+              const int = Math.floor((naturalWidth * 260) / naturalHeight);
+              setRatio(`${int}px`);
+            }
+          }}
         />
-        <div className="flex w-full self-start self-end text-xs tracking-wide lg:mt-0 lg:w-auto">
-          <span className="uppercase italic text-mediumGray">{data.title}</span>
+        <div
+          style={{ width: ratio }}
+          className={`flex justify-self-center text-xs tracking-wide lg:mt-0`}
+        >
+          <span className="truncate uppercase italic text-mediumGray">
+            {data.title}
+          </span>
           <span className="ml-3 text-lightGray">
             {data.year && `${data.year}`}
           </span>

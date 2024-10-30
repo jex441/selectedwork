@@ -199,6 +199,7 @@ export const getWorkshopsPageDataForSite = async (
     }, {} as IWorkshopsPage);
 
   if (responseData) {
+    responseData.email = userData.email as string;
     responseData.template = `w${String(userData.template)}`;
 
     return {

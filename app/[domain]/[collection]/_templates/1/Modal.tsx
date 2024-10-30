@@ -60,7 +60,7 @@ export default function Modal({
           </span>
         </nav>
 
-        <section className="animDelay flex h-full w-full flex-col px-2 pt-1 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:px-4 lg:py-0">
+        <section className="animDelay flex h-full w-full flex-col px-6 pt-1 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:px-4 lg:py-0">
           <Image
             src={previous}
             alt="previous"
@@ -75,12 +75,12 @@ export default function Modal({
               width={0}
               sizes="100vw"
               alt="work"
-              className="animDelay fade-in-up-simple h-full w-auto object-contain lg:max-h-[600px] lg:w-4/5"
+              className="animDelay fade-in-up-simple h-auto w-full object-contain lg:max-h-[600px] lg:w-4/5"
               src={src}
             />
           </div>
 
-          <div className="fade-in-right-simple flex w-full flex-col gap-1 px-1 pt-5 lg:mx-auto lg:w-1/4 lg:pt-0">
+          <div className="fade-in-right-simple flex w-full flex-col gap-1 pt-10 lg:mx-auto lg:w-1/4 lg:pt-0">
             {work.media.length > 1 && (
               <div className="my-2 block flex gap-2 lg:hidden">
                 {work.media.map(

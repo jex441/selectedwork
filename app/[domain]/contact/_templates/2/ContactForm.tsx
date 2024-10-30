@@ -24,6 +24,7 @@ export default function ContactForm({ data }: { data: any }) {
           reply_to: target.reply_to.value,
           message: target.message.value,
           to_email: data.email,
+          user_email: data.email,
         },
         'user_kDFY4AFTuoji3GQqaGDsn',
       )
@@ -43,14 +44,14 @@ export default function ContactForm({ data }: { data: any }) {
     <form className="flex w-full flex-col gap-2" onSubmit={sendEmail}>
       <input
         required
-        className="m-1 rounded-sm border border-gray-300 p-2 text-sm"
+        className="m-1 border border-gray-300 p-2 text-sm"
         type="text"
         name="from_name"
         placeholder="Your Name"
       />
       <input
         required
-        className="m-1 rounded-sm border border-gray-300 p-2 text-sm"
+        className="m-1 border border-gray-300 p-2 text-sm"
         type="email"
         name="reply_to"
         placeholder="Your Email"
