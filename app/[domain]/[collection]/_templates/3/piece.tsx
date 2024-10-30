@@ -1,5 +1,6 @@
 'use client';
 
+import { useMediaQuery } from 'react-responsive';
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
@@ -23,6 +24,9 @@ export default function Piece({
   const [src, setSrc] = useState<string>(
     data.media.find((m) => m.main === 'true')?.url || '',
   );
+  const isLargeScreen = useMediaQuery({ query: '(min-width: 700px)' });
+  const [width, setWidth] = useState(isLargeScreen ? '500px' : '100%');
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -63,12 +67,21 @@ export default function Piece({
         onClick={() => setModal(true)}
         className="flex max-w-[900px] flex-row items-center"
       >
-        <div className="relative h-[500px] w-[500px]">
+        <div style={{ width: width }} className="relative h-[450px] bg-red-100">
           <Image
             src={data.media.find((m) => m.main === 'true')?.url || ''}
             alt={data.title ?? ''}
             fill
-            className="object-contain"
+            className="cursor-pointer object-contain"
+            onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
+              const { naturalWidth, naturalHeight } =
+                e.target as HTMLImageElement;
+              if (isLargeScreen) {
+                const int = Math.floor((naturalWidth * 450) / naturalHeight);
+                setWidth(`${int}px`);
+                console.log(int);
+              }
+            }}
           />
         </div>
         <div className="flex w-[250px] flex-col justify-start gap-1 self-end px-4 pl-12">
