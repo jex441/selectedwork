@@ -28,12 +28,18 @@ export default function Nav({
   const [width, setWidth] = useState('0%');
   const [loadTime, setLoadTime] = useState('0');
 
-  const clickHandler = (slug: string | void) => {
+  const clickHandler = (slug: string | void | undefined | null) => {
     setOpen(false);
     setDropDown('hidden');
-    const times = { 0: 1000, 1: 2000, 2: 2000, 3: 1000, 4: 1000 };
+    const times: { [key: number]: number } = {
+      0: 1000,
+      1: 2000,
+      2: 2000,
+      3: 1000,
+      4: 1000,
+    };
     const randomNumberBetween0and4 = Math.floor(Math.random() * 5);
-    const loadTime = times[randomNumberBetween0and4];
+    const loadTime: number = times[randomNumberBetween0and4] as number;
     setLoadTime(String(loadTime / 1000));
     if (slug || slug === '') {
       setWidth('100%');
