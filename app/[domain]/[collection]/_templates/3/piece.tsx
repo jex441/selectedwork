@@ -65,7 +65,7 @@ export default function Piece({
       )}
       <div
         key={data.id}
-        className="flex w-screen flex-col items-center md:flex-row"
+        className="fade-in-right-simple flex w-screen flex-col items-center md:flex-row"
       >
         <div style={{ width: width }} className="relative h-[450px]">
           <Image
