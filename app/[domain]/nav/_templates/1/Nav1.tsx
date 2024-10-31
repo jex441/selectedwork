@@ -10,6 +10,7 @@ import menu from '@/public/menu.png';
 import React from 'react';
 
 import instagramLogo from '/public/instagram.png';
+import { set } from 'zod';
 
 export default function Nav({
   displayName,
@@ -24,27 +25,53 @@ export default function Nav({
 }) {
   const [open, setOpen] = useState(false);
   const [dropDown, setDropDown] = useState('hidden');
+  const [width, setWidth] = useState('0%');
+  const [loadTime, setLoadTime] = useState('0');
 
-  const clickHandler = () => {
+  const clickHandler = (slug: string | void | undefined | null) => {
     setOpen(false);
     setDropDown('hidden');
+    const times: { [key: number]: number } = {
+      0: 1000,
+      1: 2000,
+      2: 2000,
+      3: 1000,
+      4: 1000,
+    };
+    const randomNumberBetween0and4 = Math.floor(Math.random() * 5);
+    const loadTime: number = times[randomNumberBetween0and4] as number;
+    setLoadTime(String(loadTime / 1000));
+    if (slug || slug === '') {
+      setWidth('100%');
+      setTimeout(() => {
+        window.location.href = `/${slug}`;
+      }, loadTime);
+    }
   };
 
   return (
     <>
+      <div
+        style={{
+          width: width,
+          transition: `width ${loadTime}s ease-in-out`,
+        }}
+        className="fixed left-0 right-0 top-0 z-50 h-[2px] bg-mediumGray transition-all"
+      ></div>
       <main
         onMouseLeave={() => setDropDown('hidden')}
         className="fixed z-20 flex h-[70px] w-full bg-white text-darkGray lg:static  lg:flex-row lg:items-center lg:justify-between lg:p-12 lg:px-12"
       >
         <div className="fixed z-20 flex lg:static lg:flex-row lg:items-center">
           <header className="m-5 tracking-wide lg:m-0 lg:my-0 lg:mr-6 lg:text-2xl">
-            <Link
+            <span
+              className="cursor-pointer"
               onMouseEnter={() => setDropDown('hidden')}
-              onClick={() => clickHandler()}
-              href={'/'}
+              onClick={() => clickHandler('')}
+              // href={'/'}
             >
               {displayName}
-            </Link>
+            </span>
           </header>
 
           <div
@@ -62,23 +89,24 @@ export default function Nav({
                 onClick={() => clickHandler()}
                 onMouseEnter={() => setDropDown('flex')}
               >
-                <Link
-                  className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
-                  href={`/${collections[0].slug}`}
+                <span
+                  className="cursor-pointer tracking-wide text-mediumGray transition-all hover:text-darkGray"
+                  // href={`/${collections[0].slug}`}
+                  onClick={() => clickHandler(collections[0].slug)}
                 >
                   Selected Work
-                </Link>
+                </span>
               </span>
             ) : (
               collections.map((collection) => (
                 <span key={collection.id}>
-                  <Link
-                    className="tracking-wide text-mediumGray transition-all hover:text-darkGray lg:text-xs"
-                    onClick={() => clickHandler()}
-                    href={`/${collection.slug}`}
+                  <span
+                    className="cursor-pointer tracking-wide text-mediumGray transition-all hover:text-darkGray lg:text-xs"
+                    onClick={() => clickHandler(collection.slug)}
+                    // href={`/${collection.slug}`}
                   >
                     {collection.title}
-                  </Link>
+                  </span>
                 </span>
               ))
             )}
@@ -88,25 +116,25 @@ export default function Nav({
               {collections.length > 1 &&
                 collections.map((collection) => (
                   <span key={collection.id}>
-                    <Link
-                      onClick={() => clickHandler()}
-                      href={`/${collection.slug}`}
+                    <span
+                      onClick={() => clickHandler(collection.slug)}
+                      // href={`/${collection.slug}`}
                     >
                       {collection.title}
-                    </Link>
+                    </span>
                   </span>
                 ))}
             </section>
             {pages !== null &&
               pages.map((page) => (
                 <span key={page.title}>
-                  <Link
-                    className="tracking-wide text-mediumGray transition-all hover:text-darkGray lg:text-xs"
-                    onClick={() => clickHandler()}
-                    href={`/${page.slug}`}
+                  <span
+                    className="cursor-pointer tracking-wide text-mediumGray transition-all hover:text-darkGray lg:text-xs"
+                    onClick={() => clickHandler(page.slug)}
+                    // href={`/${page.slug}`}
                   >
                     {page.title}
-                  </Link>
+                  </span>
                 </span>
               ))}
             <span className="block lg:hidden">

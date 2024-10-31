@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 
 import { ICollection } from '@/app/interfaces/ICollection';
@@ -24,18 +23,43 @@ export default function Nav({
 }) {
   const [open, setOpen] = useState(false);
   const [dropDown, setDropDown] = useState('hidden');
+  const [width, setWidth] = useState('0%');
+  const [loadTime, setLoadTime] = useState('0');
 
-  const clickHandler = () => {
+  const clickHandler = (slug: string | void | undefined | null) => {
     setOpen(false);
     setDropDown('hidden');
+    const times: { [key: number]: number } = {
+      0: 1000,
+      1: 2000,
+      2: 2000,
+      3: 1000,
+      4: 1000,
+    };
+    const randomNumberBetween0and4 = Math.floor(Math.random() * 5);
+    const loadTime: number = times[randomNumberBetween0and4] as number;
+    setLoadTime(String(loadTime / 1000));
+    if (slug || slug === '') {
+      setWidth('100%');
+      setTimeout(() => {
+        window.location.href = `/${slug}`;
+      }, loadTime);
+    }
   };
 
   return (
     <>
+      <div
+        style={{
+          width: width,
+          transition: `width ${loadTime}s ease-in-out`,
+        }}
+        className="fixed left-0 right-0 top-0 z-50 h-[2px] bg-mediumGray transition-all"
+      ></div>
       <main className="fixed z-20 flex h-[70px] w-full bg-white text-darkGray lg:h-screen lg:w-[230px] lg:px-8 lg:py-10">
         <div className="max-w-inherit z-20">
-          <header className="text-wrap m-5 w-full max-w-[200px] tracking-wide lg:m-5 lg:my-0 lg:text-lg">
-            <Link href={'/'}>{displayName}</Link>
+          <header className="text-wrap m-5 w-full max-w-[200px] cursor-pointer tracking-wide lg:m-5 lg:my-0 lg:text-lg">
+            <span onClick={() => clickHandler('')}>{displayName}</span>
           </header>
 
           <div
@@ -53,26 +77,24 @@ export default function Nav({
             >
               {collections.map((collection) => (
                 <span key={collection.id}>
-                  <Link
-                    className="tracking-wide text-mediumGray transition-all hover:text-darkGray"
-                    onClick={() => clickHandler()}
-                    href={`/${collection.slug}`}
+                  <span
+                    className="cursor-pointer tracking-wide text-mediumGray transition-all hover:text-darkGray"
+                    onClick={() => clickHandler(collection.slug)}
                   >
                     {collection.title}
-                  </Link>
+                  </span>
                 </span>
               ))}
             </span>
             {pages !== null &&
               pages.map((page) => (
                 <span key={page.title}>
-                  <Link
-                    className={`${collections.length > 1 ? 'lg:text-xs' : ''} tracking-wide text-mediumGray transition-all hover:text-darkGray`}
-                    onClick={() => clickHandler()}
-                    href={`/${page.slug}`}
+                  <span
+                    className={`${collections.length > 1 ? 'lg:text-xs' : ''} cursor-pointer tracking-wide text-mediumGray transition-all hover:text-darkGray`}
+                    onClick={() => clickHandler(page.slug)}
                   >
                     {page.title}
-                  </Link>
+                  </span>
                 </span>
               ))}
             {instagram && (
