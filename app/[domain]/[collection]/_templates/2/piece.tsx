@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
 import Modal from './Modal';
+import { set } from 'zod';
 
 export default function Piece({
   data,
@@ -20,6 +21,8 @@ export default function Piece({
   const [isVisible, setVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
   const domRef = useRef<HTMLElement | null>(null);
+  const [width, setWidth] = useState('0%');
+
   const [src, setSrc] = useState<string>(
     data.media.find((m) => m.main === 'true')?.url || '',
   );
@@ -46,8 +49,23 @@ export default function Piece({
     };
   }, [hasAnimated]);
 
+  const clickHandler = () => {
+    setWidth('100%');
+    setTimeout(() => {
+      setModal(true);
+      setWidth('0%');
+    }, 1000);
+  };
+
   return (
     <>
+      <div
+        style={{
+          width: width,
+          transition: `width 1s ease-in-out`,
+        }}
+        className="fixed left-0 right-0 top-0 z-50 h-[2px] bg-mediumGray transition-all"
+      ></div>
       {modal && (
         <Modal
           index={index}
@@ -64,7 +82,7 @@ export default function Piece({
         className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} fade-in-from-bottom relative flex flex-col justify-between gap-3 lg:mx-0 lg:max-h-[500px] lg:flex-row lg:items-end lg:gap-0`}
       >
         <Image
-          onClick={() => setModal(true)}
+          onClick={() => clickHandler()}
           width={0}
           height={0}
           alt="work"
