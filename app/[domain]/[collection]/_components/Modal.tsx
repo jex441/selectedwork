@@ -22,8 +22,17 @@ export default function Modal({
   index: number;
 }) {
   const closeHandler = () => {
-    setModal(false);
+    const zoomElement = document.querySelector('.zoom-in-simple');
+    const fadeElement = document.querySelector('.fade-in-right-simple');
+
+    zoomElement?.classList.add('zoom-out-simple');
+    fadeElement?.classList.add('fade-out-up-simple');
+
+    setTimeout(() => {
+      setModal(false);
+    }, 500);
   };
+
   const [current, setCurrent] = useState<number>(index);
   const [work, setWork] = useState<IWork>(data);
   const [src, setSrc] = useState<string>(
@@ -60,7 +69,7 @@ export default function Modal({
           </span>
         </nav>
 
-        <section className="animDelay flex h-full w-full flex-col px-6 pt-1 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:px-4 lg:py-0">
+        <section className="flex h-full w-full flex-col px-6 pt-1 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:px-4 lg:py-0">
           <Image
             src={previous}
             alt="previous"

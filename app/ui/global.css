@@ -136,7 +136,6 @@
     -ms-animation: fadeIn 2s;
   }
 
- 
 @keyframes fadeIn {
   0% { opacity: 0; y:100px }
   100% { opacity: 1; }
@@ -195,6 +194,15 @@
   100% { opacity: 1; transform: translateY(0) }
 }
 
+.fade-out-up-simple {
+  animation: fadeOutUp .5s ease-in-out;
+}
+
+@keyframes fadeOutUp {
+  0% { opacity: 1; transform: translateY(0px); }
+  100% { opacity: 0; transform: translateY(10px); }
+}
+
 @keyframes zoomIn {
   0% { opacity: 0; transform: scale(.99) }
   100% { opacity: 1; transform: scale(1) }
@@ -221,6 +229,34 @@
   -moz-animation: zoomIn 1s;
   -o-animation: zoomIn 1s;
   -ms-animation: zoomIn 1s;
+}
+
+@keyframes zoomOut {
+  0% { opacity: 1; transform: scale(1) }
+  100% { opacity: 0; transform: scale(.9) }
+}
+
+@-webkit-keyframes zoomOut {
+  0% { opacity: 1; transform: scale(1) }
+  100% { opacity: 0; transform: scale(.9) }
+}
+
+@-o-keyframes zoomOut {
+  0% { opacity: 1; transform: scale(1) }
+  100% { opacity: 0; transform: scale(.9) }
+}
+
+@-ms-keyframes zoomOut {
+  0% { opacity: 1; transform: scale(1) }
+  100% { opacity: 0; transform: scale(.9) }
+}
+
+.zoom-out-simple {
+  animation: zoomOut .5s;
+  -webkit-animation: zoomOut .5s;
+  -moz-animation: zoomOut .5s;
+  -o-animation: zoomOut .5s;
+  -ms-animation: zoomOut .5s;
 }
 .fade-in-right-simple {
   animation: fadeInRight 3s ease-in;
