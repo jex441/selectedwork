@@ -41,8 +41,6 @@ export default function Nav({
         window.location.href = `/${slug}`;
       }, loadTime);
     }
-    console.log(loadTime);
-    console.log('s', String(loadTime / 1000));
   };
 
   return (
