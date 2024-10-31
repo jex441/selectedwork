@@ -58,13 +58,13 @@ export default function ContactForm({ data }: { data: any }) {
       />
       <textarea
         required
-        className="m-1 rounded-sm border border-gray-300 p-2 text-sm"
+        className="m-1 border border-gray-300 p-2 text-sm"
         name="message"
         placeholder="Your Message"
       />
       <div className="flex flex-row items-center gap-4">
         <button
-          className="w-28 rounded-sm bg-darkGray p-2 text-sm text-white"
+          className="w-28 bg-darkGray p-2 text-sm text-white"
           type="submit"
         >
           Send
