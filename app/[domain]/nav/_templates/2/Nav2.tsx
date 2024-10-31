@@ -33,7 +33,7 @@ export default function Nav({
     const randomNumberBetween0and4 = Math.floor(Math.random() * 5);
     const loadTime = times[randomNumberBetween0and4];
     setLoadTime(String(loadTime / 1000));
-    if (slug) {
+    if (slug || slug === '') {
       setWidth('100%');
       setTimeout(() => {
         window.location.href = `/${slug}`;
@@ -53,7 +53,7 @@ export default function Nav({
       <main className="fixed z-20 flex h-[70px] w-full bg-white text-darkGray lg:h-screen lg:w-[230px] lg:px-8 lg:py-10">
         <div className="max-w-inherit z-20">
           <header className="text-wrap m-5 w-full max-w-[200px] cursor-pointer tracking-wide lg:m-5 lg:my-0 lg:text-lg">
-            <span onClick={() => clickHandler('/')}>{displayName}</span>
+            <span onClick={() => clickHandler('')}>{displayName}</span>
           </header>
 
           <div

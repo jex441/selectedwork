@@ -35,7 +35,7 @@ export default function Nav({
     const randomNumberBetween0and4 = Math.floor(Math.random() * 5);
     const loadTime = times[randomNumberBetween0and4];
     setLoadTime(String(loadTime / 1000));
-    if (slug) {
+    if (slug || slug === '') {
       setWidth('100%');
       setTimeout(() => {
         window.location.href = `/${slug}`;
