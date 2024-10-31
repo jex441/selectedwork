@@ -195,6 +195,33 @@
   100% { opacity: 1; transform: translateY(0) }
 }
 
+@keyframes zoomIn {
+  0% { opacity: 0; transform: scale(.99) }
+  100% { opacity: 1; transform: scale(1) }
+}
+
+@-webkit-keyframes zoomIn {
+  0% { opacity: 0; transform: scale(.99) }
+  100% { opacity: 1; transform: scale(1) }
+}
+
+@-o-keyframes zoomIn {
+  0% { opacity: 0; transform: scale(.99) }
+  100% { opacity: 1; transform: scale(1) }
+}
+
+@-ms-keyframes zoomIn {
+  0% { opacity: 0; transform: scale(.99) }
+  100% { opacity: 1; transform: scale(1) }
+}
+
+.zoom-in-simple {
+  animation: zoomIn 1s ease-in-out;
+  -webkit-animation: zoomIn 1s;
+  -moz-animation: zoomIn 1s;
+  -o-animation: zoomIn 1s;
+  -ms-animation: zoomIn 1s;
+}
 .fade-in-right-simple {
   animation: fadeInRight 3s ease-in;
   -webkit-animation: fadeInRight 3s;

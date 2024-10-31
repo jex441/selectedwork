@@ -75,7 +75,7 @@ export default function Modal({
               width={0}
               sizes="100vw"
               alt="work"
-              className="animDelay fade-in-up-simple h-auto w-full object-contain lg:max-h-[600px] lg:w-4/5"
+              className="animDelay zoom-in-simple h-auto w-full object-contain lg:max-h-[600px] lg:w-4/5"
               src={src}
             />
           </div>
