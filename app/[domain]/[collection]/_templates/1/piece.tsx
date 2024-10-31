@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
-import Modal from './Modal';
+import Modal from '../../_components/Modal';
 import { useMediaQuery } from 'react-responsive';
 export default function Piece({
   data,
@@ -81,7 +81,7 @@ export default function Piece({
       <section
         ref={domRef}
         key={data.id}
-        onClick={() => setModal(true)}
+        onClick={() => clickHandler()}
         className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} fade-in-from-bottom relative col-span-1 mx-2 grid cursor-pointer justify-items-stretch gap-3 lg:mx-0 lg:h-[300px]`}
       >
         <Image
