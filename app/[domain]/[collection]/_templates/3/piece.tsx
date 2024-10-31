@@ -4,7 +4,7 @@ import { useMediaQuery } from 'react-responsive';
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
-import Modal from './Modal';
+import Modal from '../../_components/Modal';
 
 export default function Piece({
   data,
