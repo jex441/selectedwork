@@ -23,10 +23,12 @@ export default function Modal({
 }) {
   const closeHandler = () => {
     const zoomElement = document.querySelector('.zoom-in-simple');
-    const fadeElement = document.querySelector('.fade-in-right-simple');
+    const fadeElement = document.querySelector('.piece-data');
+    const modal = document.querySelector('.modal-bg');
 
+    fadeElement?.classList.remove('fade-in-right-simple');
     zoomElement?.classList.add('zoom-out-simple');
-    fadeElement?.classList.add('fade-out-up-simple');
+    fadeElement?.classList.add('zoom-out-simple');
 
     setTimeout(() => {
       setModal(false);
@@ -69,7 +71,7 @@ export default function Modal({
           </span>
         </nav>
 
-        <section className="flex h-full w-full flex-col px-6 pt-1 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:px-4 lg:py-0">
+        <section className="mt-5 flex h-full w-full flex-col px-6 pt-1 lg:mt-0 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:px-4 lg:py-0">
           <Image
             src={previous}
             alt="previous"
@@ -86,10 +88,14 @@ export default function Modal({
               alt="work"
               className="animDelay zoom-in-simple h-auto w-full object-contain lg:max-h-[600px] lg:w-4/5"
               src={src}
+              onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                const { naturalWidth, naturalHeight } =
+                  e.target as HTMLImageElement;
+              }}
             />
           </div>
 
-          <div className="fade-in-right-simple flex w-full flex-col gap-1 pt-10 lg:mx-auto lg:w-1/4 lg:pt-0">
+          <div className="piece-data fade-in-right-simple flex w-full flex-col gap-1 pt-10 lg:mx-auto lg:w-1/4 lg:pt-0">
             {work.media.length > 1 && (
               <div className="my-2 block flex gap-2 lg:hidden">
                 {work.media.map(
@@ -107,19 +113,25 @@ export default function Modal({
                 )}
               </div>
             )}
-            <p className="text-[14px] text-lightGray">{artist}</p>
+            <p className="text-[22px] text-lightGray lg:text-[14px]">
+              {artist}
+            </p>
             <span className="flex w-full items-center justify-between">
-              <span className="flex w-1/2 items-center justify-between text-[14px] text-darkGray">
+              <span className="flex w-full items-center justify-between text-[16px] text-darkGray lg:w-1/2 lg:text-[14px]">
                 <span>{work.title}</span>
                 {work.sold && (
-                  <span className="my-1 inline-block h-2 w-2 rounded-lg bg-red-400"></span>
+                  <span className="my-1 inline-block h-2 w-2 rounded-lg"></span>
                 )}
               </span>
             </span>
-            <p className="text-[12px] text-lightGray">{work.year}</p>
-            <p className="text-[12px] text-lightGray">{work.medium}</p>
+            <p className="text-[16px] text-lightGray lg:text-[12px]">
+              {work.year}
+            </p>
+            <p className="text-[16px] text-lightGray lg:text-[12px]">
+              {work.medium}
+            </p>
             {work.height && work.width ? (
-              <div className="text-[12px] text-lightGray">
+              <div className="text-[16px] text-lightGray lg:text-[12px]">
                 <span className="">{work.height && `${work.height}`}</span>
                 <span className="text-lightGray"> x </span>
                 <span className="">{work.width && work.width}</span>
@@ -129,15 +141,15 @@ export default function Modal({
                     {work.depth}
                   </span>
                 )}
-                <span className="text-[12px] text-lightGray">
+                <span className="text-[16px] text-lightGray lg:text-[12px]">
                   {work.unit && ` ${unit}`}
                 </span>
               </div>
             ) : null}
-            <p className="my-2 text-[12px] leading-6 text-mediumGray ">
+            <p className="my-2 text-[16px] leading-6 text-mediumGray lg:text-[12px] ">
               {work.description}
             </p>
-            <p className="text-[12px] italic leading-6 text-mediumGray">
+            <p className="text-[16px] italic leading-6 text-mediumGray lg:text-[12px]">
               {work.location}
             </p>
             <p className="text-gray-primary my-1 leading-7 text-lightGray">
