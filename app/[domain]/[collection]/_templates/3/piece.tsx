@@ -26,7 +26,7 @@ export default function Piece({
   );
 
   const isLargeScreen = useMediaQuery({ query: '(min-width: 700px)' });
-  const [width, setWidth] = useState(isLargeScreen ? '500px' : '80vw');
+  const [width, setWidth] = useState(isLargeScreen ? '500px' : '300px');
   const [loaderWidth, setLoaderWidth] = useState('0vw');
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -80,15 +80,18 @@ export default function Piece({
       )}
       <div
         key={data.id}
-        className="fade-in-right-simple flex w-screen flex-col items-center md:flex-row"
+        className="fade-in-right-simple mt-10 flex w-screen flex-col items-center md:flex-row lg:mt-0"
       >
-        <div style={{ width: width }} className="relative h-[450px]">
+        <div
+          style={{ width: width }}
+          className="relative h-[350px] lg:h-[450px]"
+        >
           <Image
             onClick={() => clickHandler()}
             src={data.media.find((m) => m.main === 'true')?.url || ''}
             alt={data.title ?? ''}
             fill
-            className="cursor-pointer object-contain"
+            className="h-[350px] w-full cursor-pointer object-contain lg:h-[450px]"
             onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
               const { naturalWidth, naturalHeight } =
                 e.target as HTMLImageElement;
