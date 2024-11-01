@@ -194,28 +194,28 @@
   100% { opacity: 1; transform: translateY(0) }
 }
 
-.fade-out-up-simple {
-  animation: fadeOutUp .5s ease-out;
+.fade-out-simple {
+  animation: fadeOut .5s ease-out;
 }
 
-@keyframes fadeOutUp {
-  0% { opacity: 1; transform: translateY(0px); }
-  100% { opacity: 0; transform: translateY(-60px); }
+@keyframes fadeOut {
+  0% { opacity: 1 }
+  100% { opacity: 0 }
 }
 
-@-webkit-keyframes fadeOutUp {
-  0% { opacity: 1; transform: translateY(0px); }
-  100% { opacity: 0; transform: translateY(-60px); }
+@-webkit-keyframes fadeOut {
+  0% { opacity: 1 }
+  100% { opacity: 0 }
 }
 
-@-o-keyframes fadeOutUp {
-  0% { opacity: 1; transform: translateY(0px); }
-  100% { opacity: 0; transform: translateY(-60px); }
+@-o-keyframes fadeOut {
+  0% { opacity: 1 }
+  100% { opacity: 0 }
 }
 
-@-ms-keyframes fadeOutUp {
-  0% { opacity: 1; transform: translateY(0px); }
-  100% { opacity: 0; transform: translateY(-60px); }
+@-ms-keyframes fadeOut {
+  0% { opacity: 1 }
+  100% { opacity: 0 }
 }
 
 @keyframes zoomIn {

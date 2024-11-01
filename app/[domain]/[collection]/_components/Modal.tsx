@@ -29,6 +29,7 @@ export default function Modal({
     fadeElement?.classList.remove('fade-in-right-simple');
     zoomElement?.classList.add('zoom-out-simple');
     fadeElement?.classList.add('zoom-out-simple');
+    modal?.classList.add('fade-out-simple');
 
     setTimeout(() => {
       setModal(false);
@@ -61,7 +62,7 @@ export default function Modal({
 
   return (
     <>
-      <div className="fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
+      <div className="modal-bg fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
         <nav className="flex w-full justify-end p-2 lg:fixed lg:p-4">
           <span
             className="fade-in-simple cursor-pointer cursor-pointer opacity-50 hover:opacity-100"
