@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
 import Modal from '../../_components/Modal';
 import { useMediaQuery } from 'react-responsive';
+import imageLoader from '@/imageLoader';
+import cloudinaryLoader from '@/imageLoader';
 export default function Piece({
   data,
   artist,
@@ -59,6 +61,10 @@ export default function Piece({
     }, 1000);
   };
 
+  const imageLoader = () => {
+    return cloudinaryLoader({ width: 260 });
+  };
+
   return (
     <>
       <div
@@ -85,20 +91,21 @@ export default function Piece({
         className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} fade-in-from-bottom relative col-span-1 mx-2 grid cursor-pointer justify-items-stretch gap-3 lg:mx-0 lg:h-[300px]`}
       >
         <Image
+          loader={imageLoader}
           width={0}
           height={0}
           alt="work"
           sizes="100vw"
           className="max-h-[620px] w-full justify-self-center object-contain lg:h-[260px] lg:max-w-[260px]"
           src={src}
-          onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
-            const { naturalWidth, naturalHeight } =
-              e.target as HTMLImageElement;
-            if (naturalHeight > naturalWidth && isLargeScreen) {
-              const int = Math.floor((naturalWidth * 260) / naturalHeight);
-              setRatio(`${int}px`);
-            }
-          }}
+          // onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
+          //   const { naturalWidth, naturalHeight } =
+          //     e.target as HTMLImageElement;
+          //   if (naturalHeight > naturalWidth && isLargeScreen) {
+          //     const int = Math.floor((naturalWidth * 260) / naturalHeight);
+          //     setRatio(`${int}px`);
+          //   }
+          // }}
         />
         <div
           style={{ width: ratio }}
