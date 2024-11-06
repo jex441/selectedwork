@@ -3,7 +3,8 @@
 import { Webhook } from 'svix';
 const SmeeClient = require('smee-client');
 import { eq } from 'drizzle-orm';
-
+import { generateSlug } from 'random-word-slugs';
+import { RandomWordOptions } from 'random-word-slugs';
 import { db } from '../../../db';
 import {
   users,
@@ -127,18 +128,31 @@ export async function POST(req: Request) {
       const cvPage = await insertCVPage();
       const collectionPage = await insertCollection();
     };
-    const id = Date.now();
-    const username =
-      msg.data.email_addresses[0].email_address.split('@')[0] + String(id);
-    const displayName = msg.data.first_name + ' ' + msg.data.last_name;
-
+    const options: RandomWordOptions<2> = {
+      format: 'kebab',
+      categories: {
+        noun: ['animals', 'place', 'science'],
+        adjective: ['color'],
+      },
+      partsOfSpeech: ['adjective', 'noun'],
+    };
+    const username = generateSlug(2, options);
+    const firstName = username.split('-')[0];
+    const lastName = username.split('-')[1];
+    const displayName =
+      firstName.charAt(0).toUpperCase() +
+      firstName.slice(1) +
+      ' ' +
+      lastName.charAt(0).toUpperCase() +
+      lastName.slice(1);
+    console.log('displayName', displayName);
     const newUser: NewUser = {
       authId: msg.data.id,
       username: username,
       email: msg.data.email_addresses[0].email_address,
       firstName: msg.data.first_name || 'User',
       lastName: msg.data.first_name || 'User',
-      displayName: msg.data.first_name ? displayName : username,
+      displayName: displayName,
       plan: 'free',
     };
 
