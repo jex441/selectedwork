@@ -18,8 +18,6 @@ import {
 } from '../../../db/schema';
 import { Event } from './types';
 import Visibility from '@/app/app/(dashboard)/collections/[slug]/visibility';
-import { Lasso } from 'lucide-react';
-import { char } from 'drizzle-orm/mysql-core';
 
 const smee = new SmeeClient({
   source: process.env.WEBHOOK_PROXY_URL!,
