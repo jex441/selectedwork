@@ -80,11 +80,11 @@ export default function Piece({
       )}
       <div
         key={data.id}
-        className="fade-in-right-simple mt-10 flex w-screen flex-col items-center md:flex-row lg:mt-0"
+        className="mt-10 flex w-screen flex-col items-center gap-10 lg:mt-0"
       >
         <div
           style={{ width: width }}
-          className="relative h-[350px] lg:h-[450px]"
+          className="fade-in-right-simple relative h-[350px] lg:h-[450px]"
         >
           <Image
             onClick={() => clickHandler()}
@@ -98,12 +98,14 @@ export default function Piece({
               if (isLargeScreen) {
                 const int = Math.floor((naturalWidth * 450) / naturalHeight);
                 setWidth(`${int}px`);
-                console.log(int);
               }
             }}
           />
         </div>
-        <div className="mt-4 flex w-full flex-col justify-start gap-1 self-end md:mt-0 md:w-[250px] md:px-4 md:pl-12">
+        <div
+          style={{ width: width }}
+          className="fade-in-up-simple mt-4 flex flex-col justify-start gap-1 md:mt-0 lg:w-full "
+        >
           <span className="text-xs text-mediumGray">{data.title}</span>
           <span className="text-xs text-mediumGray">{data.year}</span>
           <span className="text-xs text-mediumGray">{data.medium}</span>

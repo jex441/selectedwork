@@ -1,9 +1,13 @@
+'use client';
+
 import React from 'react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { ICollection } from '@/app/interfaces/ICollection';
 import Piece from './piece';
 import { IWork } from '@/app/interfaces/IWork';
+import { dir } from 'console';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function page({ data, user }: { data: ICollection; user: any }) {
   const {
@@ -23,6 +27,16 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
     return 'loading';
   }
 
+  const scrollHandler = (dir = 'r') => {
+    const container = document.querySelector('.overflow-x-auto');
+    if (!container) return;
+    const scrollAmount = 900;
+    if (dir === 'r') {
+      container.scrollLeft += scrollAmount;
+    } else {
+      container.scrollLeft -= scrollAmount;
+    }
+  };
   return (
     <main className="flex min-h-[80vh] flex-wrap justify-center">
       {/* <section className="fade-in-up-simple flex flex-col justify-center lg:w-4/5 lg:flex-row lg:gap-10">
@@ -90,10 +104,26 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
         </div>
       </section> */}
       <div
-        className="w-screen overflow-x-auto md:mt-10"
-        style={{ scrollbarWidth: 'none' }}
+        className="w-screen overflow-x-auto pr-5 md:mt-10"
+        style={{ scrollbarWidth: 'none', scrollBehavior: 'smooth' }}
       >
-        <div className="flex space-x-6 px-6">
+        <button
+          onClick={() => {
+            scrollHandler('l');
+          }}
+          className="fixed left-0 top-[45%] z-50 hidden opacity-50 transition-all hover:opacity-100 lg:block"
+        >
+          <ChevronLeft size={45} color={'#ccc'} />
+        </button>
+        <button
+          onClick={() => {
+            scrollHandler('r');
+          }}
+          className="fixed right-0 top-[45%] z-50 hidden opacity-50 transition-all hover:opacity-100 lg:block"
+        >
+          <ChevronRight size={45} color={'#ccc'} />
+        </button>
+        <div className="flex space-x-14">
           {works &&
             data.works.map((work: IWork, index: number) => (
               <Piece
