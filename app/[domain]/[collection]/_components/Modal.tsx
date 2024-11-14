@@ -60,6 +60,55 @@ export default function Modal({
     setSrc(work.media.find((m) => m.main === 'true')?.url || '');
   }, [work]);
 
+  if (!work.title) {
+    return (
+      <>
+        <div className="modal-bg fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
+          <nav className="flex w-full justify-end p-2 lg:fixed lg:p-4">
+            <span
+              className="fade-in-simple cursor-pointer cursor-pointer opacity-50 hover:opacity-100"
+              onClick={() => closeHandler()}
+            >
+              <Image src={close} alt="close" height={18} width={18} />
+            </span>
+          </nav>
+
+          <section className="mt-5 flex h-full w-full flex-col px-6 pt-1 lg:mt-0 lg:flex-row lg:items-center lg:justify-center">
+            <Image
+              src={previous}
+              alt="previous"
+              height={18}
+              width={18}
+              onClick={() => navigateHandler('previous')}
+              className="hidden cursor-pointer opacity-30 transition-all hover:opacity-80 lg:block"
+            />
+            <div className="relative flex max-h-[520px] w-full items-center justify-center lg:w-full">
+              <Image
+                height={0}
+                width={0}
+                sizes="100vw"
+                alt="work"
+                className="animDelay zoom-in-simple h-auto w-full object-contain lg:max-h-[600px] lg:w-full"
+                src={src}
+                onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                  const { naturalWidth, naturalHeight } =
+                    e.target as HTMLImageElement;
+                }}
+              />
+            </div>
+            <Image
+              src={next}
+              alt="previous"
+              height={18}
+              width={18}
+              onClick={() => navigateHandler('next')}
+              className="hidden cursor-pointer opacity-30 transition-all hover:opacity-80 lg:block"
+            />
+          </section>
+        </div>
+      </>
+    );
+  }
   return (
     <>
       <div className="modal-bg fixed right-0 top-0 z-50 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
