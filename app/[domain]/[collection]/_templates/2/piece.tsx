@@ -85,7 +85,7 @@ export default function Piece({
           width={0}
           height={0}
           alt="work"
-          sizes="100vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 500px"
           className="max-h-[620px] w-full cursor-pointer object-contain lg:max-h-[500px] lg:max-w-[600px] lg:max-w-[700px]"
           src={src}
         />
