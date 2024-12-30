@@ -88,7 +88,7 @@ export default function Piece({
           width={260}
           height={260}
           alt="work"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 260px, 260px"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 260px"
           className="max-h-[620px] w-full justify-self-center object-contain lg:h-[260px] lg:max-w-[260px]"
           src={src}
           onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
