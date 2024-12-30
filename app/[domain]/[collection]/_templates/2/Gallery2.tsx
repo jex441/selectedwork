@@ -34,7 +34,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
                   height={0}
                   width={0}
                   src={imgSrc}
-                  sizes="100vw"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
                   className="w-full object-contain"
                   alt="cover"
                 />
