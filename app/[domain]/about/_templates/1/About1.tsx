@@ -30,9 +30,9 @@ export default function About1({ data }: { data: IAboutPage }) {
         <div className="relative h-auto w-full lg:max-h-[480px] ">
           {imgSrc && (
             <Image
-              height={0}
-              width={0}
-              sizes="100vw"
+              height={490}
+              width={490}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 490px, 490px"
               src={imgSrc}
               className="h-full w-full object-contain"
               alt={imgCaption ?? 'about the artist'}

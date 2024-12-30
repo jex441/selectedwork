@@ -29,9 +29,9 @@ export default function page({ data }: { data: IAboutPage }) {
         <div className="relative h-auto w-full lg:max-h-[480px] ">
           {imgSrc && (
             <Image
-              height={0}
-              width={0}
-              sizes="100vw"
+              height={500}
+              width={500}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               src={imgSrc}
               className="h-full w-full object-contain"
               alt={imgCaption ?? 'about the artist'}
