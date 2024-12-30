@@ -90,7 +90,9 @@ export default function Piece({
             onClick={() => clickHandler()}
             src={data.media.find((m) => m.main === 'true')?.url || ''}
             alt={data.title ?? ''}
-            fill
+            height={350}
+            width={500}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 500px"
             className="h-[350px] w-full cursor-pointer object-contain lg:h-[450px]"
             onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
               const { naturalWidth, naturalHeight } =

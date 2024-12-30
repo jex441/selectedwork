@@ -84,9 +84,9 @@ export default function Modal({
             />
             <div className="relative flex max-h-[520px] w-full items-center justify-center lg:w-full">
               <Image
-                height={0}
-                width={0}
-                sizes="100vw"
+                height={520}
+                width={520}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 alt="work"
                 className="animDelay zoom-in-simple h-auto w-full object-contain lg:max-h-[600px] lg:w-full"
                 src={src}
@@ -132,9 +132,9 @@ export default function Modal({
           />
           <div className="relative flex max-h-[520px] w-full items-center justify-center lg:w-2/3">
             <Image
-              height={0}
-              width={0}
-              sizes="100vw"
+              height={500}
+              width={700}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               alt="work"
               className="animDelay zoom-in-simple h-auto w-full object-contain lg:max-h-[600px] lg:w-4/5"
               src={src}

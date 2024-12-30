@@ -31,8 +31,8 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
             <div className="mx-1 flex flex-col lg:mx-0 lg:h-[500px] lg:w-1/2 lg:max-w-[700px]">
               <div className="relative w-full">
                 <Image
-                  height={0}
-                  width={0}
+                  height={500}
+                  width={700}
                   src={imgSrc}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
                   className="w-full object-contain"
