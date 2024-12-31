@@ -30,9 +30,9 @@ export default function page({ data }: { data: IContactPage }) {
         <div className="relative h-auto w-full lg:max-h-[480px] ">
           {imgSrc && (
             <Image
-              height={0}
-              width={0}
-              sizes="100vw"
+              height={isLargeScreen ? 520 : 490}
+              width={500}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 500px"
               src={imgSrc}
               className="h-full w-full object-contain"
               alt={imgCaption ?? 'about the artist'}
