@@ -80,11 +80,11 @@ export default function Piece({
       )}
       <div
         key={data.id}
-        className="mt-10 flex w-screen flex-col items-center gap-10 lg:mt-0"
+        className="mt-10 flex w-screen flex-col items-center gap-10 lg:mt-10"
       >
         <div
           style={{ width: width }}
-          className="fade-in-right-simple relative h-[350px] lg:h-[450px]"
+          className="fade-in-right-simple relative h-[350px] lg:h-[380px]"
         >
           <Image
             onClick={() => clickHandler()}
@@ -93,12 +93,12 @@ export default function Piece({
             height={350}
             width={500}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 500px"
-            className="h-[350px] w-full cursor-pointer object-contain lg:h-[450px]"
+            className="h-[350px] w-full cursor-pointer object-contain lg:h-[380px]"
             onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
               const { naturalWidth, naturalHeight } =
                 e.target as HTMLImageElement;
               if (isLargeScreen) {
-                const int = Math.floor((naturalWidth * 450) / naturalHeight);
+                const int = Math.floor((naturalWidth * 380) / naturalHeight);
                 setWidth(`${int}px`);
               }
             }}
