@@ -309,3 +309,7 @@
 .animDelay {
   transition-delay: .3s;
 }
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}

@@ -104,7 +104,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
         </div>
       </section> */}
       <div
-        className="w-screen overflow-x-auto pr-5 md:mt-10"
+        className=".scrollbar-hidden w-screen overflow-x-auto pr-5 md:mt-10"
         style={{ scrollbarWidth: 'none', scrollBehavior: 'smooth' }}
       >
         <button
