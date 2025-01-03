@@ -84,7 +84,7 @@ export default function Piece({
       >
         <div
           style={{ width: width }}
-          className="fade-in-right-simple relative h-[350px] lg:h-[380px]"
+          className="fade-in-right-simple relative h-[350px] lg:h-[400px]"
         >
           <Image
             onClick={() => clickHandler()}
@@ -93,12 +93,12 @@ export default function Piece({
             height={350}
             width={500}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 500px"
-            className="h-[350px] w-full cursor-pointer object-contain lg:h-[380px]"
+            className="h-[350px] w-full cursor-pointer object-contain lg:h-[400px]"
             onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
               const { naturalWidth, naturalHeight } =
                 e.target as HTMLImageElement;
               if (isLargeScreen) {
-                const int = Math.floor((naturalWidth * 380) / naturalHeight);
+                const int = Math.floor((naturalWidth * 400) / naturalHeight);
                 setWidth(`${int}px`);
               }
             }}
