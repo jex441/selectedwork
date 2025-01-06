@@ -80,11 +80,11 @@ export default function Piece({
       )}
       <div
         key={data.id}
-        className="mt-10 flex w-screen flex-col items-center lg:mt-10 lg:gap-10"
+        className="mt-10 flex w-screen flex-col items-center gap-1 bg-blue-100 lg:mt-10 lg:gap-10"
       >
         <div
           style={{ width: width }}
-          className="fade-in-right-simple relative max-h-[620px] w-full bg-red-100 lg:h-[400px] lg:w-auto"
+          className="fade-in-right-simple relative max-h-[620px] w-screen lg:h-[400px] lg:w-auto"
         >
           <Image
             onClick={() => clickHandler()}
@@ -93,7 +93,7 @@ export default function Piece({
             height={350}
             width={500}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 500px"
-            className="max-h-[620px] w-full cursor-pointer object-contain lg:h-[400px]"
+            className="h-full w-full cursor-pointer object-contain lg:h-[400px]"
             onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
               const { naturalWidth, naturalHeight } =
                 e.target as HTMLImageElement;
@@ -106,7 +106,7 @@ export default function Piece({
         </div>
         <div
           style={{ width: width }}
-          className="fade-in-up-simple mt-4 flex flex-col justify-start gap-1 md:mt-0 lg:w-full "
+          className="fade-in-up-simple mt-4 flex flex-col justify-start gap-1 bg-red-100 md:mt-0 lg:w-full "
         >
           <span className="text-xs text-mediumGray">{data.title}</span>
           <span className="text-xs text-mediumGray">{data.year}</span>
