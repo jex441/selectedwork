@@ -26,7 +26,7 @@ export default function Piece({
   );
 
   const isLargeScreen = useMediaQuery({ query: '(min-width: 700px)' });
-  const [width, setWidth] = useState(isLargeScreen ? '500px' : '300px');
+  const [width, setWidth] = useState(isLargeScreen ? '500px' : '360px');
   const [loaderWidth, setLoaderWidth] = useState('0vw');
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -83,8 +83,8 @@ export default function Piece({
         className="mt-10 flex w-screen flex-col items-center gap-1 bg-blue-100 lg:mt-10 lg:gap-10"
       >
         <div
-          style={{ width: width }}
-          className="fade-in-right-simple relative max-h-[620px] w-screen lg:h-[400px] lg:w-auto"
+          // style={{ width: width }}
+          className="fade-in-right-simple relative mx-2 max-h-[620px] w-[360px] lg:h-[400px] lg:w-auto"
         >
           <Image
             onClick={() => clickHandler()}
@@ -108,9 +108,9 @@ export default function Piece({
           style={{ width: width }}
           className="fade-in-up-simple mt-4 flex flex-col justify-start gap-1 bg-red-100 md:mt-0 lg:w-full "
         >
-          <span className="text-xs text-mediumGray">{data.title}</span>
-          <span className="text-xs text-mediumGray">{data.year}</span>
-          <span className="text-xs text-mediumGray">{data.medium}</span>
+          <span className="text-xs text-mediumGray">{data.title}title</span>
+          <span className="text-xs text-mediumGray">{data.year}year</span>
+          <span className="text-xs text-mediumGray">{data.medium}medium</span>
         </div>
       </div>
     </>
