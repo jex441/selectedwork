@@ -83,15 +83,14 @@ export default async function SiteLayout({
   }
   if (res.template === 3) {
     return (
-      <div className="flex h-screen w-full flex-col">
+      <div className="flex min-h-screen w-full flex-col">
         {/* Layout */}
         <>
           <Nav params={params} />
           {/* Main content */}
-          <main className="mt-[70px] lg:mt-0">{children}</main>
+          <main className="mt-[10vh] min-h-[86vh] lg:mt-0">{children}</main>
           {/* Footer */}
-          <div className="mt-8 flex h-8 w-full flex-row items-center justify-between px-4 py-4 text-xs text-lightGray">
-            <div>{res.displayName} 2024</div>
+          <div className="mr-1 flex h-[2vh] w-full flex-row justify-end self-end text-xs text-lightGray lg:right-10">
             {res.plan === 'free' && (
               <div>
                 <a
