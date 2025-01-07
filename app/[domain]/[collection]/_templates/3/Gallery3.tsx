@@ -46,7 +46,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
         >
           <ChevronRight size={45} color={'#ccc'} />
         </button>
-        <div className="w-content flex lg:space-x-14">
+        <div className="flex lg:space-x-14">
           {works &&
             data.works.map((work: IWork, index: number) => (
               <Piece
