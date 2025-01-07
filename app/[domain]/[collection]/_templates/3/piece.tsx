@@ -80,7 +80,7 @@ export default function Piece({
       )}
       <div
         key={data.id}
-        className="mx-1 mt-10 flex w-screen flex-col items-center gap-1 bg-blue-200 lg:mt-10 lg:gap-10"
+        className="mx-1 mt-10 flex w-screen flex-col items-center gap-1 lg:mt-10 lg:gap-10"
       >
         <div
           // style={{ width: width }}
@@ -106,11 +106,11 @@ export default function Piece({
         </div>
         <div
           style={{ width: width }}
-          className="fade-in-up-simple mt-4 flex flex-col justify-start gap-1 bg-red-100 md:mt-0 lg:w-full "
+          className="fade-in-up-simple mt-4 flex flex-col justify-start gap-1 md:mt-0 lg:w-full "
         >
-          <span className="text-xs text-mediumGray">{data.title}title</span>
-          <span className="text-xs text-mediumGray">{data.year}year</span>
-          <span className="text-xs text-mediumGray">{data.medium}medium</span>
+          <span className="text-xs text-mediumGray">{data.title}</span>
+          <span className="text-xs text-mediumGray">{data.year}</span>
+          <span className="text-xs text-mediumGray">{data.medium}</span>
         </div>
       </div>
     </>
