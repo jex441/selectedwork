@@ -80,11 +80,11 @@ export default function Piece({
       )}
       <div
         key={data.id}
-        className="mt-10 flex w-screen flex-col items-center gap-1 bg-blue-100 lg:mt-10 lg:gap-10"
+        className="mx-1 mt-10 flex w-screen flex-col items-center gap-1 bg-blue-200 lg:mt-10 lg:gap-10"
       >
         <div
           // style={{ width: width }}
-          className="fade-in-right-simple relative mx-2 max-h-[620px] w-[360px] lg:h-[400px] lg:w-auto"
+          className="fade-in-right-simple relative max-h-[620px] w-full lg:h-[400px] lg:w-auto"
         >
           <Image
             onClick={() => clickHandler()}

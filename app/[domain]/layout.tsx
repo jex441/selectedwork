@@ -90,7 +90,7 @@ export default async function SiteLayout({
           {/* Main content */}
           <main className="mt-[70px] lg:mt-0">{children}</main>
           {/* Footer */}
-          <div className="absolute bottom-1 right-10 flex w-full flex-row justify-end text-xs text-lightGray">
+          <div className="absolute bottom-1 right-1 flex w-full flex-row justify-end text-xs text-lightGray lg:right-10">
             {res.plan === 'free' && (
               <div>
                 <a
