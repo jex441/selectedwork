@@ -25,9 +25,9 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
   };
 
   return (
-    <main className="flex min-h-[80vh] flex-wrap justify-center">
+    <main className="flex min-h-[80vh] flex-wrap justify-center bg-green-100">
       <div
-        className=".scrollbar-hidden w-screen overflow-x-auto md:mt-10"
+        className=".scrollbar-hidden flex w-screen flex-row overflow-x-auto bg-red-100 md:mt-10 lg:space-x-10"
         style={{ scrollbarWidth: 'none', scrollBehavior: 'smooth' }}
       >
         <button
@@ -46,18 +46,16 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
         >
           <ChevronRight size={45} color={'#ccc'} />
         </button>
-        <div className="flex lg:space-x-14">
-          {works &&
-            data.works.map((work: IWork, index: number) => (
-              <Piece
-                index={index}
-                works={works}
-                artist={user ? user.displayName : ''}
-                key={work.id}
-                data={work}
-              />
-            ))}
-        </div>
+        {works &&
+          data.works.map((work: IWork, index: number) => (
+            <Piece
+              index={index}
+              works={works}
+              artist={user ? user.displayName : ''}
+              key={work.id}
+              data={work}
+            />
+          ))}
       </div>
     </main>
   );

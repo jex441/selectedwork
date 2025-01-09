@@ -27,7 +27,7 @@ export default function Piece({
 
   const isLargeScreen = useMediaQuery({ query: '(min-width: 700px)' });
   const [width, setWidth] = useState(isLargeScreen ? '500px' : '360px');
-  const [loaderWidth, setLoaderWidth] = useState('0vw');
+  const [loaderWidth, setLoaderWidth] = useState('100vw');
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -66,7 +66,7 @@ export default function Piece({
           width: loaderWidth,
           transition: `width 1s ease-in-out`,
         }}
-        className="fixed left-0 right-0 top-0 z-50 h-[2px] bg-mediumGray transition-all"
+        className="fixed left-0 right-0 top-0 z-50 h-[2px] bg-red-500 transition-all"
       ></div>
       {modal && (
         <Modal
