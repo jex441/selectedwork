@@ -36,7 +36,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
   };
 
   return (
-    <main className="flex min-h-[80vh] flex-wrap justify-center bg-green-100">
+    <main className="flex min-h-[80vh] flex-wrap justify-center">
       <div
         style={{
           width: loaderWidth,
@@ -46,7 +46,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
       ></div>
 
       <div
-        className=".scrollbar-hidden flex w-screen flex-row overflow-x-auto bg-red-100 md:mt-10 lg:space-x-10"
+        className=".scrollbar-hidden flex w-screen flex-row overflow-x-auto md:mt-10 lg:space-x-10"
         style={{ scrollbarWidth: 'none', scrollBehavior: 'smooth' }}
       >
         <button

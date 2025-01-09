@@ -83,7 +83,7 @@ export default async function SiteLayout({
   }
   if (res.template === 3) {
     return (
-      <div className="flex min-h-screen w-screen flex-col bg-blue-200">
+      <div className="flex min-h-screen w-screen flex-col">
         {/* Layout */}
         <>
           <Nav params={params} />
