@@ -63,7 +63,7 @@ export default function Modal({
   if (!work.title) {
     return (
       <>
-        <div className="modal-bg z-100 fixed right-0 top-0 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
+        <div className="modal-bg z-60 fixed right-0 top-0 h-full w-full overflow-y-auto overflow-x-hidden bg-white">
           <nav className="flex w-full justify-end p-2 lg:fixed lg:p-4">
             <span
               className="fade-in-simple cursor-pointer cursor-pointer opacity-50 hover:opacity-100"
