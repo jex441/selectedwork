@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ICollection } from '@/app/interfaces/ICollection';
 import Piece from './piece';
 import { IWork } from '@/app/interfaces/IWork';
@@ -24,8 +24,27 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
     }
   };
 
+  const [modal, setModal] = useState(false);
+  const [loaderWidth, setLoaderWidth] = useState('0vw');
+
+  const clickHandler = () => {
+    setLoaderWidth('100vw');
+    setTimeout(() => {
+      setModal(true);
+      setLoaderWidth('0vw');
+    }, 1000);
+  };
+
   return (
     <main className="flex min-h-[80vh] flex-wrap justify-center bg-green-100">
+      <div
+        style={{
+          width: loaderWidth,
+          transition: `width 1s ease-in-out`,
+        }}
+        className="fixed left-0 right-0 top-0 z-50 h-[2px] bg-black transition-all"
+      ></div>
+
       <div
         className=".scrollbar-hidden flex w-screen flex-row overflow-x-auto bg-red-100 md:mt-10 lg:space-x-10"
         style={{ scrollbarWidth: 'none', scrollBehavior: 'smooth' }}
@@ -49,6 +68,9 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
         {works &&
           data.works.map((work: IWork, index: number) => (
             <Piece
+              modal={modal}
+              setModal={setModal}
+              clickHandler={clickHandler}
               index={index}
               works={works}
               artist={user ? user.displayName : ''}
