@@ -4,7 +4,6 @@ import { useMediaQuery } from 'react-responsive';
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { IWork } from '@/app/interfaces/IWork';
-import Modal from '../../_components/Modal';
 
 export default function Piece({
   data,
@@ -21,7 +20,7 @@ export default function Piece({
   artist: string;
   modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
-  clickHandler: () => void;
+  clickHandler: (currentWork: IWork) => void;
 }) {
   const [isVisible, setVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -58,16 +57,6 @@ export default function Piece({
 
   return (
     <>
-      {modal && (
-        <Modal
-          index={index}
-          works={works}
-          artist={artist}
-          modal={modal}
-          setModal={setModal}
-          data={data}
-        />
-      )}
       <div
         key={data.id}
         className="mx-1 mt-10 flex w-screen flex-col items-center gap-1 lg:mt-10 lg:gap-10"
@@ -77,7 +66,7 @@ export default function Piece({
           className="fade-in-right-simple relative max-h-[620px] w-full lg:h-[400px] lg:w-auto"
         >
           <Image
-            onClick={() => clickHandler()}
+            onClick={() => clickHandler(data)}
             src={data.media.find((m) => m.main === 'true')?.url || ''}
             alt={data.title ?? ''}
             height={350}
