@@ -58,7 +58,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
           width: loaderWidth,
           transition: `width 1s ease-in-out`,
         }}
-        className="fixed left-0 right-0 top-0 z-50 h-[2px] bg-black transition-all"
+        className="fixed left-0 right-0 top-0 z-20 h-[2px] bg-black transition-all"
       ></div>
 
       <div
