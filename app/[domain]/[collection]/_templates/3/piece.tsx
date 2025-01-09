@@ -20,7 +20,7 @@ export default function Piece({
   artist: string;
   modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
-  clickHandler: (currentWork: IWork) => void;
+  clickHandler: (currentWork: IWork, index: number) => void;
 }) {
   const [isVisible, setVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -66,7 +66,7 @@ export default function Piece({
           className="fade-in-right-simple relative max-h-[620px] w-full lg:h-[400px] lg:w-auto"
         >
           <Image
-            onClick={() => clickHandler(data)}
+            onClick={() => clickHandler(data, index)}
             src={data.media.find((m) => m.main === 'true')?.url || ''}
             alt={data.title ?? ''}
             height={350}
