@@ -73,24 +73,22 @@ export default function Piece({
         className="mx-1 mt-10 flex w-screen flex-col items-center gap-1 lg:mt-10 lg:gap-10"
       >
         <div
-          // style={{ width: width }}
-          className="fade-in-right-simple relative max-h-[620px] w-full lg:h-[400px] lg:w-auto"
+          style={{ width: width }}
+          className="fade-in-right-simple relative max-h-[450px] w-full lg:h-[400px] lg:w-auto"
         >
           <Image
             onClick={() => clickHandler()}
             src={data.media.find((m) => m.main === 'true')?.url || ''}
             alt={data.title ?? ''}
-            height={350}
+            height={400}
             width={500}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 500px"
-            className="h-full w-full cursor-pointer object-contain lg:h-[400px]"
+            className="h-[400px] w-full cursor-pointer object-contain"
             onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
               const { naturalWidth, naturalHeight } =
                 e.target as HTMLImageElement;
-              if (isLargeScreen) {
-                const int = Math.floor((naturalWidth * 400) / naturalHeight);
-                setWidth(`${int}px`);
-              }
+              const int = Math.floor((naturalWidth * 400) / naturalHeight);
+              setWidth(`${int}px`);
             }}
           />
         </div>
