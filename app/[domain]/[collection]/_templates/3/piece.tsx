@@ -11,13 +11,18 @@ export default function Piece({
   artist,
   works,
   index,
+  modal,
+  setModal,
+  clickHandler,
 }: {
   data: IWork;
   works: IWork[];
   index: number;
   artist: string;
+  modal: boolean;
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
+  clickHandler: () => void;
 }) {
-  const [modal, setModal] = useState(false);
   const [isVisible, setVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
   const domRef = useRef<HTMLElement | null>(null);
@@ -27,7 +32,7 @@ export default function Piece({
 
   const isLargeScreen = useMediaQuery({ query: '(min-width: 700px)' });
   const [width, setWidth] = useState(isLargeScreen ? '500px' : '360px');
-  const [loaderWidth, setLoaderWidth] = useState('0vw');
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -51,23 +56,8 @@ export default function Piece({
     };
   }, [hasAnimated]);
 
-  const clickHandler = () => {
-    setLoaderWidth('100vw');
-    setTimeout(() => {
-      setModal(true);
-      setLoaderWidth('0vw');
-    }, 1000);
-  };
-
   return (
     <>
-      <div
-        style={{
-          width: loaderWidth,
-          transition: `width 1s ease-in-out`,
-        }}
-        className="fixed left-0 right-0 top-0 z-50 h-[2px] bg-mediumGray transition-all"
-      ></div>
       {modal && (
         <Modal
           index={index}
