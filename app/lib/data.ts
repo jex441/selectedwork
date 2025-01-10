@@ -95,11 +95,12 @@ export type State = {
 };
 
 export const user = async () => {
-  const currentUser = auth();
-  const data =
-    currentUser !== null &&
-    currentUser.userId !== null &&
-    (await db.select().from(users).where(eq(users.authId, currentUser.userId)));
+  const curUser = await currentUser();
+  if (!curUser) return null;
+  const data = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, curUser.emailAddresses[0].emailAddress));
 
   if (data) {
     return data[0];
@@ -338,7 +339,7 @@ export const getUserData = async () => {
     const rows = await db
       .select()
       .from(users)
-      .where(eq(users.authId, auth.id))
+      .where(eq(users.email, auth.emailAddresses[0].emailAddress))
       .leftJoin(about, eq(users.id, about.userId))
       .leftJoin(workshops, eq(users.id, workshops.userId))
       .leftJoin(contact, eq(users.id, contact.userId))
@@ -406,7 +407,6 @@ export const getUserData = async () => {
           visibility: landing.visibility,
         };
       }
-
       return acc;
     }, {} as IUser);
 
