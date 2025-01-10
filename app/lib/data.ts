@@ -170,7 +170,7 @@ export async function updateAbout(
     .returning({ id: about.id });
 
   revalidatePath('/about');
-  return { success: true };
+  return { message: 'Success', errors: null };
 }
 
 const ContactFormSchema = z.object({
@@ -330,7 +330,7 @@ export async function updateContactPage(
 
   revalidatePath('/contact');
   revalidatePath(`/contact`);
-  return { success: true };
+  return { message: 'Success' };
 }
 
 export const getUserData = async () => {
