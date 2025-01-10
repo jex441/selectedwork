@@ -46,7 +46,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const user = await getUserData();
-
+  console.log(user);
   if (user === null) {
     return 'Error';
   }
