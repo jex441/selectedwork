@@ -95,11 +95,12 @@ export type State = {
 };
 
 export const user = async () => {
-  const currentUser = auth();
-  const data =
-    currentUser !== null &&
-    currentUser.userId !== null &&
-    (await db.select().from(users).where(eq(users.authId, currentUser.userId)));
+  const curUser = await currentUser();
+  if (!curUser) return null;
+  const data = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, curUser.emailAddresses[0].emailAddress));
 
   if (data) {
     return data[0];
