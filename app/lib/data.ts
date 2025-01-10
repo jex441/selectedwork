@@ -335,7 +335,6 @@ export async function updateContactPage(
 
 export const getUserData = async () => {
   const auth = await currentUser();
-  console.log('auth', auth);
   if (auth !== null) {
     const rows = await db
       .select()
@@ -346,7 +345,7 @@ export const getUserData = async () => {
       .leftJoin(contact, eq(users.id, contact.userId))
       .leftJoin(cv, eq(users.id, cv.userId))
       .leftJoin(landing, eq(users.id, landing.userId));
-    console.log('rows', rows);
+
     const result = rows.reduce<IUser>((acc, row) => {
       const user = row.users_table;
       const about = row.about_table;
@@ -408,7 +407,6 @@ export const getUserData = async () => {
           visibility: landing.visibility,
         };
       }
-      console.log('acc', acc);
       return acc;
     }, {} as IUser);
 
