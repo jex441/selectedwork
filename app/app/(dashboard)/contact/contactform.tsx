@@ -17,13 +17,16 @@ import LinkInput from './linkinput';
 import Image from 'next/image';
 import { ContactState } from '@/app/lib/data';
 import { ArrowLeftIcon } from '../../../assets/svgs';
+import { toast } from 'react-hot-toast';
 
 export default function ContactForm({ data }: { data: IContactPage }) {
-  const initialState: ContactState = { message: null, errors: {} };
   const updateContactWithId = updateContactPage.bind(null, data.id);
-  const [state, formAction] = useFormState(updateContactWithId, initialState);
+  const [state, formAction] = useFormState(updateContactWithId, {
+    message: '',
+    errors: {},
+  });
   const [imgSrc, setImgSrc] = useState(data.imgSrc);
-
+  state.message === 'Success' && toast.success('Changes Saved');
   return (
     <form action={formAction}>
       <div className="mb-4 flex items-center justify-between">
