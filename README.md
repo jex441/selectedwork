@@ -2,12 +2,9 @@
 
 This is a prototype for a CMS which enables artists to upload their work and personal information. It will then generate a custom looking static website with their work.
 
-I am making this because major CMSs do not cater to artists' specific needs, especially in displaying images which are of physical artwork, which often wildly differ in scale and dimension.
-
 I am making a CMS for non technical users to quickly generate a website with artist specific features and have it be as easy to maintain as a social media page.
 
 Features are:
-
 - Easy onboarding experience featuring drag and drop to upload, instant site generation
 - Template selection
 - Content organization tailored specifically for artwork: Collections which contain pieces, each piece containing set of metadata and additional thumbnails/media
