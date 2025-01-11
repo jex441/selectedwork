@@ -15,15 +15,17 @@ import LinkInput from './linkinput';
 import Image from 'next/image';
 import { State } from '@/app/lib/data';
 import { toast } from 'react-hot-toast';
+import { useToast } from '@/hooks/use-toast';
 
 export default function AboutForm({ data }: { data: IAboutPage }) {
+  const { toast } = useToast();
   const updateAboutWithId = updateAbout.bind(null, data.id);
   const [state, formAction] = useFormState(updateAboutWithId, {
     message: '',
     errors: {},
   });
   const [imgSrc, setImgSrc] = useState(data.imgSrc);
-  state.message === 'Success' && toast.success('Updated!');
+
   return (
     <form action={formAction}>
       <header className="mb-4 flex w-full items-center justify-between pb-4 md:space-x-4">

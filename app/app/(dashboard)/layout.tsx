@@ -35,7 +35,7 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from '@/components/ui/toaster';
 import { UserButton, SignOutButton } from '@clerk/nextjs';
 import { getUserData, togglePageVisibility } from '@/app/lib/data';
 import { useClerk } from '@clerk/nextjs';
@@ -52,7 +52,7 @@ export default async function Layout({
 
   return (
     <div className="flex min-h-screen w-full flex-row">
-      <Toaster position="top-right" />
+      <Toaster />
       <Nav user={user} />
       <div className="mt-12 flex min-h-screen w-full md:ml-[16.6%] md:mt-0">
         {children}
