@@ -18,7 +18,6 @@ import Image from 'next/image';
 import { ContactState } from '@/app/lib/data';
 import { ArrowLeftIcon } from '../../../assets/svgs';
 import { useToast } from '@/hooks/use-toast';
-import { toast } from 'react-hot-toast';
 
 export default function ContactForm({ data }: { data: IContactPage }) {
   const { toast } = useToast();
