@@ -4,21 +4,29 @@ import { Input } from '@/components/ui/input';
 import { FileIcon, Trash2Icon, UploadIcon } from 'lucide-react';
 import { UploadButton } from '@/app/lib/uploadthing';
 import { addCVPDF, removeCVPDF } from '@/app/lib/data';
-import toast from 'react-hot-toast';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Component({ data }: { data: any }) {
+  const { toast } = useToast();
+
   const [currentCV, setCurrentCV] = useState<string | null>(data.pdf);
 
   const addCVPDFHandler = async (url: string) => {
     const res = await addCVPDF(url as string);
     setCurrentCV(url);
-    toast.success('CV uploaded successfully');
+    toast({
+      title: 'Success',
+      description: 'CV uploaded successfully',
+    });
   };
 
   const handleDelete = async () => {
     const res = await removeCVPDF();
     setCurrentCV(null);
-    toast.success('CV removed successfully');
+    toast({
+      title: 'Success',
+      description: 'CV removed successfully',
+    });
   };
 
   return (
