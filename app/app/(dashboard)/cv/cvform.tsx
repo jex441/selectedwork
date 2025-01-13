@@ -23,10 +23,12 @@ import {
 import { ICVPage } from '../../../interfaces/ICVPage';
 import { set } from 'zod';
 import { PlusCircle } from 'lucide-react';
-import { toast } from 'react-hot-toast';
+import { useToast } from '@/hooks/use-toast';
 
 import PDF from './PDF';
 export default function Component({ data }: { data: ICVPage }) {
+  const { toast } = useToast();
+
   const [selectedSection, setSelectedSection] = useState('education');
   const [workExperience, setWorkExperience] = useState<
     {
@@ -75,7 +77,9 @@ export default function Component({ data }: { data: ICVPage }) {
     if (id) {
       const res = await deleteCVSection(id);
       res && setWorkExperience(res[selectedSection]);
-      toast.success('Experience deleted successfully');
+      toast({
+        title: 'Experience deleted successfully',
+      });
     }
   };
 
@@ -113,6 +117,9 @@ export default function Component({ data }: { data: ICVPage }) {
     setWorkExperience(updatedWorkExperience);
     if (workExperienceId) {
       deleteCVSectionBulletPoint(workExperienceId, bulletPointIndex);
+      toast({
+        title: 'CV Section Updated',
+      });
     }
   };
 
@@ -138,7 +145,10 @@ export default function Component({ data }: { data: ICVPage }) {
     );
     const res = await saveCVSections(data);
     res && setWorkExperience(res[selectedSection]);
-    toast.success('Success!');
+    toast({
+      title: 'Changes saved',
+      description: 'Changes to your CV saved successfully',
+    });
   };
 
   return (

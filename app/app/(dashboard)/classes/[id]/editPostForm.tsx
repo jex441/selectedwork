@@ -15,11 +15,13 @@ import { deleteWorkshop, updateWorkshop } from '@/app/lib/data';
 import Image from 'next/image';
 import { State } from '@/app/lib/data';
 import { Link } from 'lucide-react';
-import { toast } from 'react-hot-toast';
+import { useToast } from '@/hooks/use-toast';
 import Visibility from './visibility';
 import { redirect } from 'next/dist/server/api-utils';
 
 export default function page({ data }: { data: IWorkshop }) {
+  const { toast } = useToast();
+
   const [state, setState] = useState(data);
 
   const changeHandler = (
@@ -34,21 +36,37 @@ export default function page({ data }: { data: IWorkshop }) {
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await updateWorkshop(state).then((res) => {
-      toast.success('Changes Saved!');
+      if (!res) {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'Changes could not be saved',
+        });
+      } else if (res.status === 200) {
+        toast({
+          title: 'Changes saved',
+          description: 'Changes to this class saved successfully',
+        });
+      }
     });
   };
 
   const removeImageHandler = async () => {
     await updateWorkshop({ ...state, imgSrc: null }).then(() => {
       setState((prev) => ({ ...prev, imgSrc: null }));
-      toast.success('Image removed');
+      toast({
+        title: 'Image removed',
+      });
     });
   };
 
   const deleteWorkshopHandler = async (state: IWorkshop) => {
     // Implement delete functionality here
     await deleteWorkshop(state).then(() => {
-      toast.success('Workshop deleted');
+      toast({
+        title: 'Success',
+        description: 'Class deleted successfully',
+      });
       window.location.href = '/classes';
     });
   };
@@ -92,7 +110,10 @@ export default function page({ data }: { data: IWorkshop }) {
                 endpoint="imageUploader"
                 onClientUploadComplete={async (res) => {
                   await updateWorkshop({ ...state, imgSrc: res[0].url }).then(
-                    () => toast.success('Image uploaded'),
+                    () =>
+                      toast({
+                        title: 'Image uploaded',
+                      }),
                   );
                   setState((prev) => ({ ...prev, imgSrc: res[0].url }));
                 }}

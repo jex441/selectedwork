@@ -34,13 +34,15 @@ import {
   deleteMedia,
   createWorkWithMedia,
 } from '@/app/lib/data';
-import { toast } from 'react-hot-toast';
+import { useToast } from '@/hooks/use-toast';
 
 export default function NewPieceForm({
   params,
 }: {
   params: { id: string; slug: string };
 }) {
+  const { toast } = useToast();
+
   const initialState: WorkState = { message: null, errors: {} };
 
   const [work, setWork] = useState<IWork>({
@@ -106,7 +108,9 @@ export default function NewPieceForm({
     }
 
     await createWork(work, params.slug).then((res) => {
-      toast.success('Success!');
+      toast({
+        title: 'Success',
+      });
       setTimeout(() => {
         window.location.href = `/collections/${params.slug}`;
       }, 800);

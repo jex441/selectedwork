@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup } from '@/components/ui/radio-group';
-import { toast } from 'react-hot-toast';
+import { useToast } from '@/hooks/use-toast';
 
 import { IUser } from '@/app/interfaces/IUser';
 import { updateUserTemplate } from '@/app/lib/data';
@@ -22,6 +22,8 @@ import template2 from '/public/template2.png';
 import template3 from '/public/template3.png';
 
 export default function TemplateForm({ data }: { data: IUser }) {
+  const { toast } = useToast();
+
   interface Template {
     id: string;
     title: string;
@@ -53,9 +55,16 @@ export default function TemplateForm({ data }: { data: IUser }) {
   const updateUserTemplateHandler = async () => {
     await updateUserTemplate(selectedTemplate).then((res) => {
       if (!res || res.status === 500) {
-        return toast.error('Error updating template.');
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'Error updating template',
+        });
       } else if (res.status === 200) {
-        toast.success('Template updated successfully.');
+        toast({
+          title: 'Success',
+          description: 'Template updated successfully',
+        });
       }
     });
   };

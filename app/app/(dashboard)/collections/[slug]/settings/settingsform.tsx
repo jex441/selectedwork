@@ -18,13 +18,15 @@ import LinkInput from './linkinput';
 import AboutTemplates from './abouttemplates';
 import { CollectionState } from '@/app/lib/data';
 import { Trash } from 'lucide-react';
-import { toast } from 'react-hot-toast';
+import { useToast } from '@/hooks/use-toast';
 
 export default function settingsform({
   collection,
 }: {
   collection: ICollection;
 }) {
+  const { toast } = useToast();
+
   const initialState: CollectionState = { message: null, errors: {} };
   const updateCollectionWithId = updateCollection.bind(null, collection.id);
   const [state, formAction] = useFormState(
@@ -42,7 +44,9 @@ export default function settingsform({
   }
   const removeCollectionTitleImageHandler = async () => {
     await removeCollectionTitleImage(collection.id).then((res) => {
-      toast.success('Image removed');
+      toast({
+        title: 'Image removed',
+      });
       setImgSrc('');
     });
   };

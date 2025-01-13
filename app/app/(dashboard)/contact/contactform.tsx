@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -17,16 +17,26 @@ import LinkInput from './linkinput';
 import Image from 'next/image';
 import { ContactState } from '@/app/lib/data';
 import { ArrowLeftIcon } from '../../../assets/svgs';
-import { toast } from 'react-hot-toast';
+import { useToast } from '@/hooks/use-toast';
 
 export default function ContactForm({ data }: { data: IContactPage }) {
+  const { toast } = useToast();
+  const [imgSrc, setImgSrc] = useState(data.imgSrc);
   const updateContactWithId = updateContactPage.bind(null, data.id);
+
   const [state, formAction] = useFormState(updateContactWithId, {
     message: '',
     errors: {},
   });
-  const [imgSrc, setImgSrc] = useState(data.imgSrc);
-  state.message === 'Success' && toast.success('Changes Saved');
+
+  useEffect(() => {
+    if (state.message === 'Success') {
+      toast({
+        title: 'Changes saved',
+        description: 'Contact page updated successfully',
+      });
+    }
+  }, [state]);
   return (
     <form action={formAction}>
       <div className="mb-4 flex items-center justify-between">
