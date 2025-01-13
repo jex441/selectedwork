@@ -23,11 +23,27 @@ import { IWorkshopsPage } from '../../../interfaces/IWorkshopsPage';
 import { set } from 'zod';
 import { PlusCircle } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useToast } from '@/hooks/use-toast';
 
 // need to navigate to edit page [id] and do CRUD operations
 export default function Component({ data }: { data: IWorkshopsPage }) {
+  const { toast } = useToast();
+
   const createWorkshopHandler = async () => {
-    await createWorkshop();
+    await createWorkshop().then((res) => {
+      if (!res) {
+        toast({
+          variant: 'destructive',
+          title: 'Error creating workshop',
+          description: 'Workshop could not be created',
+        });
+      } else if (res.status === 200) {
+        toast({
+          title: 'Workshop created',
+          description: 'Workshop created successfully',
+        });
+      }
+    });
   };
   return (
     <div className="flex h-full w-full flex-col">
