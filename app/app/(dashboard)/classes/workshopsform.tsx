@@ -22,7 +22,6 @@ import {
 import { IWorkshopsPage } from '../../../interfaces/IWorkshopsPage';
 import { set } from 'zod';
 import { PlusCircle } from 'lucide-react';
-import { toast } from 'react-hot-toast';
 import { useToast } from '@/hooks/use-toast';
 
 // need to navigate to edit page [id] and do CRUD operations
