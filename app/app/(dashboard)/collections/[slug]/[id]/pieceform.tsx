@@ -9,7 +9,8 @@ import Link from 'next/link';
 import placeholder from '../../../../../assets/placeholder.png';
 import { UploadButton } from '../../../../../lib/uploadthing';
 
-import { toast } from 'react-hot-toast';
+import { useToast } from '@/hooks/use-toast';
+
 import {
   Select,
   SelectTrigger,
@@ -43,20 +44,27 @@ export default function PieceForm({
   slug: string;
   work: IWork;
 }) {
+  const { toast } = useToast();
+
   const [curWork, setCurWork] = useState<IWork>(work);
 
   const initialState: WorkState = { message: null, errors: {} };
 
   const updateWorkHandler = async () => {
     await updateWork(curWork, slug).then((res) => {
-      toast.success('Work Updated!');
+      toast({
+        title: 'Changes saved',
+        description: 'Work has been updated',
+      });
     });
   };
 
   const addMediaHandler = async (id: number, url: string) => {
     const newMedia = { url: url, type: 'image', main: 'false' };
     await addMedia(id, newMedia, slug).then((res) => {
-      toast.success('Upload Complete!');
+      toast({
+        title: 'Upload complete',
+      });
     });
   };
 
@@ -70,7 +78,9 @@ export default function PieceForm({
   const deleteMediaHandler = async (mediaId: number) => {
     work &&
       (await deleteMedia(mediaId, slug).then((res) => {
-        toast.success('Media Deleted!');
+        toast({
+          title: 'Media removed',
+        });
       }));
   };
 
@@ -84,7 +94,9 @@ export default function PieceForm({
         }
       });
       setCurWork({ ...work, media: newMedia });
-      toast.success('Main Image Updated!');
+      toast({
+        title: 'Main media updated',
+      });
     });
   };
 
