@@ -54,14 +54,19 @@ export default function page({ data }: { data: IWorkshop }) {
   const removeImageHandler = async () => {
     await updateWorkshop({ ...state, imgSrc: null }).then(() => {
       setState((prev) => ({ ...prev, imgSrc: null }));
-      toast.success('Image removed');
+      toast({
+        title: 'Image removed',
+      });
     });
   };
 
   const deleteWorkshopHandler = async (state: IWorkshop) => {
     // Implement delete functionality here
     await deleteWorkshop(state).then(() => {
-      toast.success('Workshop deleted');
+      toast({
+        title: 'Success',
+        description: 'Class deleted successfully',
+      });
       window.location.href = '/classes';
     });
   };
@@ -105,7 +110,10 @@ export default function page({ data }: { data: IWorkshop }) {
                 endpoint="imageUploader"
                 onClientUploadComplete={async (res) => {
                   await updateWorkshop({ ...state, imgSrc: res[0].url }).then(
-                    () => toast.success('Image uploaded'),
+                    () =>
+                      toast({
+                        title: 'Image uploaded',
+                      }),
                   );
                   setState((prev) => ({ ...prev, imgSrc: res[0].url }));
                 }}
