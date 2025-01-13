@@ -15,11 +15,13 @@ import { deleteWorkshop, updateWorkshop } from '@/app/lib/data';
 import Image from 'next/image';
 import { State } from '@/app/lib/data';
 import { Link } from 'lucide-react';
-import { toast } from 'react-hot-toast';
+import { useToast } from '@/hooks/use-toast';
 import Visibility from './visibility';
 import { redirect } from 'next/dist/server/api-utils';
 
 export default function page({ data }: { data: IWorkshop }) {
+  const { toast } = useToast();
+
   const [state, setState] = useState(data);
 
   const changeHandler = (
@@ -34,7 +36,18 @@ export default function page({ data }: { data: IWorkshop }) {
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await updateWorkshop(state).then((res) => {
-      toast.success('Changes Saved!');
+      if (!res) {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'Changes could not be saved',
+        });
+      } else if (res.status === 200) {
+        toast({
+          title: 'Changes saved',
+          description: 'Changes to this class saved successfully',
+        });
+      }
     });
   };
 

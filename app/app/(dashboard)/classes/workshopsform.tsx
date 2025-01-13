@@ -34,13 +34,13 @@ export default function Component({ data }: { data: IWorkshopsPage }) {
       if (!res) {
         toast({
           variant: 'destructive',
-          title: 'Error creating workshop',
-          description: 'Workshop could not be created',
+          title: 'Error creating class',
+          description: 'Class could not be created',
         });
       } else if (res.status === 200) {
         toast({
-          title: 'Workshop created',
-          description: 'Workshop created successfully',
+          title: 'Class created',
+          description: 'Class created successfully',
         });
       }
     });
