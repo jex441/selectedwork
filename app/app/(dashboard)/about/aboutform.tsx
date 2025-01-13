@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -25,7 +25,14 @@ export default function AboutForm({ data }: { data: IAboutPage }) {
     errors: {},
   });
   const [imgSrc, setImgSrc] = useState(data.imgSrc);
-
+  useEffect(() => {
+    if (state.message === 'Success') {
+      toast({
+        title: 'Changes saved',
+        description: 'About page updated successfully',
+      });
+    }
+  }, [state]);
   return (
     <form action={formAction}>
       <header className="mb-4 flex w-full items-center justify-between pb-4 md:space-x-4">
