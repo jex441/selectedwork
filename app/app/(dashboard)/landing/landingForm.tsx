@@ -10,13 +10,14 @@ import { ILandingPage } from '../../../interfaces/ILandingPage';
 import { Trash } from 'lucide-react';
 import { updateLanding } from '@/app/lib/data';
 import Image from 'next/image';
-import { toast } from 'react-hot-toast';
+import { useToast } from '@/hooks/use-toast';
 
 export default function AboutForm({
   data,
 }: {
   data: ILandingPage | undefined;
 }) {
+  const { toast } = useToast();
   if (!data) return null;
   const [imgSrc, setImgSrc] = useState(data.imgSrc);
   const [state, setState] = useState(data);
@@ -25,6 +26,10 @@ export default function AboutForm({
     const res = await updateLanding({ ...data, imgSrc: '' });
     if (res) {
       setImgSrc('');
+      toast({
+        title: 'Success',
+        description: 'Changes saved successfully',
+      });
     }
   };
 
@@ -37,9 +42,17 @@ export default function AboutForm({
 
   const submitHandler = async () => {
     const res = await updateLanding(state);
-    if (!res) return;
-    if (res.status === 200) {
-      toast.success('Experience deleted successfully');
+    if (!res) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Changes could not be saved',
+      });
+    } else if (res.status === 200) {
+      toast({
+        title: 'Success',
+        description: 'Changes saved successfully',
+      });
     }
   };
 
