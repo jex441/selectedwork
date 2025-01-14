@@ -1,27 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Calendar, Edit } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import {
-  getWorkshopsPageData,
-  saveCVSections,
-  deleteWorkshop,
-  createWorkshop,
-} from '../../../lib/data';
+import { createWorkshop } from '../../../lib/data';
 import { IWorkshopsPage } from '../../../interfaces/IWorkshopsPage';
-import { set } from 'zod';
-import { PlusCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 // need to navigate to edit page [id] and do CRUD operations
