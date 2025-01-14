@@ -1,45 +1,7 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-  Home,
-  FolderHeart,
-  Info,
-  Mail,
-  File,
-  FileText,
-  Settings,
-  Globe,
-  SquareUser,
-  LogOut,
-  ArrowUpRight,
-  ArrowRightFromLine,
-  GalleryThumbnails,
-  CircleUserRound,
-  LayoutGrid,
-  SendHorizonal,
-} from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-} from '@/components/ui/dropdown-menu';
-import Image from 'next/image';
 import { Toaster } from '@/components/ui/toaster';
-import { UserButton, SignOutButton } from '@clerk/nextjs';
-import { getUserData, togglePageVisibility } from '@/app/lib/data';
-import { useClerk } from '@clerk/nextjs';
+import { getUserData } from '@/app/lib/data';
 import Nav from './Nav';
+
 export default async function Layout({
   children,
 }: {
