@@ -13,7 +13,6 @@ import { IAboutPage } from '../../../interfaces/IAboutPage';
 import { updateAbout } from '@/app/lib/data';
 import LinkInput from './linkinput';
 import Image from 'next/image';
-import { State } from '@/app/lib/data';
 import { useToast } from '@/hooks/use-toast';
 
 export default function AboutForm({ data }: { data: IAboutPage }) {
