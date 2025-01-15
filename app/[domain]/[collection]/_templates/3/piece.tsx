@@ -7,11 +7,7 @@ import { IWork } from '@/app/interfaces/IWork';
 
 export default function Piece({
   data,
-  artist,
-  works,
   index,
-  modal,
-  setModal,
   clickHandler,
 }: {
   data: IWork;
@@ -25,10 +21,6 @@ export default function Piece({
   const [isVisible, setVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
   const domRef = useRef<HTMLElement | null>(null);
-  const [src, setSrc] = useState<string>(
-    data.media.find((m) => m.main === 'true')?.url || '',
-  );
-
   const isLargeScreen = useMediaQuery({ query: '(min-width: 700px)' });
   const [width, setWidth] = useState(isLargeScreen ? '500px' : '360px');
 
