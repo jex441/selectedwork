@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   File,
   Settings,
@@ -13,7 +12,6 @@ import {
   LayoutGrid,
   SendHorizonal,
   MenuIcon,
-  ImageIcon,
   Eye,
   EyeOffIcon,
   HomeIcon,
@@ -23,7 +21,7 @@ import {
 import { togglePageVisibility } from '@/app/lib/data';
 
 import Image from 'next/image';
-import { UserButton, SignOutButton } from '@clerk/nextjs';
+import { UserButton } from '@clerk/nextjs';
 import { IUser } from '@/app/interfaces/IUser';
 
 export default function Nav({ user }: { user: IUser }) {

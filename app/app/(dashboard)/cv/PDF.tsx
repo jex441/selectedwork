@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { FileIcon, Trash2Icon, UploadIcon } from 'lucide-react';
+import { FileIcon, Trash2Icon } from 'lucide-react';
 import { UploadButton } from '@/app/lib/uploadthing';
 import { addCVPDF, removeCVPDF } from '@/app/lib/data';
 import { useToast } from '@/hooks/use-toast';
