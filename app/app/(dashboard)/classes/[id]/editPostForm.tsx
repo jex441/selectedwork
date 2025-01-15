@@ -7,17 +7,13 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { UploadButton } from '../../../../lib/uploadthing';
-import { useFormState } from 'react-dom';
 import { IWorkshop } from '../../../../interfaces/IWorkshop';
 import { Trash } from 'lucide-react';
 
 import { deleteWorkshop, updateWorkshop } from '@/app/lib/data';
 import Image from 'next/image';
-import { State } from '@/app/lib/data';
-import { Link } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import Visibility from './visibility';
-import { redirect } from 'next/dist/server/api-utils';
 
 export default function page({ data }: { data: IWorkshop }) {
   const { toast } = useToast();
