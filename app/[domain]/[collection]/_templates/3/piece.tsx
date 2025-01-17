@@ -38,7 +38,7 @@ export default function Piece({
         });
       },
       { threshold: 0.1 },
-    ); // Adjust threshold as needed
+    );
 
     if (domRef.current) observer.observe(domRef.current);
 
@@ -53,10 +53,7 @@ export default function Piece({
         key={data.id}
         className="mx-1 mt-10 flex w-screen flex-col items-center gap-1 lg:mt-10 lg:gap-10"
       >
-        <div
-          // style={{ width: width }}
-          className="fade-in-right-simple relative max-h-[620px] w-full lg:h-[400px] lg:w-auto"
-        >
+        <div className="fade-in-right-simple relative max-h-[620px] w-full lg:h-[400px] lg:w-auto">
           <Image
             onClick={() => clickHandler(data, index)}
             src={data.media.find((m) => m.main === 'true')?.url || ''}
@@ -86,24 +83,4 @@ export default function Piece({
       </div>
     </>
   );
-}
-
-{
-  /* <div key={data.id} className="w-[900px] flex-none">
-  <div className="grid grid-cols-[500px,1fr] gap-6 rounded-lg bg-background shadow-md">
-    <div className="relative h-[500px]">
-      <Image
-        src={data.media.find((m) => m.main === 'true')?.url || ''}
-        alt={data.title ?? ''}
-        fill
-        className="rounded-l-lg object-cover"
-      />
-    </div>
-    <div className="flex flex-col justify-center p-6">
-      <h2 className="mb-4 text-2xl font-bold">{data.title}</h2>
-     
-      <p className="text-muted-foreground">Year: {data.year}</p>
-    </div>
-  </div>
-</div>; */
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 
 import { ICollection } from '@/app/interfaces/ICollection';
@@ -68,7 +67,6 @@ export default function Nav({
               className="cursor-pointer"
               onMouseEnter={() => setDropDown('hidden')}
               onClick={() => clickHandler('')}
-              // href={'/'}
             >
               {displayName}
             </span>
@@ -91,7 +89,6 @@ export default function Nav({
               >
                 <span
                   className="cursor-pointer tracking-wide text-mediumGray transition-all hover:text-darkGray"
-                  // href={`/${collections[0].slug}`}
                   onClick={() => clickHandler(collections[0].slug)}
                 >
                   Selected Work
@@ -103,7 +100,6 @@ export default function Nav({
                   <span
                     className="cursor-pointer tracking-wide text-mediumGray transition-all hover:text-darkGray lg:text-xs"
                     onClick={() => clickHandler(collection.slug)}
-                    // href={`/${collection.slug}`}
                   >
                     {collection.title}
                   </span>
@@ -116,10 +112,7 @@ export default function Nav({
               {collections.length > 1 &&
                 collections.map((collection) => (
                   <span key={collection.id}>
-                    <span
-                      onClick={() => clickHandler(collection.slug)}
-                      // href={`/${collection.slug}`}
-                    >
+                    <span onClick={() => clickHandler(collection.slug)}>
                       {collection.title}
                     </span>
                   </span>
@@ -131,7 +124,6 @@ export default function Nav({
                   <span
                     className="cursor-pointer tracking-wide text-mediumGray transition-all hover:text-darkGray lg:text-xs"
                     onClick={() => clickHandler(page.slug)}
-                    // href={`/${page.slug}`}
                   >
                     {page.title}
                   </span>
