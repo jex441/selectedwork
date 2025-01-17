@@ -58,7 +58,7 @@ export default function Piece({
             onClick={() => clickHandler(data, index)}
             src={data.media.find((m) => m.main === 'true')?.url || ''}
             alt={data.title ?? ''}
-            height={350}
+            height={400}
             width={500}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 500px"
             className="h-full w-full cursor-pointer object-contain lg:h-[400px]"
