@@ -82,13 +82,13 @@ export default function Modal({
               onClick={() => navigateHandler('previous')}
               className="hidden cursor-pointer opacity-30 transition-all hover:opacity-80 lg:block"
             />
-            <div className="relative flex max-h-[520px] w-full items-center justify-center lg:w-full">
+            <div className="relative flex max-h-[500px] max-w-full items-center justify-center lg:max-h-[520px] lg:w-full">
               <Image
                 height={520}
                 width={520}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 alt="work"
-                className="animDelay zoom-in-simple h-auto w-full object-contain lg:max-h-[600px] lg:w-full"
+                className="animDelay zoom-in-simple h-[500px] max-w-full bg-red-100 object-contain lg:max-h-[600px] lg:w-full"
                 src={src}
                 onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
                   const { naturalWidth, naturalHeight } =
@@ -121,7 +121,7 @@ export default function Modal({
           </span>
         </nav>
 
-        <section className="mt-5 flex h-full w-full flex-col px-6 pt-1 lg:mt-0 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:px-4 lg:py-0">
+        <section className="mt-5 flex max-h-full w-full flex-col px-6 pt-1 lg:mt-0 lg:flex-row lg:items-center lg:justify-center lg:justify-around lg:px-4 lg:py-0">
           <Image
             src={previous}
             alt="previous"
@@ -130,13 +130,13 @@ export default function Modal({
             onClick={() => navigateHandler('previous')}
             className="hidden cursor-pointer opacity-30 transition-all hover:opacity-80 lg:block"
           />
-          <div className="relative flex max-h-[520px] w-full items-center justify-center lg:w-2/3">
+          <div className="relative flex max-h-[500px] w-full items-center justify-center lg:w-2/3">
             <Image
               height={500}
               width={700}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               alt="work"
-              className="animDelay zoom-in-simple h-auto w-full object-contain lg:max-h-[600px] lg:w-4/5"
+              className="animDelay zoom-in-simple max-h-[500px] max-w-full object-contain lg:max-h-[600px] lg:w-4/5"
               src={src}
               onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
                 const { naturalWidth, naturalHeight } =
