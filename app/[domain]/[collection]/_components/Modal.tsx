@@ -88,7 +88,7 @@ export default function Modal({
                 width={520}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 alt="work"
-                className="animDelay zoom-in-simple h-[500px] max-w-full bg-red-100 object-contain lg:max-h-[600px] lg:w-full"
+                className="animDelay zoom-in-simple h-[500px] max-w-full object-contain lg:max-h-[600px] lg:w-full"
                 src={src}
                 onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
                   const { naturalWidth, naturalHeight } =
