@@ -104,7 +104,7 @@ export default function Piece({
           style={{ width: ratio }}
           className={`flex justify-self-center text-xs tracking-wide lg:mt-0`}
         >
-          <span className="truncate bg-red-100 pr-3 uppercase italic text-mediumGray">
+          <span className="truncate pr-3 uppercase italic text-mediumGray">
             {data.title}
           </span>
           <span className="ml-3 text-lightGray">
