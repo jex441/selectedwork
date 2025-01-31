@@ -69,7 +69,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
           onClick={() => {
             scrollHandler('l');
           }}
-          className="fixed left-0 top-[45%] z-50 hidden opacity-50 transition-all hover:opacity-100 lg:block"
+          className="fixed left-0 top-[45%] z-40 hidden opacity-50 transition-all hover:opacity-100 lg:block"
         >
           <ChevronLeft size={45} color={'#ccc'} />
         </button>
@@ -77,7 +77,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
           onClick={() => {
             scrollHandler('r');
           }}
-          className="fixed right-0 top-[45%] z-50 hidden opacity-50 transition-all hover:opacity-100 lg:block"
+          className="fixed right-0 top-[45%] z-40 hidden opacity-50 transition-all hover:opacity-100 lg:block"
         >
           <ChevronRight size={45} color={'#ccc'} />
         </button>
