@@ -89,36 +89,3 @@ export default function WorkshopThumbnail({
     </div>
   );
 }
-
-{
-  /* <Link href={`/classes/${workshop.id}`}>
-<Card className="h-[350px] w-[250px] overflow-hidden">
-  <CardHeader className="p-0">
-    {workshop.imgSrc ? (
-      <Image
-        src={workshop.imgSrc}
-        alt={'Class Image'}
-        width={384}
-        height={200}
-        className="h-48 w-full object-cover"
-      />
-    ) : (
-      <div className="flex h-48 w-full items-center justify-center bg-gray-200 text-gray-400">
-        no image
-      </div>
-    )}
-  </CardHeader>
-  <CardContent className="h-[110px] p-4">
-    <CardTitle className="text-lg">
-      {workshop.heading}
-    </CardTitle>
-    <div className="mt-2 flex items-center text-sm text-muted-foreground">
-      {workshop.date}
-    </div>
-    <div className="flex items-center text-sm text-muted-foreground">
-      {workshop.location}
-    </div>
-  </CardContent>
-</Card>
-</Link> */
-}

@@ -51,7 +51,7 @@ export default function Component({ data }: { data: IWorkshopsPage }) {
       }
     });
   };
-  console.log(data);
+
   const [workshops, setWorkshops] = useState<IWorkshop[]>(data.workshops);
   const [activeId, setActiveId] = useState<string | number | null>(null);
   const [items, setItems] = useState<number[]>(
