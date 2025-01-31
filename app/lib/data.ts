@@ -884,6 +884,7 @@ export const getWorkshopsPageData = async (): Promise<
           visibility: workshop.visibility,
           imgSrc: workshop.imgSrc,
           inquire: workshop.inquire,
+          idx: workshop.idx,
         };
         acc.workshops.push(workshopData as never);
       }
@@ -1721,6 +1722,19 @@ export const reorderCollections = async (updatedCollections: ICollection[]) => {
       .set({ idx: i + 1 })
       .where(eq(collection.id, Number(updatedCollections[i].id)))
       .returning({ id: collection.id });
+  }
+  // revalidatePath(`/collections/${userData?.username}`);
+};
+
+export const reorderWorkshops = async (updatedWorkshops: IWorkshop[]) => {
+  // need workshop slug for revalidate path
+  // const userData = await user();
+  for (let i = 0; i < updatedWorkshops.length; i++) {
+    const query = await db
+      .update(workshop)
+      .set({ idx: i + 1 })
+      .where(eq(workshop.id, Number(updatedWorkshops[i].id)))
+      .returning({ id: workshop.id });
   }
   // revalidatePath(`/collections/${userData?.username}`);
 };

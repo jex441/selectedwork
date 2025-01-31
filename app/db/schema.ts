@@ -244,6 +244,7 @@ export const workshop = pgTable('workshop_table', {
   linkSrc1: text('linkSrc1'),
   linkText1: text('linkText1'),
   inquire: boolean('inquire').default(false).notNull(),
+  idx: serial('idx'),
 });
 
 export const media = pgTable('media_table', {
