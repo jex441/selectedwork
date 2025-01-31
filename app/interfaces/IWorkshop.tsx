@@ -12,4 +12,5 @@ export interface IWorkshop {
   userId: number | null;
   imgSrc: string | null;
   inquire: boolean | null;
+  idx: number;
 }
