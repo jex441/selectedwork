@@ -26,11 +26,12 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
           key={workshop.id}
           className="my-2 flex w-full flex-col items-start justify-start gap-4 lg:flex-row lg:gap-10"
         >
-          <div>
+          <div className="relative max-h-[400px] w-[300px] overflow-hidden">
             {workshop.imgSrc && (
               <Image
                 src={workshop.imgSrc}
                 alt={'Workshops image'}
+                sizes="350px"
                 width={300}
                 height={300}
               />
@@ -87,6 +88,7 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
                   <Image
                     src={currentWorkshop.imgSrc}
                     alt={'Workshops image'}
+                    sizes="(max-width: 600px) 100px, (max-width: 900px) 100px, 200px"
                     width={100}
                     height={200}
                   />
