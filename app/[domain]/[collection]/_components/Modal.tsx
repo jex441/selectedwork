@@ -134,7 +134,7 @@ export default function Modal({
             <Image
               height={500}
               width={700}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 768px) 100vw, 33vw"
               alt="work"
               className="animDelay zoom-in-simple h-auto w-full object-contain lg:max-h-[600px] lg:w-4/5"
               src={src}
@@ -214,6 +214,7 @@ export default function Modal({
                         onClick={() => m.url && setSrc(m.url)}
                         alt={data.title ?? 'Artwork'}
                         src={m.url}
+                        sizes="35px"
                         height={35}
                         width={35}
                         className={`cursor-pointer border-2 ${src === m.url ? 'border-darkGray' : 'border-transparent'} hover:border-darkGray`}
