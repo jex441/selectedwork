@@ -11,11 +11,10 @@ const regular = localFont({
   src: 'HKGrotesk-Medium.otf',
 });
 export default function page() {
-  const [demo, setDemo] = useState(true);
+  const [demo, setDemo] = useState(false);
+  const [videoSrc, setVideoSrc] = useState('/template1.mov');
   return (
-    <div
-      className={`flex min-h-[100dvh] flex-col bg-[#E4EDDB] ${regular.className}`}
-    >
+    <main className={`flex flex-col bg-[#E4EDDB] ${regular.className}`}>
       <header className="flex h-16 w-full items-center justify-between px-4 text-[#1F4287] lg:px-12">
         <Link href="#" className="flex items-center" prefetch={false}>
           <Image
@@ -41,7 +40,8 @@ export default function page() {
           </a>
         </div>
       </header>
-      <main className="flex flex-1 flex-col-reverse items-center justify-center gap-10 text-[#1F4287] lg:flex-row lg:justify-between ">
+
+      <section className="flex min-h-[100vh] flex-1 flex-col-reverse items-center justify-center gap-10 text-[#1F4287] lg:flex-row lg:justify-between ">
         <div className="flex flex-col items-center justify-center space-y-4 text-center lg:ml-14 lg:items-start lg:space-y-6 lg:text-left">
           <span className="flex w-full flex-row items-center justify-center text-center lg:justify-start lg:text-left">
             <Image
@@ -107,28 +107,133 @@ export default function page() {
             </div>
           </div>
         )}
-      </main>
-      <footer className="flex w-full shrink-0 flex-col items-center gap-2 px-4 py-2 text-[#1F4287] sm:flex-row md:px-6">
-        {/* <p className="text-sm">
-          &copy; 2024 Selected Work. All rights reserved.
-        </p>
-        <nav className="flex gap-4 sm:ml-auto sm:gap-6">
-          <Link
-            href="#"
-            className="text-xs underline-offset-4 hover:underline"
-            prefetch={false}
-          >
-            Terms of Service
-          </Link>
-          <Link
-            href="#"
-            className="text-xs underline-offset-4 hover:underline"
-            prefetch={false}
-          >
-            Privacy
-          </Link>
-        </nav> */}
-      </footer>
-    </div>
+      </section>
+      <section className="flex h-[100vh] flex-row items-center justify-center bg-[#393E46] p-10 text-white">
+        <div className="flex w-1/3 flex-col justify-center space-y-4">
+          <h2 className="text-3xl">Clean, minimalist readymade templates</h2>
+          <p>
+            Each of our templates was hand crafted by our design team in
+            consultation with professional artists to do one thing: display real
+            artwork by real artists. No tacky AI gimmicks. Just simple,
+            readymade templates which let the work do the talking.
+          </p>
+        </div>
+        <div className="mt-4 flex w-2/3 flex-col flex-col items-center justify-center gap-6 lg:gap-10">
+          <span>
+            <video
+              src={videoSrc}
+              className="h-[400px]"
+              autoPlay
+              loop
+              muted
+            ></video>
+          </span>
+          <div className="flex w-full flex-row items-center justify-center gap-20">
+            <div className="flex flex-col gap-6">
+              <button
+                onClick={() => {
+                  setVideoSrc('/template1.mov');
+                }}
+                className={`border-2 border-white bg-transparent px-4 py-2 text-lg font-medium transition-colors hover:bg-white hover:text-[#393E46] ${videoSrc === '/template1.mov' && 'bg-white text-[#393E46]'}`}
+              >
+                Template 1
+              </button>
+              <a href="https://camdenross.selectedwork.net" target="_blank">
+                <div className="text-container w-[180px] border-b-2 p-4">
+                  <div className="text flex justify-between">
+                    View Demo Site
+                    <Image
+                      width={20}
+                      height={20}
+                      className="arrow ml-4 inline h-3 w-3"
+                      alt="up arrow"
+                      src="/uprightarrowwhite.png"
+                    />
+                  </div>
+                  <span className="text-replace flex">
+                    View Demo Site
+                    <Image
+                      width={20}
+                      height={20}
+                      className="arrow ml-4 inline h-3 w-3"
+                      alt="up arrow"
+                      src="/uprightarrowwhite.png"
+                    />
+                  </span>
+                </div>
+              </a>
+            </div>
+            <div className="flex flex-col gap-6">
+              <button
+                onClick={() => {
+                  setVideoSrc('/template2.mov');
+                }}
+                className={`border-2 border-white bg-transparent px-4 py-2 text-lg font-medium transition-colors hover:bg-white hover:text-[#393E46] ${videoSrc === '/template2.mov' && 'bg-white text-[#393E46]'}`}
+              >
+                Template 2
+              </button>
+              <a href="https://andrewwhite.selectedwork.net" target="_blank">
+                <div className="text-container w-[180px] border-b-2 p-4">
+                  <div className="text flex justify-between">
+                    View Demo Site
+                    <Image
+                      width={20}
+                      height={20}
+                      className="arrow ml-4 inline h-3 w-3"
+                      alt="up arrow"
+                      src="/uprightarrowwhite.png"
+                    />
+                  </div>
+                  <span className="text-replace flex">
+                    View Demo Site
+                    <Image
+                      width={20}
+                      height={20}
+                      className="arrow ml-4 inline h-3 w-3"
+                      alt="up arrow"
+                      src="/uprightarrowwhite.png"
+                    />
+                  </span>
+                </div>
+              </a>
+            </div>
+            <div className="flex flex-col gap-6">
+              <button
+                onClick={() => {
+                  setVideoSrc('/template3.mov');
+                }}
+                className={`border-2 border-white bg-transparent px-4 py-2 text-lg font-medium transition-colors hover:bg-white hover:text-[#393E46] ${videoSrc === '/template3.mov' && 'bg-white text-[#393E46]'}`}
+              >
+                Template 3
+              </button>
+              <a href="https://janewalsh.selectedwork.net" target="_blank">
+                <div className="text-container w-[180px] border-b-2 p-4">
+                  <div className="text flex justify-between">
+                    View Demo Site
+                    <Image
+                      width={20}
+                      height={20}
+                      className="arrow ml-4 inline h-3 w-3"
+                      alt="up arrow"
+                      src="/uprightarrowwhite.png"
+                    />
+                  </div>
+                  <span className="text-replace flex">
+                    View Demo Site
+                    <Image
+                      width={20}
+                      height={20}
+                      className="arrow ml-4 inline h-3 w-3"
+                      alt="up arrow"
+                      src="/uprightarrowwhite.png"
+                    />
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

@@ -313,3 +313,30 @@
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
 }
+
+.text-container {
+  position: relative;
+  overflow: hidden;
+  height: 1.2em; /* Adjust based on font size */
+}
+
+.text,
+.text-replace {
+  display: block;
+  transition: transform 0.5s ease;
+  position: absolute;
+  width: 100%;
+  top: 0;
+}
+
+.text-replace {
+  transform: translateY(120%);
+}
+
+.text-container:hover .text {
+  transform: translateY(-120%);
+}
+
+.text-container:hover .text-replace {
+  transform: translateY(0);
+}
