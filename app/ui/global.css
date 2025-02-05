@@ -340,3 +340,17 @@
 .text-container:hover .text-replace {
   transform: translateY(0);
 }
+
+/* styles.css */
+.text-transition {
+  transition: color 0.5s ease-in-out; /* Smooth transition for color change */
+}
+
+.text-dark {
+  color: #000; /* Darker gray color */
+}
+
+.line {
+  display: inline-block; /* Allows each line to be treated separately */
+  transition: color 0.5s ease; /* Smooth transition for each line */
+}

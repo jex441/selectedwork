@@ -6,13 +6,41 @@ import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { Arrow } from '@radix-ui/react-dropdown-menu';
 import localFont from 'next/font/local';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 const regular = localFont({
   src: 'HKGrotesk-Medium.otf',
 });
 export default function page() {
   const [demo, setDemo] = useState(false);
   const [videoSrc, setVideoSrc] = useState('/template1.mov');
+  //
+  const [scrolledWords, setScrolledWords] = useState(0);
+  const text =
+    'Built for working artists, Selected Work is the simplest and most intuitive approach to creating your portfolio website and show your work in the best possible light.';
+
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const totalHeight = document.body.scrollHeight;
+
+    // Calculate the percentage of the page scrolled
+    const scrollPercentage =
+      (scrollPosition / (totalHeight - windowHeight)) * 100;
+
+    // Determine how many words to change based on scroll percentage
+    const words = text.split(' '); // Split by spaces to get words
+    const wordsToChange = Math.floor((scrollPercentage / 20) * words.length);
+
+    setScrolledWords(wordsToChange);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  //
   return (
     <main className={`flex flex-col bg-[#E4EDDB] ${regular.className}`}>
       <header className="flex h-16 w-full items-center justify-between px-4 text-[#1F4287] lg:px-12">
@@ -108,130 +136,199 @@ export default function page() {
           </div>
         )}
       </section>
-      <section className="flex h-[100vh] flex-row items-center justify-center bg-[#393E46] p-10 text-white">
-        <div className="flex w-1/3 flex-col justify-center space-y-4">
-          <h2 className="text-3xl">Clean, minimalist readymade templates</h2>
-          <p>
+
+      <section className="flex h-[90vh] items-center justify-center bg-[#EDEDED] p-20">
+        <div className="w-3/4 text-center text-4xl leading-[70px]">
+          {text.split(' ').map((word, index) => (
+            <span
+              key={index}
+              className={`word ${index < scrolledWords ? 'text-[#393E46]' : 'text-[#AEAEAE]'}`}
+            >
+              {word}{' '}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* Templates */}
+      <section className="flex h-auto flex-col items-center justify-center bg-[#393E46] p-5 text-white md:h-[100vh] md:flex-row md:p-10">
+        <div className="flex w-full flex-col justify-center space-y-4 md:w-1/3">
+          <h2 className="text-2xl md:text-3xl">
+            Clean, minimalist readymade templates
+          </h2>
+          <p className="text-sm md:text-base">
             Each of our templates was hand crafted by our design team in
             consultation with professional artists to do one thing: display real
             artwork by real artists. No tacky AI gimmicks. Just simple,
             readymade templates which let the work do the talking.
           </p>
         </div>
-        <div className="mt-4 flex w-2/3 flex-col flex-col items-center justify-center gap-6 lg:gap-10">
+        <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <span>
             <video
               src={videoSrc}
-              className="h-[400px]"
+              className="mb-10 h-[300px] w-full rounded-md md:h-[400px]"
               autoPlay
               loop
               muted
             ></video>
           </span>
-          <div className="flex w-full flex-row items-center justify-center gap-20">
-            <div className="flex flex-col gap-6">
-              <button
-                onClick={() => {
-                  setVideoSrc('/template1.mov');
-                }}
-                className={`border-2 border-white bg-transparent px-4 py-2 text-lg font-medium transition-colors hover:bg-white hover:text-[#393E46] ${videoSrc === '/template1.mov' && 'bg-white text-[#393E46]'}`}
-              >
-                Template 1
-              </button>
-              <a href="https://camdenross.selectedwork.net" target="_blank">
-                <div className="text-container w-[180px] border-b-2 p-4">
-                  <div className="text flex justify-between">
-                    View Demo Site
-                    <Image
-                      width={20}
-                      height={20}
-                      className="arrow ml-4 inline h-3 w-3"
-                      alt="up arrow"
-                      src="/uprightarrowwhite.png"
-                    />
-                  </div>
-                  <span className="text-replace flex">
-                    View Demo Site
-                    <Image
-                      width={20}
-                      height={20}
-                      className="arrow ml-4 inline h-3 w-3"
-                      alt="up arrow"
-                      src="/uprightarrowwhite.png"
-                    />
+          <div className="flex w-2/3 flex-row items-center justify-between gap-6 md:gap-12">
+            {/** Template Buttons and Links */}
+            {[1, 2, 3].map((template) => (
+              <div key={template} className="flex flex-col items-center gap-2">
+                <button
+                  onClick={() => {
+                    setVideoSrc(`/template${template}.mov`);
+                  }}
+                  className={`relative overflow-hidden border-2 border-white bg-transparent px-4 py-2 text-lg font-medium transition-all 
+    before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-white before:transition-all before:duration-300 hover:text-[#393E46] 
+    hover:before:h-full ${videoSrc === `/template${template}.mov` ? 'bg-white text-[#393E46]' : 'text-white'}`}
+                >
+                  <span className="relative z-10 text-sm font-semibold uppercase">
+                    Template {template}
                   </span>
-                </div>
-              </a>
-            </div>
-            <div className="flex flex-col gap-6">
-              <button
-                onClick={() => {
-                  setVideoSrc('/template2.mov');
-                }}
-                className={`border-2 border-white bg-transparent px-4 py-2 text-lg font-medium transition-colors hover:bg-white hover:text-[#393E46] ${videoSrc === '/template2.mov' && 'bg-white text-[#393E46]'}`}
-              >
-                Template 2
-              </button>
-              <a href="https://andrewwhite.selectedwork.net" target="_blank">
-                <div className="text-container w-[180px] border-b-2 p-4">
-                  <div className="text flex justify-between">
-                    View Demo Site
-                    <Image
-                      width={20}
-                      height={20}
-                      className="arrow ml-4 inline h-3 w-3"
-                      alt="up arrow"
-                      src="/uprightarrowwhite.png"
-                    />
+                </button>
+                <a
+                  href={`https://template${template}.selectedwork.net`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="text-container mt-4 w-[160px] border-b-2 p-4">
+                    <div className="text flex justify-between">
+                      View Demo Site
+                      <Image
+                        width={20}
+                        height={20}
+                        className="arrow ml-4 inline h-3 w-3"
+                        alt="up arrow"
+                        src="/uprightarrowwhite.png"
+                      />
+                    </div>
+                    <span className="text-replace flex">
+                      View Demo Site
+                      <Image
+                        width={20}
+                        height={20}
+                        className="arrow ml-4 inline h-3 w-3"
+                        alt="up arrow"
+                        src="/uprightarrowwhite.png"
+                      />
+                    </span>
                   </div>
-                  <span className="text-replace flex">
-                    View Demo Site
-                    <Image
-                      width={20}
-                      height={20}
-                      className="arrow ml-4 inline h-3 w-3"
-                      alt="up arrow"
-                      src="/uprightarrowwhite.png"
-                    />
-                  </span>
-                </div>
-              </a>
-            </div>
-            <div className="flex flex-col gap-6">
-              <button
-                onClick={() => {
-                  setVideoSrc('/template3.mov');
-                }}
-                className={`border-2 border-white bg-transparent px-4 py-2 text-lg font-medium transition-colors hover:bg-white hover:text-[#393E46] ${videoSrc === '/template3.mov' && 'bg-white text-[#393E46]'}`}
-              >
-                Template 3
-              </button>
-              <a href="https://janewalsh.selectedwork.net" target="_blank">
-                <div className="text-container w-[180px] border-b-2 p-4">
-                  <div className="text flex justify-between">
-                    View Demo Site
-                    <Image
-                      width={20}
-                      height={20}
-                      className="arrow ml-4 inline h-3 w-3"
-                      alt="up arrow"
-                      src="/uprightarrowwhite.png"
-                    />
-                  </div>
-                  <span className="text-replace flex">
-                    View Demo Site
-                    <Image
-                      width={20}
-                      height={20}
-                      className="arrow ml-4 inline h-3 w-3"
-                      alt="up arrow"
-                      src="/uprightarrowwhite.png"
-                    />
-                  </span>
-                </div>
-              </a>
-            </div>
+                </a>
+              </div>
+            ))}
           </div>
+        </div>
+      </section>
+
+      {/* Only the features you need  */}
+      <section className="flex h-auto flex-col items-start justify-start bg-[#DDDDC7] p-5 md:min-h-[100vh]  md:p-20">
+        <div className="">
+          <h1 className="text-[128px] font-semibold leading-[140px]">
+            Only the features you need. Nothing you don’t.
+          </h1>
+        </div>
+        <div className="mt-10 w-full md:w-1/2">
+          <p className="text-2xl leading-loose">
+            No complicated website builders. Just upload your work, choose a
+            template, and click publish.
+          </p>
+          <p className="my-5 text-2xl leading-loose">
+            Get a custom looking website that is as easy to maintain as your
+            Instagram page.
+          </p>
+        </div>
+      </section>
+
+      <section className="flex h-auto flex-col items-center justify-center bg-[#D1CEC5] p-5 text-[#283739] md:h-[100vh] md:flex-row md:p-10">
+        <div className="flex w-full flex-col justify-center space-y-4 md:w-1/3">
+          <h2 className="text-2xl md:text-3xl">Get the whole picture</h2>
+          <p className="text-sm leading-loose md:text-base">
+            A picture is worth a thousand words. And 5 or 6 pictures is worth a
+            lot more. Add multiple images of each piece, to get a sense of its
+            scale or show the details. Sculptors: show it from multiple angles.
+          </p>
+        </div>
+        <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
+          <video
+            src="/modal.mov"
+            className="h-[300px] rounded-md shadow-md md:h-[400px]"
+            autoPlay
+            loop
+            muted
+          ></video>
+        </div>
+      </section>
+
+      <section className="flex h-auto flex-col items-center justify-center bg-[#EBEBEB] p-5 md:h-[100vh] md:flex-row md:p-10">
+        <div className="flex w-full flex-col justify-center space-y-4 md:w-1/3">
+          <h2 className="text-2xl md:text-3xl">
+            Intuitive to use dashboard for ease of use
+          </h2>
+          <p className="text-sm leading-loose md:text-base">
+            With a simple, easy to use dashboard, launch your portfolio website
+            on SelectedWork in minutes, not days or weeks, without any web
+            design or coding knowledge needed. Updating it is as easy as posting
+            on Instagram.
+          </p>
+        </div>
+        <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
+          <video
+            src="/dashboard.mov"
+            className="h-[300px] rounded-md shadow-md md:h-[400px]"
+            autoPlay
+            loop
+            muted
+          ></video>
+        </div>
+      </section>
+
+      <section className="flex h-auto flex-col items-center justify-between bg-[#CDCACE] py-5 text-[#393E46]  md:h-[100vh] md:flex-row md:py-10">
+        <div className="flex w-full flex-col items-center justify-center md:w-1/2">
+          <Image src="/screenshot1.png" width={900} height={900} alt="mobile" />
+        </div>
+        <div className="flex w-full flex-col justify-center space-y-4 md:w-1/2 lg:p-20">
+          <div className="mb-10">
+            <h2 className="mb-5 text-2xl md:text-4xl">
+              Try SelectedWork today
+            </h2>
+            <p className="text-sm leading-loose md:text-base">
+              Show your work with confidence with a professional grade website.
+            </p>
+          </div>
+          {/* Content */}
+          <a
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative block h-[80px] w-[420px] overflow-hidden bg-[#393E46] p-4 transition-all duration-100"
+          >
+            {/* Default state (Dark background, white text) */}
+            <div className="absolute inset-0 flex items-center justify-center text-xl font-semibold text-white transition-transform duration-300 group-hover:-translate-y-full">
+              Let's Go
+              <Image
+                width={30}
+                height={20}
+                className="ml-4 transition-opacity duration-300 group-hover:opacity-0"
+                alt="up arrow"
+                src="/rightarrowwhite.png"
+              />
+            </div>
+
+            {/* Hover state (White background, dark text) */}
+            <div className="absolute inset-0 flex translate-y-full items-center justify-center bg-white p-4 text-xl font-semibold text-black transition-transform duration-300 group-hover:translate-y-0">
+              Let's Go
+              <Image
+                width={30}
+                height={20}
+                className="ml-4 transition-opacity duration-300 group-hover:opacity-100"
+                alt="up arrow"
+                src="/rightarrowdark.png"
+              />
+            </div>
+          </a>
         </div>
       </section>
     </main>
