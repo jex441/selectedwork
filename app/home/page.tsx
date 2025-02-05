@@ -43,7 +43,7 @@ export default function page() {
   //
   return (
     <main className={`flex flex-col bg-[#E4EDDB] ${regular.className}`}>
-      <header className="flex h-16 w-full items-center justify-between px-4 text-[#1F4287] lg:px-12">
+      <header className="flex h-16 w-full items-center justify-between px-4 text-[#403A60] lg:px-12">
         <Link href="#" className="flex items-center" prefetch={false}>
           <Image
             src="/landinglogo.png"
@@ -53,23 +53,28 @@ export default function page() {
           />
         </Link>
         <div className="flex items-center gap-6">
-          <a
-            href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/sign-in`}
-            className="w-20 border-2 border-[#1F4287] p-2 text-center text-sm font-medium hover:border-primary hover:text-primary"
-            // prefetch={false}
+          <button
+            className={`relative overflow-hidden border-2 border-[#403A60] bg-[#E4EDDB] px-6 py-2 text-lg font-medium text-[#403A60] transition-all 
+    before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-[#403A60] before:transition-all before:duration-300 hover:text-[#E4EDDB] 
+    hover:before:h-full`}
           >
-            Login
-          </a>
-          <a
-            href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/sign-up`}
-            className="inline-flex w-24 items-center justify-center bg-[#1F4287] p-2 font-medium text-[#E4EDDB] shadow transition-colors hover:bg-primary"
+            <span className="relative z-10 text-sm font-semibold uppercase">
+              Login
+            </span>
+          </button>
+          <button
+            className={`relative overflow-hidden border-2 border-[#403A60] bg-[#403A60] px-6 py-2 text-lg font-medium text-[#E4EDDB] transition-all 
+    before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-[#E4EDDB] before:transition-all before:duration-300 hover:text-[#403A60] 
+    hover:before:h-full`}
           >
-            Sign Up
-          </a>
+            <span className="relative z-10 text-sm font-semibold uppercase">
+              Sign Up
+            </span>
+          </button>
         </div>
       </header>
 
-      <section className="flex min-h-[100vh] flex-1 flex-col-reverse items-center justify-center gap-10 text-[#1F4287] lg:flex-row lg:justify-between ">
+      <section className="flex min-h-[90vh] flex-1 flex-col-reverse items-center justify-center gap-10 text-[#403A60] lg:flex-row lg:justify-between ">
         <div className="flex flex-col items-center justify-center space-y-4 text-center lg:ml-14 lg:items-start lg:space-y-6 lg:text-left">
           <span className="flex w-full flex-row items-center justify-center text-center lg:justify-start lg:text-left">
             <Image
@@ -89,18 +94,30 @@ export default function page() {
             Create a professional portfolio website in minutes.
           </p>
           <div className="mt-4 flex w-full flex-row justify-center gap-6 sm:flex-row lg:justify-start lg:gap-10">
-            <a
-              href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/sign-up`}
-              className="inline-flex h-12 items-center justify-center bg-[#1F4287] px-4 text-lg font-medium text-[#E4EDDB] transition-colors hover:bg-primary lg:px-8 lg:text-xl"
+            <button
+              className={`relative overflow-hidden border-2 border-[#403A60] bg-[#403A60] px-6 py-2 text-lg font-medium text-[#E4EDDB] transition-all 
+    before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-[#E4EDDB] before:transition-all before:duration-300 hover:text-[#403A60] 
+    hover:before:h-full`}
             >
-              Get Started
-            </a>
+              <span className="relative z-10 text-sm font-semibold uppercase">
+                Get Started
+              </span>
+            </button>
             <a
-              href={`http://camdenross.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
-              className="inline-flex h-10 items-center border-b-2 border-[#1F4287] bg-transparent px-1 text-lg font-medium transition-colors hover:border-primary hover:text-primary lg:px-2 lg:text-xl"
+              href={`https://camdenross.selectedwork.net`}
               target="_blank"
+              rel="noopener noreferrer"
             >
-              View Demo Site <ArrowUpRight size={26} className="ml-2" />
+              <div className="text-container m-2 w-[160px] border-b-2 border-[#403A60] p-4">
+                <div className="text flex flex-row justify-between">
+                  View Demo Site
+                  <ArrowUpRight size={20} className="ml-2 inline" />
+                </div>
+                <span className="text-replace flex">
+                  View Demo Site
+                  <ArrowUpRight size={20} className="ml-2 inline" />
+                </span>
+              </div>
             </a>
           </div>
         </div>
@@ -114,7 +131,7 @@ export default function page() {
           />
         </div>
         {demo && (
-          <div className="fade-in-simple h-22 absolute bottom-10 flex w-auto items-start justify-between rounded-2xl bg-white px-4 py-2 shadow-lg lg:left-40 lg:w-4/6">
+          <div className="fade-in-simple h-22 absolute bottom-10 flex w-auto items-start justify-between rounded-2xl bg-white px-6 py-2 shadow-lg lg:left-40 lg:w-4/6">
             <div className="flex flex-col">
               <span className="lg:text-3xl">
                 Watch the demo video:
@@ -151,8 +168,8 @@ export default function page() {
       </section>
 
       {/* Templates */}
-      <section className="flex h-auto flex-col items-center justify-center bg-[#393E46] p-5 text-white md:h-[100vh] md:flex-row md:p-10">
-        <div className="flex w-full flex-col justify-center space-y-4 md:w-1/3">
+      <section className="flex h-auto min-h-[100vh] flex-col items-center justify-center bg-[#393E46] p-5 text-white md:h-[100vh] md:flex-row md:p-10">
+        <div className="flex w-full flex-col justify-center space-y-4 pr-5 md:w-1/3">
           <h2 className="text-2xl md:text-3xl">
             Clean, minimalist readymade templates
           </h2>
@@ -163,11 +180,11 @@ export default function page() {
             readymade templates which let the work do the talking.
           </p>
         </div>
-        <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
+        <div className="flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <span>
             <video
               src={videoSrc}
-              className="mb-10 h-[300px] w-full rounded-md md:h-[400px]"
+              className="h-[300px] w-full rounded-md md:h-[450px]"
               autoPlay
               loop
               muted
@@ -181,7 +198,7 @@ export default function page() {
                   onClick={() => {
                     setVideoSrc(`/template${template}.mov`);
                   }}
-                  className={`relative overflow-hidden border-2 border-white bg-transparent px-4 py-2 text-lg font-medium transition-all 
+                  className={`relative overflow-hidden border-2 border-white bg-transparent px-6 py-2 text-lg font-medium transition-all 
     before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-white before:transition-all before:duration-300 hover:text-[#393E46] 
     hover:before:h-full ${videoSrc === `/template${template}.mov` ? 'bg-white text-[#393E46]' : 'text-white'}`}
                 >
@@ -224,13 +241,11 @@ export default function page() {
       </section>
 
       {/* Only the features you need  */}
-      <section className="flex h-auto flex-col items-start justify-start bg-[#DDDDC7] p-5 md:min-h-[100vh]  md:p-20">
-        <div className="">
-          <h1 className="text-[128px] font-semibold leading-[140px]">
-            Only the features you need. Nothing you don’t.
-          </h1>
-        </div>
-        <div className="mt-10 w-full md:w-1/2">
+      <section className="flex h-auto flex-col items-start justify-start bg-[#DDDDC7] p-5 md:min-h-[100vh] md:p-20">
+        <h1 className="text-[128px] font-semibold leading-[140px]">
+          Only the features you need. Nothing you don’t.
+        </h1>
+        <div className="mt-10 w-full">
           <p className="text-2xl leading-loose">
             No complicated website builders. Just upload your work, choose a
             template, and click publish.
@@ -243,18 +258,21 @@ export default function page() {
       </section>
 
       <section className="flex h-auto flex-col items-center justify-center bg-[#D1CEC5] p-5 text-[#283739] md:h-[100vh] md:flex-row md:p-10">
-        <div className="flex w-full flex-col justify-center space-y-4 md:w-1/3">
-          <h2 className="text-2xl md:text-3xl">Get the whole picture</h2>
+        <div className="flex w-full flex-col justify-center space-y-4 p-5 md:w-1/3">
+          <h2 className="text-2xl md:text-4xl">Get the whole picture</h2>
           <p className="text-sm leading-loose md:text-base">
             A picture is worth a thousand words. And 5 or 6 pictures is worth a
             lot more. Add multiple images of each piece, to get a sense of its
             scale or show the details. Sculptors: show it from multiple angles.
           </p>
+          <p className="text-sm leading-loose md:text-base">
+            Sculptors: show it from multiple angles.
+          </p>
         </div>
         <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <video
             src="/modal.mov"
-            className="h-[300px] rounded-md shadow-md md:h-[400px]"
+            className="h-[300px] rounded-md shadow-md md:h-[450px]"
             autoPlay
             loop
             muted
@@ -262,10 +280,10 @@ export default function page() {
         </div>
       </section>
 
-      <section className="flex h-auto flex-col items-center justify-center bg-[#EBEBEB] p-5 md:h-[100vh] md:flex-row md:p-10">
-        <div className="flex w-full flex-col justify-center space-y-4 md:w-1/3">
-          <h2 className="text-2xl md:text-3xl">
-            Intuitive to use dashboard for ease of use
+      <section className="flex h-auto flex-col items-center justify-center bg-[#EBEBEB] p-5 text-[#393E46] md:h-[100vh] md:flex-row md:p-10">
+        <div className="flex w-full flex-col justify-center space-y-4 p-5 md:w-1/3">
+          <h2 className="text-2xl md:text-4xl">
+            Intuitive dashboard for ease of use
           </h2>
           <p className="text-sm leading-loose md:text-base">
             With a simple, easy to use dashboard, launch your portfolio website
@@ -273,11 +291,14 @@ export default function page() {
             design or coding knowledge needed. Updating it is as easy as posting
             on Instagram.
           </p>
+          <p className="text-sm leading-loose md:text-base">
+            Updating it is as easy as posting on Instagram.
+          </p>
         </div>
         <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <video
             src="/dashboard.mov"
-            className="h-[300px] rounded-md shadow-md md:h-[400px]"
+            className="h-[300px] rounded-md shadow-md md:h-[450px]"
             autoPlay
             loop
             muted
@@ -291,17 +312,16 @@ export default function page() {
         </div>
         <div className="flex w-full flex-col justify-center space-y-4 md:w-1/2 lg:p-20">
           <div className="mb-10">
-            <h2 className="mb-5 text-2xl md:text-4xl">
+            <h2 className="mb-5 text-2xl font-semibold md:text-4xl">
               Try SelectedWork today
             </h2>
-            <p className="text-sm leading-loose md:text-base">
+            <p>
               Show your work with confidence with a professional grade website.
             </p>
           </div>
           {/* Content */}
           <a
-            href="#"
-            target="_blank"
+            href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
             rel="noopener noreferrer"
             className="group relative block h-[80px] w-[420px] overflow-hidden bg-[#393E46] p-4 transition-all duration-100"
           >
