@@ -154,8 +154,8 @@ export default function page() {
         )}
       </section>
 
-      <section className="flex h-[90vh] items-center justify-center bg-[#EDEDED] p-20">
-        <div className="w-3/4 text-center text-4xl leading-[70px]">
+      <section className="flex min-h-[60vh] items-center justify-center bg-[#EDEDED] px-6 py-12 md:h-[90vh] md:p-20">
+        <div className="md:max-w-3/4 max-w-[90%] text-center text-2xl leading-[50px] md:text-4xl md:leading-[70px]">
           {text.split(' ').map((word, index) => (
             <span
               key={index}
@@ -168,39 +168,39 @@ export default function page() {
       </section>
 
       {/* Templates */}
-      <section className="flex h-auto min-h-[100vh] flex-col items-center justify-center bg-[#393E46] p-5 text-white md:h-[100vh] md:flex-row md:p-10">
-        <div className="flex w-full flex-col justify-center space-y-4 pr-5 md:w-1/3">
+      <section className="flex h-auto min-h-[100vh] flex-col items-center justify-center bg-[#393E46] p-6 text-white md:h-[100vh] md:flex-row md:p-10">
+        <div className="flex w-full flex-col justify-center space-y-6 pr-0 text-center md:w-1/3 md:pr-5 md:text-left">
           <h2 className="text-2xl md:text-3xl">
             Clean, minimalist readymade templates
           </h2>
           <p className="text-sm md:text-base">
-            Each of our templates was hand crafted by our design team in
+            Each of our templates was hand-crafted by our design team in
             consultation with professional artists to do one thing: display real
             artwork by real artists. No tacky AI gimmicks. Just simple,
-            readymade templates which let the work do the talking.
+            readymade templates that let the work do the talking.
           </p>
         </div>
+
         <div className="flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
-          <span>
+          <span className="w-full max-w-[90%] md:max-w-full">
             <video
               src={videoSrc}
-              className="h-[300px] w-full rounded-md md:h-[450px]"
+              className="my-10 h-[250px] w-full rounded-md md:my-0 md:h-[450px]"
               autoPlay
               loop
               muted
             ></video>
           </span>
-          <div className="flex w-2/3 flex-row items-center justify-between gap-6 md:gap-12">
-            {/** Template Buttons and Links */}
+
+          <div className="flex w-full flex-wrap items-center justify-center gap-6 md:w-2/3 md:flex-nowrap md:gap-12">
             {[1, 2, 3].map((template) => (
               <div key={template} className="flex flex-col items-center gap-2">
                 <button
-                  onClick={() => {
-                    setVideoSrc(`/template${template}.mov`);
-                  }}
-                  className={`relative overflow-hidden border-2 border-white bg-transparent px-6 py-2 text-lg font-medium transition-all 
-    before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-white before:transition-all before:duration-300 hover:text-[#393E46] 
-    hover:before:h-full ${videoSrc === `/template${template}.mov` ? 'bg-white text-[#393E46]' : 'text-white'}`}
+                  onClick={() => setVideoSrc(`/template${template}.mov`)}
+                  className={`relative w-full max-w-[180px] overflow-hidden border-2 border-white bg-transparent px-6 py-2 text-lg font-medium transition-all 
+              before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-white before:transition-all before:duration-300 
+              hover:text-[#393E46] hover:before:h-full 
+              ${videoSrc === `/template${template}.mov` ? 'bg-white text-[#393E46]' : 'text-white'}`}
                 >
                   <span className="relative z-10 text-sm font-semibold uppercase">
                     Template {template}
@@ -210,27 +210,16 @@ export default function page() {
                   href={`https://template${template}.selectedwork.net`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="my-4 w-full max-w-[180px] border-b-2"
                 >
-                  <div className="text-container mt-4 w-[160px] border-b-2 p-4">
-                    <div className="text flex justify-between">
+                  <div className="text-container m-2 w-[160px] border-[#403A60] p-2">
+                    <div className="text flex flex-row justify-between">
                       View Demo Site
-                      <Image
-                        width={20}
-                        height={20}
-                        className="arrow ml-4 inline h-3 w-3"
-                        alt="up arrow"
-                        src="/uprightarrowwhite.png"
-                      />
+                      <ArrowUpRight size={20} className="ml-2 inline" />
                     </div>
                     <span className="text-replace flex">
                       View Demo Site
-                      <Image
-                        width={20}
-                        height={20}
-                        className="arrow ml-4 inline h-3 w-3"
-                        alt="up arrow"
-                        src="/uprightarrowwhite.png"
-                      />
+                      <ArrowUpRight size={20} className="ml-2 inline" />
                     </span>
                   </div>
                 </a>
@@ -241,17 +230,17 @@ export default function page() {
       </section>
 
       {/* Only the features you need  */}
-      <section className="flex h-auto flex-col items-start justify-start bg-[#DDDDC7] p-5 md:min-h-[100vh] md:p-20">
-        <h1 className="text-[128px] font-semibold leading-[140px]">
+      <section className="flex h-auto flex-col items-start justify-start bg-[#DDDDC7] p-6 md:min-h-[100vh] md:p-20">
+        <h1 className="text-6xl font-semibold leading-tight md:text-[126px] md:leading-[126px]">
           Only the features you need. Nothing you don’t.
         </h1>
-        <div className="mt-10 w-full">
-          <p className="text-2xl leading-loose">
+        <div className="mt-6 w-full text-lg leading-relaxed md:mt-12 md:text-2xl">
+          <p>
             No complicated website builders. Just upload your work, choose a
             template, and click publish.
           </p>
-          <p className="my-5 text-2xl leading-loose">
-            Get a custom looking website that is as easy to maintain as your
+          <p className="my-4">
+            Get a custom-looking website that is as easy to maintain as your
             Instagram page.
           </p>
         </div>
@@ -263,7 +252,7 @@ export default function page() {
           <p className="text-sm leading-loose md:text-base">
             A picture is worth a thousand words. And 5 or 6 pictures is worth a
             lot more. Add multiple images of each piece, to get a sense of its
-            scale or show the details. Sculptors: show it from multiple angles.
+            scale or show the details.
           </p>
           <p className="text-sm leading-loose md:text-base">
             Sculptors: show it from multiple angles.
@@ -288,8 +277,7 @@ export default function page() {
           <p className="text-sm leading-loose md:text-base">
             With a simple, easy to use dashboard, launch your portfolio website
             on SelectedWork in minutes, not days or weeks, without any web
-            design or coding knowledge needed. Updating it is as easy as posting
-            on Instagram.
+            design or coding knowledge needed.
           </p>
           <p className="text-sm leading-loose md:text-base">
             Updating it is as easy as posting on Instagram.
@@ -306,45 +294,53 @@ export default function page() {
         </div>
       </section>
 
-      <section className="flex h-auto flex-col items-center justify-between bg-[#CDCACE] py-5 text-[#393E46]  md:h-[100vh] md:flex-row md:py-10">
+      <section className="flex h-auto flex-col items-center justify-between bg-[#CDCACE] py-8 text-[#393E46] md:h-[100vh] md:flex-row md:py-10">
         <div className="flex w-full flex-col items-center justify-center md:w-1/2">
-          <Image src="/screenshot1.png" width={900} height={900} alt="mobile" />
+          <Image
+            src="/screenshot1.png"
+            width={900}
+            height={900}
+            alt="mobile"
+            className="h-auto max-w-full"
+          />
         </div>
-        <div className="flex w-full flex-col justify-center space-y-4 md:w-1/2 lg:p-20">
+
+        <div className="flex w-full flex-col justify-center space-y-6 text-center md:w-1/2 md:text-left lg:p-20">
           <div className="mb-10">
             <h2 className="mb-5 text-2xl font-semibold md:text-4xl">
               Try SelectedWork today
             </h2>
-            <p>
-              Show your work with confidence with a professional grade website.
+            <p className="text-lg md:text-xl">
+              Show your work with confidence with a professional-grade website.
             </p>
           </div>
-          {/* Content */}
+
+          {/* CTA Button */}
           <a
             href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
             rel="noopener noreferrer"
-            className="group relative block h-[80px] w-[420px] overflow-hidden bg-[#393E46] p-4 transition-all duration-100"
+            className="group relative block h-[70px] w-full max-w-[420px] overflow-hidden bg-[#393E46] p-4 transition-all duration-100 md:w-[420px]"
           >
-            {/* Default state (Dark background, white text) */}
-            <div className="absolute inset-0 flex items-center justify-center text-xl font-semibold text-white transition-transform duration-300 group-hover:-translate-y-full">
+            {/* Default state */}
+            <div className="absolute inset-0 flex items-center justify-center text-lg font-semibold text-white transition-transform duration-300 group-hover:-translate-y-full">
               Let's Go
               <Image
                 width={30}
                 height={20}
                 className="ml-4 transition-opacity duration-300 group-hover:opacity-0"
-                alt="up arrow"
+                alt="right arrow"
                 src="/rightarrowwhite.png"
               />
             </div>
 
-            {/* Hover state (White background, dark text) */}
-            <div className="absolute inset-0 flex translate-y-full items-center justify-center bg-white p-4 text-xl font-semibold text-black transition-transform duration-300 group-hover:translate-y-0">
+            {/* Hover state */}
+            <div className="absolute inset-0 flex translate-y-full items-center justify-center bg-white p-4 text-lg font-semibold text-black transition-transform duration-300 group-hover:translate-y-0">
               Let's Go
               <Image
                 width={30}
                 height={20}
-                className="ml-4 transition-opacity duration-300 group-hover:opacity-100"
-                alt="up arrow"
+                className="ml-4 transition-opacity duration-100 group-hover:opacity-100"
+                alt="right arrow"
                 src="/rightarrowdark.png"
               />
             </div>
