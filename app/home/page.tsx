@@ -356,7 +356,7 @@ export default function page() {
         </div>
 
         {/* Pricing Section */}
-        <section className="flex w-full flex-col items-center justify-center md:p-5">
+        <section className="flex w-full flex-col items-center justify-center py-20">
           <div className="mt-10 flex flex-col gap-20 md:flex-row">
             {/* Free Tier */}
             <div className="flex h-[470px] w-[320px] max-w-md flex-col rounded-lg border-2 border-gray-600 p-10 text-center md:p-10">
@@ -371,11 +371,15 @@ export default function page() {
                 <li>All the tools you need to show your work</li>
               </ul>
               <div className="mt-6 flex flex-col items-center justify-center gap-2">
-                <div className="relative w-full max-w-[180px] cursor-pointer overflow-hidden border-2 border-gray-600 bg-transparent px-6 py-2 text-lg font-medium text-gray-600 transition-all before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-gray-600 before:text-[#CDD5E0] before:transition-all before:duration-100 hover:text-[#CDD5E0] hover:before:h-full">
-                  <span className="relative z-10 text-sm font-semibold uppercase">
-                    Try it out
-                  </span>
-                </div>
+                <a
+                  href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+                >
+                  <div className="relative w-[180px] w-full cursor-pointer overflow-hidden border-2 border-gray-600 bg-transparent px-6 py-2 text-lg font-medium text-gray-600 transition-all before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-gray-600 before:text-gray-600 before:transition-all before:duration-100 hover:text-[#CDD5E0] hover:before:h-full">
+                    <span className="relative z-10 text-sm font-semibold uppercase">
+                      Try it out
+                    </span>
+                  </div>
+                </a>
               </div>
             </div>
 
@@ -395,11 +399,15 @@ export default function page() {
                 <li>Cancel anytime</li>
               </ul>
               <div className="mt-6 flex flex-col items-center justify-center gap-2">
-                <div className="relative w-full max-w-[180px] cursor-pointer overflow-hidden border-2 border-gray-600 bg-transparent px-6 py-2 text-lg font-medium text-gray-600 transition-all before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-gray-600 before:text-[#CDD5E0] before:transition-all before:duration-100 hover:text-[#CDD5E0] hover:before:h-full">
-                  <span className="relative z-10 text-sm font-semibold uppercase">
-                    Go Pro
-                  </span>
-                </div>
+                <a
+                  href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+                >
+                  <div className="relative w-[180px] w-full cursor-pointer overflow-hidden border-2 border-gray-600 bg-transparent px-6 py-2 text-lg font-medium text-gray-600 transition-all before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-gray-600 before:text-gray-600 before:transition-all before:duration-100 hover:text-[#CDD5E0] hover:before:h-full">
+                    <span className="relative z-10 text-sm font-semibold uppercase">
+                      Go Pro
+                    </span>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
