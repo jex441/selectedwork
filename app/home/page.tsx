@@ -155,7 +155,7 @@ export default function page() {
       </section>
 
       <section className="flex min-h-[60vh] items-center justify-center bg-[#EDEDED] px-6 py-12 md:h-[90vh] md:p-20">
-        <div className="md:max-w-3/4 max-w-[90%] text-center text-2xl leading-[50px] md:text-4xl md:leading-[70px]">
+        <div className="md:max-w-3/4 max-w-[90%] text-center text-2xl leading-[50px] md:text-5xl md:leading-[70px]">
           {text.split(' ').map((word, index) => (
             <span
               key={index}
@@ -176,8 +176,11 @@ export default function page() {
           <p className="text-sm md:text-base">
             Each of our templates was hand-crafted by our design team in
             consultation with professional artists to do one thing: display real
-            artwork by real artists. No tacky AI gimmicks. Just simple,
-            readymade templates that let the work do the talking.
+            artwork by real artists.
+          </p>
+          <p className="text-sm md:text-base">
+            No tacky AI gimmicks. Just simple, readymade templates that let the
+            work do the talking.
           </p>
         </div>
 
@@ -230,19 +233,19 @@ export default function page() {
       </section>
 
       {/* Only the features you need  */}
-      <section className="flex h-auto flex-col items-start justify-start bg-[#DDDDC7] p-6 md:min-h-[100vh] md:p-20">
-        <h1 className="text-6xl font-semibold leading-tight md:text-[126px] md:leading-[126px]">
-          Only the features you need. Nothing you don’t.
-        </h1>
-        <div className="mt-6 w-full text-lg leading-relaxed md:mt-12 md:text-2xl">
-          <p>
-            No complicated website builders. Just upload your work, choose a
-            template, and click publish.
-          </p>
-          <p className="my-4">
-            Get a custom-looking website that is as easy to maintain as your
-            Instagram page.
-          </p>
+      <section className="flex h-auto flex-col items-start justify-start bg-[#C7C7B0] p-6 md:min-h-[100vh] md:p-20">
+        <div className="w-5/6">
+          <h1 className="text-6xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
+            Only the features you need.
+            <br /> <span className="text-white">Nothing you don’t.</span>
+          </h1>
+          <div className="mt-6 w-full text-lg leading-relaxed md:mt-12 md:text-xl">
+            <p className="leading-relaxed">
+              Stop paying for a ton of features you don't even use. SelectedWork
+              offers portfolio website templates that work, right out of the
+              box.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -275,12 +278,9 @@ export default function page() {
             Intuitive dashboard for ease of use
           </h2>
           <p className="text-sm leading-loose md:text-base">
-            With a simple, easy to use dashboard, launch your portfolio website
-            on SelectedWork in minutes, not days or weeks, without any web
-            design or coding knowledge needed.
-          </p>
-          <p className="text-sm leading-loose md:text-base">
-            Updating it is as easy as posting on Instagram.
+            No complicated website builders. Just upload your work, choose a
+            template, and click publish. Get a custom-looking website that is as
+            easy to maintain as your Instagram page.
           </p>
         </div>
         <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
@@ -291,6 +291,61 @@ export default function page() {
             loop
             muted
           ></video>
+        </div>
+      </section>
+
+      {/* Whitespace  */}
+      <section className="flex h-auto flex-col items-start justify-start bg-[#C7C7B0] p-6 md:min-h-[100vh] md:p-20">
+        <div className="w-4/6">
+          <h1 className="text-6xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
+            Just the right amount of
+            <span className="text-white"> whitespace</span>
+          </h1>
+          <div className="mt-6 w-full text-lg leading-relaxed md:mt-12 md:text-xl">
+            <p className="leading-relaxed">
+              Ditch the annoying, jumbled tile layouts and show your work in a
+              neat grid and give your work space to breathe.
+            </p>
+          </div>
+        </div>
+        <div className="flex w-full flex-row items-center justify-center">
+          <div>
+            Before
+            <video
+              src="/whitespace.mov"
+              className="h-[300px] rounded-md shadow-md md:h-[450px]"
+              autoPlay
+              loop
+              muted
+            ></video>
+          </div>
+          <div>
+            After
+            <video
+              src="/whitespace.mov"
+              className="h-[300px] rounded-md shadow-md md:h-[450px]"
+              autoPlay
+              loop
+              muted
+            ></video>
+          </div>
+        </div>
+      </section>
+
+      {/* Made for artwork  */}
+      <section className="flex h-auto flex-col items-start justify-start bg-[#CDD5E0] p-6 md:min-h-[100vh] md:p-20">
+        <div className="w-5/6">
+          <h1 className="text-5xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
+            Made for displaying artwork.
+            <br /> <span className="text-white">Nothing else.</span>
+          </h1>
+          <div className="mt-6 w-full text-lg md:mt-12 md:text-xl">
+            <p className="leading-relaxed">
+              Unlike Squarespace and Wix which cater to every industry, Selected
+              Work was built for one thing, and one thing only: displaying real,
+              physical artwork on the web, the right way.
+            </p>
+          </div>
         </div>
       </section>
 
