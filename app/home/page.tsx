@@ -7,6 +7,8 @@ import { ArrowUpRight } from 'lucide-react';
 import { Arrow } from '@radix-ui/react-dropdown-menu';
 import localFont from 'next/font/local';
 import { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
+
 const regular = localFont({
   src: 'HKGrotesk-Medium.otf',
 });
@@ -235,10 +237,65 @@ export default function page() {
       {/* Made for artwork  */}
       <section className="flex h-auto flex-col items-start justify-start bg-[#C7C7B0] p-6 md:min-h-[100vh] md:p-20">
         <div className="w-5/6">
-          <h1 className="text-5xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
-            Made for displaying artwork.
-            <br /> <span className="text-white">Nothing else.</span>
-          </h1>
+          <ul className="text-5xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
+            <li className="flex flex-row overflow-hidden">
+              <motion.div
+                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                Made for
+              </motion.div>
+            </li>
+            <li className="overflow-hidden">
+              <motion.div
+                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                  delay: 0.1,
+                }}
+              >
+                displaying
+              </motion.div>
+            </li>
+            <li className="overflow-hidden">
+              <motion.div
+                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                  delay: 0.2,
+                }}
+              >
+                artwork.
+              </motion.div>
+            </li>
+            <li className="overflow-hidden">
+              <motion.div
+                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                  delay: 0.3,
+                }}
+                className="text-white"
+              >
+                Nothing else.
+              </motion.div>
+            </li>
+          </ul>
+
           <div className="mt-6 w-full text-lg md:mt-12 md:text-xl">
             <p className="leading-relaxed">
               Unlike Squarespace and Wix which cater to every industry under the
@@ -297,11 +354,62 @@ export default function page() {
 
       {/* Whitespace  */}
       <section className="flex h-auto flex-col items-start justify-start bg-[#C7CFBE] p-6 md:min-h-[100vh] md:p-20">
-        <div className="w-4/6">
-          <h1 className="text-6xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
-            Just the right amount of
-            <span className="text-white"> whitespace</span>
-          </h1>
+        <div className="w-5/6">
+          <ul className="text-5xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
+            <li className="flex flex-row overflow-hidden">
+              <motion.div
+                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                Just the
+              </motion.div>
+            </li>
+            <li className="flex flex-row overflow-hidden">
+              <motion.div
+                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                right
+              </motion.div>
+            </li>
+            <li className="flex flex-row overflow-hidden">
+              <motion.div
+                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                amount of
+              </motion.div>
+            </li>
+            <li className="flex flex-row overflow-hidden">
+              <motion.div
+                className="text-white"
+                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                whitespace
+              </motion.div>
+            </li>
+          </ul>
           <div className="mt-6 w-full text-lg leading-relaxed md:mt-12 md:text-xl">
             <p className="leading-relaxed">
               Ditch the annoying, jumbled, tile layouts, show your work in a
@@ -340,10 +448,61 @@ export default function page() {
       {/* Only the features you need  */}
       <section className="flex h-auto flex-col items-start justify-start bg-[#CDD5E0] p-6 md:min-h-[100vh] md:p-20">
         <div className="w-5/6">
-          <h1 className="text-6xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
-            Only the features you need.
-            <br /> <span className="text-white">Nothing you don’t.</span>
-          </h1>
+          <ul className="text-5xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
+            <li className="flex flex-row overflow-hidden">
+              <motion.div
+                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                Only the
+              </motion.div>
+            </li>
+            <li className="flex flex-row overflow-hidden">
+              <motion.div
+                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                features
+              </motion.div>
+            </li>
+            <li className="flex flex-row overflow-hidden">
+              <motion.div
+                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                you need.
+              </motion.div>
+            </li>
+            <li className="flex flex-row overflow-hidden">
+              <motion.div
+                className="text-white"
+                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                Nothing else.
+              </motion.div>
+            </li>
+          </ul>
           <div className="mt-6 w-full text-lg leading-relaxed md:mt-12 md:text-xl">
             <p className="leading-relaxed">
               Stop overpaying for a ton of features you don't even use.

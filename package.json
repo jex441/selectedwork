@@ -44,6 +44,7 @@
     "eslint": "^9.6.0",
     "grommet": "^2.39.0",
     "lucide-react": "^0.395.0",
+    "motion": "^12.4.1",
     "next": "^14.2.4",
     "postcss": "8.4.31",
     "random-word-slugs": "^0.1.7",
