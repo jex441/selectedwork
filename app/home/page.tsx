@@ -277,9 +277,7 @@ export default function page() {
       {/* Dashboard */}
       <section className="flex h-auto flex-col items-center justify-center bg-[#EBEBEB] p-5 text-[#393E46] md:h-[100vh] md:flex-row md:p-10">
         <div className="flex w-full flex-col justify-center space-y-4 p-5 md:w-1/3">
-          <h2 className="text-2xl md:text-4xl">
-            Intuitive dashboard for ease of use
-          </h2>
+          <h2 className="text-2xl md:text-4xl">Easy to use dashboard</h2>
           <p className="text-sm leading-loose md:text-base">
             No complicated website builders. Just upload your work, choose a
             template, and click publish. Get a custom-looking website that is as
@@ -349,8 +347,9 @@ export default function page() {
           <div className="mt-6 w-full text-lg leading-relaxed md:mt-12 md:text-xl">
             <p className="leading-relaxed">
               Stop overpaying for a ton of features you don't even use.
-              SelectedWork offers portfolio website templates that work, right
-              out of the box.
+              SelectedWork offers what you need to show your work today. Oh
+              yeah, and no long term contracts. Just flexible easy-to-understand
+              pricing.
             </p>
           </div>
         </div>
@@ -360,7 +359,7 @@ export default function page() {
           <div className="mt-10 flex flex-col gap-20 md:flex-row">
             {/* Free Tier */}
             <div className="flex h-[470px] w-[320px] max-w-md flex-col rounded-lg border-2 border-gray-600 p-10 text-center md:p-10">
-              <h3 className="mb-2 bg-gray-600 p-1 text-xl font-semibold uppercase tracking-wide text-[#CDD5E0] text-gray-600">
+              <h3 className="mb-2 bg-gray-600 p-1 text-xl font-semibold uppercase tracking-wide text-[#CDD5E0]">
                 Hobby
               </h3>
               <p className="my-2 text-gray-500">Start Building</p>
@@ -385,7 +384,7 @@ export default function page() {
 
             {/* Pro Tier */}
             <div className="flex h-[470px] w-[320px] max-w-md flex-col  rounded-lg border-2 border-gray-600 p-10 text-center md:p-10">
-              <h3 className="mb-2 bg-gray-600 p-1 text-xl font-semibold uppercase tracking-wide text-[#CDD5E0] text-gray-600">
+              <h3 className="mb-2 bg-gray-600 p-1 text-xl font-semibold uppercase tracking-wide text-[#CDD5E0]">
                 Pro
               </h3>
               <p className="my-2 text-gray-500">Make it your own</p>
