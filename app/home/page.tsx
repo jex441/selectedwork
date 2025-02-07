@@ -439,7 +439,7 @@ export default function page() {
           <a
             href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
             rel="noopener noreferrer"
-            className="group relative block h-[70px] w-full max-w-[420px] overflow-hidden bg-[#393E46] p-4 transition-all duration-100 md:w-[420px]"
+            className="group relative block h-[70px] w-full max-w-[420px] overflow-hidden bg-[#393E46] p-4 transition-all duration-300 md:w-[420px]"
           >
             {/* Default state */}
             <div className="absolute inset-0 flex items-center justify-center text-lg font-semibold text-white transition-transform duration-300 group-hover:-translate-y-full">
@@ -454,12 +454,12 @@ export default function page() {
             </div>
 
             {/* Hover state */}
-            <div className="absolute inset-0 flex translate-y-full items-center justify-center bg-white p-4 text-lg font-semibold text-black transition-transform duration-300 group-hover:translate-y-0">
+            <div className="absolute inset-0 flex translate-y-full items-center justify-center bg-white text-lg font-semibold text-black transition-transform duration-300 group-hover:translate-y-0">
               Let's Go
               <Image
                 width={30}
                 height={20}
-                className="ml-4 transition-opacity duration-100 group-hover:opacity-100"
+                className="ml-4 transition-opacity duration-300 group-hover:opacity-100"
                 alt="right arrow"
                 src="/rightarrowdark.png"
               />
