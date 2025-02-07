@@ -18,7 +18,7 @@ export default function page() {
   //
   const [scrolledWords, setScrolledWords] = useState(0);
   const text =
-    'Built for working artists, Selected Work is the simplest and most intuitive approach to creating your portfolio website and show your work in the best possible light.';
+    'Built for working artists, SelectedWork is the simplest and most intuitive approach to launching a quality portfolio website for your work today.';
 
   const handleScroll = () => {
     const scrollPosition = window.scrollY;
@@ -31,7 +31,7 @@ export default function page() {
 
     // Determine how many words to change based on scroll percentage
     const words = text.split(' '); // Split by spaces to get words
-    const wordsToChange = Math.floor((scrollPercentage / 20) * words.length);
+    const wordsToChange = Math.floor((scrollPercentage / 10) * words.length);
 
     setScrolledWords(wordsToChange);
   };
@@ -78,7 +78,7 @@ export default function page() {
 
       <section className="flex min-h-[90vh] flex-1 flex-col-reverse items-center justify-center gap-10 text-[#403A60] lg:flex-row lg:justify-between ">
         <div className="flex flex-col items-center justify-center space-y-4 text-center lg:ml-14 lg:items-start lg:space-y-6 lg:text-left">
-          <span className="flex w-full flex-row items-center justify-center text-center lg:justify-start lg:text-left">
+          <span className="flex w-full flex-row items-center justify-center overflow-hidden text-center lg:justify-start lg:text-left">
             <Image
               src="/landinglogo.png"
               className="mr-4"
@@ -157,7 +157,7 @@ export default function page() {
       </section>
 
       <section className="flex min-h-[60vh] items-center justify-center bg-[#EDEDED] px-6 py-12 md:h-[90vh] md:p-20">
-        <div className="md:max-w-3/4 max-w-[90%] text-center text-2xl leading-[50px] md:text-5xl md:leading-[70px]">
+        <div className="max-w-[90%] text-center text-2xl font-semibold leading-[50px] md:w-3/4 md:text-4xl md:leading-[70px]">
           {text.split(' ').map((word, index) => (
             <span
               key={index}
@@ -172,18 +172,38 @@ export default function page() {
       {/* Templates */}
       <section className="flex h-auto min-h-[100vh] flex-col items-center justify-center bg-[#393E46] p-6 text-white md:h-[100vh] md:flex-row md:p-10">
         <div className="flex w-full flex-col justify-center space-y-6 pr-0 text-center md:w-1/3 md:pr-5 md:text-left">
-          <h2 className="text-2xl md:text-3xl">
-            Clean, minimalist readymade templates
-          </h2>
-          <p className="text-sm md:text-base">
-            Each of our templates was hand-crafted by our design team in
-            consultation with professional artists to do one thing: display real
-            artwork by real artists.
-          </p>
-          <p className="text-sm md:text-base">
-            No tacky AI gimmicks. Just simple, readymade templates that let the
-            work do the talking.
-          </p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1 }}
+            transition={{
+              duration: 0.8,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+          >
+            <h2 className="text-2xl md:text-3xl">
+              Clean, minimalist readymade templates
+            </h2>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1 }}
+            transition={{
+              duration: 0.8,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+          >
+            <p className="text-sm md:text-base">
+              Each of our templates was hand-crafted by our design team in
+              consultation with professional artists to do one thing: display
+              real artwork by real artists.
+            </p>
+            <p className="text-sm md:text-base">
+              No tacky AI gimmicks. Just simple, readymade templates that let
+              the work do the talking.
+            </p>
+          </motion.div>
         </div>
 
         <div className="flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
@@ -297,12 +317,22 @@ export default function page() {
           </ul>
 
           <div className="mt-6 w-full text-lg md:mt-12 md:text-xl">
-            <p className="leading-relaxed">
-              Unlike Squarespace and Wix which cater to every industry under the
-              sun, SelectedWork was purpose built for one thing, and one thing
-              only: displaying real, physical artwork, on the web - the right
-              way.
-            </p>
+            <motion.div
+              initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+              viewport={{ once: true }}
+              whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+              transition={{
+                duration: 0.8,
+                ease: [0, 0.71, 0.2, 1.01],
+              }}
+            >
+              <p className="leading-relaxed">
+                Unlike Squarespace and Wix which cater to every industry under
+                the sun, SelectedWork was purpose built for one thing, and one
+                thing only: displaying real, physical artwork, on the web - the
+                right way.
+              </p>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -310,15 +340,35 @@ export default function page() {
       {/* Thumbnails */}
       <section className="flex h-auto flex-col items-center justify-center bg-[#D1CEC5] p-5 text-[#283739] md:h-[100vh] md:flex-row md:p-10">
         <div className="flex w-full flex-col justify-center space-y-4 p-5 md:w-1/3">
-          <h2 className="text-2xl md:text-4xl">Get the whole picture</h2>
-          <p className="text-sm leading-loose md:text-base">
-            A picture is worth a thousand words. And 5 or 6 pictures is worth a
-            lot more. Add multiple images of each piece, to get a sense of its
-            scale or show the details.
-          </p>
-          <p className="text-sm leading-loose md:text-base">
-            Sculptors: show it from multiple angles.
-          </p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1 }}
+            transition={{
+              duration: 0.8,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+          >
+            <h2 className="text-2xl md:text-4xl">Get the whole picture</h2>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1 }}
+            transition={{
+              duration: 0.8,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+          >
+            <p className="text-sm leading-loose md:text-base">
+              A picture is worth a thousand words. And 5 or 6 pictures is worth
+              a lot more. Add multiple images of each piece, to get a sense of
+              its scale or show the details.
+            </p>
+            <p className="text-sm leading-loose md:text-base">
+              Sculptors: show it from multiple angles.
+            </p>
+          </motion.div>
         </div>
         <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <video
@@ -334,12 +384,32 @@ export default function page() {
       {/* Dashboard */}
       <section className="flex h-auto flex-col items-center justify-center bg-[#EBEBEB] p-5 text-[#393E46] md:h-[100vh] md:flex-row md:p-10">
         <div className="flex w-full flex-col justify-center space-y-4 p-5 md:w-1/3">
-          <h2 className="text-2xl md:text-4xl">Easy to use dashboard</h2>
-          <p className="text-sm leading-loose md:text-base">
-            No complicated website builders. Just upload your work, choose a
-            template, and click publish. Get a custom-looking website that is as
-            easy to maintain as your Instagram page.
-          </p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1 }}
+            transition={{
+              duration: 0.8,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+          >
+            <h2 className="text-2xl md:text-4xl">Easy to use dashboard</h2>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1 }}
+            transition={{
+              duration: 0.8,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+          >
+            <p className="text-sm leading-loose md:text-base">
+              No complicated website builders. Just upload your work, choose a
+              template, and click publish. Get a custom-looking website that is
+              as easy to maintain as your Instagram page.
+            </p>
+          </motion.div>
         </div>
         <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <video
@@ -411,13 +481,24 @@ export default function page() {
             </li>
           </ul>
           <div className="mt-6 w-full text-lg leading-relaxed md:mt-12 md:text-xl">
-            <p className="leading-relaxed">
-              Ditch the annoying, jumbled, tile layouts, show your work in a
-              clean, neat, grid, and give your work space to breathe.
-            </p>
+            <motion.div
+              initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+              viewport={{ once: true }}
+              whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+              transition={{
+                duration: 0.8,
+                ease: [0, 0.71, 0.2, 1.01],
+              }}
+            >
+              {' '}
+              <p className="leading-relaxed">
+                Ditch the annoying, jumbled, tile layouts, show your work in a
+                clean, neat, grid, and give your work space to breathe.
+              </p>
+            </motion.div>
           </div>
         </div>
-        <div className="my-10 flex w-full flex-row items-center justify-around">
+        <div className="my-20 flex w-full flex-row items-center justify-around">
           <div className="flex flex-col items-center justify-center gap-5">
             <span className="text-sm font-semibold uppercase tracking-wider text-gray-600">
               Before
@@ -429,6 +510,9 @@ export default function page() {
               loop
               muted
             ></video>
+            <span className="tracking-widetext-sm r w-full bg-gray-600 text-center font-semibold uppercase text-[#C7CFBE]">
+              Squarespace
+            </span>
           </div>
           <div className="flex flex-col items-center justify-center gap-5">
             <span className="tracking-widetext-sm r font-semibold uppercase text-gray-600">
@@ -441,6 +525,9 @@ export default function page() {
               loop
               muted
             ></video>
+            <span className="tracking-widetext-sm r w-full bg-gray-600 text-center font-semibold uppercase text-[#C7CFBE]">
+              SelectedWork
+            </span>
           </div>
         </div>
       </section>
@@ -504,12 +591,22 @@ export default function page() {
             </li>
           </ul>
           <div className="mt-6 w-full text-lg leading-relaxed md:mt-12 md:text-xl">
-            <p className="leading-relaxed">
-              Stop overpaying for a ton of features you don't even use.
-              SelectedWork offers what you need to show your work today. Oh
-              yeah, and no long term contracts. Just flexible easy-to-understand
-              pricing.
-            </p>
+            <motion.div
+              initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+              viewport={{ once: true }}
+              whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+              transition={{
+                duration: 0.8,
+                ease: [0, 0.71, 0.2, 1.01],
+              }}
+            >
+              <p className="leading-relaxed">
+                Stop overpaying for a ton of features you don't even use.
+                SelectedWork offers what you need to show your work today. Oh
+                yeah, and no long term contracts. Just flexible
+                easy-to-understand pricing.
+              </p>
+            </motion.div>
           </div>
         </div>
 
