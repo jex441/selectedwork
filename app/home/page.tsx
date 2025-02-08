@@ -43,13 +43,14 @@ export default function page() {
     };
   }, []);
   //
+  const templates = ['camdenross', 'andrewwhite', 'janewalsh'];
   return (
     <main className={`flex flex-col bg-[#E4EDDB] ${regular.className}`}>
       <header className="flex h-16 w-full items-center justify-between px-4 text-[#403A60] lg:px-12">
         <Link href="#" className="flex items-center" prefetch={false}>
           <Image
             src="/landinglogo.png"
-            alt="Selected Work"
+            alt="SelectedWork"
             width={24}
             height={24}
           />
@@ -76,19 +77,19 @@ export default function page() {
         </div>
       </header>
 
-      <section className="flex min-h-[90vh] flex-1 flex-col-reverse items-center justify-center gap-10 text-[#403A60] lg:flex-row lg:justify-between ">
+      <section className="flex min-h-[90vh] flex-1 flex-col-reverse items-center justify-center gap-10 text-[#403A60] lg:flex-row lg:justify-between">
         <div className="flex flex-col items-center justify-center space-y-4 text-center lg:ml-14 lg:items-start lg:space-y-6 lg:text-left">
           <span className="flex w-full flex-row items-center justify-center overflow-hidden text-center lg:justify-start lg:text-left">
             <Image
               src="/landinglogo.png"
               className="mr-4"
-              alt="Selected Work"
+              alt="SelectedWork"
               width={35}
               height={35}
             />
             <span>
-              <h1 className="text-center text-3xl font-semibold sm:text-5xl md:text-6xl lg:text-left">
-                Selected Work
+              <h1 className="text-center text-4xl font-semibold sm:text-5xl md:text-6xl lg:text-left lg:text-5xl xl:text-6xl">
+                SelectedWork
               </h1>
             </span>
           </span>
@@ -98,8 +99,8 @@ export default function page() {
           <div className="mt-4 flex w-full flex-row justify-center gap-6 sm:flex-row lg:justify-start lg:gap-10">
             <button
               className={`relative overflow-hidden border-2 border-[#403A60] bg-[#403A60] px-6 py-2 text-lg font-medium text-[#E4EDDB] transition-all 
-    before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-[#E4EDDB] before:transition-all before:duration-300 hover:text-[#403A60] 
-    hover:before:h-full`}
+        before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-[#E4EDDB] before:transition-all before:duration-300 hover:text-[#403A60] 
+        hover:before:h-full`}
             >
               <span className="relative z-10 text-sm font-semibold uppercase">
                 Get Started
@@ -111,11 +112,11 @@ export default function page() {
               rel="noopener noreferrer"
             >
               <div className="text-container m-2 w-[160px] border-b-2 border-[#403A60] p-4">
-                <div className="text flex flex-row justify-between">
+                <div className="text md:text-md flex flex-row justify-between text-sm">
                   View Demo Site
                   <ArrowUpRight size={20} className="ml-2 inline" />
                 </div>
-                <span className="text-replace flex">
+                <span className="text-replace md:text-md flex text-sm">
                   View Demo Site
                   <ArrowUpRight size={20} className="ml-2 inline" />
                 </span>
@@ -127,7 +128,7 @@ export default function page() {
           <Image
             className=""
             src="/landinglarge.png"
-            alt="Selected Work"
+            alt="SelectedWork"
             width={800}
             height={500}
           />
@@ -171,39 +172,20 @@ export default function page() {
 
       {/* Templates */}
       <section className="flex h-auto min-h-[100vh] flex-col items-center justify-center bg-[#393E46] p-6 text-white md:h-[100vh] md:flex-row md:p-10">
-        <div className="flex w-full flex-col justify-center space-y-6 pr-0 text-center md:w-1/3 md:pr-5 md:text-left">
-          <motion.div
-            initial={{ opacity: 0 }}
-            viewport={{ once: true }}
-            whileInView={{ opacity: 1 }}
-            transition={{
-              duration: 0.8,
-              ease: [0, 0.71, 0.2, 1.01],
-            }}
-          >
-            <h2 className="text-2xl md:text-3xl">
-              Clean, minimalist readymade templates
-            </h2>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            viewport={{ once: true }}
-            whileInView={{ opacity: 1 }}
-            transition={{
-              duration: 0.8,
-              ease: [0, 0.71, 0.2, 1.01],
-            }}
-          >
-            <p className="text-sm md:text-base">
-              Each of our templates was hand-crafted by our design team in
-              consultation with professional artists to do one thing: display
-              real artwork by real artists.
-            </p>
-            <p className="text-sm md:text-base">
-              No tacky AI gimmicks. Just simple, readymade templates that let
-              the work do the talking.
-            </p>
-          </motion.div>
+        <div className="flex w-full flex-col justify-center space-y-6 pr-0 md:w-1/3 md:pr-5 md:text-left md:text-center">
+          <h2 className="text-2xl md:text-3xl">
+            Clean, minimalist readymade templates
+          </h2>
+
+          <p className="text-sm md:text-base">
+            Each of our templates was hand-crafted by our design team in
+            consultation with professional artists to do one thing: display real
+            artwork by real artists.
+          </p>
+          <p className="my-2 text-sm md:text-base">
+            No tacky AI gimmicks. Just simple, readymade templates that let the
+            work do the talking.
+          </p>
         </div>
 
         <div className="flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
@@ -217,14 +199,14 @@ export default function page() {
             ></video>
           </span>
 
-          <div className="flex w-full flex-wrap items-center justify-center gap-6 md:w-2/3 md:flex-nowrap md:gap-12">
+          <div className="mg:gap-6 flex w-full items-center justify-between md:w-2/3 md:flex-nowrap md:justify-center md:gap-12">
             {[1, 2, 3].map((template) => (
               <div key={template} className="flex flex-col items-center gap-2">
                 <button
                   onClick={() => setVideoSrc(`/template${template}.mov`)}
-                  className={`relative w-full max-w-[180px] overflow-hidden border-2 border-white bg-transparent px-6 py-2 text-lg font-medium transition-all 
-              before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-white before:transition-all before:duration-300 
-              hover:text-[#393E46] hover:before:h-full 
+                  className={`relative overflow-hidden border-2 border-white bg-transparent px-6 py-2 text-lg font-medium transition-all before:absolute 
+              before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-white before:transition-all before:duration-300 hover:text-[#393E46] 
+              hover:before:h-full md:max-w-[180px] 
               ${videoSrc === `/template${template}.mov` ? 'bg-white text-[#393E46]' : 'text-white'}`}
                 >
                   <span className="relative z-10 text-sm font-semibold uppercase">
@@ -237,7 +219,7 @@ export default function page() {
                   rel="noopener noreferrer"
                   className="my-4 w-full max-w-[180px] border-b-2"
                 >
-                  <div className="text-container m-2 w-[160px] border-[#403A60] p-2">
+                  <div className="text-container border-[#403A60] p-2 md:m-2 md:w-[160px]">
                     <div className="text flex flex-row justify-between">
                       View Demo Site
                       <ArrowUpRight size={20} className="ml-2 inline" />
@@ -255,10 +237,10 @@ export default function page() {
       </section>
 
       {/* Made for artwork  */}
-      <section className="flex h-auto flex-col items-start justify-start bg-[#C7C7B0] p-6 md:min-h-[100vh] md:p-20">
+      <section className="flex flex-col items-start justify-start bg-[#C7C7B0] px-6 py-20 md:min-h-[100vh] md:p-20 md:py-0">
         <div className="w-5/6">
           <ul className="text-5xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
-            <li className="flex flex-row overflow-hidden">
+            <li className="flex flex-row md:overflow-hidden">
               <motion.div
                 initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
@@ -271,7 +253,7 @@ export default function page() {
                 Made for
               </motion.div>
             </li>
-            <li className="overflow-hidden">
+            <li className="md:overflow-hidden">
               <motion.div
                 initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
@@ -285,7 +267,7 @@ export default function page() {
                 displaying
               </motion.div>
             </li>
-            <li className="overflow-hidden">
+            <li className="md:overflow-hidden">
               <motion.div
                 initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
@@ -299,7 +281,7 @@ export default function page() {
                 artwork.
               </motion.div>
             </li>
-            <li className="overflow-hidden">
+            <li className="md:overflow-hidden">
               <motion.div
                 initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
@@ -311,7 +293,7 @@ export default function page() {
                 }}
                 className="text-white"
               >
-                Nothing else.
+                Nothing else
               </motion.div>
             </li>
           </ul>
@@ -338,42 +320,23 @@ export default function page() {
       </section>
 
       {/* Thumbnails */}
-      <section className="flex h-auto flex-col items-center justify-center bg-[#D1CEC5] p-5 text-[#283739] md:h-[100vh] md:flex-row md:p-10">
+      <section className="flex h-auto flex-col items-center justify-center bg-[#D1CEC5] px-5 pb-20 text-[#283739] md:h-[100vh] md:flex-row md:p-10 md:py-0">
         <div className="flex w-full flex-col justify-center space-y-4 p-5 md:w-1/3">
-          <motion.div
-            initial={{ opacity: 0 }}
-            viewport={{ once: true }}
-            whileInView={{ opacity: 1 }}
-            transition={{
-              duration: 0.8,
-              ease: [0, 0.71, 0.2, 1.01],
-            }}
-          >
-            <h2 className="text-2xl md:text-4xl">Get the whole picture</h2>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            viewport={{ once: true }}
-            whileInView={{ opacity: 1 }}
-            transition={{
-              duration: 0.8,
-              ease: [0, 0.71, 0.2, 1.01],
-            }}
-          >
-            <p className="text-sm leading-loose md:text-base">
-              A picture is worth a thousand words. And 5 or 6 pictures is worth
-              a lot more. Add multiple images of each piece, to get a sense of
-              its scale or show the details.
-            </p>
-            <p className="text-sm leading-loose md:text-base">
-              Sculptors: show it from multiple angles.
-            </p>
-          </motion.div>
+          <h2 className="text-2xl md:text-4xl">Get the whole picture</h2>
+
+          <p className="text-sm leading-loose md:text-base">
+            A picture is worth a thousand words. And 5 or 6 pictures is worth a
+            lot more. Add multiple images of each piece, to get a sense of its
+            scale or show the details.
+          </p>
+          <p className="text-sm leading-loose md:text-base">
+            Sculptors: show it from multiple angles.
+          </p>
         </div>
         <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <video
             src="/modal.mov"
-            className="h-[300px] rounded-md shadow-md md:h-[450px]"
+            className="max-h-[300px] rounded-md shadow-md md:h-[450px]"
             autoPlay
             loop
             muted
@@ -382,39 +345,19 @@ export default function page() {
       </section>
 
       {/* Dashboard */}
-      <section className="flex h-auto flex-col items-center justify-center bg-[#EBEBEB] p-5 text-[#393E46] md:h-[100vh] md:flex-row md:p-10">
+      <section className="flex h-auto flex-col items-center justify-center bg-[#EBEBEB] p-5 pb-20 text-[#393E46] md:h-[100vh] md:flex-row md:p-10">
         <div className="flex w-full flex-col justify-center space-y-4 p-5 md:w-1/3">
-          <motion.div
-            initial={{ opacity: 0 }}
-            viewport={{ once: true }}
-            whileInView={{ opacity: 1 }}
-            transition={{
-              duration: 0.8,
-              ease: [0, 0.71, 0.2, 1.01],
-            }}
-          >
-            <h2 className="text-2xl md:text-4xl">Easy to use dashboard</h2>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            viewport={{ once: true }}
-            whileInView={{ opacity: 1 }}
-            transition={{
-              duration: 0.8,
-              ease: [0, 0.71, 0.2, 1.01],
-            }}
-          >
-            <p className="text-sm leading-loose md:text-base">
-              No complicated website builders. Just upload your work, choose a
-              template, and click publish. Get a custom-looking website that is
-              as easy to maintain as your Instagram page.
-            </p>
-          </motion.div>
+          <h2 className="text-2xl md:text-4xl">Easy to use dashboard</h2>
+          <p className="text-sm leading-loose md:text-base">
+            No complicated website builders. Just upload your work, choose a
+            template, and click publish. Get a custom-looking website that is as
+            easy to maintain as your Instagram page.
+          </p>
         </div>
         <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <video
             src="/dashboard.mov"
-            className="h-[300px] rounded-md shadow-md md:h-[450px]"
+            className="max-h-[300px] rounded-md shadow-md md:h-[450px]"
             autoPlay
             loop
             muted
@@ -426,7 +369,7 @@ export default function page() {
       <section className="flex h-auto flex-col items-start justify-start bg-[#C7CFBE] p-6 md:min-h-[100vh] md:p-20">
         <div className="w-5/6">
           <ul className="text-5xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
-            <li className="flex flex-row overflow-hidden">
+            <li className="flex flex-row md:overflow-hidden">
               <motion.div
                 initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
@@ -439,45 +382,51 @@ export default function page() {
                 Just the
               </motion.div>
             </li>
-            <li className="flex flex-row overflow-hidden">
+            <li className="flex flex-row md:overflow-hidden">
               <motion.div
                 initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
                   duration: 0.8,
+                  delay: 0.1,
                   ease: [0, 0.71, 0.2, 1.01],
                 }}
               >
                 right
               </motion.div>
             </li>
-            <li className="flex flex-row overflow-hidden">
+            <li className="flex flex-row md:overflow-hidden">
               <motion.div
                 initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
                   duration: 0.8,
+                  delay: 0.2,
                   ease: [0, 0.71, 0.2, 1.01],
                 }}
               >
                 amount of
               </motion.div>
             </li>
-            <li className="flex flex-row overflow-hidden">
-              <motion.div
-                className="text-white"
-                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
-                viewport={{ once: true }}
-                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
-                transition={{
-                  duration: 0.8,
-                  ease: [0, 0.71, 0.2, 1.01],
-                }}
-              >
-                whitespace
-              </motion.div>
+            <li className="flex flex-row md:overflow-hidden">
+              {'whitespace'.split('').map((word, index) => (
+                <motion.div
+                  className="text-white"
+                  key={index}
+                  initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                  viewport={{ once: true }}
+                  whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: index * 0.1,
+                    ease: [0, 0.71, 0.2, 1.01],
+                  }}
+                >
+                  {word}
+                </motion.div>
+              ))}
             </li>
           </ul>
           <div className="mt-6 w-full text-lg leading-relaxed md:mt-12 md:text-xl">
@@ -490,7 +439,6 @@ export default function page() {
                 ease: [0, 0.71, 0.2, 1.01],
               }}
             >
-              {' '}
               <p className="leading-relaxed">
                 Ditch the annoying, jumbled, tile layouts, show your work in a
                 clean, neat, grid, and give your work space to breathe.
@@ -498,34 +446,34 @@ export default function page() {
             </motion.div>
           </div>
         </div>
-        <div className="my-20 flex w-full flex-row items-center justify-around">
-          <div className="flex flex-col items-center justify-center gap-5">
+        <div className="my-20 flex w-full flex-col items-center justify-around md:flex-row">
+          <div className="mb-10 flex flex-col items-center justify-center gap-5 md:mb-0">
             <span className="text-sm font-semibold uppercase tracking-wider text-gray-600">
               Before
             </span>
             <video
               src="/beforevideo.mov"
-              className="h-[300px] rounded-md shadow-md md:h-[320px]"
+              className="h-[250px] w-full rounded-md object-cover shadow-md md:h-[320px]"
               autoPlay
               loop
               muted
             ></video>
-            <span className="tracking-widetext-sm r w-full bg-gray-600 text-center font-semibold uppercase text-[#C7CFBE]">
+            <span className="w-full bg-gray-600 text-center text-sm font-semibold uppercase tracking-wider text-[#C7CFBE]">
               Squarespace
             </span>
           </div>
-          <div className="flex flex-col items-center justify-center gap-5">
-            <span className="tracking-widetext-sm r font-semibold uppercase text-gray-600">
+          <div className="mb-10 flex flex-col items-center justify-center gap-5 md:mb-0">
+            <span className="text-sm font-semibold uppercase tracking-wider text-gray-600">
               After
             </span>
             <video
               src="/aftervideo.mov"
-              className="h-[300px] rounded-md shadow-md md:h-[320px]"
+              className="h-[250px] w-full rounded-md object-cover shadow-md md:h-[320px]"
               autoPlay
               loop
               muted
             ></video>
-            <span className="tracking-widetext-sm r w-full bg-gray-600 text-center font-semibold uppercase text-[#C7CFBE]">
+            <span className="w-full bg-gray-600 text-center text-sm font-semibold uppercase tracking-wider text-[#C7CFBE]">
               SelectedWork
             </span>
           </div>
@@ -534,9 +482,9 @@ export default function page() {
 
       {/* Only the features you need  */}
       <section className="flex h-auto flex-col items-start justify-start bg-[#CDD5E0] p-6 md:min-h-[100vh] md:p-20">
-        <div className="w-5/6">
-          <ul className="text-5xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
-            <li className="flex flex-row overflow-hidden">
+        <div className="w-full md:w-5/6">
+          <ul className="text-6xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
+            <li className="flex flex-row md:overflow-hidden">
               <motion.div
                 initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
@@ -549,7 +497,7 @@ export default function page() {
                 Only the
               </motion.div>
             </li>
-            <li className="flex flex-row overflow-hidden">
+            <li className="flex flex-row md:overflow-hidden">
               <motion.div
                 initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
@@ -562,7 +510,7 @@ export default function page() {
                 features
               </motion.div>
             </li>
-            <li className="flex flex-row overflow-hidden">
+            <li className="flex flex-row md:overflow-hidden">
               <motion.div
                 initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
@@ -575,7 +523,7 @@ export default function page() {
                 you need.
               </motion.div>
             </li>
-            <li className="flex flex-row overflow-hidden">
+            <li className="flex flex-row md:overflow-hidden">
               <motion.div
                 className="text-white"
                 initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
@@ -586,15 +534,29 @@ export default function page() {
                   ease: [0, 0.71, 0.2, 1.01],
                 }}
               >
-                Nothing else.
+                Nothing you
+              </motion.div>
+            </li>
+            <li className="flex flex-row md:overflow-hidden ">
+              <motion.div
+                className="text-white"
+                initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                don't.
               </motion.div>
             </li>
           </ul>
-          <div className="mt-6 w-full text-lg leading-relaxed md:mt-12 md:text-xl">
+          <div className="mt-6 text-lg leading-relaxed md:mt-12 md:w-2/3 md:text-xl">
             <motion.div
-              initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+              initial={{ opacity: 0 }}
               viewport={{ once: true }}
-              whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+              whileInView={{ opacity: 1 }}
               transition={{
                 duration: 0.8,
                 ease: [0, 0.71, 0.2, 1.01],
@@ -602,8 +564,20 @@ export default function page() {
             >
               <p className="leading-relaxed">
                 Stop overpaying for a ton of features you don't even use.
-                SelectedWork offers what you need to show your work today. Oh
-                yeah, and no long term contracts. Just flexible
+                SelectedWork offers what you need to show your work today.
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              viewport={{ once: true }}
+              whileInView={{ opacity: 1 }}
+              transition={{
+                duration: 0.8,
+                ease: [0, 0.71, 0.2, 1.01],
+              }}
+            >
+              <p className="mt-10">
+                Oh yeah, and no long term contracts. Just flexible
                 easy-to-understand pricing.
               </p>
             </motion.div>
@@ -611,10 +585,10 @@ export default function page() {
         </div>
 
         {/* Pricing Section */}
-        <section className="flex w-full flex-col items-center justify-center py-20">
-          <div className="mt-10 flex flex-col gap-20 md:flex-row">
+        <section className="flex w-full flex-col items-center justify-center py-10 md:py-20">
+          <div className="mt-10 flex flex-row gap-4 md:gap-20">
             {/* Free Tier */}
-            <div className="flex h-[470px] w-[320px] max-w-md flex-col rounded-lg border-2 border-gray-600 p-10 text-center md:p-10">
+            <div className="flex w-1/2 max-w-md flex-col rounded-lg border-2 border-gray-600 p-4 text-center md:h-[470px] md:w-[320px] md:p-10">
               <h3 className="mb-2 bg-gray-600 p-1 text-xl font-semibold uppercase tracking-wide text-[#CDD5E0]">
                 Hobby
               </h3>
@@ -622,7 +596,7 @@ export default function page() {
               <h3 className="text-2xl font-semibold leading-loose text-gray-600">
                 Free
               </h3>
-              <ul className="mt-4 h-[150px] space-y-2 text-left text-gray-700">
+              <ul className="md:text-md mt-4 h-[150px] space-y-2 text-left text-sm text-gray-700">
                 <li>All the tools you need to show your work</li>
               </ul>
               <div className="mt-6 flex flex-col items-center justify-center gap-2">
@@ -639,7 +613,7 @@ export default function page() {
             </div>
 
             {/* Pro Tier */}
-            <div className="flex h-[470px] w-[320px] max-w-md flex-col  rounded-lg border-2 border-gray-600 p-10 text-center md:p-10">
+            <div className="flex w-1/2 max-w-md flex-col rounded-lg border-2 border-gray-600  p-4 text-center md:h-[470px] md:w-[320px] md:p-10">
               <h3 className="mb-2 bg-gray-600 p-1 text-xl font-semibold uppercase tracking-wide text-[#CDD5E0]">
                 Pro
               </h3>
@@ -647,7 +621,7 @@ export default function page() {
               <h3 className="text-2xl font-semibold leading-loose text-gray-600">
                 $10/month
               </h3>
-              <ul className="mt-4 h-[150px] space-y-2 text-left text-gray-700">
+              <ul className="md:text-md mt-4 h-[150px] space-y-2 text-left text-sm text-gray-700">
                 <li>Custom domains</li>
                 <li>No branding</li>
                 <li>Pause anytime</li>
@@ -680,7 +654,7 @@ export default function page() {
           />
         </div>
 
-        <div className="flex w-full flex-col justify-center space-y-6 text-center md:w-1/2 md:text-left lg:p-20">
+        <div className="my-10 flex w-full flex-col justify-center space-y-6 text-center md:w-1/2 md:text-left lg:my-0 lg:p-20">
           <div className="mb-10">
             <h2 className="mb-5 text-2xl font-semibold md:text-4xl">
               Try SelectedWork today
@@ -691,35 +665,37 @@ export default function page() {
           </div>
 
           {/* CTA Button */}
-          <a
-            href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
-            rel="noopener noreferrer"
-            className="group relative block h-[70px] w-full max-w-[420px] overflow-hidden bg-[#393E46] p-4 transition-all duration-300 md:w-[420px]"
-          >
-            {/* Default state */}
-            <div className="absolute inset-0 flex items-center justify-center text-lg font-semibold text-white transition-transform duration-300 group-hover:-translate-y-full">
-              Let's Go
-              <Image
-                width={30}
-                height={20}
-                className="ml-4 transition-opacity duration-300 group-hover:opacity-0"
-                alt="right arrow"
-                src="/rightarrowwhite.png"
-              />
-            </div>
+          <div className="flex w-full justify-center">
+            <a
+              href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+              rel="noopener noreferrer"
+              className="group relative block h-[70px] w-full max-w-[420px] overflow-hidden bg-[#393E46] p-4 transition-all duration-300 md:w-[420px]"
+            >
+              {/* Default state */}
+              <div className="absolute inset-0 flex items-center justify-center text-lg font-semibold text-white transition-transform duration-300 group-hover:-translate-y-full">
+                Let's Go
+                <Image
+                  width={30}
+                  height={20}
+                  className="ml-4 transition-opacity duration-300 group-hover:opacity-0"
+                  alt="right arrow"
+                  src="/rightarrowwhite.png"
+                />
+              </div>
 
-            {/* Hover state */}
-            <div className="absolute inset-0 flex translate-y-full items-center justify-center bg-white text-lg font-semibold text-black transition-transform duration-300 group-hover:translate-y-0">
-              Let's Go
-              <Image
-                width={30}
-                height={20}
-                className="ml-4 transition-opacity duration-300 group-hover:opacity-100"
-                alt="right arrow"
-                src="/rightarrowdark.png"
-              />
-            </div>
-          </a>
+              {/* Hover state */}
+              <div className="absolute inset-0 flex translate-y-full items-center justify-center bg-white text-lg font-semibold text-black transition-transform duration-300 group-hover:translate-y-0">
+                Let's Go
+                <Image
+                  width={30}
+                  height={20}
+                  className="ml-4 transition-opacity duration-300 group-hover:opacity-100"
+                  alt="right arrow"
+                  src="/rightarrowdark.png"
+                />
+              </div>
+            </a>
+          </div>
         </div>
       </section>
     </main>
