@@ -111,12 +111,12 @@ export default function page() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div className="text-container m-2 w-[160px] border-b-2 border-[#403A60] p-4">
+              <div className="text-container m-2 w-[160px] border-b-2 border-[#403A60] p-3">
                 <div className="text md:text-md flex flex-row justify-between text-sm">
                   View Demo Site
                   <ArrowUpRight size={20} className="ml-2 inline" />
                 </div>
-                <span className="text-replace md:text-md flex text-sm">
+                <span className="text-replace md:text-md flex hidden text-sm md:block">
                   View Demo Site
                   <ArrowUpRight size={20} className="ml-2 inline" />
                 </span>
@@ -171,8 +171,8 @@ export default function page() {
       </section>
 
       {/* Templates */}
-      <section className="flex h-auto min-h-[100vh] flex-col items-center justify-center bg-[#393E46] p-6 text-white md:h-[100vh] md:flex-row md:p-10">
-        <div className="flex w-full flex-col justify-center space-y-6 pr-0 md:w-1/3 md:pr-5 md:text-left md:text-center">
+      <section className="flex min-h-[100vh] flex-col items-center justify-center bg-[#393E46] p-2 text-white md:flex-row md:p-10 md:p-6">
+        <div className="flex w-full flex-col justify-center space-y-6 pr-0 text-center md:w-1/3 md:pr-5 md:text-left">
           <h2 className="text-2xl md:text-3xl">
             Clean, minimalist readymade templates
           </h2>
@@ -188,25 +188,25 @@ export default function page() {
           </p>
         </div>
 
-        <div className="flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
+        <div className="flex w-full flex-col items-center justify-center md:w-2/3 md:gap-6 lg:gap-10">
           <span className="w-full max-w-[90%] md:max-w-full">
             <video
               src={videoSrc}
-              className="my-10 h-[250px] w-full rounded-md md:my-0 md:h-[450px]"
+              className="my-4 h-[250px] w-full rounded-md md:my-0 md:my-10 md:h-[450px]"
               autoPlay
               loop
               muted
             ></video>
           </span>
 
-          <div className="mg:gap-6 flex w-full items-center justify-between md:w-2/3 md:flex-nowrap md:justify-center md:gap-12">
+          <div className="flex w-full items-center justify-between md:w-2/3 md:flex-nowrap md:justify-center md:gap-12">
             {[1, 2, 3].map((template) => (
               <div key={template} className="flex flex-col items-center gap-2">
                 <button
                   onClick={() => setVideoSrc(`/template${template}.mov`)}
-                  className={`relative overflow-hidden border-2 border-white bg-transparent px-6 py-2 text-lg font-medium transition-all before:absolute 
-              before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-white before:transition-all before:duration-300 hover:text-[#393E46] 
-              hover:before:h-full md:max-w-[180px] 
+                  className={`relative overflow-hidden border-2 border-white bg-transparent px-2 py-2 text-lg font-medium transition-all before:absolute before:bottom-0 
+              before:left-0 before:h-0 before:w-full before:bg-white before:transition-all before:duration-300 hover:text-[#393E46] hover:before:h-full 
+              md:max-w-[180px] md:px-6 
               ${videoSrc === `/template${template}.mov` ? 'bg-white text-[#393E46]' : 'text-white'}`}
                 >
                   <span className="relative z-10 text-sm font-semibold uppercase">
@@ -226,7 +226,7 @@ export default function page() {
                     </div>
                     <span className="text-replace flex">
                       View Demo Site
-                      <ArrowUpRight size={20} className="ml-2 inline" />
+                      <ArrowUpRight size={20} className="ml-1 inline md:ml-2" />
                     </span>
                   </div>
                 </a>
@@ -237,8 +237,8 @@ export default function page() {
       </section>
 
       {/* Made for artwork  */}
-      <section className="flex flex-col items-start justify-start bg-[#C7C7B0] px-6 py-20 md:min-h-[100vh] md:p-20 md:py-0">
-        <div className="w-5/6">
+      <section className="flex flex-col items-start justify-start bg-[#C7C7B0] px-6 py-20 md:min-h-[100vh] md:p-20 ">
+        <div className="md:w-5/6">
           <ul className="text-5xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
             <li className="flex flex-row md:overflow-hidden">
               <motion.div
@@ -300,9 +300,9 @@ export default function page() {
 
           <div className="mt-6 w-full text-lg md:mt-12 md:text-xl">
             <motion.div
-              initial={{ translateY: 110, rotateX: 180, opacity: 0 }}
+              initial={{ opacity: 0 }}
               viewport={{ once: true }}
-              whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
+              whileInView={{ opacity: 1 }}
               transition={{
                 duration: 0.8,
                 ease: [0, 0.71, 0.2, 1.01],
@@ -320,8 +320,8 @@ export default function page() {
       </section>
 
       {/* Thumbnails */}
-      <section className="flex h-auto flex-col items-center justify-center bg-[#D1CEC5] px-5 pb-20 text-[#283739] md:h-[100vh] md:flex-row md:p-10 md:py-0">
-        <div className="flex w-full flex-col justify-center space-y-4 p-5 md:w-1/3">
+      <section className="flex h-auto flex-col-reverse items-center justify-center bg-[#D1CEC5] px-5 py-10 text-[#283739] md:h-[100vh] md:flex-row md:p-10 md:py-0">
+        <div className="flex w-full flex-col justify-center space-y-4 md:w-1/3 md:p-5">
           <h2 className="text-2xl md:text-4xl">Get the whole picture</h2>
 
           <p className="text-sm leading-loose md:text-base">
@@ -336,7 +336,7 @@ export default function page() {
         <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <video
             src="/modal.mov"
-            className="max-h-[300px] rounded-md shadow-md md:h-[450px]"
+            className="mb-10 max-h-[300px] rounded-md shadow-md md:my-0 md:h-auto md:max-h-[400px]"
             autoPlay
             loop
             muted
@@ -345,8 +345,8 @@ export default function page() {
       </section>
 
       {/* Dashboard */}
-      <section className="flex h-auto flex-col items-center justify-center bg-[#EBEBEB] p-5 pb-20 text-[#393E46] md:h-[100vh] md:flex-row md:p-10">
-        <div className="flex w-full flex-col justify-center space-y-4 p-5 md:w-1/3">
+      <section className="flex h-auto flex-col-reverse items-center justify-center bg-[#EBEBEB] px-5 py-10 text-[#393E46] md:h-[100vh] md:flex-row md:p-10">
+        <div className="flex w-full flex-col justify-center space-y-4 md:w-1/3 md:p-5">
           <h2 className="text-2xl md:text-4xl">Easy to use dashboard</h2>
           <p className="text-sm leading-loose md:text-base">
             No complicated website builders. Just upload your work, choose a
@@ -357,7 +357,7 @@ export default function page() {
         <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <video
             src="/dashboard.mov"
-            className="max-h-[300px] rounded-md shadow-md md:h-[450px]"
+            className="mb-10 max-h-[300px] rounded-md shadow-md md:my-0 md:h-auto md:max-h-[400px]"
             autoPlay
             loop
             muted
@@ -367,7 +367,7 @@ export default function page() {
 
       {/* Whitespace  */}
       <section className="flex h-auto flex-col items-start justify-start bg-[#C7CFBE] p-6 md:min-h-[100vh] md:p-20">
-        <div className="w-5/6">
+        <div className="md:w-5/6">
           <ul className="text-5xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
             <li className="flex flex-row md:overflow-hidden">
               <motion.div
@@ -440,13 +440,13 @@ export default function page() {
               }}
             >
               <p className="leading-relaxed">
-                Ditch the annoying, jumbled, tile layouts, show your work in a
-                clean, neat, grid, and give your work space to breathe.
+                Ditch the annoying, jumbled, tile layouts. Show your work in a
+                clean, neat, grid, and give each piece space to breathe.
               </p>
             </motion.div>
           </div>
         </div>
-        <div className="my-20 flex w-full flex-col items-center justify-around md:flex-row">
+        <div className="my-10 flex w-full flex-col items-center justify-between md:my-20 md:flex-row md:gap-10">
           <div className="mb-10 flex flex-col items-center justify-center gap-5 md:mb-0">
             <span className="text-sm font-semibold uppercase tracking-wider text-gray-600">
               Before
@@ -481,7 +481,7 @@ export default function page() {
       </section>
 
       {/* Only the features you need  */}
-      <section className="flex h-auto flex-col items-start justify-start bg-[#CDD5E0] p-6 md:min-h-[100vh] md:p-20">
+      <section className="flex h-auto flex-col items-start justify-start bg-[#CDD5E0] p-4 md:min-h-[100vh] md:p-20">
         <div className="w-full md:w-5/6">
           <ul className="text-6xl font-semibold uppercase leading-tight md:text-[116px] md:leading-[116px]">
             <li className="flex flex-row md:overflow-hidden">
@@ -585,10 +585,10 @@ export default function page() {
         </div>
 
         {/* Pricing Section */}
-        <section className="flex w-full flex-col items-center justify-center py-10 md:py-20">
-          <div className="mt-10 flex flex-row gap-4 md:gap-20">
+        <section className="flex w-full flex-col items-center justify-between py-10 md:justify-center md:py-20">
+          <div className="mt-10 flex flex-row justify-between gap-2 md:gap-20">
             {/* Free Tier */}
-            <div className="flex w-1/2 max-w-md flex-col rounded-lg border-2 border-gray-600 p-4 text-center md:h-[470px] md:w-[320px] md:p-10">
+            <div className="flex w-1/2 max-w-md flex-col rounded-lg border-2 border-gray-600 p-2 text-center md:h-[470px] md:w-[320px] md:p-10 md:p-4">
               <h3 className="mb-2 bg-gray-600 p-1 text-xl font-semibold uppercase tracking-wide text-[#CDD5E0]">
                 Hobby
               </h3>
@@ -596,8 +596,8 @@ export default function page() {
               <h3 className="text-2xl font-semibold leading-loose text-gray-600">
                 Free
               </h3>
-              <ul className="md:text-md mt-4 h-[150px] space-y-2 text-left text-sm text-gray-700">
-                <li>All the tools you need to show your work</li>
+              <ul className="mx-0 mt-4 h-[150px] flex-1 space-y-2 text-left text-sm text-gray-700 md:mx-4 md:text-lg">
+                <li>• All the tools you need to show your work</li>
               </ul>
               <div className="mt-6 flex flex-col items-center justify-center gap-2">
                 <a
@@ -613,7 +613,7 @@ export default function page() {
             </div>
 
             {/* Pro Tier */}
-            <div className="flex w-1/2 max-w-md flex-col rounded-lg border-2 border-gray-600  p-4 text-center md:h-[470px] md:w-[320px] md:p-10">
+            <div className="flex w-1/2 max-w-md flex-col rounded-lg border-2 border-gray-600 p-2 text-center md:h-[470px] md:w-[320px] md:p-10 md:p-4">
               <h3 className="mb-2 bg-gray-600 p-1 text-xl font-semibold uppercase tracking-wide text-[#CDD5E0]">
                 Pro
               </h3>
@@ -621,11 +621,11 @@ export default function page() {
               <h3 className="text-2xl font-semibold leading-loose text-gray-600">
                 $10/month
               </h3>
-              <ul className="md:text-md mt-4 h-[150px] space-y-2 text-left text-sm text-gray-700">
-                <li>Custom domains</li>
-                <li>No branding</li>
-                <li>Pause anytime</li>
-                <li>Cancel anytime</li>
+              <ul className="mx-0 mt-4 h-[150px] flex-1 space-y-2 text-left text-sm text-gray-700 md:mx-4 md:text-lg">
+                <li>• Custom domains</li>
+                <li>• No branding</li>
+                <li>• Pause anytime</li>
+                <li>• Cancel anytime</li>
               </ul>
               <div className="mt-6 flex flex-col items-center justify-center gap-2">
                 <a
@@ -665,7 +665,7 @@ export default function page() {
           </div>
 
           {/* CTA Button */}
-          <div className="flex w-full justify-center">
+          <div className="flex w-full justify-center p-2 md:p-0">
             <a
               href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
               rel="noopener noreferrer"
