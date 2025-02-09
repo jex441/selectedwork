@@ -669,7 +669,7 @@ export default function page() {
             <a
               href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
               rel="noopener noreferrer"
-              className="group relative block h-[70px] w-full max-w-[420px] overflow-hidden bg-[#393E46] p-4 transition-all duration-300 md:w-[420px]"
+              className="group relative block h-[70px] w-full overflow-hidden bg-[#393E46] p-4 transition-all duration-300"
             >
               {/* Default state */}
               <div className="absolute inset-0 flex items-center justify-center text-lg font-semibold text-white transition-transform duration-300 group-hover:-translate-y-full">
