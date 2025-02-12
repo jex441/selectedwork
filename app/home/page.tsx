@@ -14,7 +14,7 @@ const regular = localFont({
 });
 export default function page() {
   const [demo, setDemo] = useState(false);
-  const [videoSrc, setVideoSrc] = useState('/template1.mp4');
+  const [videoSrc, setVideoSrc] = useState('1');
   //
   const [scrolledWords, setScrolledWords] = useState(0);
   const text =
@@ -203,7 +203,8 @@ export default function page() {
         <div className="flex w-full flex-col items-center justify-center md:w-2/3 md:gap-6 lg:gap-10">
           <span className="w-full max-w-[90%] md:max-w-full">
             <video
-              src={videoSrc}
+              poster={`/template${videoSrc}poster.png`}
+              src={`/template${videoSrc}.mp4`}
               className="my-4 h-[250px] w-full rounded-md md:my-0 md:my-10 md:h-[450px]"
               autoPlay
               loop
@@ -423,6 +424,7 @@ export default function page() {
         </div>
         <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <video
+            poster="/thumbnailsvideoposter.png"
             src="/modal.mp4"
             className="mb-10 max-h-[300px] rounded-md shadow-md md:my-0 md:h-auto md:max-h-[400px]"
             autoPlay
@@ -444,6 +446,7 @@ export default function page() {
         </div>
         <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <video
+            poster="/dashboardvideoposter.png"
             src="/dashboard.mp4"
             className="mb-10 max-h-[300px] rounded-md shadow-md md:my-0 md:h-auto md:max-h-[400px]"
             autoPlay
@@ -605,6 +608,7 @@ export default function page() {
               Before
             </span>
             <video
+              poster="/beforevideoposter.png"
               src="/beforevideo.mp4"
               className="h-[250px] w-full rounded-md object-cover shadow-md md:h-[320px]"
               autoPlay
@@ -620,6 +624,7 @@ export default function page() {
               After
             </span>
             <video
+              poster="/aftervideoposter.png"
               src="/aftervideo.mp4"
               className="h-[250px] w-full rounded-md object-cover shadow-md md:h-[320px]"
               autoPlay
