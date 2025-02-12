@@ -602,7 +602,7 @@ export default function page() {
             </motion.div>
           </div>
         </div>
-        <div className="my-10 flex w-full flex-col items-center justify-between md:my-20 md:flex-row md:gap-10">
+        <div className="my-10 flex w-full flex-col items-center justify-around md:my-20 md:flex-row md:gap-10">
           <div className="mb-10 flex flex-col items-center justify-center gap-5 md:mb-0">
             <span className="text-sm font-semibold uppercase tracking-wider text-gray-600">
               Before
