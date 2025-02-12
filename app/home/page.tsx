@@ -14,7 +14,7 @@ const regular = localFont({
 });
 export default function page() {
   const [demo, setDemo] = useState(false);
-  const [videoSrc, setVideoSrc] = useState('/template1.mov');
+  const [videoSrc, setVideoSrc] = useState('/template1.mp4');
   //
   const [scrolledWords, setScrolledWords] = useState(0);
   const text =
@@ -215,11 +215,11 @@ export default function page() {
             {[1, 2, 3].map((template) => (
               <div key={template} className="flex flex-col items-center gap-2">
                 <button
-                  onClick={() => setVideoSrc(`/template${template}.mov`)}
+                  onClick={() => setVideoSrc(`/template${template}.mp4`)}
                   className={`relative overflow-hidden border-2 border-white bg-transparent px-2 py-2 text-lg font-medium transition-all before:absolute before:bottom-0 
               before:left-0 before:h-0 before:w-full before:bg-white before:transition-all before:duration-300 hover:text-[#393E46] hover:before:h-full 
               md:max-w-[180px] md:px-6 
-              ${videoSrc === `/template${template}.mov` ? 'bg-white text-[#393E46]' : 'text-white'}`}
+              ${videoSrc === `/template${template}.mp4` ? 'bg-white text-[#393E46]' : 'text-white'}`}
                 >
                   <span className="relative z-10 text-sm font-semibold uppercase">
                     Template {template}
@@ -423,7 +423,7 @@ export default function page() {
         </div>
         <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <video
-            src="/modal.mov"
+            src="/modal.mp4"
             className="mb-10 max-h-[300px] rounded-md shadow-md md:my-0 md:h-auto md:max-h-[400px]"
             autoPlay
             loop
@@ -444,7 +444,7 @@ export default function page() {
         </div>
         <div className="mt-4 flex w-full flex-col items-center justify-center gap-6 md:w-2/3 lg:gap-10">
           <video
-            src="/dashboard.mov"
+            src="/dashboard.mp4"
             className="mb-10 max-h-[300px] rounded-md shadow-md md:my-0 md:h-auto md:max-h-[400px]"
             autoPlay
             loop
@@ -605,7 +605,7 @@ export default function page() {
               Before
             </span>
             <video
-              src="/beforevideo.mov"
+              src="/beforevideo.mp4"
               className="h-[250px] w-full rounded-md object-cover shadow-md md:h-[320px]"
               autoPlay
               loop
@@ -620,7 +620,7 @@ export default function page() {
               After
             </span>
             <video
-              src="/aftervideo.mov"
+              src="/aftervideo.mp4"
               className="h-[250px] w-full rounded-md object-cover shadow-md md:h-[320px]"
               autoPlay
               loop
