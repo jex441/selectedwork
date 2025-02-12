@@ -56,24 +56,32 @@ export default function page() {
           />
         </Link>
         <div className="flex items-center gap-6">
-          <button
-            className={`relative overflow-hidden border-2 border-[#403A60] bg-[#E4EDDB] px-6 py-2 text-lg font-medium text-[#403A60] transition-all 
+          <a
+            href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+          >
+            <button
+              className={`relative overflow-hidden border-2 border-[#403A60] bg-[#E4EDDB] px-6 py-2 text-lg font-medium text-[#403A60] transition-all 
     before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-[#403A60] before:transition-all before:duration-300 hover:text-[#E4EDDB] 
     hover:before:h-full`}
+            >
+              <span className="relative z-10 text-sm font-semibold uppercase">
+                Login
+              </span>
+            </button>
+          </a>
+          <a
+            href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/sign-up`}
           >
-            <span className="relative z-10 text-sm font-semibold uppercase">
-              Login
-            </span>
-          </button>
-          <button
-            className={`relative overflow-hidden border-2 border-[#403A60] bg-[#403A60] px-6 py-2 text-lg font-medium text-[#E4EDDB] transition-all 
+            <button
+              className={`relative overflow-hidden border-2 border-[#403A60] bg-[#403A60] px-6 py-2 text-lg font-medium text-[#E4EDDB] transition-all 
     before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-[#E4EDDB] before:transition-all before:duration-300 hover:text-[#403A60] 
     hover:before:h-full`}
-          >
-            <span className="relative z-10 text-sm font-semibold uppercase">
-              Sign Up
-            </span>
-          </button>
+            >
+              <span className="relative z-10 text-sm font-semibold uppercase">
+                Sign Up
+              </span>
+            </button>
+          </a>
         </div>
       </header>
 
@@ -97,15 +105,19 @@ export default function page() {
             Create a professional portfolio website in minutes.
           </p>
           <div className="mt-4 flex w-full flex-row justify-center gap-6 sm:flex-row lg:justify-start lg:gap-10">
-            <button
-              className={`relative overflow-hidden border-2 border-[#403A60] bg-[#403A60] px-6 py-2 text-lg font-medium text-[#E4EDDB] transition-all 
+            <a
+              href={`http${process.env.NODE_ENV === 'production' ? 's' : ''}://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
+            >
+              <div
+                className={`relative overflow-hidden border-2 border-[#403A60] bg-[#403A60] px-6 py-2 text-lg font-medium text-[#E4EDDB] transition-all 
         before:absolute before:bottom-0 before:left-0 before:h-0 before:w-full before:bg-[#E4EDDB] before:transition-all before:duration-300 hover:text-[#403A60] 
         hover:before:h-full`}
-            >
-              <span className="relative z-10 text-sm font-semibold uppercase">
-                Get Started
-              </span>
-            </button>
+              >
+                <span className="relative z-10 text-sm font-semibold uppercase">
+                  Get Started
+                </span>
+              </div>
+            </a>
             <a
               href={`https://camdenross.selectedwork.net`}
               target="_blank"
