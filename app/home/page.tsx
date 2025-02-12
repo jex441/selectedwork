@@ -229,7 +229,7 @@ export default function page() {
                   href={`https://template${template}.selectedwork.net`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="my-4 w-full max-w-[180px] border-b-2"
+                  className="my-4 hidden w-full max-w-[180px] border-b-2 md:block"
                 >
                   <div className="text-container border-[#403A60] p-2 md:m-2 md:w-[160px]">
                     <div className="text flex flex-row justify-between">
@@ -312,10 +312,10 @@ export default function page() {
           </ul>
 
           {/* Mobile: */}
-          <ul className="flex flex-col text-[62px] font-semibold uppercase leading-[64px] md:hidden md:text-[116px] md:leading-[116px]">
+          <ul className="flex flex-col text-[54px] font-semibold uppercase leading-[58px] md:hidden md:text-[116px] md:leading-[116px]">
             <li className="overflow-hidden">
               <motion.div
-                initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                initial={{ translateY: 50, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
@@ -328,7 +328,7 @@ export default function page() {
             </li>
             <li className="overflow-hidden">
               <motion.div
-                initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                initial={{ translateY: 50, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
@@ -342,7 +342,7 @@ export default function page() {
             </li>
             <li className="overflow-hidden">
               <motion.div
-                initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                initial={{ translateY: 50, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
@@ -356,7 +356,7 @@ export default function page() {
             </li>
             <li className="overflow-hidden">
               <motion.div
-                initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                initial={{ translateY: 50, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
@@ -371,7 +371,7 @@ export default function page() {
             </li>
             <li className="overflow-hidden">
               <motion.div
-                initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                initial={{ translateY: 50, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
@@ -523,7 +523,7 @@ export default function page() {
           <ul className="flex flex-col text-[48px] font-semibold uppercase leading-[50px] md:flex md:hidden md:text-[116px] md:leading-[116px]">
             <li className="flex flex-row overflow-hidden">
               <motion.div
-                initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                initial={{ translateY: 30, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
@@ -536,7 +536,7 @@ export default function page() {
             </li>
             <li className="flex flex-row overflow-hidden">
               <motion.div
-                initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                initial={{ translateY: 30, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
@@ -550,7 +550,7 @@ export default function page() {
             </li>
             <li className="flex flex-row overflow-hidden">
               <motion.div
-                initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                initial={{ translateY: 30, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
@@ -567,7 +567,7 @@ export default function page() {
                 <motion.div
                   className="text-white"
                   key={index}
-                  initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                  initial={{ translateY: 30, rotateX: 180, opacity: 0 }}
                   viewport={{ once: true }}
                   whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                   transition={{
@@ -708,10 +708,10 @@ export default function page() {
           </ul>
 
           {/* Mobile */}
-          <ul className="flex flex-col text-[62px] font-semibold uppercase leading-[62px] md:hidden">
+          <ul className="flex flex-col text-[53px] font-semibold uppercase leading-[58px] md:hidden">
             <li className="flex flex-row overflow-hidden">
               <motion.div
-                initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                initial={{ translateY: 30, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
@@ -724,7 +724,7 @@ export default function page() {
             </li>
             <li className="flex flex-row overflow-hidden">
               <motion.div
-                initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                initial={{ translateY: 30, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
@@ -738,7 +738,7 @@ export default function page() {
             </li>
             <li className="flex flex-row overflow-hidden">
               <motion.div
-                initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                initial={{ translateY: 30, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
@@ -753,7 +753,7 @@ export default function page() {
             <li className="flex flex-row overflow-hidden">
               <motion.div
                 className="text-white"
-                initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                initial={{ translateY: 30, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
@@ -768,7 +768,7 @@ export default function page() {
             <li className="flex flex-row overflow-hidden">
               <motion.div
                 className="text-white"
-                initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
+                initial={{ translateY: 30, rotateX: 180, opacity: 0 }}
                 viewport={{ once: true }}
                 whileInView={{ translateY: 0, rotateX: 0, opacity: 1 }}
                 transition={{
