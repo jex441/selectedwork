@@ -508,7 +508,7 @@ export default function page() {
           </ul>
 
           {/* mobile */}
-          <ul className="flex flex-col text-[56px] font-semibold uppercase leading-[60px] md:flex md:hidden md:text-[116px] md:leading-[116px]">
+          <ul className="flex flex-col text-[48px] font-semibold uppercase leading-[50px] md:flex md:hidden md:text-[116px] md:leading-[116px]">
             <li className="flex flex-row overflow-hidden">
               <motion.div
                 initial={{ translateY: 60, rotateX: 180, opacity: 0 }}
