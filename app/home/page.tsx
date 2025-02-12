@@ -213,10 +213,10 @@ export default function page() {
           </span>
 
           <div className="flex w-full items-center justify-between md:w-2/3 md:flex-nowrap md:justify-center md:gap-12">
-            {[1, 2, 3].map((template) => (
+            {[1, 2, 3].map((template, idx) => (
               <div key={template} className="flex flex-col items-center gap-2">
                 <button
-                  onClick={() => setVideoSrc(`/template${template}.mp4`)}
+                  onClick={() => setVideoSrc(String(template))}
                   className={`relative overflow-hidden border-2 border-white bg-transparent px-2 py-2 text-lg font-medium transition-all before:absolute before:bottom-0 
               before:left-0 before:h-0 before:w-full before:bg-white before:transition-all before:duration-300 hover:text-[#393E46] hover:before:h-full 
               md:max-w-[180px] md:px-6 
@@ -227,7 +227,7 @@ export default function page() {
                   </span>
                 </button>
                 <a
-                  href={`https://template${template}.selectedwork.net`}
+                  href={`https://${templates[idx]}.selectedwork.net`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="my-4 hidden w-full max-w-[180px] border-b-2 md:block"
