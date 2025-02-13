@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
-import { Arrow } from '@radix-ui/react-dropdown-menu';
 import localFont from 'next/font/local';
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
@@ -15,8 +14,8 @@ const regular = localFont({
 export default function page() {
   const [demo, setDemo] = useState(false);
   const [videoSrc, setVideoSrc] = useState('1');
-  //
   const [scrolledWords, setScrolledWords] = useState(0);
+
   const text =
     'Built for working artists, SelectedWork is the simplest and most intuitive approach to launching a quality portfolio website for your work today.';
 
@@ -138,7 +137,6 @@ export default function page() {
         </div>
         <div className="flex justify-end lg:m-0">
           <Image
-            className=""
             src="/landinglarge.png"
             alt="SelectedWork"
             width={800}
