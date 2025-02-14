@@ -41,8 +41,9 @@ export default function page() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  //
+
   const templates = ['camdenross', 'andrewwhite', 'janewalsh'];
+
   return (
     <main className={`flex flex-col bg-[#E4EDDB] ${regular.className}`}>
       <header className="flex h-16 w-full items-center justify-between px-4 text-[#403A60] lg:px-12">
