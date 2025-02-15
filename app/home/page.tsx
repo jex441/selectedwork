@@ -142,6 +142,8 @@ export default function page() {
             alt="SelectedWork"
             width={800}
             height={500}
+            priority={true}
+            quality={85}
           />
         </div>
         {demo && (
@@ -885,6 +887,8 @@ export default function page() {
             height={900}
             alt="mobile"
             className="h-auto max-w-full"
+            loading="lazy"
+            quality={85}
           />
         </div>
 
@@ -935,3 +939,9 @@ export default function page() {
     </main>
   );
 }
+
+export const metadata = {
+  title: 'SelectedWork - Portfolio Websites for Artists',
+  description:
+    'Create a professional portfolio website in minutes with SelectedWork.',
+};
