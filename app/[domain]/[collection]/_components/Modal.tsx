@@ -21,6 +21,16 @@ export default function Modal({
   works: IWork[];
   index: number;
 }) {
+  useEffect(() => {
+    if (modal) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [modal]);
+
   const closeHandler = () => {
     const zoomElement = document.querySelector('.zoom-in-simple');
     const fadeElement = document.querySelector('.piece-data');
@@ -30,6 +40,8 @@ export default function Modal({
     zoomElement?.classList.add('zoom-out-simple');
     fadeElement?.classList.add('zoom-out-simple');
     modal?.classList.add('fade-out-simple');
+
+    document.body.style.overflow = 'unset';
 
     setTimeout(() => {
       setModal(false);
