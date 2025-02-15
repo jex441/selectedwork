@@ -84,30 +84,32 @@ export default function Piece({
         onClick={() => clickHandler()}
         className={`${data.id !== null && data.id % 4 === 0 && 'animDelay'} fade-in-from-bottom relative col-span-1 mx-2 grid cursor-pointer justify-items-stretch gap-3 lg:mx-0 lg:h-[300px]`}
       >
-        <Image
-          width={260}
-          height={260}
-          alt="work"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 260px"
-          className="max-h-[620px] w-full justify-self-center object-contain lg:h-[260px] lg:max-w-[260px]"
-          src={src}
-          onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
-            const { naturalWidth, naturalHeight } =
-              e.target as HTMLImageElement;
-            if (naturalHeight > naturalWidth && isLargeScreen) {
-              const int = Math.floor((naturalWidth * 260) / naturalHeight);
-              setRatio(`${int}px`);
-            }
-          }}
-        />
+        <div className="relative flex justify-center">
+          <Image
+            width={260}
+            height={260}
+            alt="work"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 260px"
+            className="max-h-[620px] w-full justify-self-center object-contain lg:h-[260px] lg:max-w-[260px]"
+            src={src}
+            onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
+              const { naturalWidth, naturalHeight } =
+                e.target as HTMLImageElement;
+              if (naturalHeight > naturalWidth && isLargeScreen) {
+                const int = Math.floor((naturalWidth * 260) / naturalHeight);
+                setRatio(`${int}px`);
+              }
+            }}
+          />
+        </div>
         <div
-          style={{ width: ratio }}
-          className={`flex justify-self-center text-xs tracking-wide lg:mt-0`}
+          style={{ minWidth: ratio }}
+          className={`relative flex min-w-fit justify-self-center text-xs tracking-wide lg:mt-0`}
         >
-          <span className="truncate pr-3 uppercase italic text-mediumGray">
+          <span className="whitespace-nowrap pr-3 uppercase italic text-mediumGray">
             {data.title}
           </span>
-          <span className="ml-3 text-lightGray">
+          <span className="shrink-0 text-lightGray">
             {data.year && `${data.year}`}
           </span>
         </div>
