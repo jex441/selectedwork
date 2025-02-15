@@ -939,9 +939,3 @@ export default function page() {
     </main>
   );
 }
-
-export const metadata = {
-  title: 'SelectedWork - Portfolio Websites for Artists',
-  description:
-    'Create a professional portfolio website in minutes with SelectedWork.',
-};
