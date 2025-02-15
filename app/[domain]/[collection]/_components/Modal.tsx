@@ -111,14 +111,20 @@ export default function Modal({
                   {work.media.map(
                     (m) =>
                       m.url && (
-                        <Image
-                          onClick={() => m.url && setSrc(m.url)}
-                          alt={data.title ?? 'Artwork'}
-                          src={m.url}
-                          height={35}
-                          width={35}
-                          className={`cursor-pointer border-2 ${src === m.url ? 'border-darkGray' : 'border-transparent'} hover:border-darkGray`}
-                        />
+                        <div key={m.url} className="relative h-[35px] w-[35px]">
+                          <Image
+                            onClick={() => m.url && setSrc(m.url)}
+                            alt={data.title ?? 'Artwork'}
+                            src={m.url}
+                            fill={true}
+                            sizes="35px"
+                            className={`cursor-pointer border-2 object-cover ${
+                              src === m.url
+                                ? 'border-darkGray'
+                                : 'border-transparent'
+                            } hover:border-darkGray`}
+                          />
+                        </div>
                       ),
                   )}
                 </div>
@@ -170,15 +176,20 @@ export default function Modal({
                   {work.media.map(
                     (m) =>
                       m.url && (
-                        <Image
-                          onClick={() => m.url && setSrc(m.url)}
-                          alt={data.title ?? 'Artwork'}
-                          src={m.url}
-                          sizes="35px"
-                          height={35}
-                          width={35}
-                          className={`cursor-pointer border-2 ${src === m.url ? 'border-darkGray' : 'border-transparent'} hover:border-darkGray`}
-                        />
+                        <div key={m.url} className="relative h-[35px] w-[35px]">
+                          <Image
+                            onClick={() => m.url && setSrc(m.url)}
+                            alt={data.title ?? 'Artwork'}
+                            src={m.url}
+                            fill={true}
+                            sizes="35px"
+                            className={`cursor-pointer border-2 object-cover ${
+                              src === m.url
+                                ? 'border-darkGray'
+                                : 'border-transparent'
+                            } hover:border-darkGray`}
+                          />
+                        </div>
                       ),
                   )}
                 </div>
