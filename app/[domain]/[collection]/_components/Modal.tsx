@@ -46,6 +46,21 @@ export default function Modal({
   const unit = units[key as keyof typeof units];
 
   const navigateHandler = (direction: string) => {
+    const zoomElement = document.querySelector('.zoom-in-simple');
+    const fadeElement = document.querySelector('.piece-data');
+
+    // Remove animation classes
+    zoomElement?.classList.remove('zoom-in-simple');
+    fadeElement?.classList.remove('fade-in-right-simple');
+
+    // Force a reflow to restart animations
+    void (zoomElement as HTMLElement).offsetWidth;
+    void (fadeElement as HTMLElement).offsetWidth;
+
+    // Add animation classes back
+    zoomElement?.classList.add('zoom-in-simple');
+    fadeElement?.classList.add('fade-in-right-simple');
+
     if (direction === 'next' && current < works.length - 1) {
       setWork(works[current + 1]);
       setCurrent(current + 1);
