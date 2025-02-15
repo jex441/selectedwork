@@ -353,4 +353,12 @@
 .line {
   display: inline-block; /* Allows each line to be treated separately */
   transition: color 0.5s ease; /* Smooth transition for each line */
-}
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }}

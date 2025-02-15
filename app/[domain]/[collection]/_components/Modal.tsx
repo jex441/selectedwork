@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 
 import { IWork } from '@/app/interfaces/IWork';
@@ -44,6 +44,7 @@ export default function Modal({
   const units = { inches: 'in', cm: 'cm', ft: 'ft', m: 'm' };
   const key: string = work?.unit ?? 'inches';
   const unit = units[key as keyof typeof units];
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigateHandler = (direction: string) => {
     if (direction === 'next' && current < works.length - 1) {
@@ -56,9 +57,21 @@ export default function Modal({
     }
   };
 
+  const handleImageLoad = useCallback(
+    (e: React.SyntheticEvent<HTMLImageElement>) => {
+      setIsLoading(false);
+    },
+    [],
+  );
+
   useEffect(() => {
+    setIsLoading(true);
     setSrc(work.media.find((m) => m.main === 'true')?.url || '');
   }, [work]);
+
+  useEffect(() => {
+    setIsLoading(true);
+  }, [src]);
 
   return (
     <>
@@ -86,6 +99,11 @@ export default function Modal({
           <div
             className={`relative flex max-h-[520px] w-full items-center justify-center ${work.title ? 'lg:w-2/3' : 'lg:w-full'}`}
           >
+            {isLoading && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-darkGray"></div>
+              </div>
+            )}
             <Image
               height={work.title ? 500 : 520}
               width={work.title ? 700 : 520}
@@ -95,12 +113,15 @@ export default function Modal({
                   : '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
               }
               alt="work"
-              className={`animDelay zoom-in-simple h-auto w-full object-contain lg:max-h-[600px] ${work.title ? 'lg:w-4/5' : 'lg:w-full'}`}
+              className={`animDelay zoom-in-simple h-auto w-full object-contain lg:max-h-[600px] ${work.title ? 'lg:w-4/5' : 'lg:w-full'} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
               src={src}
-              onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
-                const { naturalWidth, naturalHeight } =
-                  e.target as HTMLImageElement;
-              }}
+              onLoad={handleImageLoad}
+              priority={true}
+              quality={85}
+              placeholder="blur"
+              blurDataURL={`data:image/svg+xml;base64,${Buffer.from(
+                '<svg width="700" height="500" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#f8f8f8"/></svg>',
+              ).toString('base64')}`}
             />
           </div>
 
