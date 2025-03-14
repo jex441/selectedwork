@@ -37,7 +37,7 @@ export default async function SiteLayout({
           <main className="mt-[70px] min-h-screen lg:mt-0">{children}</main>
           {/* Footer */}
           <div className="mt-10 flex h-20 w-[90%] flex-row justify-between self-center border-t border-gray-200 py-4 text-xs text-lightGray">
-            <div>{res.displayName} 2024</div>
+            <div>{res.displayName} 2025</div>
             {res.plan === 'free' && (
               <div>
                 <a
@@ -65,7 +65,7 @@ export default async function SiteLayout({
           </main>
           {/* Footer */}
           <div className="mt-10 flex h-20 w-[95%] flex-row justify-between border-t border-gray-200 px-4 py-4 text-xs text-lightGray lg:px-0 lg:pl-[250px]">
-            <div>{res.displayName} 2024</div>
+            <div>{res.displayName} 2025</div>
             {res.plan === 'free' && (
               <div>
                 <a
