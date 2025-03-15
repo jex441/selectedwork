@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { IWorkshopsPage } from '../../../../interfaces/IWorkshopsPage';
 import { IWorkshop } from '../../../../interfaces/IWorkshop';
 import Image from 'next/image';
@@ -13,62 +13,132 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
   const [currentWorkshop, setCurrentWorkshop] = useState<IWorkshop | null>(
     null,
   );
+  const [expandedWorkshops, setExpandedWorkshops] = useState<Set<string>>(
+    new Set(),
+  );
+  const [overflowingWorkshops, setOverflowingWorkshops] = useState<Set<string>>(
+    new Set(),
+  );
+
+  // Add refs for content containers
+  const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  // Check for overflow on mount and window resize
+  useEffect(() => {
+    const checkOverflow = () => {
+      const newOverflowing = new Set<string>();
+      workshops.forEach((workshop) => {
+        const element = contentRefs.current[workshop.id];
+        if (element && element.scrollHeight > 150) {
+          // 150px is our max-height
+          newOverflowing.add(workshop.id);
+        }
+      });
+      setOverflowingWorkshops(newOverflowing);
+    };
+
+    checkOverflow();
+    window.addEventListener('resize', checkOverflow);
+    return () => window.removeEventListener('resize', checkOverflow);
+  }, [workshops]);
 
   const inquireHandler = (workshop: IWorkshop) => {
     setCurrentWorkshop(workshop);
     setInquireModalOpen(true);
   };
 
+  const toggleExpand = (workshopId: string) => {
+    setExpandedWorkshops((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(workshopId)) {
+        newSet.delete(workshopId);
+      } else {
+        newSet.add(workshopId);
+      }
+      return newSet;
+    });
+  };
+
   return (
     <main className="mb-20 flex w-full flex-col items-start justify-center px-4 lg:gap-14 lg:px-20 lg:pt-10">
-      {workshops.map((workshop) => (
-        <div
-          key={workshop.id}
-          className="my-2 flex w-full flex-col items-start justify-start gap-4 lg:flex-row lg:gap-10"
-        >
-          <div className="relative max-h-[400px] w-[300px] overflow-hidden">
-            {workshop.imgSrc && (
-              <Image
-                src={workshop.imgSrc}
-                alt={'Workshops image'}
-                sizes="350px"
-                width={300}
-                height={300}
-              />
-            )}
-          </div>
-          <div className="flex-1 gap-4">
-            <h2 className="text-xl text-darkGray">{workshop.heading}</h2>
-            <div className="mb-3 mt-1">
-              <p className="text-sm font-bold leading-6 text-mediumGray">
-                {workshop.date}
-              </p>
-              <p className="text-sm leading-6 text-mediumGray">
-                {workshop.location}
-              </p>
+      {workshops.map((workshop) => {
+        const isExpanded = expandedWorkshops.has(workshop.id);
+        const isOverflowing = overflowingWorkshops.has(workshop.id);
+
+        return (
+          <div
+            key={workshop.id}
+            className="my-2 flex w-full flex-col items-start justify-start gap-4 border-b pb-10 lg:flex-row lg:gap-10"
+          >
+            <div className="relative max-h-[400px] w-[300px] overflow-hidden border-b">
+              {workshop.imgSrc && (
+                <Image
+                  src={workshop.imgSrc}
+                  alt={'Workshops image'}
+                  sizes="350px"
+                  width={300}
+                  height={300}
+                />
+              )}
             </div>
-            {workshop.body &&
-              workshop.body
-                .split('\n')
-                .map((paragraph: string) => (
-                  <p className="my-2 text-xs leading-6 text-mediumGray">
-                    {paragraph}
-                  </p>
-                ))}
-            {workshop.linkSrc1 && (
-              <p className="text-sm leading-6 text-mediumGray">
-                <a href={workshop.linkSrc1}>{workshop.linkSrc1}</a>
-              </p>
-            )}
-            <button
-              onClick={() => inquireHandler(workshop)}
-              className="my-2 border-[1px] border-mediumGray px-4 py-1 text-sm leading-6 tracking-wide text-mediumGray transition-all hover:border-darkGray hover:text-darkGray"
-            >
-              Inquire
-            </button>
+            <div className="flex-1 gap-4">
+              <h2 className="text-xl text-darkGray">{workshop.heading}</h2>
+              <div className="mb-3 mt-1">
+                <p className="text-sm font-bold leading-6 text-mediumGray">
+                  {workshop.date}
+                </p>
+                <p className="text-sm leading-6 text-mediumGray">
+                  {workshop.location}
+                </p>
+              </div>
+              <div
+                ref={(el) => (contentRefs.current[workshop.id] = el)}
+                className={`relative transition-all duration-500 ease-in-out ${
+                  !isExpanded ? 'max-h-[150px] ' : 'max-h-[2000px]'
+                } overflow-hidden`}
+              >
+                <div className="relative ">
+                  {!isExpanded && isOverflowing && (
+                    <div className="absolute top-[100px] h-[50px] w-full bg-gradient-to-t from-white to-transparent" />
+                  )}
+                  {workshop.body &&
+                    workshop.body
+                      .split('\n')
+                      .map((paragraph: string, idx: number) => (
+                        <p
+                          key={idx}
+                          className="my-2 text-xs leading-6 text-mediumGray"
+                        >
+                          {paragraph}
+                        </p>
+                      ))}
+                  {workshop.linkSrc1 && (
+                    <p className="text-sm leading-6 text-mediumGray">
+                      <a href={workshop.linkSrc1}>{workshop.linkSrc1}</a>
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => inquireHandler(workshop)}
+                  className="my-2 border-[1px] border-mediumGray px-4 py-1 text-sm leading-6 tracking-wide text-mediumGray transition-all hover:border-darkGray hover:text-darkGray"
+                >
+                  Inquire
+                </button>
+                {isOverflowing && (
+                  <button
+                    onClick={() => toggleExpand(workshop.id)}
+                    className="my-2 border-[1px] border-mediumGray px-4 py-1 text-sm leading-6 tracking-wide text-mediumGray transition-all hover:border-darkGray hover:text-darkGray"
+                  >
+                    {isExpanded ? 'Read Less' : 'Read More'}
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
       {inquireModalOpen && (
         <div className="fixed inset-0 top-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="flex h-[600px] w-[550px] flex-col bg-white p-4">
