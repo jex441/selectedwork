@@ -80,7 +80,11 @@ export default function Nav({
           </div>
 
           <nav
-            className={`${open ? 'flex' : 'hidden'} fixed z-10 h-full w-full flex-col gap-4 bg-white px-5 pl-10 pt-20 text-[32px] lg:static lg:mx-5 lg:flex lg:w-auto lg:flex-row lg:items-center lg:gap-4 lg:p-0 lg:text-sm`}
+            className={`fixed z-10 h-full w-full flex-col gap-4 bg-white px-5 pl-10 pt-20 text-[32px] transition-transform duration-300 lg:static lg:mx-5 lg:flex lg:w-auto lg:flex-row lg:items-center lg:gap-4 lg:p-0 lg:text-sm ${
+              open
+                ? 'flex translate-x-0'
+                : 'flex translate-x-full lg:translate-x-0'
+            }`}
           >
             {collections.length > 3 ? (
               <span
