@@ -13,7 +13,7 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
   const [currentWorkshop, setCurrentWorkshop] = useState<IWorkshop | null>(
     null,
   );
-  const [expandedWorkshops, setExpandedWorkshops] = useState<Set<string>>(
+  const [expandedWorkshops, setExpandedWorkshops] = useState<Set<number>>(
     new Set(),
   );
   const [overflowingWorkshops, setOverflowingWorkshops] = useState<Set<number>>(
@@ -21,14 +21,13 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
   );
 
   // Add refs for content containers
-  const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const contentRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   // Check for overflow on mount and window resize
   useEffect(() => {
     const checkOverflow = () => {
       const newOverflowing = new Set<number>();
       workshops.forEach((workshop) => {
-        if (workshop.id === null) return;
         const element = contentRefs.current[workshop.id];
         if (element && element.scrollHeight > 150) {
           // 150px is our max-height
@@ -48,9 +47,9 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
     setInquireModalOpen(true);
   };
 
-  const toggleExpand = (workshopId: string) => {
+  const toggleExpand = (workshopId: number) => {
     setExpandedWorkshops((prev) => {
-      const newSet = new Set(prev);
+      const newSet = new Set<number>(prev);
       if (newSet.has(workshopId)) {
         newSet.delete(workshopId);
       } else {
