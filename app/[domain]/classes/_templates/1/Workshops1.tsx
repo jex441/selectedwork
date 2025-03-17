@@ -4,8 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { IWorkshopsPage } from '../../../../interfaces/IWorkshopsPage';
 import { IWorkshop } from '../../../../interfaces/IWorkshop';
 import Image from 'next/image';
-import InquireForm from './InquireForm';
-import close from '@/public/close.png';
+import WorkshopModal from '../_components/WorkshopModal';
 
 export default function Workshops1({ data }: { data: IWorkshopsPage }) {
   const { imgSrc, workshops, heading, subHeading, body } = data || {};
@@ -68,9 +67,9 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
         return (
           <div
             key={workshop.id}
-            className="my-2 flex w-full flex-col items-start justify-start gap-4 border-b pb-10 lg:flex-row lg:gap-10"
+            className="fade-in-simple my-2 flex w-full flex-col items-start justify-start gap-4 border-b pb-10 lg:flex-row lg:gap-10"
           >
-            <div className="relative flex h-[400px] w-full justify-center overflow-hidden lg:w-[300px]">
+            <div className="relative flex max-h-[400px] w-full items-start justify-center overflow-hidden lg:w-[300px]">
               {workshop.imgSrc && (
                 <Image
                   className="object-contain"
@@ -120,14 +119,14 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
               <div className="flex gap-4">
                 <button
                   onClick={() => inquireHandler(workshop)}
-                  className="my-2 border-[1px] border-mediumGray px-4 py-1 text-sm leading-6 tracking-wide text-mediumGray transition-all hover:border-darkGray hover:text-darkGray"
+                  className="my-2 border-[1px] border-lightGray px-4 py-1 text-sm leading-6 tracking-wide text-lightGray transition-all hover:border-darkGray hover:text-darkGray"
                 >
                   Inquire
                 </button>
                 {isOverflowing && (
                   <button
                     onClick={() => toggleExpand(workshop.id)}
-                    className="my-2 border-[1px] border-mediumGray px-4 py-1 text-sm leading-6 tracking-wide text-mediumGray transition-all hover:border-darkGray hover:text-darkGray"
+                    className="my-2 border-[1px] border-lightGray px-4 py-1 text-sm leading-6 tracking-wide text-lightGray transition-all hover:border-darkGray hover:text-darkGray"
                   >
                     {isExpanded ? 'Read Less' : 'Read More'}
                   </button>
@@ -137,54 +136,12 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
           </div>
         );
       })}
-      {inquireModalOpen && (
-        <div className="fixed inset-0 top-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="flex h-[600px] w-[550px] flex-col bg-white p-4">
-            <button
-              onClick={() => setInquireModalOpen(false)}
-              className="self-end text-sm leading-6 text-mediumGray"
-            >
-              <Image
-                className="w-4 opacity-40 transition-all hover:opacity-100"
-                src={close}
-                alt={'close'}
-              />
-            </button>
-            <div className="flex w-full flex-col">
-              <div className="flex w-full flex-row p-4">
-                {currentWorkshop !== null && currentWorkshop.imgSrc && (
-                  <Image
-                    src={currentWorkshop.imgSrc}
-                    alt={'Workshops image'}
-                    sizes="(max-width: 600px) 100px, (max-width: 900px) 100px, 200px"
-                    width={100}
-                    height={200}
-                  />
-                )}
-                <div className="flex w-[320px] flex-col px-4">
-                  <h2 className="mb-1 leading-5 text-darkGray">
-                    {currentWorkshop?.heading}
-                  </h2>
-                  <p className="truncate text-xs font-bold leading-5 text-mediumGray">
-                    {currentWorkshop?.date}
-                  </p>
-                  <p className="truncate text-xs leading-5 text-mediumGray">
-                    {currentWorkshop?.location}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-1 flex-col">
-                {currentWorkshop !== null && data.email && (
-                  <InquireForm
-                    email={data.email}
-                    subject={currentWorkshop.heading}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <WorkshopModal
+        isOpen={inquireModalOpen}
+        onClose={() => setInquireModalOpen(false)}
+        workshop={currentWorkshop}
+        email={data.email}
+      />
     </main>
   );
 }
