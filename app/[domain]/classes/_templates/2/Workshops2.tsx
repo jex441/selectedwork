@@ -69,13 +69,13 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
             key={workshop.id}
             className="my-2 flex w-full flex-col items-start justify-start gap-4 border-b pb-10 lg:flex-row lg:gap-10"
           >
-            <div className="relative flex max-h-[400px] w-full items-start justify-center overflow-hidden lg:w-[300px]">
+            <div className="relative flex max-h-[300px] w-full items-start justify-center overflow-hidden lg:w-[300px]">
               {workshop.imgSrc && (
                 <Image
                   className="object-contain"
                   src={workshop.imgSrc}
                   alt={'Workshops image'}
-                  sizes="350px"
+                  sizes="300px"
                   width={300}
                   height={300}
                 />
