@@ -16,7 +16,7 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
   const [expandedWorkshops, setExpandedWorkshops] = useState<Set<string>>(
     new Set(),
   );
-  const [overflowingWorkshops, setOverflowingWorkshops] = useState<Set<string>>(
+  const [overflowingWorkshops, setOverflowingWorkshops] = useState<Set<number>>(
     new Set(),
   );
 
@@ -26,8 +26,9 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
   // Check for overflow on mount and window resize
   useEffect(() => {
     const checkOverflow = () => {
-      const newOverflowing = new Set<string>();
+      const newOverflowing = new Set<number>();
       workshops.forEach((workshop) => {
+        if (workshop.id === null) return;
         const element = contentRefs.current[workshop.id];
         if (element && element.scrollHeight > 150) {
           // 150px is our max-height
@@ -70,9 +71,10 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
             key={workshop.id}
             className="my-2 flex w-full flex-col items-start justify-start gap-4 border-b pb-10 lg:flex-row lg:gap-10"
           >
-            <div className="relative max-h-[400px] w-[300px] overflow-hidden border-b">
+            <div className="relative flex h-[400px] w-full justify-center overflow-hidden lg:w-[300px]">
               {workshop.imgSrc && (
                 <Image
+                  className="object-contain"
                   src={workshop.imgSrc}
                   alt={'Workshops image'}
                   sizes="350px"
@@ -98,9 +100,6 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
                 } overflow-hidden`}
               >
                 <div className="relative ">
-                  {!isExpanded && isOverflowing && (
-                    <div className="absolute top-[100px] h-[50px] w-full bg-gradient-to-t from-white to-transparent" />
-                  )}
                   {workshop.body &&
                     workshop.body
                       .split('\n')
