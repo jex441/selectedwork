@@ -28,6 +28,7 @@ export const users = pgTable('users_table', {
   instagram: text('instagram'),
   sideNav: boolean('sideNav').default(false).notNull(),
   template: integer('template').default(1).notNull(),
+  favicon: text('favicon'),
 });
 
 export const pages = pgTable('pages_table', {

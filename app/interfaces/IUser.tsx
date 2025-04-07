@@ -25,4 +25,5 @@ export interface IUser {
   workshops?: IPage | null;
   cv?: IPage | null;
   contact?: IPage | null;
+  favicon?: string | null;
 }
