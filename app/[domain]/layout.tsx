@@ -2,6 +2,8 @@ import { ReactNode } from 'react';
 import { getUserByUsername } from '../lib/requests';
 import Home from '../home/page';
 import Nav from './nav/page';
+import Head from 'next/head';
+import { IUser } from '../interfaces/IUser';
 
 const FooterLink = () => (
   <div>
@@ -32,6 +34,34 @@ const templateStyles = {
   },
 };
 
+function generateSEOMetadata(user: IUser) {
+  const name = `${user.firstName} ${user.lastName}`.trim();
+  const description = `${user.displayName}`;
+
+  // Build dynamic keywords based on user data
+  const keywords = [
+    name,
+    user.displayName,
+    'artist',
+    'portfolio',
+    ...(user.collections?.map((c) => c.title) || []),
+    'fine art',
+    'contemporary art',
+  ]
+    .filter(Boolean)
+    .join(', ');
+
+  const url =
+    user.domain || `${user.username}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+
+  return {
+    title: `${name} - ${user.displayName}`,
+    description,
+    keywords,
+    url: `https://${url}`,
+  };
+}
+
 export default async function SiteLayout({
   params,
   children,
@@ -42,27 +72,55 @@ export default async function SiteLayout({
   const domain = decodeURIComponent(params.domain);
   if (domain === 'home') return <Home />;
 
-  const res = await getUserByUsername(domain);
-  if (!res) return <div>user not found</div>;
+  const user: IUser | null = await getUserByUsername(domain);
+  if (user === null) return <div>user not found</div>;
 
   if (
     !domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) &&
-    res.plan === 'free'
+    user.plan === 'free'
   ) {
     return <div>Not found</div>;
   }
 
-  const styles = templateStyles[res.template as keyof typeof templateStyles];
+  const styles = templateStyles[user.template as keyof typeof templateStyles];
   if (!styles) return null;
 
+  const seo = generateSEOMetadata(user);
+
   return (
-    <div className="flex min-h-screen w-full flex-col">
-      <Nav params={params} />
-      <main className={styles.main}>{children}</main>
-      <div className={styles.footer}>
-        {res.template !== 3 && <div>{res.displayName} 2025</div>}
-        {res.plan === 'free' && <FooterLink />}
+    <>
+      <Head>
+        {/* Basic Meta Tags */}
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        <meta name="keywords" content={seo.keywords} />
+        <link rel="canonical" href={seo.url} />
+
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={seo.url} />
+
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seo.title} />
+        <meta name="twitter:description" content={seo.description} />
+
+        {/* Additional Artist-specific Meta Tags */}
+        <meta name="author" content={user.displayName} />
+
+        {/* Robots Meta */}
+        <meta name="robots" content="index, follow" />
+      </Head>
+      <div className="flex min-h-screen w-full flex-col">
+        <Nav params={params} />
+        <main className={styles.main}>{children}</main>
+        <div className={styles.footer}>
+          {user.template !== 3 && <div>{user.displayName} 2025</div>}
+          {user.plan === 'free' && <FooterLink />}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
