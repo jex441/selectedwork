@@ -100,6 +100,7 @@ export default function FaviconForm({ data }: { data: IUser }) {
             )}
             <div className="flex items-center gap-2">
               <UploadButton
+                className="ut-button:bg-black ut-allowed-content:hidden"
                 disabled={data.plan === 'free'}
                 endpoint="imageUploader"
                 onClientUploadComplete={(res: { url: string }[]) => {
