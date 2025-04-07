@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { getUserByUsername } from '../lib/requests';
 import Home from '../home/page';
 import Nav from './nav/page';
-import Head from 'next/head';
+import { Metadata } from 'next';
 import { IUser } from '../interfaces/IUser';
 
 const FooterLink = () => (
@@ -35,12 +35,10 @@ const templateStyles = {
 };
 
 function generateSEOMetadata(user: IUser) {
-  const name = `${user.firstName} ${user.lastName}`.trim();
   const description = `${user.displayName}`;
 
   // Build dynamic keywords based on user data
   const keywords = [
-    name,
     user.displayName,
     'artist',
     'portfolio',
@@ -55,10 +53,50 @@ function generateSEOMetadata(user: IUser) {
     user.domain || `${user.username}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 
   return {
-    title: `${name} - ${user.displayName}`,
+    title: `${user.displayName}`,
     description,
     keywords,
     url: `https://${url}`,
+  };
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { domain: string };
+}): Promise<Metadata> {
+  const domain = decodeURIComponent(params.domain);
+  if (domain === 'home') return {};
+
+  const user: IUser | null = await getUserByUsername(domain);
+  if (!user) return {};
+
+  const seo = generateSEOMetadata(user);
+
+  return {
+    title: seo.title,
+    description: seo.description,
+    keywords: seo.keywords,
+    authors: [{ name: user.displayName }],
+    metadataBase: new URL(`https://${seo.url}`),
+    icons: {
+      icon: user.favicon || 'favicon.ico',
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      type: 'website',
+      url: seo.url,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: seo.title,
+      description: seo.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 
@@ -85,42 +123,14 @@ export default async function SiteLayout({
   const styles = templateStyles[user.template as keyof typeof templateStyles];
   if (!styles) return null;
 
-  const seo = generateSEOMetadata(user);
-
   return (
-    <>
-      <Head>
-        {/* Basic Meta Tags */}
-        <title>{seo.title}</title>
-        <meta name="description" content={seo.description} />
-        <meta name="keywords" content={seo.keywords} />
-        <link rel="canonical" href={seo.url} />
-
-        {/* Open Graph Meta Tags */}
-        <meta property="og:title" content={seo.title} />
-        <meta property="og:description" content={seo.description} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={seo.url} />
-
-        {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={seo.title} />
-        <meta name="twitter:description" content={seo.description} />
-
-        {/* Additional Artist-specific Meta Tags */}
-        <meta name="author" content={user.displayName} />
-
-        {/* Robots Meta */}
-        <meta name="robots" content="index, follow" />
-      </Head>
-      <div className="flex min-h-screen w-full flex-col">
-        <Nav params={params} />
-        <main className={styles.main}>{children}</main>
-        <div className={styles.footer}>
-          {user.template !== 3 && <div>{user.displayName} 2025</div>}
-          {user.plan === 'free' && <FooterLink />}
-        </div>
+    <div className="flex min-h-screen w-full flex-col">
+      <Nav params={params} />
+      <main className={styles.main}>{children}</main>
+      <div className={styles.footer}>
+        {user.template !== 3 && <div>{user.displayName} 2025</div>}
+        {user.plan === 'free' && <FooterLink />}
       </div>
-    </>
+    </div>
   );
 }

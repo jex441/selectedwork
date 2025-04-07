@@ -409,7 +409,7 @@ export const getUserData = async () => {
       }
       return acc;
     }, {} as IUser);
-
+    console.log(result);
     return result;
   }
 
@@ -1944,3 +1944,23 @@ export const getUserWork = async (id: number): Promise<IWork | undefined> => {
     return undefined;
   }
 };
+
+export async function updateUserFavicon(faviconUrl: string) {
+  try {
+    const userData = await getUserData();
+    if (!userData) return;
+    console.log('::', userData);
+    await db
+      .update(users)
+      .set({
+        favicon: faviconUrl,
+      })
+      .where(eq(users.id, userData.id));
+
+    revalidatePath('/');
+    return { status: 200 };
+  } catch (error) {
+    console.log(error);
+    return { status: 500 };
+  }
+}
