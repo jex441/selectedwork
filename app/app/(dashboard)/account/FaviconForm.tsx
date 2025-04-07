@@ -102,7 +102,7 @@ export default function FaviconForm({ data }: { data: IUser }) {
               <UploadButton
                 disabled={data.plan === 'free'}
                 endpoint="imageUploader"
-                onClientUploadComplete={(res) => {
+                onClientUploadComplete={(res: { url: string }[]) => {
                   if (res?.[0]) {
                     setFaviconUrl(res[0].url);
                     toast({
