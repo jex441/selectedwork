@@ -13,8 +13,8 @@ export default async function page() {
   return (
     <main className="flex min-h-screen w-full flex-col gap-5 px-4 py-10 md:px-20">
       {userData && <AccountForm data={userData} />}
-      {userData && <FaviconForm data={userData} />}
       {userData && <TemplateForm data={userData} />}
+      {userData && <FaviconForm data={userData} />}
       {userData && <DomainForm data={userData} />}
       {userData && <BillingForm data={userData} />}
       {userData && <AccountStatusForm data={userData} />}
