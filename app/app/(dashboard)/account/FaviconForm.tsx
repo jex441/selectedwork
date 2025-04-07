@@ -22,8 +22,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useRouter } from 'next/navigation';
 
 export default function FaviconForm({ data }: { data: IUser }) {
+  const router = useRouter();
   const { toast } = useToast();
   const [faviconUrl, setFaviconUrl] = useState<string>(data.favicon || '');
 
@@ -42,6 +44,7 @@ export default function FaviconForm({ data }: { data: IUser }) {
         });
       }
     });
+    router.refresh();
   };
 
   const removeFaviconHandler = async () => {
