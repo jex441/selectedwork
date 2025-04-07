@@ -98,11 +98,11 @@ export default function FaviconForm({ data }: { data: IUser }) {
                 className="rounded-lg border"
               />
             )}
-            <div className="flex items-center gap-2">
+            <div className="flex items-start justify-center gap-6">
               <UploadButton
-                className="ut-button:bg-black ut-allowed-content:hidden"
+                className="ut-button:bg-black"
                 disabled={data.plan === 'free'}
-                endpoint="imageUploader"
+                endpoint="singleImageUploader"
                 onClientUploadComplete={(res: { url: string }[]) => {
                   if (res?.[0]) {
                     setFaviconUrl(res[0].url);
