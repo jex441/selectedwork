@@ -33,6 +33,10 @@ export default function page({ data }: { data: IContactPage }) {
               width={600}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 500px"
               src={imgSrc}
+              priority
+              loading="eager"
+              quality={85}
+              placeholder="empty"
               className="h-full w-full object-contain"
               alt={imgCaption ?? 'about the artist'}
               onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {

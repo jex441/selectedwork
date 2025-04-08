@@ -95,7 +95,16 @@ export default function Modal({
             className="fade-in-simple cursor-pointer cursor-pointer opacity-50 hover:opacity-100"
             onClick={() => closeHandler()}
           >
-            <Image src={close} alt="close" height={18} width={18} />
+            <Image
+              src={close}
+              alt="close"
+              height={18}
+              width={18}
+              priority
+              loading="eager"
+              quality={85}
+              placeholder="empty"
+            />
           </span>
         </nav>
 
@@ -107,6 +116,10 @@ export default function Modal({
             alt="previous"
             height={18}
             width={18}
+            priority
+            loading="eager"
+            quality={85}
+            placeholder="empty"
             onClick={() => navigateHandler('previous')}
             className="hidden cursor-pointer opacity-30 transition-all hover:opacity-80 lg:block"
           />
@@ -122,6 +135,10 @@ export default function Modal({
                   : '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
               }
               alt="work"
+              priority
+              loading="eager"
+              quality={85}
+              placeholder="empty"
               className={`animDelay zoom-in-simple h-auto w-full object-contain lg:max-h-[600px] ${work.title ? 'lg:w-4/5' : 'lg:w-full'}`}
               src={src}
               onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -145,6 +162,10 @@ export default function Modal({
                             src={m.url}
                             fill={true}
                             sizes="35px"
+                            priority
+                            loading="eager"
+                            quality={85}
+                            placeholder="empty"
                             className={`cursor-pointer border-2 object-cover ${
                               src === m.url
                                 ? 'border-darkGray'
@@ -210,6 +231,10 @@ export default function Modal({
                             src={m.url}
                             fill={true}
                             sizes="35px"
+                            priority
+                            loading="eager"
+                            quality={85}
+                            placeholder="empty"
                             className={`cursor-pointer border-2 object-cover ${
                               src === m.url
                                 ? 'border-darkGray'
@@ -229,6 +254,10 @@ export default function Modal({
             alt="previous"
             height={18}
             width={18}
+            priority
+            loading="eager"
+            quality={85}
+            placeholder="empty"
             onClick={() => navigateHandler('next')}
             className="hidden cursor-pointer opacity-30 transition-all hover:opacity-80 lg:block"
           />
