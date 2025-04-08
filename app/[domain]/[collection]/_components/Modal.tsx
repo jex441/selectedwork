@@ -6,6 +6,11 @@ import close from '/public/close.png';
 import next from '@/public/next.png';
 import previous from '@/public/previous.png';
 
+// Custom loader component for thumbnails
+const ThumbnailLoader = () => (
+  <div className="relative h-[35px] w-[35px] animate-pulse bg-gray-200" />
+);
+
 export default function Modal({
   data,
   setModal,
@@ -156,6 +161,7 @@ export default function Modal({
                     (m) =>
                       m.url && (
                         <div key={m.url} className="relative h-[35px] w-[35px]">
+                          <ThumbnailLoader />
                           <Image
                             onClick={() => m.url && setSrc(m.url)}
                             alt={data.title ?? 'Artwork'}
@@ -166,7 +172,7 @@ export default function Modal({
                             loading="eager"
                             quality={85}
                             placeholder="empty"
-                            className={`cursor-pointer border-2 object-cover ${
+                            className={`absolute inset-0 cursor-pointer border-2 object-cover ${
                               src === m.url
                                 ? 'border-darkGray'
                                 : 'border-transparent'
@@ -225,6 +231,7 @@ export default function Modal({
                     (m) =>
                       m.url && (
                         <div key={m.url} className="relative h-[35px] w-[35px]">
+                          <ThumbnailLoader />
                           <Image
                             onClick={() => m.url && setSrc(m.url)}
                             alt={data.title ?? 'Artwork'}
@@ -235,7 +242,7 @@ export default function Modal({
                             loading="eager"
                             quality={85}
                             placeholder="empty"
-                            className={`cursor-pointer border-2 object-cover ${
+                            className={`absolute inset-0 cursor-pointer border-2 object-cover ${
                               src === m.url
                                 ? 'border-darkGray'
                                 : 'border-transparent'
