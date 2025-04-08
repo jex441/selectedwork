@@ -34,6 +34,10 @@ export default function About1({ data }: { data: IAboutPage }) {
               width={490}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 490px, 490px"
               src={imgSrc}
+              priority
+              loading="eager"
+              quality={85}
+              placeholder="empty"
               className="h-full w-full object-contain"
               alt={imgCaption ?? 'about the artist'}
               onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {

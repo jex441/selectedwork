@@ -35,6 +35,10 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
                   width={700}
                   src={imgSrc}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
+                  priority
+                  loading="eager"
+                  quality={85}
+                  placeholder="empty"
                   className="w-full object-contain"
                   alt="cover"
                 />

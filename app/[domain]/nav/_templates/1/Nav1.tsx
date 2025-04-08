@@ -76,7 +76,16 @@ export default function Nav({
             onClick={() => setOpen(!open)}
             className="fixed right-5 top-5 z-20 h-[25px] w-[25px] lg:hidden"
           >
-            <Image height={25} width={25} alt="menu" src={menu} />
+            <Image
+              height={25}
+              width={25}
+              alt="menu"
+              src={menu}
+              priority
+              loading="eager"
+              quality={85}
+              placeholder="empty"
+            />
           </div>
 
           <nav
@@ -143,6 +152,10 @@ export default function Nav({
                       width={20}
                       alt="instagram"
                       src={instagramLogo}
+                      priority
+                      loading="eager"
+                      quality={85}
+                      placeholder="empty"
                     />
                   </span>
                 </a>
@@ -159,6 +172,10 @@ export default function Nav({
                 width={20}
                 alt="instagram"
                 src={instagramLogo}
+                priority
+                loading="eager"
+                quality={85}
+                placeholder="empty"
               />
             </span>
           </a>
