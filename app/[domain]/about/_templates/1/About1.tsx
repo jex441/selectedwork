@@ -19,15 +19,10 @@ export default function About1({ data }: { data: IAboutPage }) {
     template,
   } = data || {};
 
-  const isLargeScreen = useMediaQuery({ query: '(min-width: 700px)' });
-  const [imageWidth, setImageWidth] = useState(
-    isLargeScreen ? '260px' : '100%',
-  );
-
   return (
     <main className="mb-20 flex w-full flex-col items-start justify-center px-4 lg:flex-row lg:gap-14 lg:px-20 lg:pt-10">
-      <section className="fade-in-up-simple relative flex max-h-[520px] w-full flex-col object-contain lg:h-[490px] lg:w-1/2">
-        <div className="relative h-auto w-full lg:max-h-[480px] ">
+      <section className="fade-in-up-simple relative flex max-h-[520px] w-full flex-col items-center lg:h-[490px] lg:w-1/2">
+        <div className="relative w-full max-w-fit lg:max-h-[480px]">
           {imgSrc && (
             <Image
               height={490}
@@ -40,26 +35,14 @@ export default function About1({ data }: { data: IAboutPage }) {
               placeholder="empty"
               className="h-full w-full object-contain"
               alt={imgCaption ?? 'about the artist'}
-              onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
-                const { naturalWidth, naturalHeight } =
-                  e.target as HTMLImageElement;
-                if (naturalHeight > naturalWidth && isLargeScreen) {
-                  const int = Math.floor((naturalWidth * 490) / naturalHeight);
-                  setImageWidth(`${int}px`);
-                } else {
-                  setImageWidth('100%');
-                }
-              }}
             />
           )}
-        </div>
-        <div
-          style={{ width: imageWidth }}
-          className="mt-4 self-center text-xs italic text-darkGray"
-        >
-          {imgCaption}
+          <p className="mt-4 text-left text-xs italic text-darkGray">
+            {imgCaption}
+          </p>
         </div>
       </section>
+
       <section className="fade-in-right-simple mt-2 w-full lg:mt-0 lg:w-1/2">
         <h1 className="text-xl leading-9 text-darkGray">{heading}</h1>
         <h3 className="text-sm leading-9 text-mediumGray">{subheading}</h3>
