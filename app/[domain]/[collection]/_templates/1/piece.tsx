@@ -86,10 +86,8 @@ export default function Piece({
           src={src}
         />
         <div className="flex w-full text-mediumGray">
-          {data.title && (
-            <span className="overflow-ellipsis italic">{data.title}</span>
-          )}
-          {data.title && data.year && <span>,&nbsp;</span>}
+          {data.title && <span className="italic">{data.title}</span>}
+          {data.title && data.year && <span className="italic">,&nbsp;</span>}
           {data.year && <span>{data.year}</span>}
         </div>
       </section>
