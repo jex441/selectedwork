@@ -17,9 +17,8 @@ export default function Banner() {
         <motion.div
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
           exit={{ y: 200 }}
-          className="fixed bottom-0 my-5 flex w-full flex-col items-start justify-start self-center rounded-full bg-lime-300 px-6 py-1 text-sm shadow-lg lg:m-10 lg:h-[120px] lg:w-[800px] lg:px-10 lg:py-5 lg:text-xl"
+          className="fixed bottom-0 flex w-full flex-col items-start justify-start self-center rounded-full bg-[#C2FF6B] px-6 py-1 text-sm shadow-lg lg:my-5 lg:w-[800px] lg:px-10 lg:py-5 lg:text-lg"
         >
           <button
             onClick={handleCloseBanner}
@@ -27,9 +26,11 @@ export default function Banner() {
           >
             <X height={20} width={20} />
           </button>
-          <h1 className="lg:mb-2 lg:text-2xl">Want a website like this?</h1>
+          <h1 className="lg:mb-2 lg:text-2xl">
+            Want a website that looks like this?
+          </h1>
           <p>
-            Get started on
+            Get started with
             <a href="https://selectedwork.net" className="mx-1 underline">
               SelectedWork
             </a>
