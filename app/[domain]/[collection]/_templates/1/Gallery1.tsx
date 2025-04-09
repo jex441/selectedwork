@@ -90,7 +90,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
           </p>
         </div>
       </section>
-      <section className="mx-6 mb-10 grid w-full grid-cols-1 gap-x-2 gap-y-16 md:grid-cols-2 lg:grid-cols-4 lg:px-20">
+      <section className="mx-6 mb-10 grid w-full grid-cols-1 justify-items-center gap-x-2 gap-y-16 md:grid-cols-2 lg:grid-cols-4 lg:px-20">
         {works &&
           data.works.map((work: IWork, index: number) => (
             <Piece
