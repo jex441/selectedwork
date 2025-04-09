@@ -4,6 +4,7 @@ import Home from '../home/page';
 import Nav from './nav/page';
 import { Metadata } from 'next';
 import { IUser } from '../interfaces/IUser';
+import Banner from './banner';
 
 const FooterLink = () => (
   <div>
@@ -122,7 +123,14 @@ export default async function SiteLayout({
 
   const styles = templateStyles[user.template as keyof typeof templateStyles];
   if (!styles) return null;
-
+  const demos = [
+    'template01',
+    'template02',
+    'template03',
+    'camdenross',
+    'andrewwhite',
+    'janewalsh',
+  ];
   return (
     <div className="flex min-h-screen w-full flex-col">
       <Nav params={params} />
@@ -131,6 +139,7 @@ export default async function SiteLayout({
         {user.template !== 3 && <div>{user.displayName} 2025</div>}
         {user.plan === 'free' && <FooterLink />}
       </div>
+      {demos.includes(user.username) && <Banner />}
     </div>
   );
 }
