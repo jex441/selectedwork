@@ -19,7 +19,7 @@ export default function Banner() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
           exit={{ y: 200 }}
-          className="fixed bottom-0 m-10 flex h-10 h-[120px] w-[800px] w-full flex-col items-start justify-start self-center rounded-full bg-lime-300 p-4 px-10 text-xl shadow-lg"
+          className="fixed bottom-0 my-5 flex w-full flex-col items-start justify-start self-center rounded-full bg-lime-300 p-4 px-10 shadow-lg lg:m-10 lg:h-[120px] lg:w-[800px] lg:text-xl"
         >
           <button
             onClick={handleCloseBanner}
@@ -27,7 +27,7 @@ export default function Banner() {
           >
             <X />
           </button>
-          <h1 className="text-2xl leading-loose text-gray-600">
+          <h1 className="leading-loose text-gray-600 lg:text-2xl">
             Want a website like this?
           </h1>
           <p>
