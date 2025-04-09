@@ -85,8 +85,8 @@ export default function Piece({
           className="max-h-[620px] w-full justify-self-center object-contain lg:h-[260px] lg:max-w-[260px]"
           src={src}
         />
-        <div className="flex w-full uppercase italic text-mediumGray">
-          {data.title && <span>{data.title}</span>}
+        <div className="flex w-full text-mediumGray">
+          {data.title && <span className="italic">{data.title}</span>}
           {data.title && data.year && <span>,&nbsp;</span>}
           {data.year && <span>{data.year}</span>}
         </div>
