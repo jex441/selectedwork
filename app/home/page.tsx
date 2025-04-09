@@ -42,7 +42,7 @@ export default function page() {
     };
   }, []);
 
-  const templates = ['camdenross', 'andrewwhite', 'janewalsh'];
+  const templates = ['template01', 'template02', 'template03'];
 
   return (
     <main className={`flex flex-col bg-[#E4EDDB] ${regular.className}`}>
@@ -119,7 +119,7 @@ export default function page() {
               </div>
             </a>
             <a
-              href={`https://camdenross.selectedwork.net`}
+              href={`https://template01.selectedwork.net`}
               target="_blank"
               rel="noopener noreferrer"
             >
