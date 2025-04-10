@@ -2,7 +2,6 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "postbuild": "next-sitemap",
     "dev": "next dev",
     "db:push": "drizzle-kit push",
     "generate": "drizzle-kit generate",
