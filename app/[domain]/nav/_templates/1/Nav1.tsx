@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
+import { motion, useMotionValueEvent, useScroll } from 'motion/react';
 
 import { ICollection } from '@/app/interfaces/ICollection';
 import { IPage } from '@/app/interfaces/IPage';
