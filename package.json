@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "postbuild": "next-sitemap",
     "dev": "next dev",
     "db:push": "drizzle-kit push",
     "generate": "drizzle-kit generate",
@@ -47,6 +48,7 @@
     "lucide-react": "^0.395.0",
     "motion": "^12.4.1",
     "next": "^14.2.4",
+    "next-sitemap": "^4.2.3",
     "postcss": "8.4.31",
     "random-word-slugs": "^0.1.7",
     "react": "18.2.0",
