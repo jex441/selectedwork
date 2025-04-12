@@ -28,8 +28,11 @@ export default async function SiteHomePage({
             height={400}
             width={500}
             src={landingData.imgSrc}
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw, 800px"
             className="fade-in-simple w-full object-contain"
+            priority
+            quality={75}
+            loading="eager"
           />
         </div>
         <div className="fade-in-up-simple mt-6 text-center text-[24px] leading-10 text-darkGray">
