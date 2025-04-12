@@ -41,7 +41,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
                 />
               </div>
               <div className="mt-2">
-                <span className="text-sm italic text-mediumGray">
+                <span className="text-xs italic text-mediumGray">
                   {imgCaption}
                 </span>
               </div>
@@ -53,9 +53,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
                   ? title
                   : null}
               </h1>
-              <h3 className="text-sm leading-9 text-mediumGray">
-                {subheading}
-              </h3>
+              <h3 className="text-sm leading-9 text-lightGray">{subheading}</h3>
               <div className="text-xs leading-7 text-mediumGray">
                 {description &&
                   description
@@ -66,22 +64,22 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
                       </p>
                     ))}
               </div>
-              <p className="my-4 text-sm text-mediumGray">
+              <p className="my-4 text-sm text-lightGray">
                 {linkSrc1 && (
                   <a
                     href={linkSrc1}
-                    className="underline hover:text-black"
+                    className="underline transition-all hover:text-black"
                     target="_blank"
                   >
                     {linkText1}
                   </a>
                 )}
               </p>
-              <p className="text-sm leading-7 text-gray-600">
+              <p className="text-sm leading-7 text-lightGray">
                 {linkSrc2 && (
                   <a
                     href={linkSrc2}
-                    className="underline hover:text-black"
+                    className="underline transition-all hover:text-black"
                     target="_blank"
                   >
                     {linkText2}

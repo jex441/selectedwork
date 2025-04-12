@@ -94,7 +94,7 @@ export default function Nav({
               pages.map((page) => (
                 <span key={page.title}>
                   <span
-                    className={`${collections.length > 1 ? 'lg:text-xs' : ''} cursor-pointer tracking-wide text-mediumGray transition-all hover:text-darkGray`}
+                    className={`${collections.length > 1 ? 'lg:text-xs' : ''} cursor-pointer tracking-wide text-lightGray transition-all hover:text-mediumGray`}
                     onClick={() => clickHandler(page.slug)}
                   >
                     {page.title}

@@ -76,9 +76,9 @@ export default function Piece({
           style={{ width: width }}
           className="fade-in-up-simple mt-4 flex flex-col justify-start gap-1 md:mt-0 lg:w-full "
         >
-          <span className="text-xs text-mediumGray">{data.title}</span>
-          <span className="text-xs text-mediumGray">{data.year}</span>
-          <span className="text-xs text-mediumGray">{data.medium}</span>
+          <span className="text-xs text-darkGray">{data.title}</span>
+          <span className="text-xs text-lightGray">{data.year}</span>
+          <span className="text-xs text-lightGray">{data.medium}</span>
         </div>
       </div>
     </>

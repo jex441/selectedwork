@@ -41,14 +41,14 @@ export default function page({ data }: { data: IAboutPage }) {
               alt={imgCaption ?? 'about the artist'}
             />
           )}
-          <p className="mt-4 text-left text-xs italic text-darkGray">
+          <p className="mt-4 text-left text-xs italic text-mediumGray">
             {imgCaption}
           </p>
         </div>
       </section>
       <section className="fade-in-right-simple mt-2 w-full lg:mt-0 lg:w-1/2">
         <h1 className="text-xl leading-9 text-darkGray">{heading}</h1>
-        <h3 className="text-sm leading-9 text-mediumGray">{subheading}</h3>
+        <h3 className="text-sm leading-9 text-lightGray">{subheading}</h3>
         {text &&
           text
             .split('\r\n')
@@ -59,15 +59,23 @@ export default function page({ data }: { data: IAboutPage }) {
             ))}
 
         {linkSrc1 && (
-          <p className="my-2 text-sm leading-7 text-mediumGray underline hover:text-darkGray">
-            <a href={linkSrc1} target="_blank">
+          <p className="my-2 text-sm leading-7">
+            <a
+              href={linkSrc1}
+              target="_blank"
+              className="text-lightGray underline transition-all hover:text-darkGray"
+            >
               {linkText1}
             </a>
           </p>
         )}
         {linkSrc2 && (
-          <p className="my-2 text-sm leading-7 text-mediumGray underline hover:text-darkGray">
-            <a href={linkSrc2} target="_blank">
+          <p className="my-2 text-sm leading-7">
+            <a
+              href={linkSrc2}
+              target="_blank"
+              className="text-lightGray underline transition-all hover:text-darkGray"
+            >
               {linkText2}
             </a>
           </p>

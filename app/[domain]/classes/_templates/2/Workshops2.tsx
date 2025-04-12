@@ -82,7 +82,7 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
               )}
             </div>
             <div className="flex-1 gap-4">
-              <h2 className="text-xl text-darkGray">{workshop.heading}</h2>
+              <h2 className="text-xl text-mediumGray">{workshop.heading}</h2>
               <div className="mb-3 mt-1">
                 <p className="text-sm font-bold leading-6 text-mediumGray">
                   {workshop.date}
@@ -110,8 +110,13 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
                         </p>
                       ))}
                   {workshop.linkSrc1 && (
-                    <p className="text-sm leading-6 text-mediumGray">
-                      <a href={workshop.linkSrc1}>{workshop.linkSrc1}</a>
+                    <p className="text-sm leading-6">
+                      <a
+                        className="text-lightGray hover:text-mediumGray"
+                        href={workshop.linkSrc1}
+                      >
+                        {workshop.linkSrc1}
+                      </a>
                     </p>
                   )}
                 </div>
@@ -119,7 +124,7 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
               <div className="flex gap-4">
                 <button
                   onClick={() => inquireHandler(workshop)}
-                  className="my-2 border-[1px] border-lightGray px-4 py-1 text-sm leading-6 tracking-wide text-lightGray transition-all hover:border-darkGray hover:text-darkGray"
+                  className="my-2 border-[1px] border-mediumGray px-4 py-1 text-sm leading-6 tracking-wide text-mediumGray transition-all hover:border-darkGray hover:text-darkGray"
                 >
                   Inquire
                 </button>

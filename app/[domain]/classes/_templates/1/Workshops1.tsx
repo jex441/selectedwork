@@ -119,14 +119,14 @@ export default function Workshops1({ data }: { data: IWorkshopsPage }) {
               <div className="flex gap-4">
                 <button
                   onClick={() => inquireHandler(workshop)}
-                  className="my-2 border-[1px] border-lightGray px-4 py-1 text-sm leading-6 tracking-wide text-lightGray transition-all hover:border-darkGray hover:text-darkGray"
+                  className="my-2 border-[1px] border-mediumGray px-4 py-1 text-sm leading-6 tracking-wide text-mediumGray transition-all hover:border-darkGray hover:text-darkGray"
                 >
                   Inquire
                 </button>
                 {isOverflowing && (
                   <button
                     onClick={() => toggleExpand(workshop.id)}
-                    className="my-2 border-[1px] border-lightGray px-4 py-1 text-sm leading-6 tracking-wide text-lightGray transition-all hover:border-darkGray hover:text-darkGray"
+                    className="my-2 border-[1px] border-mediumGray px-4 py-1 text-sm leading-6 tracking-wide text-mediumGray transition-all hover:border-darkGray hover:text-darkGray"
                   >
                     {isExpanded ? 'Read Less' : 'Read More'}
                   </button>

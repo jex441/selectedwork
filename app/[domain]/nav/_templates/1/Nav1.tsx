@@ -59,24 +59,38 @@ export default function Nav({
     }
   });
 
-  const clickHandler = (slug: string | void | undefined | null) => {
+  const clickHandler = async (slug: string | void | undefined | null) => {
     setOpen(false);
     setDropDown('hidden');
-    const times: { [key: number]: number } = {
-      0: 1000,
-      1: 2000,
-      2: 2000,
-      3: 1000,
-      4: 1000,
-    };
-    const randomNumberBetween0and4 = Math.floor(Math.random() * 5);
-    const loadTime: number = times[randomNumberBetween0and4] as number;
-    setLoadTime(String(loadTime / 1000));
+    setWidth('0%');
+
     if (slug || slug === '') {
-      setWidth('100%');
-      setTimeout(() => {
-        window.location.href = `/${slug}`;
-      }, loadTime);
+      try {
+        const response = await fetch(`/${slug}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          let progress = 0;
+          const updateProgress = () => {
+            progress += 0.5;
+            setWidth(`${progress}%`);
+            if (progress < 100) {
+              requestAnimationFrame(updateProgress);
+            } else {
+              window.location.href = `/${slug}`;
+            }
+          };
+          requestAnimationFrame(updateProgress);
+        } else {
+          console.error('Failed to preload page');
+        }
+      } catch (error) {
+        console.error('Error preloading page:', error);
+      }
     }
   };
 
