@@ -1,4 +1,9 @@
+# *
 User-agent: *
-Disallow:
+Allow: /
 
+# Host
+Host: https://selectedwork.net
+
+# Sitemaps
 Sitemap: https://selectedwork.net/sitemap.xml
