@@ -51,9 +51,9 @@ export default function Piece({
     <>
       <div
         key={data.id}
-        className="mx-1 mt-10 flex w-screen flex-col items-center gap-1 lg:mt-10 lg:gap-10"
+        className="mx-1 mt-10 flex w-screen shrink-0 flex-col items-center gap-1 lg:mt-10 lg:max-w-fit lg:gap-1"
       >
-        <div className="fade-in-right-simple relative max-h-[620px] w-full lg:h-[400px] lg:w-auto">
+        <div className="fade-in-right-simple max-h-[620px] w-full max-w-fit lg:h-[400px] lg:w-auto">
           <Image
             onClick={() => clickHandler(data, index)}
             src={data.media.find((m) => m.main === 'true')?.url || ''}
@@ -61,24 +61,13 @@ export default function Piece({
             height={400}
             width={500}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 500px"
-            className="h-full w-full cursor-pointer object-contain lg:h-[400px]"
-            onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => {
-              const { naturalWidth, naturalHeight } =
-                e.target as HTMLImageElement;
-              if (isLargeScreen) {
-                const int = Math.floor((naturalWidth * 400) / naturalHeight);
-                setWidth(`${int}px`);
-              }
-            }}
+            className="h-full w-full cursor-pointer lg:h-[400px]"
           />
-        </div>
-        <div
-          style={{ width: width }}
-          className="fade-in-up-simple mt-4 flex flex-col justify-start gap-1 md:mt-0 lg:w-full "
-        >
-          <span className="text-xs text-darkGray">{data.title}</span>
-          <span className="text-xs text-lightGray">{data.year}</span>
-          <span className="text-xs text-lightGray">{data.medium}</span>
+          <div className="fade-in-up-simple mt-4 flex flex-col justify-start gap-1 md:mt-4 lg:w-full ">
+            <span className="text-xs text-darkGray">{data.title}</span>
+            <span className="text-xs text-lightGray">{data.year}</span>
+            <span className="text-xs text-lightGray">{data.medium}</span>
+          </div>
         </div>
       </div>
     </>

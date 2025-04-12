@@ -63,7 +63,7 @@ export default function ContactForm({ data }: { data: any }) {
       />
       <div className="flex flex-row items-center gap-4">
         <button
-          className="w-28 bg-darkGray p-2 text-sm text-white"
+          className="w-28 bg-darkGray p-2 text-sm text-white transition-all hover:bg-black"
           type="submit"
         >
           Send
