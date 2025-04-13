@@ -42,27 +42,9 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
   };
 
   return (
-    <main className="flex min-h-[80vh] flex-wrap justify-center">
-      {modal && (
-        <Modal
-          index={index}
-          works={works}
-          artist={artist}
-          modal={modal}
-          setModal={setModal}
-          data={currentWork}
-        />
-      )}
+    <main className="flex min-h-[80vh] flex-col pt-5">
       <div
-        style={{
-          width: loaderWidth,
-          transition: `width 1s ease-in-out`,
-        }}
-        className="fixed left-0 right-0 top-0 z-20 h-[2px] bg-black transition-all"
-      ></div>
-
-      <div
-        className=".scrollbar-hidden flex w-screen flex-row overflow-x-auto md:mt-10 lg:space-x-10"
+        className=".scrollbar-hidden flex w-screen flex-row overflow-x-auto lg:space-x-10"
         style={{ scrollbarWidth: 'none', scrollBehavior: 'smooth' }}
       >
         <button
@@ -81,6 +63,22 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
         >
           <ChevronRight size={45} color={'#ccc'} />
         </button>
+
+        {/* Description */}
+        <div className="mx-12 mx-5 flex w-[700px] shrink-0 flex-col gap-2">
+          <h1 className="text-xl text-mediumGray">Collection</h1>
+          <h2 className="text-sm text-lightGray">New York</h2>
+          <p className="max-w-[600px] text-xs leading-5 text-mediumGray">
+            {data?.description}Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Quisquam, quos. Lorrem ipsum dolor sit
+            amet consectetur adipisicing elit. Quisquam, rem. Lorem ipsum dolor
+            sit amet consectetur adipisicing elit. Quisquam
+          </p>
+        </div>
+        {/* End of Description */}
+
+        {/* Gallery */}
         {works &&
           data.works.map((work: IWork, index: number) => (
             <Piece

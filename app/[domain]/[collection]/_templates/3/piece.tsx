@@ -20,6 +20,7 @@ export default function Piece({
 }) {
   const [isVisible, setVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const domRef = useRef<HTMLElement | null>(null);
   const isLargeScreen = useMediaQuery({ query: '(min-width: 700px)' });
   const [width, setWidth] = useState(isLargeScreen ? '500px' : '360px');
@@ -51,22 +52,80 @@ export default function Piece({
     <>
       <div
         key={data.id}
-        className="mx-1 mt-10 flex w-screen shrink-0 flex-col items-center gap-1 lg:mt-10 lg:max-w-fit lg:gap-1"
+        className="mx-1 flex w-screen shrink-0 flex-col items-center justify-end gap-1 lg:max-w-fit lg:gap-1"
       >
-        <div className="fade-in-right-simple max-h-[620px] w-full max-w-fit lg:h-[400px] lg:w-auto">
+        <div className="fade-in-right-simple h-auto max-w-fit ">
           <Image
-            onClick={() => clickHandler(data, index)}
+            onClick={() => setIsFullScreen(true)}
             src={data.media.find((m) => m.main === 'true')?.url || ''}
             alt={data.title ?? ''}
             height={400}
             width={500}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 500px"
-            className="h-full w-full cursor-pointer lg:h-[400px]"
+            className="w-auto cursor-pointer lg:h-[500px]"
           />
-          <div className="fade-in-up-simple mt-4 flex flex-col justify-start gap-1 md:mt-4 lg:w-full ">
-            <span className="text-xs text-darkGray">{data.title}</span>
-            <span className="text-xs text-lightGray">{data.year}</span>
-            <span className="text-xs text-lightGray">{data.medium}</span>
+
+          {/* Full Screen Modal */}
+          {isFullScreen && (
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-white"
+              onClick={() => setIsFullScreen(false)}
+            >
+              <Image
+                src={data.media.find((m) => m.main === 'true')?.url || ''}
+                alt={data.title ?? ''}
+                fill
+                className="object-contain"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+          )}
+
+          <div className="mt-4 flex flex-row justify-between">
+            <div className="fade-in-up-simple flex flex-col justify-start gap-1 lg:w-full ">
+              <span className="text-xs text-darkGray">
+                {data.year ? (
+                  <>
+                    <i>{data.title}, </i>
+                    {data.year}
+                  </>
+                ) : (
+                  data.title
+                )}
+              </span>
+              <span className="text-xs text-lightGray">{data.medium}</span>
+              <span className="text-xs text-lightGray">
+                {data.height} x {data.width} {data.unit}
+              </span>
+              <span className="text-xs text-lightGray">
+                {data.location}Private Collection
+              </span>
+              {/*  <span className="max-w-[600px] text-xs leading-5 text-mediumGray">
+                {data.description}Lorem ipsum dolor sit amet consectetur
+                adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet
+                consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor
+                sit amet consectetur adipisicing elit. Quisquam, quos. Lorem
+                ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+                quos.
+              </span> */}
+            </div>
+            <div className="relative flex flex-row gap-1">
+              {data.media.map((m) => (
+                <div key={m.url} className="relative h-[35px] w-[35px]">
+                  <Image
+                    alt={data.title ?? 'Artwork'}
+                    src={m.url}
+                    fill={true}
+                    sizes="35px"
+                    priority
+                    loading="eager"
+                    quality={85}
+                    placeholder="empty"
+                    className={`absolute inset-0 cursor-pointer border-2 object-cover`}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
