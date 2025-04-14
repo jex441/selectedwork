@@ -136,7 +136,7 @@ export default function Piece({
                               ? 'border-darkGray'
                               : 'border-lightGray'
                           }`}
-                          onClick={() => setCurrentImageUrl(m.url)}
+                          onClick={() => m.url && setCurrentImageUrl(m.url)}
                         />
                       </div>
                     ),
