@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ICollection } from '@/app/interfaces/ICollection';
 import Piece from './piece';
 import { IWork } from '@/app/interfaces/IWork';
@@ -11,27 +11,65 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
   const { works } = data || {};
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateScrollButtons = () => {
+      const container = containerRef.current;
+      if (container) {
+        const isScrollable = container.scrollWidth > container.clientWidth;
+        const threshold = 1;
+        setCanScrollLeft(container.scrollLeft > threshold);
+        setCanScrollRight(
+          isScrollable &&
+            container.scrollLeft <
+              container.scrollWidth - container.clientWidth - threshold,
+        );
+      }
+    };
+
+    updateScrollButtons();
+    window.addEventListener('resize', updateScrollButtons);
+
+    let observer: MutationObserver | null = null;
+    if (containerRef.current) {
+      observer = new MutationObserver(updateScrollButtons);
+      observer.observe(containerRef.current, {
+        childList: true,
+        subtree: true,
+      });
+    }
+
+    return () => {
+      window.removeEventListener('resize', updateScrollButtons);
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, [works]);
 
   if (!works) {
     return 'loading';
   }
 
   const scrollHandler = (dir = 'r') => {
-    const container = document.querySelector('.overflow-x-auto');
+    const container = containerRef.current;
     if (!container) return;
-    const scrollAmount = 1200;
+    const scrollAmount = container.clientWidth * 0.9;
     if (dir === 'r') {
-      container.scrollLeft += scrollAmount;
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     } else {
-      container.scrollLeft -= scrollAmount;
+      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     }
   };
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
-    setCanScrollLeft(container.scrollLeft > 0);
+    const threshold = 1;
+    setCanScrollLeft(container.scrollLeft > threshold);
     setCanScrollRight(
-      container.scrollLeft < container.scrollWidth - container.clientWidth,
+      container.scrollLeft <
+        container.scrollWidth - container.clientWidth - threshold,
     );
   };
 
@@ -54,8 +92,9 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
   return (
     <main className="group flex min-h-[80vh] flex-col pt-5">
       <div
-        className=".scrollbar-hidden flex w-screen flex-row overflow-x-auto lg:space-x-10"
-        style={{ scrollbarWidth: 'none', scrollBehavior: 'smooth' }}
+        ref={containerRef}
+        className=".scrollbar-hidden flex w-screen snap-x snap-mandatory flex-row overflow-x-auto lg:snap-none lg:space-x-10"
+        style={{ scrollbarWidth: 'none' }}
         onScroll={handleScroll}
       >
         {canScrollLeft && (
@@ -63,8 +102,8 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
             onClick={() => {
               scrollHandler('l');
             }}
-            className="fixed left-5 top-[45%] z-40 rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
-            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80"
+            className="fixed left-5 top-[45%] z-40 hidden rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
+            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:block"
           >
             <ChevronLeft size={45} color={'black'} className="relative z-10" />
           </button>
@@ -74,15 +113,14 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
             onClick={() => {
               scrollHandler('r');
             }}
-            className="fixed right-5 top-[45%] z-40 rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
-            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80"
+            className="fixed right-5 top-[45%] z-40 hidden rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
+            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:block"
           >
             <ChevronRight size={45} color={'black'} className="relative z-10" />
           </button>
         )}
 
-        {/* Description */}
-        <div className="flex w-[700px] shrink-0 flex-col gap-2 px-14">
+        <div className="flex w-[90vw] shrink-0 snap-start flex-col gap-2 px-4 lg:w-[700px] lg:px-14">
           <h1 className="text-xl text-mediumGray">Collection</h1>
           <h2 className="text-sm text-lightGray">New York</h2>
           <p className="w-full text-xs leading-5 text-mediumGray">
@@ -106,23 +144,21 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
             adipisicing elit.
           </p>
         </div>
-        {/* End of Description */}
 
-        {/* Gallery */}
         {works &&
           data.works.map((work: IWork, index: number) => (
-            <Piece
-              modal={modal}
-              setModal={setModal}
-              clickHandler={clickHandler}
-              index={index}
-              works={works}
-              artist={user ? user.displayName : ''}
-              key={work.id}
-              data={work}
-            />
+            <div key={work.id} className="shrink-0 snap-start">
+              <Piece
+                modal={modal}
+                setModal={setModal}
+                clickHandler={clickHandler}
+                index={index}
+                works={works}
+                artist={user ? user.displayName : ''}
+                data={work}
+              />
+            </div>
           ))}
-        <div className="h-[100px] w-full bg-red-500"></div>
       </div>
     </main>
   );

@@ -52,7 +52,7 @@ export default function Piece({
     <>
       <div
         key={data.id}
-        className="mx-1 flex w-screen shrink-0 flex-col items-center justify-end gap-1 lg:max-w-fit lg:gap-1"
+        className="flex w-screen shrink-0 flex-col items-center justify-end gap-1 gap-5 px-5 lg:mx-1 lg:max-w-fit lg:gap-1"
       >
         <div className="fade-in-right-simple h-auto max-w-fit ">
           <Image
@@ -80,9 +80,9 @@ export default function Piece({
             </div>
           )}
 
-          <div className="mt-4 flex flex-row justify-between">
+          <div className="mt-4 flex flex-col-reverse justify-between lg:flex-row">
             <div className="fade-in-up-simple flex flex-col justify-start gap-1 lg:w-full ">
-              <span className="text-xs text-darkGray">
+              <span className="text-lg text-darkGray lg:text-xs">
                 {data.year ? (
                   <>
                     <i>{data.title}, </i>
@@ -97,12 +97,16 @@ export default function Piece({
                   )}
                 </span>
               </span>
-              <span className="text-xs text-lightGray">{data.medium}</span>
-              <span className="text-xs text-lightGray">
+              <span className="text-lg text-lightGray lg:text-xs">
+                {data.medium}
+              </span>
+              <span className="text-lg text-lightGray lg:text-xs">
                 {data.height} x {data.width} {data.unit}
               </span>
-              <span className="text-xs text-mediumGray">{data.price}$1500</span>
-              <span className="text-xs text-lightGray">
+              <span className="text-lg text-mediumGray lg:text-xs">
+                {data.price}$1500
+              </span>
+              <span className="text-lg text-lightGray lg:text-xs">
                 {data.location}Private Collection
               </span>
               {/*  <span className="max-w-[600px] text-xs leading-5 text-mediumGray">
@@ -114,22 +118,26 @@ export default function Piece({
                 quos.
               </span> */}
             </div>
-            <div className="relative flex flex-row gap-1">
-              {data.media.map((m) => (
-                <div key={m.url} className="relative h-[35px] w-[35px]">
-                  <Image
-                    alt={data.title ?? 'Artwork'}
-                    src={m.url}
-                    fill={true}
-                    sizes="35px"
-                    priority
-                    loading="eager"
-                    quality={85}
-                    placeholder="empty"
-                    className={`absolute inset-0 cursor-pointer border-2 object-cover`}
-                  />
-                </div>
-              ))}
+            <div className="relative my-4 flex flex-row gap-1 lg:my-0">
+              {data.media.length > 1 &&
+                data.media.map(
+                  (m) =>
+                    m.url && (
+                      <div key={m.url} className="relative h-[35px] w-[35px]">
+                        <Image
+                          alt={data.title ?? 'Artwork'}
+                          src={m.url}
+                          fill={true}
+                          sizes="35px"
+                          priority
+                          loading="eager"
+                          quality={85}
+                          placeholder="empty"
+                          className={`absolute inset-0 cursor-pointer border-2 object-cover`}
+                        />
+                      </div>
+                    ),
+                )}
             </div>
           </div>
         </div>
