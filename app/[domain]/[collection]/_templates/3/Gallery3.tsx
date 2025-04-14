@@ -1,28 +1,76 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ICollection } from '@/app/interfaces/ICollection';
 import Piece from './piece';
 import { IWork } from '@/app/interfaces/IWork';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Modal from '../../_components/Modal';
-
+import Image from 'next/image';
 export default function page({ data, user }: { data: ICollection; user: any }) {
   const { works } = data || {};
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateScrollButtons = () => {
+      const container = containerRef.current;
+      if (container) {
+        const isScrollable = container.scrollWidth > container.clientWidth;
+        const threshold = 1;
+        setCanScrollLeft(container.scrollLeft > threshold);
+        setCanScrollRight(
+          isScrollable &&
+            container.scrollLeft <
+              container.scrollWidth - container.clientWidth - threshold,
+        );
+      }
+    };
+
+    updateScrollButtons();
+    window.addEventListener('resize', updateScrollButtons);
+
+    let observer: MutationObserver | null = null;
+    if (containerRef.current) {
+      observer = new MutationObserver(updateScrollButtons);
+      observer.observe(containerRef.current, {
+        childList: true,
+        subtree: true,
+      });
+    }
+
+    return () => {
+      window.removeEventListener('resize', updateScrollButtons);
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, [works]);
 
   if (!works) {
     return 'loading';
   }
 
   const scrollHandler = (dir = 'r') => {
-    const container = document.querySelector('.overflow-x-auto');
+    const container = containerRef.current;
     if (!container) return;
-    const scrollAmount = 900;
+    const scrollAmount = container.clientWidth * 0.9;
     if (dir === 'r') {
-      container.scrollLeft += scrollAmount;
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     } else {
-      container.scrollLeft -= scrollAmount;
+      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     }
+  };
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    const threshold = 1;
+    setCanScrollLeft(container.scrollLeft > threshold);
+    setCanScrollRight(
+      container.scrollLeft <
+        container.scrollWidth - container.clientWidth - threshold,
+    );
   };
 
   const [modal, setModal] = useState(false);
@@ -42,57 +90,70 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
   };
 
   return (
-    <main className="flex min-h-[80vh] flex-wrap justify-center">
-      {modal && (
-        <Modal
-          index={index}
-          works={works}
-          artist={artist}
-          modal={modal}
-          setModal={setModal}
-          data={currentWork}
-        />
-      )}
+    <main className="group flex min-h-[80vh] flex-col pt-5">
       <div
-        style={{
-          width: loaderWidth,
-          transition: `width 1s ease-in-out`,
-        }}
-        className="fixed left-0 right-0 top-0 z-20 h-[2px] bg-black transition-all"
-      ></div>
-
-      <div
-        className=".scrollbar-hidden flex w-screen flex-row overflow-x-auto md:mt-10 lg:space-x-10"
-        style={{ scrollbarWidth: 'none', scrollBehavior: 'smooth' }}
+        ref={containerRef}
+        className=".scrollbar-hidden flex w-screen snap-x snap-mandatory flex-row overflow-x-auto lg:snap-none lg:space-x-10"
+        style={{ scrollbarWidth: 'none' }}
+        onScroll={handleScroll}
       >
-        <button
-          onClick={() => {
-            scrollHandler('l');
-          }}
-          className="fixed left-0 top-[45%] z-40 hidden opacity-50 transition-all hover:opacity-100 lg:block"
-        >
-          <ChevronLeft size={45} color={'#ccc'} />
-        </button>
-        <button
-          onClick={() => {
-            scrollHandler('r');
-          }}
-          className="fixed right-0 top-[45%] z-40 hidden opacity-50 transition-all hover:opacity-100 lg:block"
-        >
-          <ChevronRight size={45} color={'#ccc'} />
-        </button>
+        {canScrollLeft && (
+          <button
+            onClick={() => {
+              scrollHandler('l');
+            }}
+            className="fixed left-5 top-[45%] z-40 hidden rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
+            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:block"
+          >
+            <ChevronLeft size={45} color={'black'} className="relative z-10" />
+          </button>
+        )}
+        {canScrollRight && (
+          <button
+            onClick={() => {
+              scrollHandler('r');
+            }}
+            className="fixed right-5 top-[45%] z-40 hidden rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
+            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:block"
+          >
+            <ChevronRight size={45} color={'black'} className="relative z-10" />
+          </button>
+        )}
+
+        {/* Collection meta data - Conditionally rendered */}
+        {(data?.subheading ||
+          data?.description ||
+          data?.linkSrc1 ||
+          data?.linkSrc2) && (
+          <div className="flex w-[90vw] shrink-0 snap-start flex-col gap-2 px-4 lg:w-[700px] lg:px-14">
+            <h1 className="text-xl text-mediumGray">{data?.title}</h1>
+            <h2 className="text-sm text-lightGray">{data?.subheading}</h2>
+            <p className="w-full text-xs leading-5 text-mediumGray">
+              {data?.description}
+            </p>
+            <p className="w-full text-xs leading-5 text-mediumGray">
+              {data?.linkSrc1}
+            </p>
+            <p className="w-full text-xs leading-5 text-mediumGray">
+              {data?.linkSrc2}
+            </p>
+          </div>
+        )}
+
+        {/* Collection works */}
         {works &&
           data.works.map((work: IWork, index: number) => (
-            <Piece
-              modal={modal}
-              setModal={setModal}
-              clickHandler={clickHandler}
-              index={index}
-              works={works}
-              artist={user ? user.displayName : ''}
-              key={work.id}
-              data={work}
-            />
+            <div key={work.id} className="shrink-0 snap-start">
+              <Piece
+                modal={modal}
+                setModal={setModal}
+                clickHandler={clickHandler}
+                index={index}
+                works={works}
+                artist={user ? user.displayName : ''}
+                data={work}
+              />
+            </div>
           ))}
       </div>
     </main>

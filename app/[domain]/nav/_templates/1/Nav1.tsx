@@ -75,16 +75,14 @@ export default function Nav({
 
         if (response.ok) {
           let progress = 0;
-          const updateProgress = () => {
-            progress += 0.5;
+          const interval = setInterval(() => {
+            progress += 10;
             setWidth(`${progress}%`);
-            if (progress < 100) {
-              requestAnimationFrame(updateProgress);
-            } else {
+            if (progress >= 100) {
+              clearInterval(interval);
               window.location.href = `/${slug}`;
             }
-          };
-          requestAnimationFrame(updateProgress);
+          }, 100);
         } else {
           console.error('Failed to preload page');
         }
