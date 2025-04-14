@@ -107,10 +107,10 @@ export default function Piece({
                 {data.height} x {data.width} {data.unit}
               </span>
               <span className="text-lg text-mediumGray lg:text-xs">
-                {data.price}$1500
+                {data.price}
               </span>
               <span className="text-lg text-lightGray lg:text-xs">
-                {data.location}Private Collection
+                {data.location}
               </span>
               <span className="max-w-[600px] text-xs leading-5 text-mediumGray">
                 {data.description}
