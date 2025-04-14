@@ -24,6 +24,9 @@ export default function Piece({
   const domRef = useRef<HTMLElement | null>(null);
   const isLargeScreen = useMediaQuery({ query: '(min-width: 700px)' });
   const [width, setWidth] = useState(isLargeScreen ? '500px' : '360px');
+  const [currentImageUrl, setCurrentImageUrl] = useState(
+    data.media.find((m) => m.main === 'true')?.url || '',
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -57,7 +60,7 @@ export default function Piece({
         <div className="fade-in-right-simple h-auto max-w-fit ">
           <Image
             onClick={() => setIsFullScreen(true)}
-            src={data.media.find((m) => m.main === 'true')?.url || ''}
+            src={currentImageUrl}
             alt={data.title ?? ''}
             height={400}
             width={500}
@@ -72,7 +75,7 @@ export default function Piece({
               onClick={() => setIsFullScreen(false)}
             >
               <Image
-                src={data.media.find((m) => m.main === 'true')?.url || ''}
+                src={currentImageUrl}
                 alt={data.title ?? ''}
                 fill
                 className="object-contain"
@@ -128,7 +131,12 @@ export default function Piece({
                           loading="eager"
                           quality={85}
                           placeholder="empty"
-                          className={`absolute inset-0 cursor-pointer border-2 object-cover`}
+                          className={`absolute inset-0 cursor-pointer border-2 object-cover ${
+                            currentImageUrl === m.url
+                              ? 'border-darkGray'
+                              : 'border-lightGray'
+                          }`}
+                          onClick={() => setCurrentImageUrl(m.url)}
                         />
                       </div>
                     ),
