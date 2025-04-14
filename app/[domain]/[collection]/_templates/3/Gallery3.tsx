@@ -6,7 +6,7 @@ import Piece from './piece';
 import { IWork } from '@/app/interfaces/IWork';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Modal from '../../_components/Modal';
-
+import Image from 'next/image';
 export default function page({ data, user }: { data: ICollection; user: any }) {
   const { works } = data || {};
   const [canScrollLeft, setCanScrollLeft] = useState(false);
