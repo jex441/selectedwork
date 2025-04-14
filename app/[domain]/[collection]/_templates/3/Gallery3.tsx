@@ -120,31 +120,27 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
           </button>
         )}
 
-        <div className="flex w-[90vw] shrink-0 snap-start flex-col gap-2 px-4 lg:w-[700px] lg:px-14">
-          <h1 className="text-xl text-mediumGray">Collection</h1>
-          <h2 className="text-sm text-lightGray">New York</h2>
-          <p className="w-full text-xs leading-5 text-mediumGray">
-            {data?.description}Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Quisquam, quos. Lorrem ipsum dolor sit
-            amet consectetur adipisicing elit. Quisquam, rem. Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Quisquam
-            <br /> quos. Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Quisquam, quos. Lorrem ipsum dolor sit amet consectetur
-            adipisicing elit.
-          </p>
-          <p className="w-full text-xs leading-5 text-mediumGray">
-            {data?.description}Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Quisquam, quos. Lorrem ipsum dolor sit
-            amet consectetur adipisicing elit. Quisquam, rem. Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Quisquam
-            <br /> quos. Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Quisquam, quos. Lorrem ipsum dolor sit amet consectetur
-            adipisicing elit.
-          </p>
-        </div>
+        {/* Collection meta data - Conditionally rendered */}
+        {(data?.subheading ||
+          data?.description ||
+          data?.linkSrc1 ||
+          data?.linkSrc2) && (
+          <div className="flex w-[90vw] shrink-0 snap-start flex-col gap-2 px-4 lg:w-[700px] lg:px-14">
+            <h1 className="text-xl text-mediumGray">{data?.title}</h1>
+            <h2 className="text-sm text-lightGray">{data?.subheading}</h2>
+            <p className="w-full text-xs leading-5 text-mediumGray">
+              {data?.description}
+            </p>
+            <p className="w-full text-xs leading-5 text-mediumGray">
+              {data?.linkSrc1}
+            </p>
+            <p className="w-full text-xs leading-5 text-mediumGray">
+              {data?.linkSrc2}
+            </p>
+          </div>
+        )}
 
+        {/* Collection works */}
         {works &&
           data.works.map((work: IWork, index: number) => (
             <div key={work.id} className="shrink-0 snap-start">

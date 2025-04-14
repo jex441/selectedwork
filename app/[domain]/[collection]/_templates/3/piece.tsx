@@ -109,14 +109,9 @@ export default function Piece({
               <span className="text-lg text-lightGray lg:text-xs">
                 {data.location}Private Collection
               </span>
-              {/*  <span className="max-w-[600px] text-xs leading-5 text-mediumGray">
-                {data.description}Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor
-                sit amet consectetur adipisicing elit. Quisquam, quos. Lorem
-                ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-                quos.
-              </span> */}
+              <span className="max-w-[600px] text-xs leading-5 text-mediumGray">
+                {data.description}
+              </span>
             </div>
             <div className="relative my-4 flex flex-row gap-1 lg:my-0">
               {data.media.length > 1 &&
