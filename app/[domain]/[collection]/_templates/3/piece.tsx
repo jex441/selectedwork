@@ -76,7 +76,6 @@ export default function Piece({
                 alt={data.title ?? ''}
                 fill
                 className="object-contain"
-                onClick={(e) => e.stopPropagation()}
               />
             </div>
           )}
@@ -92,11 +91,17 @@ export default function Piece({
                 ) : (
                   data.title
                 )}
+                <span>
+                  {data.sold && (
+                    <div className="mx-2 inline-block h-2 w-2 rounded-full bg-red-500"></div>
+                  )}
+                </span>
               </span>
               <span className="text-xs text-lightGray">{data.medium}</span>
               <span className="text-xs text-lightGray">
                 {data.height} x {data.width} {data.unit}
               </span>
+              <span className="text-xs text-mediumGray">{data.price}$1500</span>
               <span className="text-xs text-lightGray">
                 {data.location}Private Collection
               </span>
