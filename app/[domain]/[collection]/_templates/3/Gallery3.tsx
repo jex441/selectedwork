@@ -138,7 +138,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
           onClick={() => {
             scrollHandler('l');
           }}
-          className="fixed bottom-[15%] left-5 z-40 block rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
+          className="fixed bottom-[5%] left-5 z-40 block rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
             before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:bottom-auto lg:top-[45%]"
         >
           <ChevronLeft size={45} color={'black'} className="relative z-10" />
@@ -149,7 +149,7 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
           onClick={() => {
             scrollHandler('r');
           }}
-          className="fixed bottom-[15%] right-5 z-40 block rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
+          className="fixed bottom-[5%] right-5 z-40 block rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
             before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:bottom-auto lg:top-[45%]"
         >
           <ChevronRight size={45} color={'black'} className="relative z-10" />
