@@ -97,29 +97,6 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
         style={{ scrollbarWidth: 'none' }}
         onScroll={handleScroll}
       >
-        {canScrollLeft && (
-          <button
-            onClick={() => {
-              scrollHandler('l');
-            }}
-            className="bottom-30 fixed left-5 z-40 block rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
-            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:bottom-auto lg:top-[45%]"
-          >
-            <ChevronLeft size={45} color={'black'} className="relative z-10" />
-          </button>
-        )}
-        {canScrollRight && (
-          <button
-            onClick={() => {
-              scrollHandler('r');
-            }}
-            className="bottom-30 fixed right-5 z-40 block rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
-            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:bottom-auto lg:top-[45%]"
-          >
-            <ChevronRight size={45} color={'black'} className="relative z-10" />
-          </button>
-        )}
-
         {/* Collection meta data - Conditionally rendered */}
         {(data?.subheading ||
           data?.description ||
@@ -156,6 +133,28 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
             </div>
           ))}
       </div>
+      {canScrollLeft && (
+        <button
+          onClick={() => {
+            scrollHandler('l');
+          }}
+          className="fixed bottom-[15%] left-5 z-40 block rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
+            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:bottom-auto lg:top-[45%]"
+        >
+          <ChevronLeft size={45} color={'black'} className="relative z-10" />
+        </button>
+      )}
+      {canScrollRight && (
+        <button
+          onClick={() => {
+            scrollHandler('r');
+          }}
+          className="fixed bottom-[15%] right-5 z-40 block rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
+            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:bottom-auto lg:top-[45%]"
+        >
+          <ChevronRight size={45} color={'black'} className="relative z-10" />
+        </button>
+      )}
     </main>
   );
 }
