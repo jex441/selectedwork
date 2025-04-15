@@ -102,8 +102,8 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
             onClick={() => {
               scrollHandler('l');
             }}
-            className="fixed left-5 top-[45%] z-40 hidden rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
-            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:block"
+            className="bottom-30 fixed left-5 z-40 block rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
+            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:bottom-auto lg:top-[45%]"
           >
             <ChevronLeft size={45} color={'black'} className="relative z-10" />
           </button>
@@ -113,8 +113,8 @@ export default function page({ data, user }: { data: ICollection; user: any }) {
             onClick={() => {
               scrollHandler('r');
             }}
-            className="fixed right-5 top-[45%] z-40 hidden rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
-            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:block"
+            className="bottom-30 fixed right-5 z-40 block rounded-full p-2 opacity-80 transition-all before:absolute before:inset-0
+            before:rounded-full before:bg-white before:opacity-0 before:transition-opacity before:content-[''] hover:opacity-100 group-hover:before:opacity-80 lg:bottom-auto lg:top-[45%]"
           >
             <ChevronRight size={45} color={'black'} className="relative z-10" />
           </button>
